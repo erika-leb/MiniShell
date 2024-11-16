@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
+#    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/16 16:35:22 by ele-borg         ###   ########.fr        #
+#    Updated: 2024/11/16 16:54:08 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,14 @@ SRC_DIR = sources
 OBJ_DIR = objets
 
 SRC_FILES = ${SRC_DIR}/main.c \
-			#${SRC_DIR}/parsing.c \
+			${SRC_DIR}/libft.c \
+			${SRC_DIR}/ft_split.c \
+			${SRC_DIR}/ft_split_utils.c
 
 OBJ_FILES = $(OBJ_DIR)/main.o \
-            #$(OBJ_DIR)/parsing.o \
+            ${OBJ_DIR}/libft.o \
+			${OBJ_DIR}/ft_split.o \
+			${OBJ_DIR}/ft_split_utils.o
 
 NAME = minishell
 

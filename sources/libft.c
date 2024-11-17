@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/16 17:06:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/16 21:34:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ void	*ft_calloc(size_t n, size_t sizof)
 	while (i < n * sizof)
 		buffer[i++] = (unsigned char)0;
 	return (buffer);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }

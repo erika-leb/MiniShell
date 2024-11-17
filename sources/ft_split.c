@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:39:05 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/16 17:06:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:08:23 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**ft_split(char const *str, char sep, int sq, int dq)
 	int		fidx;
 
 	ft_init(&i, &j, &fidx);
-	tab = ft_calloc (ft_count(str, sep) + 1, sizeof(char *));
+	tab = ft_calloc(ft_count(str, sep) + 1, sizeof(char *));
 	if (tab == NULL)
 		return (NULL);
 	while (i <= ft_strlen(str))

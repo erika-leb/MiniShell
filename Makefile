@@ -20,10 +20,6 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_split.c \
 			${SRC_DIR}/ft_split_utils.c
 
-OBJ_FILES = $(OBJ_DIR)/main.o \
-            ${OBJ_DIR}/libft.o \
-			${OBJ_DIR}/ft_split.o \
-			${OBJ_DIR}/ft_split_utils.o
 
 NAME = minishell
 

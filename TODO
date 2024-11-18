@@ -143,18 +143,62 @@ char	*ft_tokenize(char *av2)
 
 
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+//Tester le expand avec le main de chatGPT (voir TODO)
+void ft_expand(const char *src, char *res, size_t *i, size_t *j)
+{
+    char varname[20000];  // Un buffer pour stocker le nom de la variable d'environnement
+    size_t varlen = 0;
 
-int main() {
-    // Définir quelques variables d'environnement pour tester
-    setenv("USER", "Alice", 1);
-    setenv("HOME", "/home/alice", 1);
+    (*i)++;  // On saute le '$'
 
-    const char *input = "Hello $USER, your home is $HOME. But $NOT_DEFINED is empty.";
-    char *output = ft_expenv(input);
+    // Récupérer le nom de la variable (les caractères valides sont alphanumériques ou '_')
+    while (src[*i] && (isalnum(src[*i]) || src[*i] == '_') && varlen < sizeof(varname) - 1) {
+        //varname[varlen++] = src[*i];
+		varname[varlen++] = src[*i];
+        (*i)++;
+    }
+    varname[varlen] = '\0';  // Terminer le nom de la variable
 
-    printf("Input : %s\n", input);
-    printf("Output: %s\n", output);
+    // Récupérer la valeur de la variable d'environnement
+    char *value = getenv(varname);
 
-    return 0;
+    if (value) {
+        // Copier la valeur de la variable dans la chaîne résultante
+        size_t k = 0;
+        while (value[k]) {
+            res[*j] = value[k];
+            (*j)++;
+            k++;
+        }
+    } else {
+        // Si la variable n'existe pas, on peut choisir de ne rien mettre ou mettre une chaîne vide
+        // Ici on ne met rien
+		return ;//Useless si jamais on decide de ne rien mettre. Je peux alors supprimer le else
+    }
+}
+
+char	*ft_expenv(const char *src)
+{
+    static char res[80000];//Arbitraire, doit etre au moins aussi grand que 70 000
+	size_t 		i;
+	size_t		j;
+
+	i = 0;
+	j = 0;
+    if (!src)
+        return (NULL);//useless ? Puisqu'une chaine envoyée en argument ne sera pas un pointeur NULL
+    while (src[i])
+	{
+		if (src[i] == '$')
+			ft_expand(src, res, &i, &j);
+		else
+			res[j++] = src[i++];
+    }
+    res[j] = '\0';
+    return (res);
 }

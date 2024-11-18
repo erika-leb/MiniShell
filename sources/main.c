@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/17 19:26:34 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:09:25 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,51 +48,58 @@ void	ft_signal_handle(char *line)
 	}
 }
 
-// int	main(void)
-// {
-// 	char	*line;
-	
-// 	line = NULL;
-// 	ft_signal_handle(line);
-// 	ft_welcome();
-// 	while (1)
-// 	{
-// 		line = readline("minishell> ");
-// 		if (line == NULL)
-// 		{
-// 			free(line);
-// 			printf("exit\n");
-// 			return (0); // rajouter le clean
-// 		}
-// 		if (ft_strcmp(line, "exit") == 0)
-// 		{
-// 			free(line);
-// 			printf("exit\n");
-// 			return (0); // rajouter le clean
-// 		}
-// 		if (line && *line)
-// 			add_history(line);
-// 		//handle_line(line);
-// 		free(line);
-// 	}
-// 	return (0);
-// }
-
-int	main(int ac, char **av)
+int	main(void)
 {
+	char	*line;
 	char	**result;
-	int		i;
-	(void) ac;
-
-	result = ft_split(ft_tokenize(av[1]), av[2][0], 0, 0);
-	if (result == NULL)
-		return (printf("Erreur : ft_split a renvoyé NULL\n"));
-	i = 0;
-	while (result[i])
+	int		i = 0;
+	
+	line = NULL;
+	ft_signal_handle(line);
+	ft_welcome();
+	while (1)
 	{
-		printf("token %d : %s\n", i, result[i]);
-		i++;
+		line = readline("minishell> ");
+		if (line == NULL)
+		{
+			free(line);
+			printf("exit\n");
+			return (0); // rajouter le clean
+		}
+		if (ft_strcmp(line, "exit") == 0)
+		{
+			free(line);
+			printf("exit\n");
+			return (0); // rajouter le clean
+		}
+		if (line && *line)
+			add_history(line);
+		result = ft_split(ft_tokenize(line), ' ', 0, 0);
+		while (result[i])
+ 		{
+ 			printf("token %d : %s\n", i, result[i]);
+			i++;
+ 		}
+		free(line);
 	}
-	ft_freesplit(result, i);
 	return (0);
 }
+
+// int	main(int ac, char **av)
+// {
+// 	char	**result;
+// 	int		i;
+// 	(void) ac;
+
+// 	result = ft_split(ft_tokenize(av[1]), av[2][0], 0, 0);
+// 	if (result == NULL)
+// 		return (printf("Erreur : ft_split a renvoyé NULL\n"));
+// 	i = 0;
+// 	while (result[i])
+// 	{
+// 		printf("token %d : %s\n", i, result[i]);
+// 		i++;
+// 	}
+// 	ft_freesplit(result, i);
+// 	return (0);
+// }

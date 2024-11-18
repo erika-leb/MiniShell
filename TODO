@@ -1,0 +1,160 @@
+// char	*ft_tokenize(char *av2)
+// {
+// 	char	*result;
+// 	int		i;
+
+// 	i = 0;
+// 	result = (char *)ft_calloc(ft_strlen(av2) + 1, sizeof(char));
+// 	//Gerer si pb. Dans ft_split.c penser a supprimer result si pb malloc
+// 	while (av2[i])
+// 	{
+// 		result[i] = av2[i];
+// 		i++;
+// 	}
+// 	return (result);
+// }
+
+
+
+int		ft_istok(char *av2)
+{
+	if (*av2 == '|' || *av2 == '<'
+		|| *av2 == '>' || *av2 == '$')
+		return (1);
+	return (0);
+}
+
+void	ft_dotok(char *result, char c, int *j)
+{
+	result[*j] = ' ';
+	(*j)++;
+	result[*j] = c;
+	(*j)++;
+	result[*j] = ' ';
+	(*j)++;
+}
+
+char	*ft_tokenize(char *av2)
+{
+	static char	result[70000];
+	int			i;
+	int			j;
+
+	i = 0;
+	j = 0;
+	while (av2[i])
+	{
+		if (ft_istok(av2 + i))
+			ft_dotok(result, av2[i], &j);
+		else
+			result[j++] = av2[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void	ft_dotok(char *result, char *av2, int *i, int *j)
+{
+	result[*j] = ' ';
+	(*j)++;
+	if (av2[*i] == '<' && av2[*i + 1] == '<')
+	{
+		result[*j] = '<';
+		(*j)++;
+		result[*j] = '<';
+		(*j)++;
+		(*i)++;
+	}
+	else if (av2[*i] == '>' && av2[*i + 1] == '>')
+	{
+		result[*j] = '>';
+		(*j)++;
+		result[*j] = '>';
+		(*j)++;
+		(*i)++;
+	}
+	else
+	{
+		result[*j] = av2[*i];
+		(*j)++;
+	}
+	result[*j] = ' ';
+	(*j)++;
+}
+
+int		ft_istok(char *av2)
+{
+	if (*av2 == '|' || *av2 == '<'
+		|| *av2 == '>' || *av2 == '$')
+		return (1);
+	return (0);
+}
+
+char	*ft_tokenize(char *av2)
+{
+	static char	result[70000];
+	int			i;
+	int			j;
+
+	i = 0;
+	j = 0;
+	while (av2[i])
+	{
+		if (ft_istok(av2 + i))
+			ft_dotok(result, av2, &i, &j);
+		else
+			result[j++] = av2[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main() {
+    // Définir quelques variables d'environnement pour tester
+    setenv("USER", "Alice", 1);
+    setenv("HOME", "/home/alice", 1);
+
+    const char *input = "Hello $USER, your home is $HOME. But $NOT_DEFINED is empty.";
+    char *output = ft_expenv(input);
+
+    printf("Input : %s\n", input);
+    printf("Output: %s\n", output);
+
+    return 0;
+}

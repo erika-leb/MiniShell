@@ -6,47 +6,21 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/17 16:11:49 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:17:36 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_sigint(int sig)
-{
-	(void) sig;
-	write(1, "\nminishell> ", 12);
-}
-
 void	ft_welcome(void)
 {
 	printf("\n");
-	printf(COLOR_CYAN "******************************\n" COLOR_RESET);
-	printf(COLOR_MAGENTA "*  " COLOR_YELLOW "Bienvenue dans Minishell" COLOR_MAGENTA "  *\n" COLOR_RESET);
-	printf(COLOR_CYAN "******************************\n" COLOR_RESET);
+	printf(CCYAN "******************************\n" CRESET);
+	printf(CMAGENTA "*  " CYELLOW "Minishell" CMAGENTA "  *\n" CRESET);
+	printf(CCYAN "******************************\n" CRESET);
 	printf("\n");
 }
 
-void	ft_signal_handle(char *line)
-{
-	struct sigaction	sa;
-	struct sigaction	sa_bis;
-
-	sa.sa_handler = &handle_sigint;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		free(line);
-		perror("sigaction");
-		exit(1);
-	}
-	sa_bis.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &sa_bis, NULL) == -1)
-	{
-		free(line);
-		perror("sigaction");
-		exit(1);
-	}
-}
 // void handle_line(int ac, char **av)
 // {
 // 	char	**result;
@@ -67,32 +41,28 @@ void	ft_signal_handle(char *line)
 // 	return (0);
 // }
 
-int	main(void)
-{
-	char	*line;
+// int	main(void)
+// {
+// 	char	*line;
 	
-	line = NULL;
-	ft_signal_handle(line);
-	ft_welcome();
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (line == NULL)
-		{
-			free(line);
-			printf("exit\n");
-			return (0); // rajouter le clean
-		}
-		if (ft_strcmp(line, "exit") == 0)
-		{
-			free(line);
-			printf("exit\n");
-			return (0); // rajouter le clean
-		}
-		if (line && *line)
-			add_history(line);
-		//handle_line(line);
-		free(line);
-	}
-	return (0);
-}
+// 	line = NULL;
+// 	ft_signal_handle(line);
+// 	ft_welcome();
+// 	while (1)
+// 	{
+// 		line = readline("minishell> ");
+// 		if (line == NULL || ft_strcmp(line, "exit") == 0)
+// 		{
+// 			free(line);
+// 			clear_history();
+// 			printf("exit\n");
+// 			return (0); // rajouter le clean
+// 		}
+// 		if (line && *line)
+// 			add_history(line);
+// 		//handle_line(1, line);
+// 		free(line);
+// 		clear_history();
+// 	}
+// 	return (0);
+// }

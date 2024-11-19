@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/18 16:09:25 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:01:24 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,42 +21,42 @@ void	ft_welcome(void)
 	printf("\n");
 }
 
-int	main(void)
-{
-	char	*line;
-	char	**result;
-	int		i = 0;
+// int	main(void)
+// {
+// 	char	*line;
+// 	char	**result;
+// 	int		i = 0;
 	
-	line = NULL;
-	ft_signal_handle(line);
-	ft_welcome();
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (line == NULL)
-		{
-			free(line);
-			printf("exit\n");
-			return (0); // rajouter le clean
-		}
-		if (ft_strcmp(line, "exit") == 0)
-		{
-			free(line);
-			printf("exit\n");
-			return (0); // rajouter le clean
-		}
-		if (line && *line)
-			add_history(line);
-		result = ft_split(ft_tokenize(line), ' ', 0, 0);
-		while (result[i])
- 		{
- 			printf("token %d : %s\n", i, result[i]);
-			i++;
- 		}
-		free(line);
-	}
-	return (0);
-}
+// 	line = NULL;
+// 	ft_signal_handle(line);
+// 	ft_welcome();
+// 	while (1)
+// 	{
+// 		line = readline("minishell> ");
+// 		if (line == NULL)
+// 		{
+// 			free(line);
+// 			printf("exit\n");
+// 			return (0); // rajouter le clean
+// 		}
+// 		if (ft_strcmp(line, "exit") == 0)
+// 		{
+// 			free(line);
+// 			printf("exit\n");
+// 			return (0); // rajouter le clean
+// 		}
+// 		if (line && *line)
+// 			add_history(line);
+// 		result = ft_split(ft_tokenize(line), ' ', 0, 0);
+// 		while (result[i])
+//  		{
+//  			printf("token %d : %s\n", i, result[i]);
+// 			i++;
+//  		}
+// 		free(line);
+// 	}
+// 	return (0);
+// }
 
 // int	main(int ac, char **av)
 // {

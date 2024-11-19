@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/17 19:49:27 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:58:31 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,30 @@
 # define	CMD		6
 # define 	ARG		7
 
-typedef struct s_token
+// typedef struct s_token
+// {
+// 	char			*name;
+// 	int				token;
+// 	struct s_token *next;	
+// }	t_token;
+
+typedef struct s_file
 {
 	char			*name;
 	int				token;
+	struct s_file	next;
+}	t_file;
+
+
+typedef struct s_cmd
+{
+	char	**cmd;
+	t_file	*redir;
+	int		fd_in;
+	int		fd_out;
+	//char	*path; //pas encore ?
 	struct s_token *next;	
-}	t_token;
+}	t_cmd;
 
 //ft_split.c
 char	**ft_split(char const *str, char sep, int sq, int dq);
@@ -62,12 +80,12 @@ int		ft_strcmp(char *s1, char *s2);
 void	ft_signal_handle(char *line);
 
 //lst_functions.c
-t_token	*ft_lstnew(char *str, int token);
-void	ft_lstadd_front(t_token **lst, t_token *new);
-int		ft_lstsize(t_token **lst);
-t_token	*ft_lstlast(t_token *lst);
-void	ft_lstadd_back(t_token **lst, t_token *new);
-void	ft_lstclear(t_token *lst);
+t_cmd	*ft_lstnew(char *str, int cmd);
+void	ft_lstadd_front(t_cmd **lst, t_cmd *new);
+int		ft_lstsize(t_cmd **lst);
+t_cmd	*ft_lstlast(t_cmd *lst);
+void	ft_lstadd_back(t_cmd **lst, t_cmd *new);
+void	ft_lstclear(t_cmd *lst);
 
 //ft_tokenize.c
 char	*ft_tokenize(char *av2);

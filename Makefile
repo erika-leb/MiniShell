@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/17 19:07:34 by ele-borg         ###   ########.fr        #
+#    Updated: 2024/11/19 15:53:45 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_split.c \
 			${SRC_DIR}/ft_split_utils.c \
 			${SRC_DIR}/signal.c \
-			${SRC_DIR}/parsing.c \
+			${SRC_DIR}/parsingv2.c \
 			${SRC_DIR}/lst_functions_parta.c \
 			${SRC_DIR}/lst_functions_partb.c \
 			${SRC_DIR}/ft_tokenize.c \
@@ -30,7 +30,7 @@ OBJ_FILES = $(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_split.o \
 			${OBJ_DIR}/ft_split_utils.o \
 			${OBJ_DIR}/signal.o \
-			${OBJ_DIR}/parsing.o \
+			${OBJ_DIR}/parsingv2.o \
 			${OBJ_DIR}/lst_functions_parta.o \
 			${OBJ_DIR}/lst_functions_partb.o \
 			${OBJ_DIR}/ft_tokenize.o \

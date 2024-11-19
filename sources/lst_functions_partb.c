@@ -6,15 +6,15 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:32:21 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/18 17:25:23 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:57:41 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*ft_lstlast(t_token *lst)
+t_cmd	*ft_lstlast(t_cmd *lst)
 {
-	t_token	*current;
+	t_cmd	*current;
 
 	if (lst == NULL)
 		return (NULL);
@@ -30,9 +30,9 @@ t_token	*ft_lstlast(t_token *lst)
 	return (current);
 }
 
-void	ft_lstadd_back(t_token **lst, t_token *new)
+void	ft_lstadd_back(t_cmd **lst, t_cmd *new)
 {
-	t_token	*current;
+	t_cmd	*current;
 
 	if (!new)
 		return ;
@@ -47,9 +47,9 @@ void	ft_lstadd_back(t_token **lst, t_token *new)
 	current -> next = new;
 }
 
-void	ft_lstclear(t_token *lst)
+void	ft_lstclear(t_cmd *lst)
 {
-	t_token	*current;
+	t_cmd	*current;
 
 	while (lst != NULL)
 	{

@@ -6,39 +6,40 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:32:21 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/17 22:00:21 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:57:50 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*ft_lstnew(char *str, int token)
+t_cmd	*ft_lstnew(char *in, char *out, char **cmd)
 {
-	t_token	*new;
+	t_cmd	*new;
 
-	new = malloc(sizeof(t_token));
+	new = malloc(sizeof(t_cmd));
 	if (new == NULL)
 	{
 		perror("malloc failed");
 		//write(2, "Error memory allocation\n", 26);
 		return (NULL);
 	}
-	new -> name = str;
-	new -> token = token ;
+	new -> in = in;
+	new -> out = out;
+	new -> cmd = cmd;
 	new -> next = NULL;
 	return (new);
 }
 
-void	ft_lstadd_front(t_token **lst, t_token *new)
+void	ft_lstadd_front(t_cmd **lst, t_cmd *new)
 {
 	new -> next = *lst;
 	*lst = new;
 }
 
-int	ft_lstsize(t_token **lst)
+int	ft_lstsize(t_cmd **lst)
 {
 	int		s;
-	t_token	*current;
+	t_cmd	*current;
 
 	s = 0;
 	current = *lst;

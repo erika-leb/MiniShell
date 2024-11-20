@@ -6,57 +6,45 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/19 16:01:24 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:03:58 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_welcome(void)
-{
-	printf("\n");
-	printf(CCYAN "******************************\n" CRESET);
-	printf(CMAGENTA "*  " CYELLOW "Minishell" CMAGENTA "  *\n" CRESET);
-	printf(CCYAN "******************************\n" CRESET);
-	printf("\n");
-}
+ int	main(void)
+ {
+ 	char		*line;
+ 	char		**result;
+	t_element	*elements;
+ 	int			i = 0;
 
-// int	main(void)
-// {
-// 	char	*line;
-// 	char	**result;
-// 	int		i = 0;
-	
-// 	line = NULL;
-// 	ft_signal_handle(line);
-// 	ft_welcome();
-// 	while (1)
-// 	{
-// 		line = readline("minishell> ");
-// 		if (line == NULL)
-// 		{
-// 			free(line);
-// 			printf("exit\n");
-// 			return (0); // rajouter le clean
-// 		}
-// 		if (ft_strcmp(line, "exit") == 0)
-// 		{
-// 			free(line);
-// 			printf("exit\n");
-// 			return (0); // rajouter le clean
-// 		}
-// 		if (line && *line)
-// 			add_history(line);
-// 		result = ft_split(ft_tokenize(line), ' ', 0, 0);
-// 		while (result[i])
-//  		{
-//  			printf("token %d : %s\n", i, result[i]);
-// 			i++;
-//  		}
-// 		free(line);
-// 	}
-// 	return (0);
-// }
+ 	line = NULL;
+	elements = ft_init_struct();
+ 	ft_signal_handle(elements);
+ 	ft_welcome();
+ 	while (1)
+ 	{
+ 		line = readline("minishell> ");
+ 		if (line == NULL)
+ 			ft_error_exit("", elements, 0, NO_PERROR);
+ 		if (ft_strcmp(line, "exit") == 0)
+ 		{
+			ft_error_exit("exit\n", elements, 0, NO_PERROR);
+ 		}
+ 		if (line && *line)
+ 			add_history(line);
+ 		result = ft_split(ft_tokenize(line), ' ', 0, 0);
+ 		while (result[i])
+  		{
+  			printf("token %d : %s\n", i, result[i]);
+ 			i++;
+  		}
+ 		free(line);
+ 	}
+	ft_error_exit("", elements, 0, NO_PERROR);
+ 	return (0);
+ }
 
 // int	main(int ac, char **av)
 // {

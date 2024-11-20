@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/19 15:53:45 by ele-borg         ###   ########.fr        #
+#    Updated: 2024/11/20 18:42:46 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,21 +19,21 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/libft.c \
 			${SRC_DIR}/ft_split.c \
 			${SRC_DIR}/ft_split_utils.c \
-			${SRC_DIR}/signal.c \
-			${SRC_DIR}/parsingv2.c \
-			${SRC_DIR}/lst_functions_parta.c \
-			${SRC_DIR}/lst_functions_partb.c \
+			${SRC_DIR}/init.c \
+			${SRC_DIR}/parsing.c \
 			${SRC_DIR}/ft_tokenize.c \
+#			${SRC_DIR}/lst_functions_parta.c \
+#			${SRC_DIR}/lst_functions_partb.c \
 
 OBJ_FILES = $(OBJ_DIR)/main.o \
             ${OBJ_DIR}/libft.o \
 			${OBJ_DIR}/ft_split.o \
 			${OBJ_DIR}/ft_split_utils.o \
-			${OBJ_DIR}/signal.o \
-			${OBJ_DIR}/parsingv2.o \
-			${OBJ_DIR}/lst_functions_parta.o \
-			${OBJ_DIR}/lst_functions_partb.o \
+			${OBJ_DIR}/init.o \
+			${OBJ_DIR}/parsing.o \
 			${OBJ_DIR}/ft_tokenize.o \
+		#	${OBJ_DIR}/lst_functions_parta.o \
+		#	${OBJ_DIR}/lst_functions_partb.o \
 
 NAME = minishell
 
@@ -45,7 +45,7 @@ CC = cc
 
 #rules
 
-all: ${NAME} 
+all: ${NAME}
 
 ${NAME}: ${OBJ_FILES}
 	${CC} ${FLAGS_L} ${OBJ_FILES} -o ${NAME}
@@ -54,7 +54,7 @@ ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c
 	@mkdir -p ${OBJ_DIR}
 	$(CC) -c $(FLAGS_C) $< -o $@
 
-clean: 
+clean:
 	rm  -f ${OBJ_FILES}
 
 fclean: clean

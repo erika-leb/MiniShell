@@ -5,17 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:56:41 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/18 17:31:34 by ele-borg         ###   ########.fr       */
+/*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
+/*   Updated: 2024/11/20 18:35:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-int	ft_token_classification(char **tab, int i, t_token **lst, int cmd)
+void print_redir(t_file **redir);
+
+bool	ft_is_redir(char *s)
 {
-	(void) lst;
-	
+	if (ft_strcmp(s, "<") == 0 || ft_strcmp(s, "<<") == 0
+		|| ft_strcmp(s, ">") == 0 || ft_strcmp(s, ">>") == 0)
+		return (true);
+	return (false);
+}
+
+t_file	*ft_lstnew_file(char *name, char token)
+{
+	t_file	*new;
+
+	//perror("salut");
+	new = malloc(sizeof(t_cmd));
+	if (new == NULL)
+	{
+		perror("malloc failed");
+		return (NULL); // ou exit a voir plus tard
+	}
+	new -> name = name;
+	new -> token = token;
+	new -> next = NULL;
+	//printf("new->name = %s token =%d\n", new->name, new->token );
+	return (new);
+}
+
+int	ft_classification(char **tab, int i)
+{
 	if (ft_strcmp(tab[i], "|") == 0)
 		return (PIPE);
 	if (i > 0 &&  ft_strcmp(tab[i - 1], "<") == 0)
@@ -26,172 +52,222 @@ int	ft_token_classification(char **tab, int i, t_token **lst, int cmd)
 		return (TRUNC);
 	if (i > 0 &&  ft_strcmp(tab[i - 1], ">>") == 0)
 		return (APPEND);
-	if (cmd == 1)
-		return (ARG);
-	if (cmd == 0)
-		return (CMD);
-	return (0); // pour linstqnt	 
+	return (0); // pour linstqnt
 }
 
-//pour output ; 		
-// if (current->token == TRUNC || current->token == APPEND)
-//			printf("name = %s\n", current->name);
-
-void	ft_move_inputs(t_token **lst, int *i, int *nb_in)
+void	ft_lstadd_back(t_file **lst, t_file *new)
 {
-	t_token *current;
-	t_token	*last;
-	int		k;
+	t_file	*current;
 
-	last = *lst;
-	current = last->next;
-	if ((last->token == INPUT || last->token == HEREDOC) && (*nb_in) == 0)
-		(*nb_in) = 1;
-	k = 1;
-	while (k < (*i))
+	if (!new)
+		return ;
+	if (!lst)
 	{
-		current = current->next;
-		last = last->next;
-		k++;
+		*lst = new;
+		return ;
 	}
-//	printf("test\n");
-	while (current != NULL)
-	{
-		(*i)++;
-		if (current->token == INPUT || current->token == HEREDOC)
-		{
-			last->next = current->next;
-			current->next = *lst;
-			*lst = current;
-			(*nb_in)++;
-			return ;
-		}
-		current = current->next;
-		last = last->next;
-	}
-}
-void	ft_move_outputs(t_token **lst, int *i, int *nb_out)
-{
-	t_token *current;
-	t_token	*last;
-	t_token	*ult;
-	int		k;
-
-	last = *lst;
-	current = last->next;
-	// if ((last->token == APPEND || last->token == TRUNC) && (*nb_in) == 0) // a modifier
-	// 	(*nb_in) = 1;
-	k = 0;
-	while (k < (*i))
-	{
-		current = current->next;
-		last = last->next;
-		k++;
-	}
-	printf("test\n");
-	while (current != NULL)
-	{
-		(*i)++;
-		if (current->token == APPEND || current->token == TRUNC)
-		{
-			last->next = current->next;
-			current->next = NULL;
-			ult = ft_lstlast(*lst);
-			ult->next = current;
-			(*nb_out)++;
-			return ;
-		}
-		printf("test2\n");
-		current = current->next;
-		last = last->next;
-	}
+	current = *lst;
+	//printf("ICI next = %p \n", new-> next);
+	while (current -> next != NULL)
+		current = current -> next;
+	current -> next = new;
+	//printf("LA next = %p \n", new-> next);
 }
 
-void	ft_move_chains(t_token **lst)
+t_file	*create_redir(char **tab, int i, int last_i)
 {
-	int		i;
-	int 	nb_in;
-	int		size_lst;
-	int		nb_out;
-
-	i = 0;
-	size_lst = ft_lstsize(lst);
-	nb_in = 0;
-	nb_out = 0;
-	while (i < size_lst - 1)
-		ft_move_inputs(lst, &i, &nb_in);
-	i = 0;
-	while (i < size_lst - 1)
-		ft_move_outputs(lst, &i, &nb_out);
-	printf("in = %d\n", nb_in);
-}
-
-t_token	*parsing(char **tab, t_token *lst)
-{
-	t_token	*new;
+	t_file	*redir;
+	t_file	*new;
 	int		token;
-	int		i;
-	int		cmd;
+//	t_file	*current;
 
-	lst = NULL;
-	i = 0;
-	cmd = 0;
-	while (tab[i] != NULL)
+	i++;
+	//perror("ici");
+	redir = NULL;
+	//perror("ici");
+	//printf("i = %d, last-i =%d\n", i, last_i);
+	//printf("tab[i - 1] = %s\n", tab[i - 1]);
+	while (last_i < i && tab[i - 1])
 	{
-		if (ft_strcmp(tab[i], "<") != 0 && ft_strcmp(tab[i], "<<") != 0 && ft_strcmp(tab[i], ">") != 0 && ft_strcmp(tab[i], ">>") != 0)
+		//perror("la");
+		//printf("tab[i - 1] = %s\n", tab[last_i - 1]);
+		if (ft_is_redir(tab[last_i - 1]) == true)
 		{
-			token = ft_token_classification(tab, i, &lst, cmd);
-			if (token == CMD)
-				cmd = 1;
-			if (token == PIPE)
-				cmd = 0;
-			new = ft_lstnew(tab[i], token);
+			token = ft_classification(tab, last_i);
+			//perror("c cool");
+			new = ft_lstnew_file(tab[last_i], token);
+			//printf("new->name = %s token =%d, next = %p \n", new->name, new->token, new->next);
 			if (new == NULL)
+				exit(-1);
+			if (!redir)
 			{
-				//clean (history, line, reste de la chaine, travail adien)
-				exit(1);
-			}
-			if (!lst)
-			{
-				lst = new;
+				//perror("hola pri;ero");
+				redir = new;
+				//printf(" ICI next = %p \n", (*redir)->next);
 			}
 			else
-				ft_lstadd_back(&lst, new);
+				ft_lstadd_back(&redir, new);
 		}
-		i++;
-		//printf("i = %d, tab[i] = %s\n", i, tab[i]);
+		//perror("cpa cool");
+		last_i++;
 	}
-	ft_move_chains(&lst);
-	new = ft_lstlast(lst);
-	if (new->token == PIPE)
-	{
-		// liberer tout
-		printf("Error : no ending with pipe");
-		exit(0);
-	}
-	return (lst);
+	//print_redir(redir);
+	return (redir);
 }
 
-// int	main(void)
-// {
-// 	t_token	*lst;
-// 	int		i;
+void	create_chain(char **tab, int i, int last_i, t_cmd **lst)
+{
+	t_cmd	*new;
+	t_cmd	*current;
 
-// 	lst = NULL;
-// 	char *arr[] = {"<<", "d", "echo", "okay", "<", "b", "baby", "<", "a", "<<", "c", "almost", ">", "e", "sure", "|", "cat", "|", "ls", "ls", ">>", "j", NULL};
-// 	lst = parsing(arr, lst);
-	
-	
-// 	t_token *current = lst;
-    
-// 	i=0;
-//     while (current != NULL)
-//     {
-//         printf("Name: %s, Token: %d\n", current->name, current->token);
-//         current = current->next;  // Avance au nœud suivant
-// 		i++;
-// 		if (i > 10)
-// 			break;
-//     }
-// 	return (0);
-// }
+	//printf("i = %d, last_i = %d\n", i, last_i);
+	new = malloc(sizeof(t_cmd));
+	if (new == NULL)
+	{
+		perror("malloc failed"); // clean tout et exit ici ou return pour exit apres
+		exit(-1);
+	}
+	//new->cmd = create_cmd(tab, i, last_i);
+	new->cmd = NULL;
+
+	new->redir = create_redir(tab, i, last_i);
+	//print_redir(&(new->redir));
+	new->fd_in = -1;
+	new->fd_out = -1;
+	new->next = NULL;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	current = *lst;
+	//printf("current->next = %p\n", new->next);
+	while (current -> next != NULL)
+		current = current -> next;
+	current -> next = new;
+}
+
+void	parsing(char **tab, t_cmd **lst)
+{
+	int	i;
+	int	last_i;
+
+	i = 0;
+	last_i = 0;
+	//perror("test1");
+	while (tab[i])
+	{
+		if (ft_strcmp(tab[i], "|") == 0)
+		{
+			create_chain(tab, i, last_i, lst);
+			last_i = i;
+			//printf("i = %d, tab[i] = %s, last_i = %d\n", i, tab[i], last_i);
+		}
+		i++;
+	}
+	//perror("\nAPRES\n\n");
+	//printf("i = %d, last_i = %d\n", i, last_i);
+	//printf("tab[i] = %s, last_i = %d\n", tab[i], last_i);
+	create_chain(tab, i - 1, last_i, lst);
+	//perror("test3");
+}
+
+void print_redir(t_file **redir)
+{
+    t_file *current;
+
+    if (redir == NULL || *redir == NULL)
+    {
+        printf("  No redirections\n");
+        return;
+    }
+
+    current = *redir; // Accéder à la liste chaînée
+    while (current != NULL)
+    {
+        printf("  Redirection Name: %s, Token: %d\n", current->name, current->token);
+        current = current->next;
+    }
+}
+
+
+void	ft_error_cases(char **tab)
+{
+	int	size_arr;
+	int	i;
+
+	i = 1;
+	size_arr = ft_arr_size(tab);
+	if (ft_strcmp(tab[0], "|") == 0 || ft_strcmp(tab[size_arr -1], "|") == 0)
+	{
+		printf("syntax error near unexpected token1\n");
+		exit(-1); // a construire error_exit
+	}
+	if (ft_strcmp(tab[size_arr -1 ], "<") == 0 || ft_strcmp(tab[size_arr -1 ], "<<") == 0)
+	{
+		printf("syntax error near unexpected token2\n");
+		exit(-1); // a construire error_exit
+	}
+	if (ft_strcmp(tab[size_arr -1 ], ">") == 0 || ft_strcmp(tab[size_arr -1 ], ">>") == 0)
+	{
+		printf("syntax error near unexpected token3\n");
+		exit(-1); // a construire error_exit
+	}
+	while (tab[i])
+	{
+		if (ft_is_redir(tab[i - 1]) == true)
+		{
+			if (ft_is_redir(tab[i]) == true)
+			{
+				//printf("tab[i - 1] = %s, tab[i] = %s,\n", tab[i - 1], tab[i]);
+				printf("syntax error near unexpected token4\n");
+				exit(-1); // a construire error_exit
+			}
+			if (ft_strcmp(tab[i], "|") == 0)
+				{
+			printf("syntax error near unexpected token5\n");
+			exit(-1); // a construire error_exit
+			}
+		}
+		i++;
+	}
+}
+
+//int main(void)
+//{
+//    t_cmd   *lst;
+//    int     i;
+
+//    lst = NULL;
+//    char *arr[] = {"<<", "d", "echo", "okay", "<", "b", "baby", "<", "a", "<<", "c", "almost", ">", "e", "sure", "|", "cat", "|", "ls", "<", "K", "ls", ">>", "j", NULL};
+//	//char *arr[] = { "cat", "|", "ls", "<", "K", "ls", ">>", "j", NULL};
+//    ft_error_cases(arr);
+//	//perror("testi");
+//	parsing(arr, &lst);
+//	//perror("testf");
+//    t_cmd *current = lst;
+
+//    i = 0;
+//    while (current != NULL)
+//    {
+//        printf("Command:\n");
+//        for (int j = 0; current->cmd && current->cmd[j]; j++)
+//            printf("  cmd[%d]: %s\n", j, current->cmd[j]);
+
+//        printf("Redirections %d:\n", i);
+//        print_redir(&(current->redir));
+
+//        current = current->next; // Passe au nœud suivant
+//        i++;
+//        if (i > 10) // Limite de sécurité pour éviter une boucle infinie
+//            break;
+//    }
+
+//    return (0);
+//}
+
+// il faudra parcourir la liste de redirections, note si au moins une est ko mais aller jusqu'au bout pour traiter les heredoc
+// c'est toujours la derniere redicrection aui est pris en compte
+// lorsau'on parcours la liste pour voir si tous les docs sont ouvrables, on arrete d'ouvrir a partir de la premiere erreur
+// rajouter erreur si le tableau d'Adrien termine ou commence par | ou < > >> << ou si on a | apres < << > >> 'parse error,
+// comprendre ce qu'il se passe quand on a une commande sans commande => commande ignoree (a quel point) on passe a la commade suivant ou on renvoie le prompt si pas d'autres commandes

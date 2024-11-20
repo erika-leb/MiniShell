@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/19 18:58:31 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:42:40 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_file
 typedef struct s_cmd
 {
 	char	**cmd;
-	t_file	*redir;
+	t_file	**redir;
 	int		fd_in;
 	int		fd_out;
 	//char	*path; //pas encore ?

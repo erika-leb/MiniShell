@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/18 18:14:27 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:37:11 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	ft_istok(char *av2)
 }
 
 
-
+//coucou
 
 
 //////////////// ft_expand et/ou ft_expenv marchent pas

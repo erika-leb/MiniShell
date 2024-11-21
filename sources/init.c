@@ -6,11 +6,12 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/20 20:08:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:07:34 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 void	ft_welcome(void)
 {
@@ -30,7 +31,7 @@ static void	handle_sigint(int sig)
 	rl_redisplay();             // Redessine le prompt
 }
 
-void	ft_signal_handle(t_element *elements)
+void	ft_signal_handle(t_gc *gc)
 {
 	struct sigaction	sa;
 	struct sigaction	sa_bis;
@@ -40,16 +41,26 @@ void	ft_signal_handle(t_element *elements)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
-		ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
+	{
+		perror("Error: sigaction failed");
+		gc_cleanup(gc);
+		exit(EXIT_FAILURE);
+	}
+	//	ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
 	memset(&sa_bis, 0, sizeof(struct sigaction));
 	sa_bis.sa_handler = SIG_IGN;
 	sigemptyset(&sa_bis.sa_mask);
 	sa_bis.sa_flags = 0;
 	if (sigaction(SIGQUIT, &sa_bis, NULL) == -1)
-		ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
+	{
+		perror("Error: sigaction failed");
+		gc_cleanup(gc);
+		exit(EXIT_FAILURE);
+	}
+		//ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
 }
 
-t_element	*ft_init_struct(void)
+t_element	*ft_init_struct(void) //utile ? plus tard peut-etre
 {
 	t_element *elements;
 
@@ -64,7 +75,7 @@ t_element	*ft_init_struct(void)
 	return (elements);
 }
 
-void	ft_error_exit(char *s, t_element *elements, int	i, int type)
+/*void	ft_error_exit(char *s, t_element *elements, int	i, int type)
 {
 	if (elements->line != NULL)
 		free(elements->line); // mettre a NULL ??
@@ -77,4 +88,4 @@ void	ft_error_exit(char *s, t_element *elements, int	i, int type)
 	clear_history();
 	free(elements);
 	exit(i);
-}
+}*/

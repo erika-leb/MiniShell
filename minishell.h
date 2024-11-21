@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/20 19:04:03 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:12:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 //# include <asm/signal.h> //pour eviter le rouge sa chez Erika
+# include "gc.h"
 
 #define CRESET		"\x1b[0m"
 #define CRED		"\x1b[31m"
@@ -88,10 +89,10 @@ int		ft_strcmp(char *s1, char *s2);
 int	ft_arr_size(char **tab);
 
 //init.c
-void		ft_signal_handle(t_element *elements);
+void	ft_signal_handle(t_gc *gc);
 void		ft_welcome(void);
 t_element	*ft_init_struct(void);
-void		ft_error_exit(char *s, t_element *elements, int	i, int type);
+//void		ft_error_exit(char *s, int	i, int type);
 
 ////lst_functions.c
 //t_cmd	*ft_lstnew(char *str, int cmd);

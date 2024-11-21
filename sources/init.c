@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/20 19:07:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:08:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,16 @@ void	ft_signal_handle(t_element *elements)
 	struct sigaction	sa;
 	struct sigaction	sa_bis;
 
+	memset(&sa, 0, sizeof(struct sigaction));
 	sa.sa_handler = &handle_sigint;
 	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
+	memset(&sa_bis, 0, sizeof(struct sigaction));
 	sa_bis.sa_handler = SIG_IGN;
 	sigemptyset(&sa_bis.sa_mask);
+	sa_bis.sa_flags = 0;
 	if (sigaction(SIGQUIT, &sa_bis, NULL) == -1)
 		ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
 }
@@ -71,5 +75,6 @@ void	ft_error_exit(char *s, t_element *elements, int	i, int type)
 	else if (ft_strcmp(s, "") != 0)
 		printf("%s\n", s);
 	clear_history();
+	free(elements);
 	exit(i);
 }

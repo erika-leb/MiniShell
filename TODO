@@ -202,3 +202,67 @@ char	*ft_expenv(const char *src)
     res[j] = '\0';
     return (res);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static void	ft_addbigtoken(char *result, const char *av2, int *i, int *j)
+{
+	int	k = 0;
+
+	// Parcourt jusqu'à la fin du token ou de la chaîne
+	while (av2[*i + k] && av2[*i + k] != ' ')
+	{
+		if (av2[*i + k] == '$')
+		{
+			// Traiter le $ et avancer jusqu'à la fin du nom de la variable
+			ft_trunc(av2, *i + k + 1, result, j);
+			while (av2[*i + k] && av2[*i + k] != ' ' && av2[*i + k] != '$')
+				k++;
+			*i += k - 1; // Mettre à jour i en conséquence
+			return; // Sortir après avoir traité le $
+		}
+		k++;
+	}
+
+	// Si aucun $ n'est trouvé, avancer de la longueur du token
+	*i += k - 1;
+}
+
+
+
+
+Recherche la variable HOME". Comme il la trouve pas, chaine vide

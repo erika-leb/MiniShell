@@ -12,13 +12,40 @@
 
 #include "../minishell.h"
 
+void	handle_sigint(int sig)
+{
+	(void) sig;
+	write(1, "\nminishell> ", 12);
+}
+
 void	ft_welcome(void)
 {
 	printf("\n");
-	printf(CCYAN "******************************\n" CRESET);
-	printf(CMAGENTA "*  " CYELLOW "Minishell" CMAGENTA "  *\n" CRESET);
-	printf(CCYAN "******************************\n" CRESET);
+	printf(COLOR_CYAN "******************************\n" COLOR_RESET);
+	printf(COLOR_MAGENTA "*  " COLOR_YELLOW "Bienvenue dans Minishell" COLOR_MAGENTA "  *\n" COLOR_RESET);
+	printf(COLOR_CYAN "******************************\n" COLOR_RESET);
 	printf("\n");
+}
+
+void	ft_signal_handle(char *line)
+{
+	struct sigaction	sa;
+	struct sigaction	sa_bis;
+
+	sa.sa_handler = &handle_sigint;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+	{
+		free(line);
+		perror("sigaction");
+		exit(1);
+	}
+	sa_bis.sa_handler = SIG_IGN;
+	if (sigaction(SIGQUIT, &sa_bis, NULL) == -1)
+	{
+		free(line);
+		perror("sigaction");
+		exit(1);
+	}
 }
 
 int	main(void)
@@ -50,7 +77,7 @@ int	main(void)
 		result = ft_split(ft_tokenize(line), ' ', 0, 0);
 		while (result[i])
  		{
- 			printf("token %d : %s\n", i, result[i]);
+ 			printf("token %d :%s\n", i, result[i]);
 			i++;
  		}
 		free(line);

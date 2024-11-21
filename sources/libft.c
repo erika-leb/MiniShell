@@ -12,6 +12,17 @@
 
 #include "../minishell.h"
 
+int	ft_isalnum(int c)
+{
+	if ((c >= 'A' && c <= 'Z')
+		|| (c >= 'a' && c <= 'z')
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
+
+
+
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;

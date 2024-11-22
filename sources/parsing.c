@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/21 20:10:04 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:32:57 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_file	*ft_lstnew_file(char *name, char token, t_gc *gc)
 
 int	ft_classification(char **tab, int i)
 {
+	//perror("ult");
 	if (ft_strcmp(tab[i], "|") == 0)
 		return (PIPE);
 	if (i > 0 &&  ft_strcmp(tab[i - 1], "<") == 0)
@@ -83,21 +84,24 @@ t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc)
 //	t_file	*current;
 
 	i++;
-	perror("ici");
+	// perror("ici");
 	redir = NULL;
 	//perror("ici");
 	//printf("i = %d, last-i =%d\n", i, last_i);
 	//printf("tab[i - 1] = %s\n", tab[i - 1]);
 	while (last_i < i && tab[i - 1])
 	{
-		perror("la");
-		printf("i -1 = %d\n", last_i - 1);
+	//	perror("la");
+	//	printf("i -1 = %d\n", last_i - 1);
 	//	printf("tab[i - 1] = %s\n", tab[last_i - 1]);
-		if (ft_is_redir(tab[last_i - 1]) == true) // segfault ici a cause du - 1
+		// printf("tab = %s\n",tab[last_i - 1]);
+		// printf("tab = %d\n",last_i);
+		// printf("i -1 = %d\n", last_i - 1);
+		if (last_i > 0 && ft_is_redir(tab[last_i - 1]) == true) // segfault ici a cause du - 1
 		{
-			perror("c tre cool");
+			//perror("c moyen cool");
 			token = ft_classification(tab, last_i);
-			perror("c cool");
+			//perror("c cool");
 			new = ft_lstnew_file(tab[last_i], token, gc);
 			//printf("new->name = %s token =%d, next = %p \n", new->name, new->token, new->next);
 			// if (new == NULL)
@@ -111,7 +115,7 @@ t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc)
 			else
 				ft_lstadd_back(&redir, new);
 		}
-		perror("cpa cool");
+		//perror("cpa cool");
 		last_i++;
 	}
 	//print_redir(redir);
@@ -123,7 +127,7 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 	t_cmd	*new;
 	t_cmd	*current;
 
-	printf("i = %d, last_i = %d\n", i, last_i);
+	//printf("i = %d, last_i = %d\n", i, last_i);
 	new = gc_malloc(sizeof(t_cmd), gc);
 	// if (new == NULL)
 	// {
@@ -132,9 +136,9 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 	// }
 	//new->cmd = create_cmd(tab, i, last_i);
 	new->cmd = NULL;
-	perror("test6");
+	//perror("test6");
 	new->redir = create_redir(tab, i, last_i, gc);
-	perror("test5");
+	//perror("test5");
 	//print_redir(&(new->redir));
 	new->fd_in = -1;
 	new->fd_out = -1;
@@ -158,21 +162,21 @@ void	parsing(char **tab, t_cmd **lst, t_gc *gc)
 
 	i = 0;
 	last_i = 0;
-	perror("test12");
+	//perror("test12");
 	while (tab[i])
 	{
 		//perror("test5");
 		if (ft_strcmp(tab[i], "|") == 0)
 		{
-			perror("test4");
+			//perror("test4");
 			create_chain(tab, i, last_i, lst, gc);
-			perror("test5");
+			//perror("test5");
 			last_i = i;
 			//printf("i = %d, tab[i] = %s, last_i = %d\n", i, tab[i], last_i);
 		}
 		i++;
 	}
-	perror("\nAPRES\n\n");
+	//perror("\nAPRES\n\n");
 	//printf("i = %d, last_i = %d\n", i, last_i);
 	//printf("tab[i] = %s, last_i = %d\n", tab[i], last_i);
 	create_chain(tab, i - 1, last_i, lst, gc);
@@ -239,12 +243,12 @@ int main(void)
 	gc_init(&gc);
 
    lst = NULL;
-   char *arr[] = {"<<", "d", "echo", "okay", "<", "b", "baby", "<", "a", "<<", "c", "almost", ">", "e", "sure", "|", "cat", "|", "ls", "<", "K", "ls", ">>", "j", NULL};
+   char *arr[] = { "<<", "d", "echo", "okay", "<", "b", "baby", "<", "a", "<<", "c", "almost", ">", "e", "sure", "|", "cat", "|", "ls", "<", "K", "ls", ">>", "j", NULL};
 	//char *arr[] = { "cat", "|", "ls", "<", "K", "ls", ">>", "j", NULL};
    ft_error_cases(arr, &gc);
-	perror("testi");
+	//perror("testi");
 	parsing(arr, &lst, &gc);
-	perror("testf");
+	//perror("testf");
    t_cmd *current = lst;
 
    i = 0;
@@ -262,7 +266,7 @@ int main(void)
        if (i > 10) // Limite de sécurité pour éviter une boucle infinie
            break;
    }
-
+   gc_cleanup(&gc);
    return (0);
 }
 

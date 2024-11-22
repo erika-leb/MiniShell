@@ -1,4 +1,4 @@
-guide d'utilisation du garbage collector
+Guide d'utilisation du garbage collector
 
 1) Initialisation avec gc_init : Avant toute utilisation, le garbage collector doit être prêt.
 ex:

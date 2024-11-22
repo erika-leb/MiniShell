@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/21 18:58:23 by ele-borg         ###   ########.fr        #
+#    Updated: 2024/11/22 15:48:23 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/init.c \
 			${SRC_DIR}/parsing.c \
 			${SRC_DIR}/ft_tokenize.c \
+			${SRC_DIR}/redir_chain.c \
 			${GC_DIR}/gc_cleanup.c \
 			${GC_DIR}/gc_malloc.c \
 			${GC_DIR}/gc_realloc.c \
@@ -37,6 +38,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/init.o \
 			${OBJ_DIR}/parsing.o \
 			${OBJ_DIR}/ft_tokenize.o \
+			${OBJ_DIR}/redir_chain.o \
 			${OBJ_DIR}/gc_cleanup.o \
 			${OBJ_DIR}/gc_malloc.o \
 			${OBJ_DIR}/gc_realloc.o \

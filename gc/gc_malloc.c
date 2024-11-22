@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "gc.h"
+#include "minishell.h"
 
 /* Fonctions utiles (gc_init et gc_malloc) pour créer la chaine répertoriant tous les malloc */
 
@@ -30,6 +31,7 @@ void	gc_add(t_gc *gc, void *ptr, size_t size)
 	{
 		perror("Error: allocation failed");
 		gc_cleanup(gc);
+		free(ptr);
 		exit(EXIT_FAILURE);
 	}
 	new_node->ptr = ptr;
@@ -45,6 +47,11 @@ void	*gc_malloc(size_t size, t_gc *gc)
 	void	*ptr;
 
 	ptr = malloc(size);
+	// if (size == sizeof(t_cmd))
+	// {
+	// 	free(ptr);
+	// 	ptr = NULL;
+	// }
 	if (!ptr)
 	{
 		perror("Error: allocation failed");

@@ -1,0 +1,10 @@
+b
+gc
+Makefile
+minishell
+minishell.h
+objets
+readline.supp
+sources
+tips
+TODO

@@ -38,6 +38,7 @@ void	gc_add(t_gc *gc, void *ptr, size_t size)
 	new_node->size = size;
 	new_node->next = gc->head;
 	gc->head = new_node;
+	//printf("Added pointer %p to GC (size: %zu)\n", ptr, size); 
 }
 
 // Ajout d'un malloc a la chaine
@@ -47,6 +48,7 @@ void	*gc_malloc(size_t size, t_gc *gc)
 	void	*ptr;
 
 	ptr = malloc(size);
+	//printf("allocation de %zu size\n", size);
 	// if (size == sizeof(t_cmd))
 	// {
 	// 	free(ptr);

@@ -19,6 +19,8 @@ void gc_cleanup(t_gc *gc)
 	t_gc_node	*current;
 	t_gc_node	*next;
 
+	if (gc->head == NULL)
+		return ;
 	current = gc->head;
 	while (current != NULL)
 	{

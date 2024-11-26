@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/21 19:12:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:29:36 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <fcntl.h>
 //# include <asm/signal.h> //pour eviter le rouge sa chez Erika
 # include "gc.h"
 
@@ -47,6 +48,7 @@ typedef struct	s_element
 {
 	char	*line;
 	char	**arr;
+	char	**env;
 }	t_element;
 
 // typedef struct s_token
@@ -86,12 +88,13 @@ void	*ft_freesplit(char **tab, size_t n);
 void	*ft_calloc(size_t n, size_t sizof);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(char *s1, char *s2);
-int	ft_arr_size(char **tab);
+int		ft_arr_size(char **tab);
+char	*ft_strdup(const char *s1, t_gc *gc);
 
 //init.c
 void	ft_signal_handle(t_gc *gc);
 void		ft_welcome(void);
-t_element	*ft_init_struct(void);
+t_element	*ft_init_struct(t_gc *gc);
 //void		ft_error_exit(char *s, int	i, int type);
 
 ////lst_functions.c
@@ -104,5 +107,16 @@ t_element	*ft_init_struct(void);
 
 //ft_tokenize.c
 char	*ft_tokenize(char *av2);
+
+//redir_chain.c
+t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc);
+
+//parsing.c
+bool	ft_is_redir(char *s);
+void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
+
+// redir_open.c
+void	handle_redir(t_cmd **lst);
+void	ft_fd_open(t_cmd *node);
 
 #endif

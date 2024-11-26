@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/21 19:07:34 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:23:20 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,32 @@ void	ft_signal_handle(t_gc *gc)
 		//ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
 }
 
-t_element	*ft_init_struct(void) //utile ? plus tard peut-etre
-{
-	t_element *elements;
 
-	elements = (t_element *)malloc(sizeof(t_element));
-	if (elements == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed to allocate memory\n");
-		exit(-1);
-	}
+void gc_print(t_gc *gc)
+{
+    t_gc_node *current = gc->head;
+    
+    if (current == NULL)
+    {
+        printf("GC is empty, no allocations tracked.\n");
+        return;
+    }
+
+    printf("GC status:\n");
+
+    while (current != NULL)
+    {
+        printf("Allocation at address %p, size: %zu bytes\n", current->ptr, current->size);
+        current = current->next;
+    }
+}
+
+t_element	*ft_init_struct(t_gc *gc) //utile ? plus tard peut-etre
+{
+	t_element 	*elements;
+	
+	elements=NULL;
+	elements = gc_malloc(sizeof(t_element), gc);
 	elements->line = NULL;
 	elements->arr = NULL;
 	return (elements);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/21 18:49:06 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:43:26 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,22 @@ int	ft_arr_size(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(const char *s1, t_gc *gc)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = (char *) gc_malloc((ft_strlen(s1) + 1) * sizeof(char), gc);
+	if (str == 0)
+		return (NULL);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

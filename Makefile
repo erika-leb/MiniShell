@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/22 15:48:23 by ele-borg         ###   ########.fr        #
+#    Updated: 2024/11/26 18:20:30 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${GC_DIR}/gc_malloc.c \
 			${GC_DIR}/gc_realloc.c \
 			${GC_DIR}/gc_remove.c \
+			${SRC_DIR}/redir_open.c \
 #			${SRC_DIR}/lst_functions_parta.c \
 #			${SRC_DIR}/lst_functions_partb.c \
 
@@ -43,6 +44,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/gc_malloc.o \
 			${OBJ_DIR}/gc_realloc.o \
 			${OBJ_DIR}/gc_remove.o \
+			${OBJ_DIR}/redir_open.o \
 # 			${OBJ_DIR}/lst_functions_parta.o \
 #			${OBJ_DIR}/lst_functions_partb.o \
 
@@ -68,6 +70,9 @@ ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c
 ${OBJ_DIR}/%.o: ${GC_DIR}/%.c
 	@mkdir -p ${OBJ_DIR}
 	$(CC) -c $(FLAGS_C) $< -o $@
+
+GC_OBJ_FILES:
+	$(MAKE) -C ${GC_DIR}
 
 clean:
 	rm  -f ${OBJ_FILES}

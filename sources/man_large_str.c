@@ -2,7 +2,7 @@
 #include "../minishell.h"
 
 //insere un caractere a l'endroit k, augmente la taille de la chaine de + 1
-void ft_insert(char *result, int k, char c)
+char *ft_insert(char *result, int k, char c)
 {
     int len;
     int i;
@@ -15,6 +15,7 @@ void ft_insert(char *result, int k, char c)
         i--;
     }
     result[k] = c;
+	return (result);
 }
 
 //Supprime un caractere au niveau de tmp_k, reduit la taille de la chaine de -1.
@@ -49,7 +50,7 @@ void ft_erase_substr(char *result, int *k, char *tmp)
 //Identique a celui dans ft_split.c. Mais je l'ai refait car lautre prend size_t *i en param
 //et javais la flemme de changer le prototype de toutes les fcts.
 //Mettre un pointeur a i est useless car on modifie pas sa valeur
-void	ft_modifquote(char const *str, int *sq, int *dq, int *i)
+void	ft_modifquote_(char const *str, int *sq, int *dq, int *i)
 {
     //Mettre une adresse pour i est useless car on change pas sa val
 	if (str[*i] == '\'' && !(*dq))

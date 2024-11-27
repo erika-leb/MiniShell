@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/25 16:45:20 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:15:50 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ int	main(void)
 		}
 		if (line && *line)
 			add_history(line);
-		result = ft_split(ft_tokenize(line), ' ', 0, 0);
-		//result = ft_split(ft_concat(ft_tokenize(line), 0, 0), ' ', 0, 0);
+		result = ft_split(ft_tokenize(line), 0, 0);
 		while (result[i])
  		{
 			result[i] = ft_concat(result[i], -1, 0, 0);
@@ -83,6 +82,7 @@ int	main(void)
 			i++;
  		}
 		free(line);
+		ft_freesplit(result, i);//??
 	}
 	return (0);
 }
@@ -93,12 +93,13 @@ int	main(void)
 // 	int		i;
 // 	(void) ac;
 
-// 	result = ft_split(ft_tokenize(av[1]), av[2][0], 0, 0);
+// 	result = ft_split(ft_tokenize(av[1]), 0, 0);
 // 	if (result == NULL)
 // 		return (printf("Erreur : ft_split a renvoyé NULL\n"));
 // 	i = 0;
 // 	while (result[i])
 // 	{
+// 		//result[i] = ft_concat(result[i], -1, 0, 0);
 // 		printf("token %d : %s\n", i, result[i]);
 // 		i++;
 // 	}

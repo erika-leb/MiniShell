@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/25 17:20:13 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:53:18 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,14 @@ static void	ft_addtoken(char *result, const char *token, int *i, int *j)
 	*i += k - 1;
 }
 
+//*i != 0 me gene pour les cas >'' ou tout autre token en position 0 colle a quelque chose
+//mais j'ai peur d'y toucher. Je pensequ'il etait là car ca me genait de mettre un espace au debut
+//de result de facon inutile. Meme le av2[*i] != ' ' me semble useless car ft_istok contraint le caractere
+//a etre uniquement un token.
 static void	ft_addspace(char *result, char *av2, int *i, int *j)
 {
-	if ( *i != 0 && av2[*i] != ' ' && ft_istok(av2 + *i))
-	{
+	if (av2[*i] != ' ' && ft_istok(av2 + *i))
+	{//*i != 0 && 
 		result[*j] = ' ';
 		(*j)++;
 	}
@@ -62,7 +66,7 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
     dq = 0;
 	//Pas d'espace au niveau d'un token si on est a l'interieur d'une chaine
 	while (++k <= *i)
-		ft_modifquote(av2, &sq, &dq, &k);
+		ft_modifquote_(av2, &sq, &dq, &k);
 	if (!sq && !dq)
 		ft_addspace(result, av2, i, j);
 	if (av2[*i] == '<' && av2[*i + 1] == '<')
@@ -73,6 +77,7 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 	{
 		result[*j] = av2[*i];
 		(*j)++;
+		// printf("%s\n",result);
 	}
 	if (!sq && !dq)
 		ft_addspace(result, av2, i, j);

@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/26 18:45:47 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:56:21 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "../gc/gc.h"
 
-void print_redir(t_file **redir);
+// void print_redir(t_file **redir);
 
 bool	ft_is_redir(char *s)
 {
@@ -30,20 +30,15 @@ int	nb_arg(char **tab, int i, int last_i)
 	int	arr_s;
 
 	arr_s = ft_arr_size(tab);
-	//printf("size tab = %d\n", arr_s);
 
 	j = last_i + 1;
 	if (i == arr_s - 1)
 		i++;
 	k = 0;
-	//printf("i = %d\n", i);
 	while (j < i)
 	{
 		if (ft_is_redir(tab[j]) == true)
-		{
-			//printf("tab[] =%s\n", tab[j]);
 			j++;
-		}
 		else
 			k++;
 		j++;
@@ -51,40 +46,93 @@ int	nb_arg(char **tab, int i, int last_i)
 	return (k);
 }
 
+bool	ft_is_str(char *s)
+{
+	if (ft_strcmp(s, "'|'") == 0)
+		return (true);
+	if (ft_strcmp(s, "'<'") == 0)
+		return (true);
+	if (ft_strcmp(s, "'>'") == 0)
+		return (true);
+	if (ft_strcmp(s, "'<<'") == 0)
+		return (true);
+	if (ft_strcmp(s, "'>>'") == 0)
+		return (true);
+	return (false);
+}
+
+// static void ft_put_words()
+// {
+	
+// }
+
 void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
 {
 	int	j;
 	int	s;
-	int	arr_s;
 	int	k;
 
-	arr_s = ft_arr_size(tab);
-	//printf("size tab = %d\n", arr_s);
-
+	s = ft_arr_size(tab);
 	j = last_i + 1;
-	if (i == arr_s - 1)
+	if (i == s - 1)
 		i++;
 	k = 0;
-	//printf("i = %d\n", i);
 	while (j < i)
 	{
 		if (ft_is_redir(tab[j]) == true)
-		{
-			//printf("tab[] =%s\n", tab[j]);
 			j++;
-		}
 		else
 		{
+			//ft_put_words(arr, tab, j, k, gc);
 			s = ft_strlen(tab[j]);
-			arr[k] = gc_malloc(s + 1, gc);
-			//memcpy(arr[k], tab[j], s + 1);
-			arr[k] = tab[j];
+			if (ft_is_str(tab[j]) == true)
+				arr[k] = ft_substr(tab[j], 1, s - 2, gc);
+			else
+			{
+				arr[k] = gc_malloc(s + 1, gc);
+				arr[k] = tab[j];
+			}
 			k++;
 		}
 		j++;
 	}
 	arr[k] = NULL;
 }
+
+// void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
+// {
+// 	int	j;
+// 	int	s;
+// 	int	arr_s;
+// 	int	k;
+
+// 	arr_s = ft_arr_size(tab);
+
+// 	j = last_i + 1;
+// 	if (i == arr_s - 1)
+// 		i++;
+// 	k = 0;
+// 	while (j < i)
+// 	{
+// 		if (ft_is_redir(tab[j]) == true)
+// 			j++;
+// 		else
+// 		{
+// 			//ft_put_words(arr, tab, j, k, gc);
+// 			s = ft_strlen(tab[j]);
+// 			if (ft_is_str(tab[j]) == true)
+// 				arr[k] = ft_substr(tab[j], 1, s - 2, gc);
+// 			else
+// 			{
+// 				arr[k] = gc_malloc(s + 1, gc);
+// 				arr[k] = tab[j];
+// 			}
+// 			k++;
+// 		}
+// 		j++;
+// 	}
+// 	arr[k] = NULL;
+// }
 
 char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc)
 {
@@ -93,17 +141,8 @@ char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc)
 	
 	(void) gc;
 	s_arr = nb_arg(tab, i, last_i);
-//	printf("taille = %d\n", s_arr);
 	arr = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
 	ft_fill_arr(arr, tab, i, last_i, gc);
-
-	// int	k;
-	// k = 0;
-	// while(k <= s_arr)
-	// {
-	// 	printf("case %i = %s\n", k, arr[k]);
-	// 	k++;
-	// }
 	return (NULL);
 }
 
@@ -112,19 +151,14 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 	t_cmd	*new;
 	t_cmd	*current;
 
-	//printf("i = %d, last_i = %d\n", i, last_i);
 	new = gc_malloc(sizeof(t_cmd), gc);
 	// if (new == NULL)
 	// {
 	// 	perror("malloc failed"); // clean tout et exit ici ou return pour exit apres
 	// 	exit(-1);
 	// }
-	//new->cmd = create_cmd(tab, i, last_i);
 	new->cmd = NULL;
-	//perror("test6");
 	new->redir = create_redir(tab, i, last_i, gc);
-	//perror("test5");
-	//print_redir(&(new->redir));
 	new->cmd = cmd_arr(tab, i, last_i, gc);
 	new->fd_in = -2;
 	new->fd_out = -2;
@@ -135,61 +169,93 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 		return ;
 	}
 	current = *lst;
-	//printf("current->next = %p\n", new->next);
 	while (current -> next != NULL)
 		current = current -> next;
 	current -> next = new;
 }
 
+// Fonction pour afficher le contenu d'une structure t_file
+void print_redir(t_file *redir)
+{
+    t_file *current = redir;
 
+    if (!current)
+    {
+        printf("  No redirections.\n");
+        return;
+    }
 
-void	parsing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
+    printf("  Redirections:\n");
+    while (current)
+    {
+        printf("    - Name: %s, Token: %d\n", current->name, current->token);
+        current = current->next;
+    }
+}
+
+// Fonction pour afficher le contenu d'une structure t_cmd
+void print_cmd_list(t_cmd *cmd_list)
+{
+    t_cmd *current = cmd_list;
+    int cmd_index = 0;
+
+    while (current)
+    {
+        printf("Commande n°%d:\n", cmd_index);
+
+        // Afficher la commande (cmd)
+        if (current->cmd)
+        {
+            printf("  Command arguments:\n");
+            for (int i = 0; current->cmd[i]; i++)
+                printf("    cmd[%d]: %s\n", i, current->cmd[i]);
+        }
+        else
+        {
+            printf("  No command arguments.\n");
+        }
+
+        // Afficher les redirections
+        print_redir(current->redir);
+
+        // Afficher fd_in et fd_out
+        printf("  fd_in: %d\n", current->fd_in);
+        printf("  fd_out: %d\n", current->fd_out);
+
+        // Passer au suivant
+        current = current->next;
+        cmd_index++;
+    }
+}
+
+void	lexing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
 {
 	int	i;
 	int	last_i;
 
 	i = 0;
 	last_i = -1;
-	//perror("test12");
 	while (tab[i])
 	{
-		//perror("test5");
 		if (ft_strcmp(tab[i], "|") == 0)
 		{
-			//perror("test4");
 			create_chain(tab, i, last_i, lst, gc);
-			//perror("test5");
 			last_i = i;
-			//printf("i = %d, tab[i] = %s, last_i = %d\n", i, tab[i], last_i);
 		}
 		i++;
 	}
-	//perror("\nAPRES\n\n");
-	//printf("i = %d, last_i = %d\n", i, last_i);
-	//printf("tab[i] = %s, last_i = %d\n", tab[i], last_i);
+	//perror("test7");
 	create_chain(tab, i - 1, last_i, lst, gc);
+
+	printf("\n AVANT OUVERTURE \n\n");
+	print_cmd_list(*lst);
+	
+	//perror("test");
 	handle_redir(lst);
-	//perror("test3");
+	
+	printf("\n APRES OUVERTURE \n\n");
+	print_cmd_list(*lst);
 }
-
-void print_redir(t_file **redir)
-{
-    t_file *current;
-
-    if (redir == NULL || *redir == NULL)
-    {
-        printf("  No redirections\n");
-        return;
-    }
-
-    current = *redir; // Accéder à la liste chaînée
-    while (current != NULL)
-    {
-        printf("  Redirection Name: %s, Token: %d\n", current->name, current->token);
-        current = current->next;
-    }
-}
-
 
 void	ft_error_cases(char **tab, t_gc *gc)
 {
@@ -536,6 +602,26 @@ void	ft_error_cases(char **tab, t_gc *gc)
 //         }
 //     }
 // }
+
+
+// void print_redir(t_file **redir)
+// {
+//     t_file *current;
+
+//     if (redir == NULL || *redir == NULL)
+//     {
+//         printf("  No redirections\n");
+//         return;
+//     }
+
+//     current = *redir; // Accéder à la liste chaînée
+//     while (current != NULL)
+//     {
+//         printf("  Redirection Name: %s, Token: %d\n", current->name, current->token);
+//         current = current->next;
+//     }
+// }
+
 
 // il faudra parcourir la liste de redirections, note si au moins une est ko mais aller jusqu'au bout pour traiter les heredoc
 // c'est toujours la derniere redicrection aui est pris en compte

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 12:57:20 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:37:16 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,12 @@
 
 # define UN_TOKEN "bash: syntax error"
 
-typedef struct	s_element
-{
-	char	*line;
-	char	**arr;
-	char	**env;
-}	t_element;
-
 typedef struct s_file
 {
 	char			*name;
 	int				token;
 	struct s_file	*next;
 }	t_file;
-
 
 typedef struct s_cmd
 {
@@ -71,12 +63,20 @@ typedef struct s_cmd
 	struct s_cmd *next;
 }	t_cmd;
 
+typedef struct	s_element
+{
+	char	*line;
+	char	**arr;
+	char	**env;
+	t_cmd	*lst;
+}	t_element;
+
 //ft_split.c
-char	**ft_split(char const *str, char sep, int sq, int dq);
+char	**ft_split(char const *str, int sq, int dq, t_gc *gc);
 
 //ft_split_utils.c
 size_t	ft_count(const char *str, const char sep);
-char	*ft_eachword(const char *str, int fidx, int end);
+char	*ft_eachword(const char *str, int fidx, int end, t_gc *gc);
 void	*ft_freesplit(char **tab, size_t n);
 
 //libft.c
@@ -86,6 +86,7 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_arr_size(char **tab);
 char	*ft_strdup(const char *s1, t_gc *gc);
 int		ft_isalnum(int c);
+char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc *gc);
 
 //init.c
 void	ft_signal_handle(t_gc *gc);
@@ -104,7 +105,7 @@ char	*ft_ifexpand(char *result);
 void ft_insert(char *result, int k, char c);
 char *ft_erase(char *result, int tmp_k);
 void ft_erase_substr(char *result, int *k, char *tmp);
-void ft_modifquote(char const *str, int *sq, int *dq, int *i);
+void ft_modifquote_(char const *str, int *sq, int *dq, int *i);
 
 //ft_concat.c
 char	*ft_concat(char *result_i, int k, int sq, int dq);
@@ -114,6 +115,7 @@ t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc);
 
 //parsing.c
 bool	ft_is_redir(char *s);
+void	lexing(char **tab, t_cmd **lst, t_gc *gc);
 void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 
 // redir_open.c

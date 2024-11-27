@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:39:05 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/17 16:28:56 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:38:48 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	ft_modifquote(char const *str, int *sq, int *dq, size_t *i)
 // 	*fidx = *i;
 // }
 
-char	**ft_split(char const *str, char sep, int sq, int dq)
+char	**ft_split(char const *str, int sq, int dq, t_gc *gc)
 {
 	char	**tab;
 	size_t	i;
@@ -51,23 +51,26 @@ char	**ft_split(char const *str, char sep, int sq, int dq)
 	int		fidx;
 
 	ft_init(&i, &j, &fidx);
-	tab = ft_calloc(ft_count(str, sep) + 1, sizeof(char *));
-	if (tab == NULL)
-		return (NULL);
+	//tab = ft_calloc(ft_count(str, ' ') + 1, sizeof(char *));
+	tab = gc_malloc((ft_count(str, ' ') + 1) * sizeof(char *), gc);
+	// if (tab == NULL)
+	// 	return (NULL);
 	while (i <= ft_strlen(str))
 	{
 		ft_modifquote(str, &sq, &dq, &i);
-		if (str[i] != sep && fidx < 0)
+		if (str[i] != ' ' && fidx < 0)
 			fidx = i;
-		else if (((str[i] == sep && !sq && !dq)
+		else if (((str[i] == ' ' && !sq && !dq)
 				|| i == ft_strlen(str)) && fidx >= 0)
 		{
-			tab[j] = ft_eachword(str, fidx, i);
-			if (tab[j++] == NULL)
-				return (ft_freesplit(tab, j - 1));
+			tab[j] = ft_eachword(str, fidx, i, gc);
+			j++;
+			// if (tab[j++] == NULL)
+			// 	return (ft_freesplit(tab, j - 1));
 			fidx = -1;
 		}
 		i++;
 	}
+	tab[j] = NULL;
 	return (tab);
 }

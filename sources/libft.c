@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 12:57:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:33:03 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,28 @@ int	ft_isalnum(int c)
 		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc *gc)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (ft_strdup("", gc));
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	str = gc_malloc(sizeof(char) * (len + 1), gc);
+	if (str == 0)
+		return (NULL);
+	while (i < len && s[start + i])
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

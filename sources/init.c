@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/22 18:23:20 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:24:10 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_element	*ft_init_struct(t_gc *gc) //utile ? plus tard peut-etre
 	elements = gc_malloc(sizeof(t_element), gc);
 	elements->line = NULL;
 	elements->arr = NULL;
+	elements->lst = NULL;
 	return (elements);
 }
 

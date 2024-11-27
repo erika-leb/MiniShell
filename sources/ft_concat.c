@@ -35,10 +35,10 @@ char	*ft_concat(char *result_i, int k, int sq, int dq)
 	if (ft_littoken(result_i))
 		return (result_i);
 	while (result_i[++k] && !(result_i[k] == '\'' || result_i[k] == '\"'))
-	if (!result_i[k])
+	if (!result_i[k + 1])
 		return (result_i);
 	to_erase = k;
-	ft_modifquote(result_i, &sq, &dq, &k);
+	ft_modifquote_(result_i, &sq, &dq, &k);
 	//k++;
 	while (result_i[++k])
 	{// && !ft_littoken(result_i)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/25 17:20:13 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:02:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
     dq = 0;
 	//Pas d'espace au niveau d'un token si on est a l'interieur d'une chaine
 	while (++k <= *i)
-		ft_modifquote(av2, &sq, &dq, &k);
+		ft_modifquote_(av2, &sq, &dq, &k);
 	if (!sq && !dq)
 		ft_addspace(result, av2, i, j);
 	if (av2[*i] == '<' && av2[*i + 1] == '<')

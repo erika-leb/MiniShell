@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 17:31:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/17 16:29:05 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:12:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,23 @@ size_t	ft_count(const char *str, const char sep)
 	return (count);
 }
 
-char	*ft_eachword(const char *str, int fidx, int end)
+char	*ft_eachword(const char *str, int fidx, int end, t_gc *gc)
 {
 	char	*word;
 	int		i;
 
 	i = 0;
-	word = ft_calloc(end - fidx + 1, sizeof(char));
-	if (word == NULL)
-		return (NULL);
+	//word = ft_calloc(end - fidx + 1, sizeof(char));
+	word = gc_malloc((end - fidx + 1) * sizeof(char), gc);
+	// if (word == NULL)
+	// 	return (NULL);
 	while (fidx < end)
 	{
 		word[i] = str[fidx];
 		i++;
 		fidx++;
 	}
+	word[i] = '\0';
 	return (word);
 }
 

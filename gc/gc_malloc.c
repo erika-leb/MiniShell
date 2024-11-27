@@ -27,6 +27,7 @@ void	gc_add(t_gc *gc, void *ptr, size_t size)
 	t_gc_node	*new_node;
 
 	new_node = malloc(sizeof(t_gc_node));
+	//new_node = ft_calloc(1, sizeof(t_gc_node));
 	if (!new_node)
 	{
 		perror("Error: allocation failed");
@@ -48,7 +49,8 @@ void	*gc_malloc(size_t size, t_gc *gc)
 	void	*ptr;
 
 	ptr = malloc(size);
-	//printf("allocation de %zu size\n", size);
+	//ptr = ft_calloc(size);
+	// printf("allocation de %zu size\n", size);
 	// if (size == sizeof(t_cmd))
 	// {
 	// 	free(ptr);

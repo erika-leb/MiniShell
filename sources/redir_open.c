@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/27 12:59:34 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:33:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,29 @@ void	ft_fd_open(t_cmd *node)
 					perror("Error");	
 			}
 		}
-		if (redir->token == HEREDOC || redir->token == INPUT)
+		if (redir->token == HEREDOC || redir->token == INPUT) // gerer le cas ou -1
 		{
-			if (node->fd_in != -2 && node->fd_in != -3)
-					close(node->fd_in);
-			if (redir->token == HEREDOC)
+			if (node->fd_in == -1 && redir->token == HEREDOC)
 			{
-				// appliquer le heredor'
-				node->fd_in = -3;
+				printf("\n");
+				//appliquer le heredoc
 			}
-			else if (node->fd_in != -1)
+			else
 			{
-				node->fd_in = open(redir->name, O_RDONLY, 0644);
-				if (node->fd_in == -1)
-					perror("Error");
-			}	
+				if (node->fd_in != -2 && node->fd_in != -3)
+						close(node->fd_in);
+				if (redir->token == HEREDOC)
+				{
+					// appliquer le heredor'
+					node->fd_in = -3;
+				}
+				else
+				{
+					node->fd_in = open(redir->name, O_RDONLY, 0644);
+					if (node->fd_in == -1)
+						perror("Error");
+				}
+			}
 		}
 		redir = redir->next;
 	}

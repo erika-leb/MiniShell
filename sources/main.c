@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 13:02:44 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:56:30 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
  //	char		**result;
 	t_element	*elements;
 	t_gc		gc;
- 	int		i = 0;
 	//char  *line;
 	
 	((void)ac, (void)av);
@@ -69,14 +68,24 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 		}
  		if (elements->line && *(elements->line))
  			add_history(elements->line);
-		elements->arr = ft_split(ft_tokenize(elements->line), ' ', 0, 0);
+		elements->arr = ft_split(ft_tokenize(elements->line), 0, 0, &gc);
 		//result = ft_split(ft_concat(ft_tokenize(line), 0, 0), ' ', 0, 0);
-		while (elements->arr[i])
+		
+		int i = 0;
+		// int s = ft_arr_size(elements->arr);
+		// printf("i = %d, s = %d\n", i, s);
+		//while (i < s - 1)
+		while(elements->arr[i])
  		{
 			elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
- 			printf("token %d :%s\n", i, elements->arr[i]);
+ 			//printf("i = %d, s = %d\n", i, s);
+			printf("token %d :%s\n", i, elements->arr[i]);
 			i++;
  		}
+		//perror("test2");
+		//lexing(elements, &gc);
+		lexing(elements->arr, &elements->lst, &gc);
+		//perror("test3");
  	}
 	//ft_error_exit("", 0, NO_PERROR);
 	gc_cleanup(&gc); // utile ?

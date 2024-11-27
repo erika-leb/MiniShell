@@ -49,7 +49,7 @@ void ft_erase_substr(char *result, int *k, char *tmp)
 //Identique a celui dans ft_split.c. Mais je l'ai refait car lautre prend size_t *i en param
 //et javais la flemme de changer le prototype de toutes les fcts.
 //Mettre un pointeur a i est useless car on modifie pas sa valeur
-void	ft_modifquote(char const *str, int *sq, int *dq, int *i)
+void	ft_modifquote_(char const *str, int *sq, int *dq, int *i)
 {
     //Mettre une adresse pour i est useless car on change pas sa val
 	if (str[*i] == '\'' && !(*dq))

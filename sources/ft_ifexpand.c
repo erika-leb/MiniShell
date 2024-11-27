@@ -56,7 +56,7 @@ char	*ft_ifexpand(char *result)
     dq = 0;
 	while (result[k])
 	{
-		ft_modifquote(result, &sq, &dq, &k);
+		ft_modifquote_(result, &sq, &dq, &k);
 		//Si ce qui vient apres $ n'est pas un alphanumerique alors on le laisse tel quel
 		//$? restera tel quel, "$" aussi, $ (tout seul) aussi (voir comportement bash).
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1

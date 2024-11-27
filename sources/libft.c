@@ -6,11 +6,12 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/16 21:34:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 12:57:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 size_t	ft_strlen(const char *str)
 {
@@ -48,4 +49,41 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+}
+
+int	ft_arr_size(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(const char *s1, t_gc *gc)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = (char *) gc_malloc((ft_strlen(s1) + 1) * sizeof(char), gc);
+	if (str == 0)
+		return (NULL);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 'A' && c <= 'Z')
+		|| (c >= 'a' && c <= 'z')
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
 }

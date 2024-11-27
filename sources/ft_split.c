@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:39:05 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/16 17:08:23 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/17 16:28:56 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,21 @@ static void	ft_modifquote(char const *str, int *sq, int *dq, size_t *i)
 		*dq = !(*dq);
 }
 
-static char	*ft_filltab(char const *str, int i, int fidx)
-{
-	if (str[i - 1] == '\'' || str[i - 1] == '\"')
-		return (ft_eachword(str, fidx, i - 1));
-	else
-		return (ft_eachword(str, fidx, i));
-}
+//Ces 2 fonctions permettent de zapper le quote de debut et de fin de chaque token
+// static char	*ft_filltab(char const *str, int i, int fidx)
+// {
+// 	//if (str[i - 1] == '\'' || str[i - 1] == '\"')
+// 	//	return (ft_eachword(str, fidx, i - 1));
+// 	//else
+// 		return (ft_eachword(str, fidx, i));
+// }
 
-static void	ft_start(int sq, int dq, size_t *i, int *fidx)
-{
-	if (sq || dq)
-		*i = *i + 1;
-	*fidx = *i;
-}
+// static void	ft_start(int sq, int dq, size_t *i, int *fidx)
+// {
+// 	if (sq || dq)
+// 		(*i)++;
+// 	*fidx = *i;
+// }
 
 char	**ft_split(char const *str, char sep, int sq, int dq)
 {
@@ -57,11 +58,11 @@ char	**ft_split(char const *str, char sep, int sq, int dq)
 	{
 		ft_modifquote(str, &sq, &dq, &i);
 		if (str[i] != sep && fidx < 0)
-			ft_start(sq, dq, &i, &fidx);
+			fidx = i;
 		else if (((str[i] == sep && !sq && !dq)
 				|| i == ft_strlen(str)) && fidx >= 0)
 		{
-			tab[j] = ft_filltab(str, i, fidx);
+			tab[j] = ft_eachword(str, fidx, i);
 			if (tab[j++] == NULL)
 				return (ft_freesplit(tab, j - 1));
 			fidx = -1;

@@ -5,193 +5,540 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/17 18:56:41 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/18 17:31:34 by ele-borg         ###   ########.fr       */
+/*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
+/*   Updated: 2024/11/26 18:45:47 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
+#include "../gc/gc.h"
 
-int	ft_token_classification(char **tab, int i, t_token **lst, int cmd)
+void print_redir(t_file **redir);
+
+bool	ft_is_redir(char *s)
 {
-	(void) lst;
-	
-	if (ft_strcmp(tab[i], "|") == 0)
-		return (PIPE);
-	if (i > 0 &&  ft_strcmp(tab[i - 1], "<") == 0)
-		return (INPUT);
-	if (i > 0 &&  ft_strcmp(tab[i - 1], "<<") == 0)
-		return (HEREDOC);
-	if (i > 0 &&  ft_strcmp(tab[i - 1], ">") == 0)
-		return (TRUNC);
-	if (i > 0 &&  ft_strcmp(tab[i - 1], ">>") == 0)
-		return (APPEND);
-	if (cmd == 1)
-		return (ARG);
-	if (cmd == 0)
-		return (CMD);
-	return (0); // pour linstqnt	 
+	if (ft_strcmp(s, "<") == 0 || ft_strcmp(s, "<<") == 0
+		|| ft_strcmp(s, ">") == 0 || ft_strcmp(s, ">>") == 0)
+		return (true);
+	return (false);
 }
 
-//pour output ; 		
-// if (current->token == TRUNC || current->token == APPEND)
-//			printf("name = %s\n", current->name);
-
-void	ft_move_inputs(t_token **lst, int *i, int *nb_in)
+int	nb_arg(char **tab, int i, int last_i)
 {
-	t_token *current;
-	t_token	*last;
-	int		k;
+	int	j;
+	int	k;
+	int	arr_s;
 
-	last = *lst;
-	current = last->next;
-	if ((last->token == INPUT || last->token == HEREDOC) && (*nb_in) == 0)
-		(*nb_in) = 1;
-	k = 1;
-	while (k < (*i))
-	{
-		current = current->next;
-		last = last->next;
-		k++;
-	}
-//	printf("test\n");
-	while (current != NULL)
-	{
-		(*i)++;
-		if (current->token == INPUT || current->token == HEREDOC)
-		{
-			last->next = current->next;
-			current->next = *lst;
-			*lst = current;
-			(*nb_in)++;
-			return ;
-		}
-		current = current->next;
-		last = last->next;
-	}
-}
-void	ft_move_outputs(t_token **lst, int *i, int *nb_out)
-{
-	t_token *current;
-	t_token	*last;
-	t_token	*ult;
-	int		k;
+	arr_s = ft_arr_size(tab);
+	//printf("size tab = %d\n", arr_s);
 
-	last = *lst;
-	current = last->next;
-	// if ((last->token == APPEND || last->token == TRUNC) && (*nb_in) == 0) // a modifier
-	// 	(*nb_in) = 1;
+	j = last_i + 1;
+	if (i == arr_s - 1)
+		i++;
 	k = 0;
-	while (k < (*i))
+	//printf("i = %d\n", i);
+	while (j < i)
 	{
-		current = current->next;
-		last = last->next;
-		k++;
-	}
-	printf("test\n");
-	while (current != NULL)
-	{
-		(*i)++;
-		if (current->token == APPEND || current->token == TRUNC)
+		if (ft_is_redir(tab[j]) == true)
 		{
-			last->next = current->next;
-			current->next = NULL;
-			ult = ft_lstlast(*lst);
-			ult->next = current;
-			(*nb_out)++;
-			return ;
+			//printf("tab[] =%s\n", tab[j]);
+			j++;
 		}
-		printf("test2\n");
-		current = current->next;
-		last = last->next;
+		else
+			k++;
+		j++;
 	}
+	return (k);
 }
 
-void	ft_move_chains(t_token **lst)
+void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
 {
-	int		i;
-	int 	nb_in;
-	int		size_lst;
-	int		nb_out;
+	int	j;
+	int	s;
+	int	arr_s;
+	int	k;
 
-	i = 0;
-	size_lst = ft_lstsize(lst);
-	nb_in = 0;
-	nb_out = 0;
-	while (i < size_lst - 1)
-		ft_move_inputs(lst, &i, &nb_in);
-	i = 0;
-	while (i < size_lst - 1)
-		ft_move_outputs(lst, &i, &nb_out);
-	printf("in = %d\n", nb_in);
-}
+	arr_s = ft_arr_size(tab);
+	//printf("size tab = %d\n", arr_s);
 
-t_token	*parsing(char **tab, t_token *lst)
-{
-	t_token	*new;
-	int		token;
-	int		i;
-	int		cmd;
-
-	lst = NULL;
-	i = 0;
-	cmd = 0;
-	while (tab[i] != NULL)
+	j = last_i + 1;
+	if (i == arr_s - 1)
+		i++;
+	k = 0;
+	//printf("i = %d\n", i);
+	while (j < i)
 	{
-		if (ft_strcmp(tab[i], "<") != 0 && ft_strcmp(tab[i], "<<") != 0 && ft_strcmp(tab[i], ">") != 0 && ft_strcmp(tab[i], ">>") != 0)
+		if (ft_is_redir(tab[j]) == true)
 		{
-			token = ft_token_classification(tab, i, &lst, cmd);
-			if (token == CMD)
-				cmd = 1;
-			if (token == PIPE)
-				cmd = 0;
-			new = ft_lstnew(tab[i], token);
-			if (new == NULL)
-			{
-				//clean (history, line, reste de la chaine, travail adien)
-				exit(1);
-			}
-			if (!lst)
-			{
-				lst = new;
-			}
-			else
-				ft_lstadd_back(&lst, new);
+			//printf("tab[] =%s\n", tab[j]);
+			j++;
+		}
+		else
+		{
+			s = ft_strlen(tab[j]);
+			arr[k] = gc_malloc(s + 1, gc);
+			//memcpy(arr[k], tab[j], s + 1);
+			arr[k] = tab[j];
+			k++;
+		}
+		j++;
+	}
+	arr[k] = NULL;
+}
+
+char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc)
+{
+	int		s_arr;
+	char	**arr;
+	
+	(void) gc;
+	s_arr = nb_arg(tab, i, last_i);
+//	printf("taille = %d\n", s_arr);
+	arr = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
+	ft_fill_arr(arr, tab, i, last_i, gc);
+
+	// int	k;
+	// k = 0;
+	// while(k <= s_arr)
+	// {
+	// 	printf("case %i = %s\n", k, arr[k]);
+	// 	k++;
+	// }
+	return (NULL);
+}
+
+void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
+{
+	t_cmd	*new;
+	t_cmd	*current;
+
+	//printf("i = %d, last_i = %d\n", i, last_i);
+	new = gc_malloc(sizeof(t_cmd), gc);
+	// if (new == NULL)
+	// {
+	// 	perror("malloc failed"); // clean tout et exit ici ou return pour exit apres
+	// 	exit(-1);
+	// }
+	//new->cmd = create_cmd(tab, i, last_i);
+	new->cmd = NULL;
+	//perror("test6");
+	new->redir = create_redir(tab, i, last_i, gc);
+	//perror("test5");
+	//print_redir(&(new->redir));
+	new->cmd = cmd_arr(tab, i, last_i, gc);
+	new->fd_in = -2;
+	new->fd_out = -2;
+	new->next = NULL;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	current = *lst;
+	//printf("current->next = %p\n", new->next);
+	while (current -> next != NULL)
+		current = current -> next;
+	current -> next = new;
+}
+
+
+
+void	parsing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
+{
+	int	i;
+	int	last_i;
+
+	i = 0;
+	last_i = -1;
+	//perror("test12");
+	while (tab[i])
+	{
+		//perror("test5");
+		if (ft_strcmp(tab[i], "|") == 0)
+		{
+			//perror("test4");
+			create_chain(tab, i, last_i, lst, gc);
+			//perror("test5");
+			last_i = i;
+			//printf("i = %d, tab[i] = %s, last_i = %d\n", i, tab[i], last_i);
 		}
 		i++;
-		//printf("i = %d, tab[i] = %s\n", i, tab[i]);
 	}
-	ft_move_chains(&lst);
-	new = ft_lstlast(lst);
-	if (new->token == PIPE)
-	{
-		// liberer tout
-		printf("Error : no ending with pipe");
-		exit(0);
-	}
-	return (lst);
+	//perror("\nAPRES\n\n");
+	//printf("i = %d, last_i = %d\n", i, last_i);
+	//printf("tab[i] = %s, last_i = %d\n", tab[i], last_i);
+	create_chain(tab, i - 1, last_i, lst, gc);
+	handle_redir(lst);
+	//perror("test3");
 }
 
-int	main(void)
+void print_redir(t_file **redir)
 {
-	t_token	*lst;
-	int		i;
+    t_file *current;
 
-	lst = NULL;
-	char *arr[] = {"<<", "d", "echo", "okay", "<", "b", "baby", "<", "a", "<<", "c", "almost", ">", "e", "sure", "|", "cat", "|", "ls", "ls", ">>", "j", NULL};
-	lst = parsing(arr, lst);
-	
-	
-	t_token *current = lst;
-    
-	i=0;
+    if (redir == NULL || *redir == NULL)
+    {
+        printf("  No redirections\n");
+        return;
+    }
+
+    current = *redir; // Accéder à la liste chaînée
     while (current != NULL)
     {
-        printf("Name: %s, Token: %d\n", current->name, current->token);
-        current = current->next;  // Avance au nœud suivant
-		i++;
-		if (i > 10)
-			break;
+        printf("  Redirection Name: %s, Token: %d\n", current->name, current->token);
+        current = current->next;
     }
-	return (0);
 }
+
+
+void	ft_error_cases(char **tab, t_gc *gc)
+{
+	int	s_arr;
+	int	i;
+
+	i = 1;
+	s_arr = ft_arr_size(tab);
+	if (ft_strcmp(tab[0], "|") == 0 || ft_strcmp(tab[s_arr -1], "|") == 0
+		|| ft_strcmp(tab[s_arr -1 ], "<<") == 0
+		|| ft_strcmp(tab[s_arr -1 ], ">>") == 0
+		|| ft_strcmp(tab[s_arr -1 ], ">") == 0
+		|| ft_strcmp(tab[s_arr -1 ], "<") == 0)
+	{
+		printf("syntax error near unexpected token\n");
+		(gc_cleanup(gc), exit(EXIT_FAILURE));
+	}
+	while (tab[i])
+	{
+		if (ft_is_redir(tab[i - 1]) == true)
+		{
+			if (ft_is_redir(tab[i]) == true || ft_strcmp(tab[i], "|") == 0)
+			{
+				printf("syntax error near unexpected token\n");
+				(gc_cleanup(gc), exit(EXIT_FAILURE));
+			}
+		}
+		i++;
+	}
+}
+
+// void print_redir(t_redir *redir) {
+//     if (redir) {
+//         printf("  File: %s\n", redir->file);
+//         printf("  Type: %d\n", redir->type);
+//     }
+// }
+
+// Fonction de test 1: Commande simple avec redirection ">"
+// void test_case_1(t_gc *gc) {
+//     t_cmd *lst = NULL;
+//     char *arr[] = {"echo", "Hello", ">", "output.txt", NULL};
+//     parsing(arr, &lst, gc);
+
+//     // Affichage des résultats
+//     t_cmd *current = lst;
+//     while (current != NULL) {
+//         printf("Command:\n");
+//         for (int i = 0; current->cmd && current->cmd[i]; i++) {
+//             printf("  cmd[%d]: %s\n", i, current->cmd[i]);
+//         }
+//         printf("Redirection:\n");
+//         print_redir(&(current->redir));
+//         current = current->next;
+//     }
+// }
+
+// // Fonction de test 2: Commande avec redirection ">>"
+// void test_case_2(t_gc *gc) {
+//     t_cmd *lst = NULL;
+//     char *arr[] = {"echo", "World", ">>", "append.txt", NULL};
+//     parsing(arr, &lst, gc);
+
+//     // Affichage des résultats
+//     t_cmd *current = lst;
+//     while (current != NULL) {
+//         printf("Command:\n");
+//         for (int i = 0; current->cmd && current->cmd[i]; i++) {
+//             printf("  cmd[%d]: %s\n", i, current->cmd[i]);
+//         }
+//         printf("Redirection:\n");
+//         print_redir(&(current->redir));
+//         current = current->next;
+//     }
+// }
+
+// // Fonction de test 3: Plusieurs commandes avec des pipes ("|")
+// void test_case_3(t_gc *gc) {
+//     t_cmd *lst = NULL;
+//     char *arr[] = {"echo", "First", ">", "output.txt", "|", "cat", "|", "grep", "Hello", NULL};
+//     parsing(arr, &lst, gc);
+
+//     // Affichage des résultats
+//     t_cmd *current = lst;
+//     while (current != NULL) {
+//         printf("Command:\n");
+//         for (int i = 0; current->cmd && current->cmd[i]; i++) {
+//             printf("  cmd[%d]: %s\n", i, current->cmd[i]);
+//         }
+//         printf("Redirection:\n");
+//         print_redir(&(current->redir));
+//         current = current->next;
+//     }
+// }
+
+// // Fonction de test 4: Redirection multiple ">"
+// void test_case_4(t_gc *gc) {
+//     t_cmd *lst = NULL;
+//     char *arr[] = {"echo", "Multiple", ">", "file1.txt", ">", "file2.txt", NULL};
+//     parsing(arr, &lst, gc);
+
+//     // Affichage des résultats
+//     t_cmd *current = lst;
+//     while (current != NULL) {
+//         printf("Command:\n");
+//         for (int i = 0; current->cmd && current->cmd[i]; i++) {
+//             printf("  cmd[%d]: %s\n", i, current->cmd[i]);
+//         }
+//         printf("Redirection:\n");
+//         print_redir(&(current->redir));
+//         current = current->next;
+//     }
+// }
+
+// // Fonction de test 5: Commande avec redirection "<"
+// void test_case_5(t_gc *gc) {
+//     t_cmd *lst = NULL;
+//     char *arr[] = {"cat", "file.txt", "<", "input.txt", NULL};
+//     parsing(arr, &lst, gc);
+
+//     // Affichage des résultats
+//     t_cmd *current = lst;
+//     while (current != NULL) {
+//         printf("Command:\n");
+//         for (int i = 0; current->cmd && current->cmd[i]; i++) {
+//             printf("  cmd[%d]: %s\n", i, current->cmd[i]);
+//         }
+//         printf("Redirection:\n");
+//         print_redir(&(current->redir));
+//         current = current->next;
+//     }
+// }
+
+// // Fonction de test 6: Commande avec plusieurs redirections
+// void test_case_6(t_gc *gc) {
+//     t_cmd *lst = NULL;
+//     char *arr[] = {"grep", "pattern", "<", "file1.txt", ">", "file2.txt", "<<", "here.txt", NULL};
+//     parsing(arr, &lst, gc);
+
+//     // Affichage des résultats
+//     t_cmd *current = lst;
+//     while (current != NULL) {
+//         printf("Command:\n");
+//         for (int i = 0; current->cmd && current->cmd[i]; i++) {
+//             printf("  cmd[%d]: %s\n", i, current->cmd[i]);
+//         }
+//         printf("Redirection:\n");
+//         print_redir(&(current->redir));
+//         current = current->next;
+//     }
+// }
+
+// // Fonction de test 7: Commande avec redirection complexe
+// void test_case_7(t_gc *gc) {
+//     t_cmd *lst = NULL;
+//     char *arr[] = {"ls", "-l", "|", "grep", "txt", ">", "output.txt", NULL};
+//     parsing(arr, &lst, gc);
+
+//     // Affichage des résultats
+//     t_cmd *current = lst;
+//     while (current != NULL) {
+//         printf("Command:\n");
+//         for (int i = 0; current->cmd && current->cmd[i]; i++) {
+//             printf("  cmd[%d]: %s\n", i, current->cmd[i]);
+//         }
+//         printf("Redirection:\n");
+//         print_redir(&(current->redir));
+//         current = current->next;
+//     }
+// }
+
+
+// int main(void) {
+//     t_gc gc;
+//     gc_init(&gc);
+
+//     // Appel des fonctions de test
+//     test_case_1(&gc);
+//     test_case_2(&gc);
+//     test_case_3(&gc);
+//     test_case_4(&gc);
+//     test_case_5(&gc);
+//     test_case_6(&gc);
+//     test_case_7(&gc);
+
+//     // Nettoyage de la mémoire allouée par le GC
+//     gc_cleanup(&gc);
+
+//     return 0;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// int main(void)
+// {
+//    t_cmd   *lst;
+//    int     i;
+
+// 	t_gc		gc;
+// //	perror("test");
+
+// 	gc_init(&gc);
+
+//    lst = NULL;
+//    //char *arr[] = { "<<", "d", "\"|\"", "echo", "okay", "<", "b", "baby", "<", "a", "<<", "c", "almost", ">", "e", "sure", "|", "cat", "|", "ls", "<", "K", "ls", ">>", "j", NULL};
+// 	//char *arr[] = { "<", "|", "ls", "<", "K", "<<", "<" "j", "|", NULL};
+//    ft_error_cases(arr, &gc);
+// 	//perror("testi");
+// 	parsing(arr, &lst, &gc);
+// 	//perror("testf");
+//    t_cmd *current = lst;
+
+//    i = 0;
+//    while (current != NULL)
+//    {
+//        printf("Command:\n");
+//        for (int j = 0; current->cmd && current->cmd[j]; j++)
+//            printf("  cmd[%d]: %s\n", j, current->cmd[j]);
+
+//        printf("Redirections %d:\n", i);
+//        print_redir(&(current->redir));
+
+//        current = current->next; // Passe au nœud suivant
+//        i++;
+//        if (i > 10) // Limite de sécurité pour éviter une boucle infinie
+//            break;
+//    }
+//    gc_cleanup(&gc);
+//    return (0);
+// }
+
+
+
+// int main(void) {
+//     t_cmd *lst = NULL;
+//     int i;
+
+//     t_gc gc;
+//     gc_init(&gc);
+
+//     // Cas 1: Commande simple avec redirection "<" et ">"
+//     char *arr1[] = {
+//         "echo", "Hello", ">", "output.txt", NULL
+//     };
+//     parsing(arr1, &lst, &gc);
+
+//     // Cas 2: Commande avec redirection ">>"
+//     char *arr2[] = {
+//         "echo", "World", ">>", "append.txt", NULL
+//     };
+//     parsing(arr2, &lst, &gc);
+
+//     // Cas 3: Plusieurs commandes avec redirections différentes
+//     char *arr3[] = {
+//         "echo", "First", ">", "output.txt", "|", "cat", "|", "grep", "Hello", NULL
+//     };
+//     parsing(arr3, &lst, &gc);
+
+//     // Cas 4: Redirection multiple
+//     char *arr4[] = {
+//         "echo", "Multiple", ">", "file1.txt", ">", "file2.txt", NULL
+//     };
+//     parsing(arr4, &lst, &gc);
+
+//     // Cas 5: Commande avec plusieurs arguments et redirection "<"
+//     char *arr5[] = {
+//         "cat", "file.txt", "<", "input.txt", NULL
+//     };
+//     parsing(arr5, &lst, &gc);
+
+//     // Cas 6: Commande avec plusieurs redirections successives
+//     char *arr6[] = {
+//         "grep", "pattern", "<", "file1.txt", ">", "file2.txt", "<<", "here.txt", NULL
+//     };
+//     parsing(arr6, &lst, &gc);
+
+//     // Cas 7: Commande avec redirection complexe
+//     char *arr7[] = {
+//         "ls", "-l", "|", "grep", "txt", ">", "output.txt", NULL
+//     };
+//     parsing(arr7, &lst, &gc);
+
+//     // Cas 8: Commande avec redirection << (Heredoc)
+//     char *arr8[] = {
+//         "<<", "EOF", "echo", "here", "is", "heredoc", "EOF", NULL
+//     };
+//     parsing(arr8, &lst, &gc);
+
+//     // Cas 9: Test d'une chaîne vide
+//     char *arr9[] = {
+//         NULL
+//     };
+//     parsing(arr9, &lst, &gc);
+
+//     // Cas 10: Test avec plusieurs pipes sans redirection
+//     char *arr10[] = {
+//         "echo", "test", "|", "grep", "test", "|", "wc", NULL
+//     };
+//     parsing(arr10, &lst, &gc);
+
+//     // Cas 11: Test avec des redirections multiples et des commandes complexes
+//     char *arr11[] = {
+//         "echo", "Hello", ">", "output1.txt", "|", "cat", "|", "grep", "Hello", ">", "output2.txt", NULL
+//     };
+//     parsing(arr11, &lst, &gc);
+
+//     t_cmd *current = lst;
+//     i = 0;
+
+//     // Affichage des commandes et redirections
+//     while (current != NULL) {
+//         printf("Command %d:\n", i);
+//         for (int j = 0; current->cmd && current->cmd[j]; j++) {
+//             printf("  cmd[%d]: %s\n", j, current->cmd[j]);
+//         }
+
+//         if (current->redir) {
+//             printf("Redirection %d:\n", i);
+//             print_redir(&(current->redir));
+//         }
+
+//         current = current->next; // Passe au nœud suivant
+//         i++;
+
+//         // Limite de sécurité pour éviter une boucle infinie
+//         if (i > 10) {
+//             break;
+//         }
+//     }
+// }
+
+// il faudra parcourir la liste de redirections, note si au moins une est ko mais aller jusqu'au bout pour traiter les heredoc
+// c'est toujours la derniere redicrection aui est pris en compte
+// lorsau'on parcours la liste pour voir si tous les docs sont ouvrables, on arrete d'ouvrir a partir de la premiere erreur
+// rajouter erreur si le tableau d'Adrien termine ou commence par | ou < > >> << ou si on a | apres < << > >> 'parse error,
+// comprendre ce qu'il se passe quand on a une commande sans commande => commande ignoree (a quel point) on passe a la commade suivant ou on renvoie le prompt si pas d'autres commandes

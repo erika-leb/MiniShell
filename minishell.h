@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/17 16:37:10 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:45:33 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,18 @@ int     ft_isalnum(int c);
 
 //ft_tokenize.c
 char	*ft_tokenize(char *av2);
+//char	*ft_concat(char *result, int sq, int dq);//unused pour l'instant
+
+//ft_ifexpand
+char	*ft_ifexpand(char *result);
+
+//man_large_str.c
+void ft_insert(char *result, int k, char c);
+char *ft_erase(char *result, int tmp_k);
+void ft_erase_substr(char *result, int *k, char *tmp);
+void ft_modifquote(char const *str, int *sq, int *dq, int *i);
+
+//ft_concat.c
+char	*ft_concat(char *result_i, int k, int sq, int dq);
 
 #endif

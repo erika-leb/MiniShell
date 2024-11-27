@@ -1,268 +1,47 @@
-// char	*ft_tokenize(char *av2)
-// {
-// 	char	*result;
-// 	int		i;
-
-// 	i = 0;
-// 	result = (char *)ft_calloc(ft_strlen(av2) + 1, sizeof(char));
-// 	//Gerer si pb. Dans ft_split.c penser a supprimer result si pb malloc
-// 	while (av2[i])
-// 	{
-// 		result[i] = av2[i];
-// 		i++;
-// 	}
-// 	return (result);
-// }
-
-
-
-int		ft_istok(char *av2)
-{
-	if (*av2 == '|' || *av2 == '<'
-		|| *av2 == '>' || *av2 == '$')
-		return (1);
-	return (0);
-}
-
-void	ft_dotok(char *result, char c, int *j)
-{
-	result[*j] = ' ';
-	(*j)++;
-	result[*j] = c;
-	(*j)++;
-	result[*j] = ' ';
-	(*j)++;
-}
-
-char	*ft_tokenize(char *av2)
-{
-	static char	result[70000];
-	int			i;
-	int			j;
-
-	i = 0;
-	j = 0;
-	while (av2[i])
-	{
-		if (ft_istok(av2 + i))
-			ft_dotok(result, av2[i], &j);
-		else
-			result[j++] = av2[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void	ft_dotok(char *result, char *av2, int *i, int *j)
-{
-	result[*j] = ' ';
-	(*j)++;
-	if (av2[*i] == '<' && av2[*i + 1] == '<')
-	{
-		result[*j] = '<';
-		(*j)++;
-		result[*j] = '<';
-		(*j)++;
-		(*i)++;
-	}
-	else if (av2[*i] == '>' && av2[*i + 1] == '>')
-	{
-		result[*j] = '>';
-		(*j)++;
-		result[*j] = '>';
-		(*j)++;
-		(*i)++;
-	}
-	else
-	{
-		result[*j] = av2[*i];
-		(*j)++;
-	}
-	result[*j] = ' ';
-	(*j)++;
-}
-
-int		ft_istok(char *av2)
-{
-	if (*av2 == '|' || *av2 == '<'
-		|| *av2 == '>' || *av2 == '$')
-		return (1);
-	return (0);
-}
-
-char	*ft_tokenize(char *av2)
-{
-	static char	result[70000];
-	int			i;
-	int			j;
-
-	i = 0;
-	j = 0;
-	while (av2[i])
-	{
-		if (ft_istok(av2 + i))
-			ft_dotok(result, av2, &i, &j);
-		else
-			result[j++] = av2[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-
-//Tester le expand avec le main de chatGPT (voir TODO)
-void ft_expand(const char *src, char *res, size_t *i, size_t *j)
-{
-    char varname[20000];  // Un buffer pour stocker le nom de la variable d'environnement
-    size_t varlen = 0;
-
-    (*i)++;  // On saute le '$'
-
-    // Récupérer le nom de la variable (les caractères valides sont alphanumériques ou '_')
-    while (src[*i] && (isalnum(src[*i]) || src[*i] == '_') && varlen < sizeof(varname) - 1) {
-        //varname[varlen++] = src[*i];
-		varname[varlen++] = src[*i];
-        (*i)++;
-    }
-    varname[varlen] = '\0';  // Terminer le nom de la variable
-
-    // Récupérer la valeur de la variable d'environnement
-    char *value = getenv(varname);
-
-    if (value) {
-        // Copier la valeur de la variable dans la chaîne résultante
-        size_t k = 0;
-        while (value[k]) {
-            res[*j] = value[k];
-            (*j)++;
-            k++;
-        }
-    } else {
-        // Si la variable n'existe pas, on peut choisir de ne rien mettre ou mettre une chaîne vide
-        // Ici on ne met rien
-		return ;//Useless si jamais on decide de ne rien mettre. Je peux alors supprimer le else
-    }
-}
-
-char	*ft_expenv(const char *src)
-{
-    static char res[80000];//Arbitraire, doit etre au moins aussi grand que 70 000
-	size_t 		i;
-	size_t		j;
-
-	i = 0;
-	j = 0;
-    if (!src)
-        return (NULL);//useless ? Puisqu'une chaine envoyée en argument ne sera pas un pointeur NULL
-    while (src[i])
-	{
-		if (src[i] == '$')
-			ft_expand(src, res, &i, &j);
-		else
-			res[j++] = src[i++];
-    }
-    res[j] = '\0';
-    return (res);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-static void	ft_addbigtoken(char *result, const char *av2, int *i, int *j)
-{
-	int	k = 0;
-
-	// Parcourt jusqu'à la fin du token ou de la chaîne
-	while (av2[*i + k] && av2[*i + k] != ' ')
-	{
-		if (av2[*i + k] == '$')
-		{
-			// Traiter le $ et avancer jusqu'à la fin du nom de la variable
-			ft_trunc(av2, *i + k + 1, result, j);
-			while (av2[*i + k] && av2[*i + k] != ' ' && av2[*i + k] != '$')
-				k++;
-			*i += k - 1; // Mettre à jour i en conséquence
-			return; // Sortir après avoir traité le $
-		}
-		k++;
-	}
-
-	// Si aucun $ n'est trouvé, avancer de la longueur du token
-	*i += k - 1;
-}
-
-
-
-
-Recherche la variable HOME". Comme il la trouve pas, chaine vide
+//Difference entre un directory et une chaine random pour >
+
+ls $HOME>> cava 	insere le resultat de ls dans le fichier cava
+ls TODO>> cava 		insere "TODO" (str random) dans le fichier cava
+ls $hello>> cava 	insere hello=TODO (str random) dans le fichier cava 
+
+CONCLUSION : le directory est integre dans ls je pense. Ensuite ca recupere
+le dernier truc (resultat ls) et ca l'integre dans cava
+
+//Difference entre un directory et une chaine random pour <
+ls $HOME< cava stdin est redirige vers cava. ls tente de lire
+dans $HELLO (format expand), s'il peut alors pas de message d'erreur
+et ls affiche "TODO"
+
+//Bizzarerie
+$HOME''$HOME donne /home/aisidore/home/aisidore
+
+//Concatenation
+"$HOME""$HOME" donne /home/aisidore/home/aisidore
+
+//Chaine litterale vs token
+- '<<' correspond a la valeur litterale << et non a la regle.
+J'envoie a Erika '<<' ou "<<" donc directement ce que le user a entre.
+Ainsi elle saura que '<<' doit etre considere comme une commande OU un argument
+
+CONCLUSION : Si un user ecrit '<''<' alors je considere la valeur litterale '<<'
+			 Si un user ecrit '<'< alors je considere 2 token, la litterale '<' et la regle <
+			 Si un user ecrit "<<"lol alors je considere la valeur litterale <<lol
+Apres traitement, il n'y a que 5 cas dans lesquels je laisse la quote (sq ou dq) que le user a mis,
+a savoir pour : < << > >> et |. Pour tout le reste je retire les single quote et double quote
+tant qu'on est hors d'une chaine de caractere.
+
+Fonction : (If str[0] == \'   ou \" et que !ft_istok(str + 1) alors je retire le 1er et le dernier guillemet
+			else je retire les guillements a l'interieur des guillemets. Ensuite je repasse sur la chaine
+			et si je constate que ce qu'il y a à l'interieur des '' (ou "") n'est pas un token, je retire le 1er et le dernier guillemet)
+
+		Par exemple : "oui" donne oui
+					  '<''<' donne '<<'
+					  '<  'oui'  <' donne <  oui  < apres les 2 etapes.
+					  "<""<" donne "<<"
+
+		AUTRE IDEE : je parcours chaque result[*j]. Des que j'entre dans une quote (sq ou dq) si je tombe sur une quote (sq ou dq) colle a une autre
+		Alors je supprime les 2. NON car " oui    r''    oui   " donne : oui    r''    oui
+
+		BEST I GUESS : si deux string sont colles alors je supprime le delimiteur de fin de la 1ere
+		et le delimiteur de debut de la deuxieme.
+		Mais attention ca veut dire qu'on pourra avoir des trucs comme '<<". C'est pas tres grave 

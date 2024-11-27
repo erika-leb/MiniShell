@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/27 17:56:21 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:03:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,42 +61,52 @@ bool	ft_is_str(char *s)
 	return (false);
 }
 
-// static void ft_put_words()
-// {
+static void ft_put_words(char **arr, char **tab, t_var *var, t_gc *gc)
+{
+	int	s;
 	
-// }
+	s = ft_strlen(tab[var->j]);
+	if (ft_is_str(tab[var->j]) == true)
+		arr[var->k] = ft_substr(tab[var->j], 1, s - 2, gc);
+	else
+	{
+		arr[var->k] = gc_malloc(s + 1, gc);
+		arr[var->k] = tab[var->j];
+	}
+}
+
+static t_var	*ft_init_var(int last_i, t_gc *gc)
+{
+	t_var *var;
+
+	var = gc_malloc(sizeof(t_var), gc);
+	var->j = last_i + 1;
+	var->k = 0;
+	return (var);
+}
 
 void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
 {
-	int	j;
-	int	s;
-	int	k;
+	int		s;
+	t_var	*var;
 
 	s = ft_arr_size(tab);
-	j = last_i + 1;
+	var = ft_init_var(last_i, gc);
 	if (i == s - 1)
 		i++;
-	k = 0;
-	while (j < i)
+	while ((var->j) < i)
 	{
-		if (ft_is_redir(tab[j]) == true)
-			j++;
+		if (ft_is_redir(tab[var->j]) == true)
+			(var->j)++;
 		else
 		{
-			//ft_put_words(arr, tab, j, k, gc);
-			s = ft_strlen(tab[j]);
-			if (ft_is_str(tab[j]) == true)
-				arr[k] = ft_substr(tab[j], 1, s - 2, gc);
-			else
-			{
-				arr[k] = gc_malloc(s + 1, gc);
-				arr[k] = tab[j];
-			}
-			k++;
+			ft_put_words(arr, tab, var, gc);
+			(var->k)++;
 		}
-		j++;
+		printf("arr[%d] = %s\n", var->k, tab[var->j]);
+		(var->j)++;
 	}
-	arr[k] = NULL;
+	arr[var->k] = NULL;
 }
 
 // void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
@@ -143,7 +153,7 @@ char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc)
 	s_arr = nb_arg(tab, i, last_i);
 	arr = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
 	ft_fill_arr(arr, tab, i, last_i, gc);
-	return (NULL);
+	return (arr);
 }
 
 void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
@@ -152,6 +162,7 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 	t_cmd	*current;
 
 	new = gc_malloc(sizeof(t_cmd), gc);
+	//perror("test");
 	// if (new == NULL)
 	// {
 	// 	perror("malloc failed"); // clean tout et exit ici ou return pour exit apres
@@ -159,7 +170,15 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 	// }
 	new->cmd = NULL;
 	new->redir = create_redir(tab, i, last_i, gc);
+		//perror("test2");
 	new->cmd = cmd_arr(tab, i, last_i, gc);
+		//perror("test3");
+	// int	j = 0;
+	// while(new->cmd[j])
+	// {
+	// 	printf("ici tab[%d] = %s\n", j, new->cmd[j]);
+	// 	j++;
+	// }
 	new->fd_in = -2;
 	new->fd_out = -2;
 	new->next = NULL;
@@ -247,8 +266,8 @@ void	lexing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
 	//perror("test7");
 	create_chain(tab, i - 1, last_i, lst, gc);
 
-	printf("\n AVANT OUVERTURE \n\n");
-	print_cmd_list(*lst);
+	// printf("\n AVANT OUVERTURE \n\n");
+	// print_cmd_list(*lst);
 	
 	//perror("test");
 	handle_redir(lst);

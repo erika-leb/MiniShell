@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 14:37:16 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:09:12 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ typedef struct	s_element
 	char	**env;
 	t_cmd	*lst;
 }	t_element;
+
+typedef struct	s_var
+{
+	int	j;
+	int	k;
+}	t_var;
 
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq, t_gc *gc);

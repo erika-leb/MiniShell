@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 17:56:30 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:00:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 	//elements->env = env; // a changer plus tard en dupliquant
  	while (1)
  	{
+		elements->lst = NULL;
  		elements->line = readline("minishell> ");
  		if (elements->line == NULL)
 			(gc_cleanup(&gc), exit(EXIT_SUCCESS));

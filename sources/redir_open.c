@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/27 17:33:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:26:10 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_fd_open(t_cmd *node)
 	{
 		if (redir->token == TRUNC || redir->token == APPEND)
 		{
-			if (node->fd_out != -1)
+			if (node->fd_out != -1 && node->fd_in != -1)
 			{
 				if (node->fd_out != -2)
 					close(node->fd_out);
@@ -30,17 +30,16 @@ void	ft_fd_open(t_cmd *node)
 				else
 					node->fd_out = open(redir->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 				if (node->fd_out == -1)
-					perror("Error");	
+					perror("Error");
 			}
 		}
-		if (redir->token == HEREDOC || redir->token == INPUT) // gerer le cas ou -1
+		if (redir->token == HEREDOC || redir->token == INPUT)
 		{
-			if (node->fd_in == -1 && redir->token == HEREDOC)
+			if ((node->fd_in == -1 || node->fd_out == -1) && redir->token == HEREDOC)
 			{
-				printf("\n");
 				//appliquer le heredoc
 			}
-			else
+			else if (node->fd_in != -1 && node->fd_in != -1)
 			{
 				if (node->fd_in != -2 && node->fd_in != -3)
 						close(node->fd_in);

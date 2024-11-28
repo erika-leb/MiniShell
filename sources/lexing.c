@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/27 19:03:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:36:13 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ bool	ft_is_str(char *s)
 		return (true);
 	if (ft_strcmp(s, "'>>'") == 0)
 		return (true);
+	if (ft_strcmp(s, "'$?'") == 0)
+		return (true);
 	return (false);
 }
 
 static void ft_put_words(char **arr, char **tab, t_var *var, t_gc *gc)
 {
 	int	s;
-	
+
 	s = ft_strlen(tab[var->j]);
 	if (ft_is_str(tab[var->j]) == true)
 		arr[var->k] = ft_substr(tab[var->j], 1, s - 2, gc);
@@ -148,7 +150,7 @@ char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc)
 {
 	int		s_arr;
 	char	**arr;
-	
+
 	(void) gc;
 	s_arr = nb_arg(tab, i, last_i);
 	arr = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
@@ -172,6 +174,7 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 	new->redir = create_redir(tab, i, last_i, gc);
 		//perror("test2");
 	new->cmd = cmd_arr(tab, i, last_i, gc);
+	new->here = NO_HERE;
 		//perror("test3");
 	// int	j = 0;
 	// while(new->cmd[j])
@@ -268,10 +271,10 @@ void	lexing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
 
 	// printf("\n AVANT OUVERTURE \n\n");
 	// print_cmd_list(*lst);
-	
+
 	//perror("test");
 	handle_redir(lst);
-	
+
 	printf("\n APRES OUVERTURE \n\n");
 	print_cmd_list(*lst);
 }

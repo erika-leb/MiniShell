@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 18:09:12 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:35:41 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@
 # define	PERROR		101
 # define	NO_PERROR	102
 
+# define	HERE		103
+# define	NO_HERE		104
+
+# define	NO_TRY_OPEN	-2
+# define	ERROR_OPEN	-1
+# define	CLOSED		-3
+
 # define UN_TOKEN "bash: syntax error"
 
 typedef struct s_file
@@ -59,6 +66,7 @@ typedef struct s_cmd
 	t_file	*redir;
 	int		fd_in;
 	int		fd_out;
+	int		here;
 	//char	*path; //pas encore ?
 	struct s_cmd *next;
 }	t_cmd;
@@ -93,9 +101,10 @@ int		ft_arr_size(char **tab);
 char	*ft_strdup(const char *s1, t_gc *gc);
 int		ft_isalnum(int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc *gc);
+void	ft_putstr_fd(char *s, int fd);
 
 //init.c
-void	ft_signal_handle(t_gc *gc);
+void		ft_signal_handle(t_gc *gc);
 void		ft_welcome(void);
 t_element	*ft_init_struct(t_gc *gc);
 //void		ft_error_exit(char *s, int	i, int type);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/28 18:22:17 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:30:09 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_open_heredoc(char *del, int here)
 			return (fd);
 		}
 	}
-	//ft_putstr_fd(lign, fd);
 	free(lign);
 	return (fd);
 }
@@ -66,7 +65,6 @@ void	ft_fd_open(t_cmd *node)
 						close(node->fd_in);
 						if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
 							unlink(".here"); //peut on le supprimer si on a pas les droits ?
-						//supprimer le fichier temp aussi ?
 					}
 				}
 			}

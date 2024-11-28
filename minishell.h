@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/28 15:35:41 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/28 21:51:15 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_cmd
 	t_file	*redir;
 	int		fd_in;
 	int		fd_out;
-	int		here;
 	//char	*path; //pas encore ?
 	struct s_cmd *next;
 }	t_cmd;
@@ -117,10 +116,10 @@ char	*ft_tokenize(char *av2);
 char	*ft_ifexpand(char *result);
 
 //man_large_str.c
-void ft_insert(char *result, int k, char c);
-char *ft_erase(char *result, int tmp_k);
-void ft_erase_substr(char *result, int *k, char *tmp);
-void ft_modifquote_(char const *str, int *sq, int *dq, int *i);
+void 	ft_insert(char *result, int k, char c);
+char 	*ft_erase(char *result, int tmp_k);
+void 	ft_erase_substr(char *result, int *k, char *tmp);
+void 	ft_modifquote_(char const *str, int *sq, int *dq, int *i);
 
 //ft_concat.c
 char	*ft_concat(char *result_i, int k, int sq, int dq);
@@ -128,13 +127,25 @@ char	*ft_concat(char *result_i, int k, int sq, int dq);
 //redir_chain.c
 t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc);
 
-//parsing.c
+//lexing.c
 bool	ft_is_redir(char *s);
+bool	ft_is_str(char *s);
 void	lexing(char **tab, t_cmd **lst, t_gc *gc);
 void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 
-// redir_open.c
-void	handle_redir(t_cmd **lst);
+// redir_open_parta.c
 void	ft_fd_open(t_cmd *node);
+void	handle_redir(t_cmd **lst);
+
+// redir_open_partb.c
+int		ft_open_heredoc(char *del);
+void	ft_handle_in(t_cmd *node, t_file *redir);
+void	ft_handle_no_here_out(t_cmd *node, t_file *redir);
+void	ft_handle_out(t_cmd *node, t_file *redir);
+
+// cmd_arr.c
+int		nb_arg(char **tab, int i, int last_i);
+char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc);
+void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc);
 
 #endif

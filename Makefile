@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/27 14:37:52 by ele-borg         ###   ########.fr        #
+#    Updated: 2024/11/28 21:45:28 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_ifexpand.c \
 			${SRC_DIR}/man_large_str.c \
 			${SRC_DIR}/ft_concat.c \
-			${SRC_DIR}/redir_open.c
+			${SRC_DIR}/redir_open_parta.c \
+			${SRC_DIR}/redir_open_partb.c \
+			${SRC_DIR}/cmd_arr.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/gc_cleanup.o \
@@ -48,7 +50,9 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_ifexpand.o \
 			${OBJ_DIR}/man_large_str.o \
 			${OBJ_DIR}/ft_concat.o \
-			${OBJ_DIR}/redir_open.o \
+			${OBJ_DIR}/redir_open_parta.o \
+			${OBJ_DIR}/redir_open_partb.o \
+			${OBJ_DIR}/cmd_arr.o \
 
 NAME = minishell
 

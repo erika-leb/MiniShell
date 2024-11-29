@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/28 21:51:15 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:47:08 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_cmd
 	int		fd_out;
 	//char	*path; //pas encore ?
 	struct s_cmd *next;
+	int		code_status; // a recevoir dans le pipe du dernier enfant
 }	t_cmd;
 
 typedef struct	s_element
@@ -75,6 +76,7 @@ typedef struct	s_element
 	char	*line;
 	char	**arr;
 	char	**env;
+	char	**mypaths;
 	t_cmd	*lst;
 }	t_element;
 
@@ -147,5 +149,8 @@ void	ft_handle_out(t_cmd *node, t_file *redir);
 int		nb_arg(char **tab, int i, int last_i);
 char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc);
 void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc);
+
+// split_paths.c
+void	ft_handle_path(t_element *elements, t_gc *gc);
 
 #endif

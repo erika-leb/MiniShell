@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 19:00:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:46:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 {
-	int	s_arr;
-	int	i;
-	int	s;
+	int		s_arr;
+	int		i;
+	int		s;
 
 	s_arr = ft_arr_size(env);
 	elements->env = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
@@ -30,7 +30,7 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 		i++;
 	}
 	elements->env[i] = NULL;
-
+	ft_handle_path(elements, gc);
 	// i = 0;
 	// while( i <= s_arr)
 	// {
@@ -38,6 +38,7 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 	// 	printf("myenv %i = %s\n", i, elements->env[i]);
 	// 	i++;
 	// }
+
 }
 
  int	main(int ac, char **av, char **env)

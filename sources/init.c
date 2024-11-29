@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 12:56:30 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:09:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,11 @@ t_element	*ft_init_struct(t_gc *gc) //utile ? plus tard peut-etre
 	elements->arr = NULL;
 	elements->lst = NULL;
 	elements->mypaths = NULL;
-	return (elements);
+	elements->nb_cmd = 0;
+	elements->pid_arr = NULL;
+	elements->pipes = NULL;
+	elements->child_to_wait = 0;
+ 	return (elements);
 }
 
 /*void	ft_error_exit(char *s, t_element *elements, int	i, int type)

@@ -6,11 +6,12 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/28 21:52:21 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:38:52 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static t_var	*ft_init_var(int last_i, t_gc *gc)
 {

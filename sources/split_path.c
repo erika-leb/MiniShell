@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:57:58 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 13:47:47 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:12:47 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,15 @@ void	ft_handle_path(t_element *elements, t_gc *gc)
 		// 	(free(path_env), exit_error(var, arg, ac, "error split path"));
 		//free(path_env); // sera free avec le gc normalement
 	}
-	i = 0;
-	printf("path_env = %s\n", path_env);
-	while(elements->mypaths[i])
-	{
-		printf("path[%d] = %s\n", i, elements->mypaths[i]);
-		i++;		
-	}
+
+	//pour afficher les paths
+	// i = 0;
+	// printf("path_env = %s\n", path_env);
+	// while(elements->mypaths[i])
+	// {
+	// 	printf("path[%d] = %s\n", i, elements->mypaths[i]);
+	// 	i++;		
+	// }
 }
 
 

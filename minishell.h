@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/29 13:47:08 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:51:00 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <sys/wait.h>
 //# include <asm/signal.h> //pour eviter le rouge sa chez Erika
 # include "gc.h"
 
@@ -77,7 +79,11 @@ typedef struct	s_element
 	char	**arr;
 	char	**env;
 	char	**mypaths;
-	t_cmd	*lst;
+	t_cmd	*lst; // il s'agit de la liste des commandes a executer
+	int		nb_cmd;
+	int		*pid_arr;
+	int		**pipes;
+	int		child_to_wait;
 }	t_element;
 
 typedef struct	s_var
@@ -152,5 +158,21 @@ void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc);
 
 // split_paths.c
 void	ft_handle_path(t_element *elements, t_gc *gc);
+
+//fill_arrays.c
+void	ft_fill_arrays(t_element *elements, t_gc *gc);
+
+//pipe_handle.c
+void	pipe_creation(t_element *elements, t_gc *gc);
+void	close_pipes(t_element *elements);
+void	part_close(t_element *elements, int k);
+void	wait_for_children(t_element *elements);
+void	free_std(void);
+
+//child_creation.c
+void	child_creation(t_element *elements, t_gc *gc);
+
+//execution.c
+void	exec_command(t_element *elements, t_gc *gc, int i);
 
 #endif

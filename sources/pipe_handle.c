@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 16:36:56 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/12/01 22:24:23 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	pipe_creation(t_element *elements, t_gc *gc)
 
 	while (i < elements->nb_cmd - 1)
 	{
+		//printf("pipe[%d] = %p\n", i, elements->pipes[i]);
 		t = pipe(elements->pipes[i]);
 		if (t == -1)
 		{

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/29 16:51:00 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/12/01 23:45:59 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,5 +174,9 @@ void	child_creation(t_element *elements, t_gc *gc);
 
 //execution.c
 void	exec_command(t_element *elements, t_gc *gc, int i);
+
+
+// pour test
+void print_cmd_list(t_cmd *cmd_list);
 
 #endif

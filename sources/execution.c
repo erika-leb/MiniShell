@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 16:43:25 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/12/01 23:36:55 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,23 +96,28 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	filepath = NULL;
 	// if (!elements->mypaths)
 	// 	free_env(var, arg); // a quoi ca sert ??
+	//perror("test1");
 	while (elements->mypaths[j])
 	{
 		if (filepath != NULL)
 			free(filepath);
 		filepath = ft_strjoin(elements->mypaths[j], cmd[0], gc);
+		//printf(" ")
 		// if (filepath == NULL)
 		// 	exit_error(var, arg, var->ac, "error strjoin");
 		if (access(filepath, X_OK) == 0)
 			break ;
 		j++;
 	}
+	//perror("test2");
 	if (!elements->mypaths[j]) //voir le cas ou !elements->mypaths a gerer
 	{
 		write(2, "Error : command not found\n", 27);
 		(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
 	}
+	//dprintf(2,"filepath = %s\n", filepath);
 	execve(filepath, cmd, elements->env); //mettre ici un gc_cleanup ?
+	//perror("test3");
 }
 
 void	exec_command(t_element *elements, t_gc *gc, int i)
@@ -122,6 +127,7 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 
 	j = 0;
 	current = elements->lst;
+	//perror("test");
 	while (j++ < i && current != NULL)
 		current = current->next;
 	if (current->cmd[0] == NULL) // pas tout a fait !!! REVOIR CE CAS
@@ -134,6 +140,9 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 		|| current->cmd[0][0] == '.'))
 		path_abs(current->cmd, elements, i, gc);
 	else
+	{
+		//perror("test");
 		path_relat(current->cmd, elements, i, gc);
+	}
 	(gc_cleanup(gc), exit(EXIT_FAILURE));
 }

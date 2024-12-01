@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:38:35 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 16:48:25 by ele-borg         ###   ########.fr       */
+/*   Updated: 2024/12/01 22:24:40 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void	ft_pipe_arr(t_element *elements, t_gc *gc)
 {
 	int	i;
 
-	elements->pipes = gc_malloc((elements->nb_cmd - 1) * sizeof(int *), gc); //verifier taille ici
+	elements->pipes = gc_malloc((elements->nb_cmd) * sizeof(int *), gc); //verifier taille ici
+	//printf("nb pipe= %d]\n", elements->nb_cmd);
 	// if (tab == NULL)
 	// {
 	// 	perror("error malloc 1");
@@ -42,7 +43,7 @@ static void	ft_pipe_arr(t_element *elements, t_gc *gc)
 	// }
 	i = 0;
 	//while (i < ac - 4)
-	while (i < elements->nb_cmd - 2)
+	while (i < elements->nb_cmd - 1)
 	{
 		elements->pipes[i] = gc_malloc(3 * sizeof(int), gc); // c'est pas 2 plutot ??
 		// if (tab[i] == NULL)

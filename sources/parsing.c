@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+
+//									PAS TRES PERTINENT
 //									PARSING AVANT TOKENIZATION
 //while (str[i]) si a un moment donné, je suis hors des quotes et ft_strncmp(str, "<<<", 3)
 //alors Invalid token. Idem pour >>>, ||, &&, & tout seul [HORS DES QUOTES !]
@@ -13,16 +15,11 @@
 
 //									PARSING APRES TOKENIZATION
 
+//Privilegier le parsing apres quand ton est pret a l'emploi afin de savoir reellement qui est quoi
 
-//Pb : si j'ecris ';' alors apres ft_concat le token final sera : ;. Hors il faut qu'on puisse
-//distinguer ';' de ; (sur bash ca donne pas la meme erreur). Idem pour '\' et \.
-//SOLUTION : intégrer une partie du parsing dans ft_littoken car à cette étape les token sont quasi pret.
-//Ainsi si ft_strcmp(result_i, "\\") == 0 alors on refuse et on free split ! Idem pour ;
-//Y a t il d'autres cas comme ca a gerer ? Car dans la consigne car la consigne n'est pas claire.
+//PB Le pb du parsing c'est que seul l'erreur du dernier enfant doit apparaitre. Or, apres la tokenization,
+//On ne sait pas encore delimiter les enfants. Ex : si j'ecris <<uu < uu | << seul l'erreur du 2eme enfant apparait.
 
-//JE VOIS MARQUE >& NUL PART. JE LAVAIS VU OU ?? EST CE QUE DU COUP C'EST AUSSI UN TOKEN INTERDIT COMME ; et \ ??
-//Meme pb pour '>&' et >& qui doit pouvoir etre traité. Il faut ajouter ce token dans ft_istok etc et le traiter
-//comme <, > et | (si y'a marqué ">&" alors c'est l'expression litterale '>&')
 
 // -----------------------------------------------------------------------------------------------------------
 

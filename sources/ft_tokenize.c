@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 17:21:43 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:50:57 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ char	*ft_tokenize(char *av2)
 	//ft_tokenize sert a separer les tokens par des espaces dans la chaine av2.
 	//Par ex <<'oui'|'non' envoie dans ft_ifexpand : << 'oui' | 'non'
 
-	return (ft_ifexpand(result, 0, 0, 1));
+	return (ft_ifexpand(result, 0, 0));
 }

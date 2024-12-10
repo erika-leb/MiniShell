@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 17:22:42 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 18:51:01 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_tokenize(char *av2);
 
 //ft_ifexpand
 //char	*ft_ifexpand(char *result);
-char	*ft_ifexpand(char *result, int sq, int dq, int exp);
+char	*ft_ifexpand(char *result, int sq, int dq);
 
 //man_large_str.c
 char *ft_insert(char *result, int k, char c);

@@ -44,8 +44,33 @@ static void	ft_expand(char *result, int *k)
 	//Comme ca dans ft_isexpand on peut regarder le terme d'apres (qui peut etre un $)
 }
 
-// test :'$HOME' "$HOME" "'$HOME'" '"$HOME"' pour comprendre ce qui se passe
-char	*ft_ifexpand(char *result, int sq, int dq, int exp)
+static void	ft_delim(char *result, int *k, int sq, int dq)
+{
+	// if (!result[*k])
+	// 	return ;
+	//si le 1er caractere du delim est une quote alors on avance jusqu'a revoir la meme quote suivie d'un espace
+	//sinon on avance jusqu'a voir un espace
+	ft_modifquote_(result, &sq, &dq, k);
+	if (sq)
+	{
+		(*k)++;
+		while (result[*k] && !(result[*k] == '\'' && result[*k + 1] == ' '))
+			(*k)++;
+	}
+	else if (dq)
+	{
+		(*k)++;
+		while (result[*k] && !(result[*k] == '\"' && result[*k + 1] == ' '))
+			(*k)++;
+	}
+	else
+	{
+		while (result[*k] && result[*k] != ' ')
+			(*k)++;
+	}
+}
+
+char	*ft_ifexpand(char *result, int sq, int dq)
 {
 	int	k;
 
@@ -59,12 +84,14 @@ char	*ft_ifexpand(char *result, int sq, int dq, int exp)
 		//et donc je modifie aussi le if pour ne pas qu'il s'enclenche.
 		if (!sq && !dq && !ft_strncmp(result + k, "<< ", 3))
 		{
-			exp = 0;
 			k += 2;
-			// if (result[k] == ' ')
-			// 	printf("OUIIIIIII\n");
+			while (result[k] == ' ')
+				k++;
+			//printf ("%s\n", result + k);
+			//On arrive au niveau du delim qui peut etre composé ou non d'espaces
+			//Il faut trouver un moyen de faire avancer k jusqu'a la fin du delimiteur (on pourra alors se passer de exp)
+			ft_delim(result, &k, 0, 0);//On est forcement hors quote donc sq = 0 et dq = 0 en param
 		}
-			
 		//Dès que j'ai fini de passer ce qui vient apres <<,
 		//je dois pouvoir de nouver expand (trouver une solution pr regler ce pb). Selon moi, apres le k++; il faut reperer
 		//le 1er espace en dehors de quotes qui marque la fin de la non expansion due à <<.
@@ -79,7 +106,7 @@ char	*ft_ifexpand(char *result, int sq, int dq, int exp)
 
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est que c'est une commande
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
-		if (result[k] == '$' && !sq && exp
+		if (result[k] == '$' && !sq
 			&& (result[k + 1] == '_' || ft_isalnum(result[k + 1])))
 			ft_expand(ft_erase(result, k), &k);//ft_erase(result, k);//k n'est pas incremente, j'envoie qu'une copie.
 		k++;

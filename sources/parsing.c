@@ -19,6 +19,8 @@
 
 //PB Le pb du parsing c'est que seul l'erreur du dernier enfant doit apparaitre. Or, apres la tokenization,
 //On ne sait pas encore delimiter les enfants. Ex : si j'ecris <<uu < uu | << seul l'erreur du 2eme enfant apparait.
+//Je pense que le parsing est plus pertinent apres qu'Erika ait créé les noeuds. Genre si un noeud est labelisé REDIR
+//et qu'il est suivi d'un autre noeud REDIR alors erreur.
 
 
 // -----------------------------------------------------------------------------------------------------------

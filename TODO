@@ -30,3 +30,8 @@ GOOD TO KMOW :
 les signaux et eviter ce pb.
 
 - Aller chercher les cas d'erreur a gerer par mail
+
+- Que pasa si j'ecris $$$$$$$ : ca le prend en entier comme un token, alors que sur bash ca sort
+le PID actuel du processus pour chaque paire de $$. Donc une concatenation du meme PID.
+
+- Les token interdits comme ; ou \ sont simplements traites comme des valeurs litterales

@@ -6,16 +6,12 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 15:07:29 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:08:53 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //expand qui foire = rien
 //expand qui foire dans "" (ex "$HOMEE") renvoie chaine vide
-
-//ATTENTION si y'a une boucle infinie ca bug je crois : on peut plus utiliser minishell apres avoir
-//forcé l'arret de la boucle
-
 //ATTENTION il faut free split si y'a un pb !!!
 
 #include "minishell.h"
@@ -79,36 +75,19 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 	{
 		result[*j] = av2[*i];
 		(*j)++;
-		// printf("%s\n",result);
 	}
 	if (!sq && !dq)
 		ft_addspace(result, av2, i, j);
 }
 
-
-//Gerer cas speciaux enonces par mail
-
-//Que pasa si j'ecris $$$$$$$ : ca le prend en entier comme un token, alors que sur bash ca sort
-//le PID actuel du processus pour chaque paire de $$. Donc une concatenation du meme PID.
-
-//Faire une fonction qui parcourt la chaine et verifie s'il y a des token interdits (UN_TOKEN) ; ; \ hors des chaines
-//donc c'est a faire avant de concat
-
-//Gerer les <<<<<< ou ||||| dans le 1er parsing (avant tokenization)
-
- //minishell> 'ofjoifjos '''fsofjsd
-//token 0 :'ofjoifjos 'fsofjsd alors qu'on devrait avoir 'ofjoifjos 'fsofjsd
-
-
-
-
-char	*ft_tokenize(char *av2)
+char	*ft_tokenize(char *av2, char **tab)
 {
 	static char	result[70000];
 	int			i;
 	int			j;
+	char		**tab_;//
+	int			k;//
 
-	//Il faut s'assurer que les token qui ressortent comme "" sont bien consideres comme des chaines vides
 	i = 0;
 	j = 0;
 	while (av2[i])
@@ -120,5 +99,11 @@ char	*ft_tokenize(char *av2)
 		i++;
 	}
 	result[j] = '\0';
+	//Si "result - 1" existe et que "result - 1" contient << (ft_strcmp) alors je n'expand pas.
+	tab_ = tab;
+	k = 0;
+	// while (tab_[++k] != NULL);
+	// if (k != 0 && !ft_strcmp(tab_[k - 1], "<<"))
+	// 	return (result);
 	return (ft_ifexpand(result));
 }

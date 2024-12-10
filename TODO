@@ -19,9 +19,7 @@ bash: warning: here-document at line [XXX] delimited by end-of-file (wanted `[le
 //A gerer en priorité
 
 GOOD TO KMOW :
-- Le delim n'est jamais expand donc faut que j'envoie a Erika $HOME s'ils s'agit du delim
-- Il faut cependant concat les quotes qui entourent le delim.
-- Si le delim contient des quotes alors on n'expand pas les var d'env contenus dans le fichier.
+- Si le delim contient des quotes alors on n'expand pas les var d'env contenus dans le fichier tmp.txt.
 - Si le delim est une var d'env (ex. $HOME) et que j'ecris $HOME dans le fichier alors ca le ferme et ca n'ecrit pas la valeur expand de $HOME
 - Refuser un delim avec des quotes ouvertes (c'est deja prevu dans le parsing)
 
@@ -29,9 +27,10 @@ GOOD TO KMOW :
 - Quand je provoque une boucle infinie alors minishell casse. Il faudrait voir si le pb est decelable en correction, et si oui comment gerer
 les signaux et eviter ce pb.
 
+- $? peut directement etre gere dans ft_expand car il faut obtenir le code d'erreur directement dans les tokens pour pouvoir l'incorporer dans
+execve. Par exemple "ls $?" renvoie ls: cannot access '0': No such file or directory. Aller voir le commentaire mis dans ft_expand
+
 - Aller chercher les cas d'erreur a gerer par mail
 
 - Que pasa si j'ecris $$$$$$$ : ca le prend en entier comme un token, alors que sur bash ca sort
 le PID actuel du processus pour chaque paire de $$. Donc une concatenation du meme PID.
-
-- Les token interdits comme ; ou \ sont simplements traites comme des valeurs litterales

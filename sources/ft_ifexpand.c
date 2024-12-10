@@ -2,6 +2,16 @@
 
 #include "../minishell.h"
 
+// static char	*ft_geterrcode(void)
+// {
+// 	int		err;
+// 	char	*str_err;
+
+// 	err = errno;
+// 	str_err = ft_itoa(err);
+// 	return (str_err);
+// }
+
 static char	*ft_getenvv(char *result, int *k, char *tmp)
 {
     int i;
@@ -12,7 +22,16 @@ static char	*ft_getenvv(char *result, int *k, char *tmp)
  		tmp[i] = result[*k + i];
  		i++;
  	}
+	//si i = 0 ici c'est peut etre qu'il y avait un ?, dans ce cas on regarde si c'est le cas et si oui
+	//alors on incorpore 1 seul dans tmp avant de mettre \0. Ainsi si on ecrit $??? ca donne qqchose comme 0?? (comme dans bash)
+	//if (i = 0 && tmp[i] == '?')
+	// {
+	// 	tmp[i] = '?';
+	// 	i++;
+	// }
     tmp[i] = '\0';
+	// if (!ft_strcmp(tmp, "?"))
+	// 	return (ft_geterrcode());
     return (getenv(tmp));
 }
 
@@ -22,6 +41,8 @@ static void	ft_expand(char *result, int *k)
 	char	*envv;
 	int		i;
 
+	//Dans ft_getenvv on peut gérer directement $?, on a juste a changer le return en creant une fonction
+	//static dans ce fichier qui va chercher le errno
     envv = ft_getenvv(result, k, tmp);
     if (!envv)
         return (ft_erase_substr(result, k, tmp));
@@ -46,13 +67,12 @@ static void	ft_expand(char *result, int *k)
 
 static void	ft_delim(char *result, int *k, int sq, int dq)
 {
-	// if (!result[*k])
-	// 	return ;
 	//si le 1er caractere du delim est une quote alors on avance jusqu'a revoir la meme quote suivie d'un espace
 	//sinon on avance jusqu'a voir un espace
 	ft_modifquote_(result, &sq, &dq, k);
 	if (sq)
 	{
+		//sq est important car les var d'env inexistantes comme "  $HELLO" doivent apparaitre tel quel
 		(*k)++;
 		while (result[*k] && !(result[*k] == '\'' && result[*k + 1] == ' '))
 			(*k)++;
@@ -79,7 +99,7 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 	{
 		ft_modifquote_(result, &sq, &dq, &k);
 		//Si je suis hors des quotes (sq et dq) et que ft_strncmp(result + k, 3, "<< ") c'est que j'ai repéré un heredoc
-		//qui a ete prealablement separé par ft_tokenize. J'avance de +2 et je met exp = 0. Je me situe donc forcement
+		//qui a ete prealablement separé par ft_tokenize. J'avance de +2, je me situe donc forcement
 		//sur un espace normalement. Il ne faut pas expand ce qui vient apres.
 		//et donc je modifie aussi le if pour ne pas qu'il s'enclenche.
 		if (!sq && !dq && !ft_strncmp(result + k, "<< ", 3))
@@ -87,15 +107,10 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 			k += 2;
 			while (result[k] == ' ')
 				k++;
-			//printf ("%s\n", result + k);
-			//On arrive au niveau du delim qui peut etre composé ou non d'espaces
-			//Il faut trouver un moyen de faire avancer k jusqu'a la fin du delimiteur (on pourra alors se passer de exp)
+			//On arrive au niveau du delim qui peut etre composé ou non d'espaces, ex : '   $HELLO'
+			//Il faut trouver un moyen de faire avancer k jusqu'a la fin du delimiteur
 			ft_delim(result, &k, 0, 0);//On est forcement hors quote donc sq = 0 et dq = 0 en param
 		}
-		//Dès que j'ai fini de passer ce qui vient apres <<,
-		//je dois pouvoir de nouver expand (trouver une solution pr regler ce pb). Selon moi, apres le k++; il faut reperer
-		//le 1er espace en dehors de quotes qui marque la fin de la non expansion due à <<.
-
 		//Si ce qui vient apres $ n'est pas un alphanumerique alors on le laisse tel quel
 		//$? restera tel quel, "$" aussi, $ (tout seul) aussi (voir comportement bash).
 		//Il faudra donc qu'Erika ajoute le token $? qui engendrera une fonction built_in dédiée à gérer

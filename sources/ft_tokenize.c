@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 19:53:18 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:35:20 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ static void	ft_addtoken(char *result, const char *token, int *i, int *j)
 //mais j'ai peur d'y toucher. Je pensequ'il etait là car ca me genait de mettre un espace au debut
 //de result de facon inutile. Meme le av2[*i] != ' ' me semble useless car ft_istok contraint le caractere
 //a etre uniquement un token.
+//Le pb etait que ma tokenization n'ajoute pas d'espaces quand j'ecris <'' et |''. Pour le reste ca marche
+//Comme ils sont en premiere position, < et | n'enclenchent pas ft_addspace
 static void	ft_addspace(char *result, char *av2, int *i, int *j)
 {
-	if (av2[*i] != ' ' && ft_istok(av2 + *i))
-	{//*i != 0 && 
+	if (ft_istok(av2 + *i))
+	{//*i != 0 && av2[*i] != ' ' && 
 		result[*j] = ' ';
 		(*j)++;
 	}
@@ -118,8 +120,5 @@ char	*ft_tokenize(char *av2)
 		i++;
 	}
 	result[j] = '\0';
-	//'$HOME'a   '$HOME''a'   '$HOME'"a" deviennent $HOMEa : faire les etapes du TODO pour faire une concatenation correcte
 	return (ft_ifexpand(result));
-	//return (ft_concat(ft_ifexpand(result), 0, 0));
-	//return (ft_concat(ft_concat(ft_ifexpand(result), 0, 0), 0, 0));
 }

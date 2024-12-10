@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 17:11:12 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 19:55:34 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	ft_isalnum(int c)
 		return (1);
 	return (0);
 }
-
-
 
 size_t	ft_strlen(const char *str)
 {

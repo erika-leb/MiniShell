@@ -16,6 +16,8 @@
 //									PARSING APRES TOKENIZATION
 
 //Privilegier le parsing apres quand ton est pret a l'emploi afin de savoir reellement qui est quoi
+//TRES UTILE POUR LES CHOSES QUI CONCERNENT PAS LE PROJET : comme empecher le user d'entrer des quotes non fermés pour les delim de heredoc
+//ou meme de facon generale. Les erreurs qui font qu'on execute meme pas la commande.
 
 //PB Le pb du parsing c'est que seul l'erreur du dernier enfant doit apparaitre. Or, apres la tokenization,
 //On ne sait pas encore delimiter les enfants. Ex : si j'ecris <<uu < uu | << seul l'erreur du 2eme enfant apparait.

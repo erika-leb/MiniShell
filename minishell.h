@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 16:25:47 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:22:42 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,15 @@ void	*ft_freesplit(char **tab, size_t n);
 void	*ft_calloc(size_t n, size_t sizof);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(const char *str1, const char *str2, size_t n);
 int     ft_isalnum(int c);
 
 //ft_tokenize.c
-//char	*ft_tokenize(char *av2, char **tab);
 char	*ft_tokenize(char *av2);
 
 //ft_ifexpand
-char	*ft_ifexpand(char *result);
+//char	*ft_ifexpand(char *result);
+char	*ft_ifexpand(char *result, int sq, int dq, int exp);
 
 //man_large_str.c
 char *ft_insert(char *result, int k, char c);

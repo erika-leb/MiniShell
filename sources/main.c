@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 15:55:37 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:26:38 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	main(void)
 		}
 		if (line && *line)
 			add_history(line);
-		result = ft_split(ft_tokenize(line, result), 0, 0);
+		result = ft_split(ft_tokenize(line), 0, 0);
+		//result = ft_split(ft_tokenize(line, result), 0, 0);
 		while (result[i])
  		{
 			result[i] = ft_concat(result[i], -1, 0, 0);

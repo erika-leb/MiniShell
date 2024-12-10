@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 16:08:53 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:49:29 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,11 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 		ft_addspace(result, av2, i, j);
 }
 
-char	*ft_tokenize(char *av2, char **tab)
+char	*ft_tokenize(char *av2)
 {
 	static char	result[70000];
 	int			i;
 	int			j;
-	char		**tab_;//
-	int			k;//
 
 	i = 0;
 	j = 0;
@@ -99,11 +97,43 @@ char	*ft_tokenize(char *av2, char **tab)
 		i++;
 	}
 	result[j] = '\0';
-	//Si "result - 1" existe et que "result - 1" contient << (ft_strcmp) alors je n'expand pas.
-	tab_ = tab;
-	k = 0;
-	// while (tab_[++k] != NULL);
-	// if (k != 0 && !ft_strcmp(tab_[k - 1], "<<"))
-	// 	return (result);
+	//ft_tokenize sert a separer les tokens par des espaces dans la chaine av2.
+	//Par ex <<'oui'|'non' envoie dans ft_ifexpand : << 'oui' | 'non'
+
 	return (ft_ifexpand(result));
 }
+
+
+
+
+// char	*ft_tokenize(char *av2, char **tab)
+// {
+// 	static char	result[70000];
+// 	int			i;
+// 	int			j;
+// 	char		**tab_;//
+// 	int			k;//
+
+// 	i = 0;
+// 	j = 0;
+// 	while (av2[i])
+// 	{
+// 		if (ft_istok(av2 + i))
+// 			ft_dotok(result, av2, &i, &j);
+// 		else
+// 			result[j++] = av2[i];
+// 		i++;
+// 	}
+// 	result[j] = '\0';
+// 	//Si "result - 1" existe et que "result - 1" contient << (ft_strcmp) alors je n'expand pas.
+// 	tab_ = tab;
+// 	k = -1;
+// 	while (*tab_ != NULL)
+// 		tab_++;
+	
+// 	// 	tab_i++;
+	
+// 	// if (k != 0 && !ft_strcmp(tab_[k - 1], "<<"))
+// 	// 	return (result);
+// 	return (ft_ifexpand(result));
+// }

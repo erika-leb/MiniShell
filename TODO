@@ -18,6 +18,8 @@ bash: warning: here-document at line [XXX] delimited by end-of-file (wanted `[le
 
 //A gerer en priorité
 
+- Gerer les unclosed brackets (voir bloc note sur telephone)
+
 GOOD TO KMOW :
 - Si le delim contient des quotes alors on n'expand pas les var d'env contenus dans le fichier tmp.txt.
 - Si le delim est une var d'env (ex. $HOME) et que j'ecris $HOME dans le fichier alors ca le ferme et ca n'ecrit pas la valeur expand de $HOME
@@ -31,15 +33,19 @@ les signaux et eviter ce pb.
 
 
 
-
+- ni ls | |     ni ls | ls |      ni   | ls | ls  ne donne de resultat (ca renvoie juste une erreur). Genre rien du tout pas meme les enfants qui fonctionne.
+Donc je pense que si le user oublie d'entrer qqchose entre des pipes (ou entre 1 pipe et le debut/la fin de la chaine) alors on renvoie
+syntax error near unexpected token `|'
+A la limite je peux laisser Erika gerer ca avec le debut de fonction qu'elle avait faite, où elle disait que si y'a 2 pipes cote a cote alors on renvoie l'erreur.
 ---------------
 
 
 
-- si j'ecris : < $a      avec $a vide/inexistant alors bash retourne : $a: ambiguous redirect
-Ca ne retourne pas syntax error near unexpected token `newline' comme le ferait un simple <.
+- si j'ecris : < $a    OU > $a        avec $a vide/inexistant alors bash retourne : $a: ambiguous redirect
+Ca ne retourne pas syntax error near unexpected token `newline' comme le ferait un simple < ou un simple >. (Quid de >> ??)
 Autrement dit bash crame que ca va pas s'expand et vu que c'est apres un <, il le garde et dit que ca pose pb
 maintenant si j'assigne à a="file1 file2"   puis que je fais < $a alors j'ai bien file1 file2: No such file or directory.
+Idem pour >, j'obtiens la creation d'un fichier nommé "file1 file2".
 
 Voici comment je compte gérer le truc dans ft_expand :
     if (!envv)
@@ -49,6 +55,44 @@ Voici comment je compte gérer le truc dans ft_expand :
 !!!
 On peut sinon aussi gérer ce cas dans ft_ifexpand en dessous du cas pour <<.
 !!!
+Avec un truc du style (dans une fct dédiée qui recupere result, &k, sq, dq):
+
+if (!sq && !dq && (!ft_strncmp(result + k, "< ", 2) 
+	|| !ft_strncmp(result + k, "> ", 2) || !ft_strncmp(result + k, ">> ", 2)))
+{
+	int pos;
+	char *name;
+
+	if (!ft_strncmp(result + k, ">> ", 2))
+		k += 2;
+	else
+		k++;
+	while (result[k] == ' ')
+		k++;
+	pos = k;
+	//on recupere le nom dans une chaine de caractere via une fonction dédiée
+	name = ft_trunc(result, pos);
+	if (result[k] == '$' && !sq
+		&& (result[k + 1] == '_' || ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
+		ft_expand(ft_erase(result, k), &k);
+	//Si l'expansion a foiré alors ca veut dire qu'on a pas bougé dans result et donc :
+	if (pos == k)
+	{
+		//dans le tableau des erreurs on ecrit l'erreur (ambiguous redirect). 
+		//On supprime tout l'enfant ? en effet il ne sera pas exécuté par bash.
+	}
+}
+
+
+Je pense qu'il faut un tableau de suivi des erreurs qu'Erika va pouvoir incorporer et manipuler.
+Comme ca meme si je supprime des enfants elle sait où remplir quoi.. Ca devrait meme etre un tableau de tableau de chaines de caracteres
+car parfois un meme enfant renvoie plusieurs erreurs :
+si je dis que a="bonjour ca va" et que je lance 
+ls $a
+ls: cannot access 'bonjour': No such file or directory
+ls: cannot access 'ca': No such file or directory
+ls: cannot access 'va': No such file or directory
+
 ---
 
 en revanche si j'ecris juste $a dans le terminal alors j'obtiens : file1: command not found
@@ -70,4 +114,42 @@ fonctionne deja tres bien si cette cmd ou option est entrée directement par le 
 
 CA fonctione tres bien si j'ecris A="PETIT TEST" alors PETIT et TEST seront decoupe correctement.
 En revanche si j'ecris A="'PETIT TEST'" alors mon ft_split va le gérer comme un seul morceau alors que dans bash
-il les coupe
+il les coupe.
+
+
+
+
+
+
+ATTENTION : il faudrait gérer aussi les cas où le user s'amuse à entrer $'hello' ce qui renvoie 'hello'.
+Y'a un petit souci avec ca, c'est que si le user ecrit "$'hello'" alors bash renvoie $'hello': command not found (comme nous).
+Maintenant si le user entre $'hello' alors ca renvoie 'hello': command not found.
+Dans ft_concat a la toute fin de la fonction, il faut simplement faire en sorte que si on est hors de quote, et qu'on croise une quote
+mais qu'elle suit un $ alors on erase juste le dollar.
+On pourrait par exemple modifier le 1er if dans la boucle while :
+
+	while (result_i[++k])
+	{
+		if (result_i[k] == result_i[to_erase])
+		{
+			is_concat = 1;
+			///////////////////////////
+			if (result_i[to_erase - 1] == '$')
+				ft_erase(result_i, to_erase - 1);
+			else
+				ft_erase(result_i, to_erase);
+			k--;
+			ft_erase(result_i, k);
+			k--;
+			while (result_i[++k] && !(result_i[k] == '\''
+					|| result_i[k] == '\"'))
+			if (!result_i[k])
+				return (result_i);
+			to_erase = k;
+		}
+	}
+
+
+SINON on créé une fonction edge_case dans la boucle while : si en k - 1 j'ai un $ et qu'en k j'ai un quote et que juste avant la fin
+de  la chaine j'ai un quote du meme type alors je erase juste le dollar et je me casse. Mais meme ps sur que ca marcherait
+pour les cas du style $'"'hello'"'

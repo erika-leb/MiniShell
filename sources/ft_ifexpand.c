@@ -2,15 +2,20 @@
 
 #include "../minishell.h"
 
-// static char	*ft_geterrcode(void)
-// {
-// 	int		err;
-// 	char	*str_err;
+static char	*ft_geterrcode(void)
+{
+	// int		err;
+	// char	*str_err;
 
-// 	err = errno;
-// 	str_err = ft_itoa(err);
-// 	return (str_err);
-// }
+	// err = errno;
+	// str_err = ft_itoa(err);
+	// return (str_err);
+
+	//ft_itoa présent dans Makefile, .h, mais inutilisé pour le moment
+	//Il se peut que ft_itoa soit useless. Il faut juste récupérer le code
+	//errno. On peut potentiellement le faire avec une variable globale.
+	return("0");
+}
 
 static char	*ft_getenvv(char *result, int *k, char *tmp)
 {
@@ -24,14 +29,14 @@ static char	*ft_getenvv(char *result, int *k, char *tmp)
  	}
 	//si i = 0 ici c'est peut etre qu'il y avait un ?, dans ce cas on regarde si c'est le cas et si oui
 	//alors on incorpore 1 seul dans tmp avant de mettre \0. Ainsi si on ecrit $??? ca donne qqchose comme 0?? (comme dans bash)
-	//if (i = 0 && tmp[i] == '?')
-	// {
-	// 	tmp[i] = '?';
-	// 	i++;
-	// }
+	if (i == 0 && result[*k] == '?')
+	{
+		tmp[i] = '?';
+		i++;
+	}
     tmp[i] = '\0';
-	// if (!ft_strcmp(tmp, "?"))
-	// 	return (ft_geterrcode());
+	if (!ft_strcmp(tmp, "?"))
+		return (ft_geterrcode());
     return (getenv(tmp));
 }
 
@@ -122,7 +127,7 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est que c'est une commande
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
 		if (result[k] == '$' && !sq
-			&& (result[k + 1] == '_' || ft_isalnum(result[k + 1])))
+			&& (result[k + 1] == '_' || ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
 			ft_expand(ft_erase(result, k), &k);//ft_erase(result, k);//k n'est pas incremente, j'envoie qu'une copie.
 		k++;
 	}

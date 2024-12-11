@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/27 18:41:51 by aisidore         ###   ########.fr        #
+#    Updated: 2024/12/11 14:57:03 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ OBJ_DIR = objets
 
 SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/libft.c \
+			${SRC_DIR}/ft_itoa.c \
 			${SRC_DIR}/ft_split.c \
 			${SRC_DIR}/ft_split_utils.c \
 			${SRC_DIR}/ft_tokenize.c \
@@ -26,6 +27,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 
 OBJ_FILES = $(OBJ_DIR)/main.o \
             ${OBJ_DIR}/libft.o \
+			${OBJ_DIR}/ft_itoa.o \
 			${OBJ_DIR}/ft_split.o \
 			${OBJ_DIR}/ft_split_utils.o \
 			${OBJ_DIR}/ft_tokenize.o \

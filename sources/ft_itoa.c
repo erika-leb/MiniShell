@@ -6,17 +6,16 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:35:30 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 19:58:31 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:08:45 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// NB : 0.2 is considered as 0 for ints
-
 #include "../minishell.h"
+#include <limits.h>//Car uniquement utilisé pour ft_itoa
 
 //AJOUTER FICHIER  .c DANS MAKEFILE et ft_itoa dans minishell.h
 
-static size_t	ft_count(int nb)
+static size_t	ft_countt(int nb)
 {
 	size_t	size;
 
@@ -45,9 +44,9 @@ char	*ft_itoa(int nb)
 	size_t			size;
 	unsigned int	n;
 
-	size = ft_count(nb);
+	size = ft_countt(nb);
 	i = size - 1;
-	str = ft_calloc(size + 1, sizeof(char));
+	str = ft_calloc(size + 1, sizeof(char));//a supprimer dans le garbage collector ?
 	if (str == NULL)
 		return (NULL);
 	if (nb == 0)

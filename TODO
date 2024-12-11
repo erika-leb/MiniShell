@@ -121,9 +121,11 @@ il les coupe.
 
 
 
-ATTENTION : il faudrait gérer aussi les cas où le user s'amuse à entrer $'hello' ce qui renvoie 'hello'.
+ATTENTION : il faudrait gérer aussi les cas où le user s'amuse à entrer $'hello' ce qui renvoie hello.
+SOLUTION : modifier la chaine de base en effacant les dollars s'ils sont suivi de quotes (hors quote)
+
 Y'a un petit souci avec ca, c'est que si le user ecrit "$'hello'" alors bash renvoie $'hello': command not found (comme nous).
-Maintenant si le user entre $'hello' alors ca renvoie 'hello': command not found.
+Maintenant si le user entre $'hello' alors ca renvoie hello: command not found.
 Dans ft_concat a la toute fin de la fonction, il faut simplement faire en sorte que si on est hors de quote, et qu'on croise une quote
 mais qu'elle suit un $ alors on erase juste le dollar.
 On pourrait par exemple modifier le 1er if dans la boucle while :

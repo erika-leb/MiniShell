@@ -7,6 +7,52 @@
 //alors Invalid token. Idem pour >>>, ||, &&, & tout seul [HORS DES QUOTES !]
 // syntax error near unexpected token `|' ...
 
+int ft_checkq(char *input)
+{
+    int sq;
+    int dq;
+    char *ptr;
+
+	sq = 0;
+	dq = 0;
+	ptr = input;
+    while (*ptr)
+	{
+        if (*ptr == '\'' && !dq)
+			sq = !sq;
+        else if (*ptr == '\"' && !sq)
+			dq = !dq;
+        ptr++;
+    }
+	if (sq || dq)
+		return(printf("Unclosed brackets.\n"));
+	return (0);
+}
+
+void	ft_ft(char *input)
+{
+	int	sq;
+	int	dq;
+	int	i;
+
+	sq = 0;
+	dq = 0;
+	i = 0;
+	while (input[i])
+	{
+		ft_modifquote_(input, &sq, &dq, &i);
+		if (!sq && !dq && input[i] == '$'
+			&& (input[i + 1] == '\'' || input[i + 1] == '\"'))
+			ft_erase(input, i);
+		i++;
+	}
+}
+
+//En debut d'execution je modifie la chaine : si je suis hors brackets, que je tombe sur un $ et qu ce qui suit c'est un quote
+//alors je erase le dollar.
+
+
+
 
 //Je m'inspire de ft_concat pour m'assurer que les macro quote sont fermées. Je refuse les quotes non fermées :
 //	- 'hello " ' est valide car '' fermé

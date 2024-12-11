@@ -1,7 +1,6 @@
 #include "../minishell.h"
 
 //Erika pourra reutiliser cette fonction pour reperer les token litteraux
-
 static int	ft_onetoken(char *av2)
 {
 	if ((av2[0] == '|' && !av2[1])
@@ -27,6 +26,8 @@ static void	ft_initconcat(int *to_erase, int k, int *is_concat)
 	*is_concat = 0;
 }
 
+//SOUCI : si je créé une var d'env et qu eje lui attribue la valeur 'hello' alors ft_concat va modifier a tord
+//cette variable
 char	*ft_concat(char *result_i, int k, int sq, int dq)
 {
 	int	to_erase;

@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/10 18:50:57 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:46:37 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	*ft_tokenize(char *av2)
 
 	i = 0;
 	j = 0;
+	ft_ft(av2);//voir parsing.c
 	while (av2[i])
 	{
 		if (ft_istok(av2 + i))

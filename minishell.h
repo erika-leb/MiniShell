@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/11 14:56:25 by aisidore         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:44:37 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@
 # define UN_TOKEN "bash: syntax error"
 
 //ft_itoa.c
-char	*ft_itoa(int nb);
+char	*ft_itoa(int nb);//unused pour l'instant
+
+//parsing.c
+int		ft_checkq(char *input);
+void	ft_ft(char *input);
 
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq);

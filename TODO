@@ -27,10 +27,47 @@ GOOD TO KMOW :
 - Quand je provoque une boucle infinie alors minishell casse. Il faudrait voir si le pb est decelable en correction, et si oui comment gerer
 les signaux et eviter ce pb.
 
-- $? peut directement etre gere dans ft_expand car il faut obtenir le code d'erreur directement dans les tokens pour pouvoir l'incorporer dans
-execve. Par exemple "ls $?" renvoie ls: cannot access '0': No such file or directory. Aller voir le commentaire mis dans ft_expand
-
 - Aller chercher les cas d'erreur a gerer par mail
 
-- Que pasa si j'ecris $$$$$$$ : ca le prend en entier comme un token, alors que sur bash ca sort
-le PID actuel du processus pour chaque paire de $$. Donc une concatenation du meme PID.
+
+
+
+---------------
+
+
+
+- si j'ecris : < $a      avec $a vide/inexistant alors bash retourne : $a: ambiguous redirect
+Ca ne retourne pas syntax error near unexpected token `newline' comme le ferait un simple <.
+Autrement dit bash crame que ca va pas s'expand et vu que c'est apres un <, il le garde et dit que ca pose pb
+maintenant si j'assigne à a="file1 file2"   puis que je fais < $a alors j'ai bien file1 file2: No such file or directory.
+
+Voici comment je compte gérer le truc dans ft_expand :
+    if (!envv)
+        return (ft_erase_substr(result, k, tmp));//Ici il faudrait parcourir en arriere result pour voir si ce qui precede c'est un <.
+	//Si c'est le cas alors on a l'erreur ambiguous ambiguous redirect et l'enfant ne s'active plus.
+
+!!!
+On peut sinon aussi gérer ce cas dans ft_ifexpand en dessous du cas pour <<.
+!!!
+---
+
+en revanche si j'ecris juste $a dans le terminal alors j'obtiens : file1: command not found
+C'est dû au fait qu'une commande bash ne peut pas contenir d'espace donc il créé 2 tokens et vu que le 1er n'existe pas il affiche que ca n'existe
+pas et s'arrete la.
+Il en est de meme pour une option.
+
+
+NB : ce qui est marrant c'est que si a="oui( petit test)" et que je fais ls $a j'obtiens :
+ls: cannot access 'oui(': No such file or directory
+ls: cannot access 'petit': No such file or directory
+ls: cannot access 'test)': No such file or directory
+
+alors que si j'ecris directement dans le terminal ls "oui( petit test)" j'obtiens :
+ls: cannot access 'oui( petit test)': No such file or directory
+
+Ca confirme bien que l'expansion d'une commande ou une option se fait en plusieurs tokens separés par des espaces, et notre code
+fonctionne deja tres bien si cette cmd ou option est entrée directement par le user.
+
+CA fonctione tres bien si j'ecris A="PETIT TEST" alors PETIT et TEST seront decoupe correctement.
+En revanche si j'ecris A="'PETIT TEST'" alors mon ft_split va le gérer comme un seul morceau alors que dans bash
+il les coupe

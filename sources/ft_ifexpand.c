@@ -50,7 +50,8 @@ static void	ft_expand(char *result, int *k)
 	//static dans ce fichier qui va chercher le errno
     envv = ft_getenvv(result, k, tmp);
     if (!envv)
-        return (ft_erase_substr(result, k, tmp));
+        return (ft_erase_substr(result, k, tmp));//Ici il faudrait parcourir en arriere result pour voir si ce qui precede c'est un <.
+	//Si c'est le cas alors on a l'erreur ambiguous ambiguous redirect et l'enfant ne s'active plus.
     i = 0;
 	while (tmp[i])
  	{
@@ -116,15 +117,10 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 			//Il faut trouver un moyen de faire avancer k jusqu'a la fin du delimiteur
 			ft_delim(result, &k, 0, 0);//On est forcement hors quote donc sq = 0 et dq = 0 en param
 		}
-		//Si ce qui vient apres $ n'est pas un alphanumerique alors on le laisse tel quel
-		//$? restera tel quel, "$" aussi, $ (tout seul) aussi (voir comportement bash).
-		//Il faudra donc qu'Erika ajoute le token $? qui engendrera une fonction built_in dédiée à gérer
-		//cette commande bash (comme demandé dans l'énoncé).
 
-		//$_ renvoie ./minishell dans mon minishell tandis que le bash renvoie bash: '': command not found
-		//normal ca retourne la derniere commande lancee.
 
-		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est que c'est une commande
+
+		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
 		if (result[k] == '$' && !sq
 			&& (result[k + 1] == '_' || ft_isalnum(result[k + 1]) || result[k + 1] == '?'))

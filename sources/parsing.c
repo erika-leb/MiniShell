@@ -6,7 +6,7 @@
 //while (str[i]) si a un moment donné, je suis hors des quotes et ft_strncmp(str, "<<<", 3)
 //alors Invalid token. Idem pour >>>, ||, &&, & tout seul [HORS DES QUOTES !]
 // syntax error near unexpected token `|' ...
-//Refuser plus d'un $ sauf s'il est dans des single quotes, car ca donne le PID du processus en cours ???
+
 
 //Je m'inspire de ft_concat pour m'assurer que les macro quote sont fermées. Je refuse les quotes non fermées :
 //	- 'hello " ' est valide car '' fermé
@@ -15,7 +15,7 @@
 
 //									PARSING APRES TOKENIZATION
 
-//Privilegier le parsing apres quand ton est pret a l'emploi afin de savoir reellement qui est quoi
+//Privilegier le parsing apres quand on est pret a l'emploi afin de savoir reellement qui est quoi
 //TRES UTILE POUR LES CHOSES QUI CONCERNENT PAS LE PROJET : comme empecher le user d'entrer des quotes non fermés pour les delim de heredoc
 //ou meme de facon generale. Les erreurs qui font qu'on execute meme pas la commande.
 
@@ -27,9 +27,6 @@
 
 // -----------------------------------------------------------------------------------------------------------
 
-//ATTENTION dans heredoc si le user mets en délimiteur '<'ls alors le delimiteur sera <ls
-// Il faut donc utiliser ft_concat dans le heredoc> Ex <<'xx <'ls'ca va' donne en delimiteur : xx <lsca va.
-//Autre exemple : 'hello' donne hello en delimiteur.
 //ATTENTION si le delimiteur comporte des quote alors les variables d'environnement ne s'expand pas,
 //sinon on utilise ft_ifexpand sur chaque newline de heredoc.
 

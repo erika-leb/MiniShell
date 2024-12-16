@@ -25,7 +25,7 @@ int ft_checkq(char *input)
         ptr++;
     }
 	if (sq || dq)
-		return(printf("Unclosed brackets.\n"));
+		return(printf("bash: error: unclosed brackets\n"));
 	return (0);
 }
 

@@ -2,20 +2,20 @@
 
 #include "../minishell.h"
 
-static char	*ft_geterrcode(void)
-{
-	// int		err;
-	// char	*str_err;
+// static char	*ft_geterrcode(void)
+// {
+// 	// int		err;
+// 	// char	*str_err;
 
-	// err = errno;
-	// str_err = ft_itoa(err);
-	// return (str_err);
+// 	// err = errno;
+// 	// str_err = ft_itoa(err);
+// 	// return (str_err);
 
-	//ft_itoa présent dans Makefile, .h, mais inutilisé pour le moment
-	//Il se peut que ft_itoa soit useless. Il faut juste récupérer le code
-	//errno. On peut potentiellement le faire avec une variable globale.
-	return("0");
-}
+// 	//ft_itoa présent dans Makefile, .h, mais inutilisé pour le moment
+// 	//Il se peut que ft_itoa soit useless. Il faut juste récupérer le code
+// 	//errno. On peut potentiellement le faire avec une variable globale.
+// 	return("0");
+// }
 
 static char	*ft_getenvv(char *result, int *k, char *tmp)
 {
@@ -36,7 +36,7 @@ static char	*ft_getenvv(char *result, int *k, char *tmp)
 	}
     tmp[i] = '\0';
 	if (!ft_strcmp(tmp, "?"))
-		return (ft_geterrcode());
+		return (ft_itoa(0));
     return (getenv(tmp));
 }
 
@@ -96,6 +96,28 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 	}
 }
 
+static void	ft_ambig(char *result_k)
+{
+	//on cherche getenv et on regarde si ambiguous redirect.
+	//si pas d'ambiguous on laisse ifexpand faire son travail.
+	char		*envv;
+	static char	tmp[20000];//il faut garder en copie le nom de la var d'env pour la reecrire dans le message d'erreur
+	int			k;
+
+	k = 0;
+	if (result_k[k] != '$')
+		return ;
+	envv = NULL;
+	if (result_k[k] == '$'
+		&& (result_k[k + 1] == '_' || ft_isalnum(result_k[k + 1]) || result_k[k + 1] == '?'))
+		envv = ft_getenvv(result_k + 1, &k, tmp);//getenvv remplie tmp
+	if (!envv)
+	{
+		printf("bash: $%s: ambiguous redirect\n", tmp);//il faut exit ?
+	}
+	
+}
+
 char	*ft_ifexpand(char *result, int sq, int dq)
 {
 	int	k;
@@ -118,7 +140,23 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 			ft_delim(result, &k, 0, 0);//On est forcement hors quote donc sq = 0 et dq = 0 en param
 		}
 
-
+		//ambiguous redirect ne fonctionne que si $a n'est pas dans une quote. Car si sq on retire juste les quote
+		//et on a pas a expand. Si dq on renvoie une chaine vide.
+		//ls < $HOME < $b entraine ambiguous redirect meme si le 1er est valable.
+		if (!sq && !dq && (!ft_strncmp(result + k, ">> ", 3)
+			|| !ft_strncmp(result + k, "> ", 2)
+			|| !ft_strncmp(result + k, "< ", 2)))
+		{
+			k++;
+			if (!ft_strncmp(result + k, ">> ", 3))
+				k++;
+			while (result[k] == ' ')
+				k++;
+			ft_modifquote_(result, &sq, &dq, &k);//soit on est sur une quote soit on est sur autre chose
+			//si on est sur une quote on change juste la valeur de sq et da et on laisse ifexpand fair son travail
+			if (!sq && !dq)
+				ft_ambig(result + k);
+		}
 
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres

@@ -1,3 +1,8 @@
+A CHECKER :
+- gestion des signqux dans le heredoc (que pasa si on fait ctrl+c et ctrl+d)
+-
+
+
 //Difference entre un directory et une chaine random pour >
 
 ls $HOME>> cava 	insere le resultat de ls dans le fichier cava

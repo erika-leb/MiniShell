@@ -48,70 +48,70 @@ static char	*ft_getenvv(char *result, int *k, char *tmp)
 //ls: cannot access "test'": No such file or directory
 
 //A tester quand j'aurai fait export a="'TEST TEST'' HELLO'" etc
-static void	ft_complexpand(char *result, int start, int *k)
-{
-	int	i;
-	int	is_redir;
-	int	dq;
-	int	sq;
+// static void	ft_complexpand(char *result, int start, int *k)
+// {
+// 	int	i;
+// 	int	is_redir;
+// 	int	dq;
+// 	int	sq;
 
-	//*k est incremente uniquement lorsqu'on ajoute un element.
-	//en effet *k est l'endroit ou on doit se retrouver a la fin de ft_complexpand,
-	//afin de continuer le code
-	is_redir = 0;
-	i = start;//Pour savoir si y'a une redir avant
-	while (--i && result[i] == ' ')
-	//i == -1 si j'ai juste un $HOME. C'est peut etre pas un pb ??
-	if (!ft_strncmp(result + i, ">> ", 3)
-		|| !ft_strncmp(result + i, "> ", 2)
-		|| !ft_strncmp(result + i, "< ", 2))
-		is_redir = 1;
-	printf("result + i : %s  valeur i = %d\n", result + i, i);
-	dq = 0;
-	sq = 0;
-	if (result[start] != '\"')
-	{
-		ft_insert(result, start, '\"');
-		(*k)++;
-		dq = 1;
-	}
-	else
-	{
-		ft_insert(result, start, '\'');
-		(*k)++;
-		sq = 1;
-	}
-	while (start != *k)
-	{
-		if (result[start] == ' ' && !is_redir)
-		{
-			//Le but ici est de reussir a inserer un " (ou un ') et un espace
-			//pour que split puisse faire son travail correctement
+// 	//*k est incremente uniquement lorsqu'on ajoute un element.
+// 	//en effet *k est l'endroit ou on doit se retrouver a la fin de ft_complexpand,
+// 	//afin de continuer le code
+// 	is_redir = 0;
+// 	i = start;//Pour savoir si y'a une redir avant
+// 	while (--i && result[i] == ' ')
+// 	//i == -1 si j'ai juste un $HOME. C'est peut etre pas un pb ??
+// 	if (!ft_strncmp(result + i, ">> ", 3)
+// 		|| !ft_strncmp(result + i, "> ", 2)
+// 		|| !ft_strncmp(result + i, "< ", 2))
+// 		is_redir = 1;
+// 	printf("result + i : %s  valeur i = %d\n", result + i, i);
+// 	dq = 0;
+// 	sq = 0;
+// 	if (result[start] != '\"')
+// 	{
+// 		ft_insert(result, start, '\"');
+// 		(*k)++;
+// 		dq = 1;
+// 	}
+// 	else
+// 	{
+// 		ft_insert(result, start, '\'');
+// 		(*k)++;
+// 		sq = 1;
+// 	}
+// 	while (start != *k)
+// 	{
+// 		if (result[start] == ' ' && !is_redir)
+// 		{
+// 			//Le but ici est de reussir a inserer un " (ou un ') et un espace
+// 			//pour que split puisse faire son travail correctement
 			
-			//y a t il un risque que ca fasse pleins de  ' ' ' ' ' ??
-			if (dq)
-				ft_insert(ft_insert(result, start, ' '), start, '\"');
-			else
-				ft_insert(ft_insert(result, start, ' '), start, '\'');
-			start += 2;
-			(*k) += 2;
-			while (result[start] == ' ')
-				start++;
-		}
-		start++;
-	}
-	if (dq)
-	{
-		ft_insert(result, start, '\"');
-		(*k)++;
-	}
-	else
-	{
-		ft_insert(result, start, '\'');
-		(*k)++;	
-	}
-	printf("start :%c      end :%c\n", result[start], result[*k]);
-}
+// 			//y a t il un risque que ca fasse pleins de  ' ' ' ' ' ??
+// 			if (dq)
+// 				ft_insert(ft_insert(result, start, ' '), start, '\"');
+// 			else
+// 				ft_insert(ft_insert(result, start, ' '), start, '\'');
+// 			start += 2;
+// 			(*k) += 2;
+// 			while (result[start] == ' ')
+// 				start++;
+// 		}
+// 		start++;
+// 	}
+// 	if (dq)
+// 	{
+// 		ft_insert(result, start, '\"');
+// 		(*k)++;
+// 	}
+// 	else
+// 	{
+// 		ft_insert(result, start, '\'');
+// 		(*k)++;	
+// 	}
+// 	printf("start :%c      end :%c\n", result[start], result[*k]);
+// }
 
 static void	ft_expand(char *result, int *k)
 {
@@ -123,8 +123,11 @@ static void	ft_expand(char *result, int *k)
 	start = *k;
     envv = ft_getenvv(result, k, tmp);
     if (!envv)
-        return (ft_erase_substr(result, k, tmp));//Ici il faudrait parcourir en arriere result pour voir si ce qui precede c'est un <.
-	//Si c'est le cas alors on a l'erreur ambiguous ambiguous redirect et l'enfant ne s'active plus.
+        return (ft_erase_substr(result, k, tmp));
+	//Si envv est full et contient des quotes alors on n'expand pas et on
+	//remet le dollar. Apres ft_concat on pourra expand puis reverifier
+	//que le token final n'est pas un token de type (< > >> << |).
+	// ... ... ...
     i = 0;
 	while (tmp[i])
  	{
@@ -143,11 +146,7 @@ static void	ft_expand(char *result, int *k)
 	(*k)--;//permet de se retrouver sur le dernier caractere de la variable expand (le 'n' de hello/tuvabien)
 	//Comme ca dans ft_isexpand on peut regarder le terme d'apres (qui peut etre un $)
 
-	//Tranforme 'TEST TEST' en "'TEST" "TEST'" si ce n'est pas apres une redir
-	//et transforme 'TEST TEST' en "'TEST TEST'" si c'est apres une redir. Comme ca ft_concat le gere correctement.
-	//On transforme egalement 'hello' en "'hello'" car il faut absolument laisser la valeur intacte.
-	//On va toujours mettre des quote comme ca si le user s'amuse a mettre a="<<" il pourra pas nous avoir
-	ft_complexpand(result, start, k);//on modifie me tout et on incremente *k selon les besoins
+	//ft_complexpand(result, start, k);//on modifie le tout et on incremente *k selon les besoins
 }
 
 static void	ft_delim(char *result, int *k, int sq, int dq)
@@ -233,7 +232,7 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 		{
 			ft_incrk(result, &k);
 			ft_modifquote_(result, &sq, &dq, &k);//soit on est sur une quote soit on est sur autre chose
-			//si on est sur une quote on change juste la valeur de sq et da et on laisse ifexpand fair son travail
+			//si on est sur une quote on change juste la valeur de sq et dq et on laisse ifexpand faire son travail
 			if (!sq && !dq)
 				ft_ambig(result + k);
 		}

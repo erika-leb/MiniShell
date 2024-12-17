@@ -22,15 +22,6 @@ int ft_checkq(char *input)
 	return (0);
 }
 
-// static int	ft_istok_(char *av2)
-// {
-// 	if (*av2 == '|' || *av2 == '<' || *av2 == '>'
-// 		|| (*av2 == '<' && *(av2 + 1) == '<')
-// 		|| (*av2 == '>' && *(av2 + 1) == '>'))
-// 		return (1);
-// 	return (0);
-// }
-
 static int	ft_istok_(char *av2)
 {
 	if (ft_strcmp(av2, "|") || ft_strcmp(av2, "<") || ft_strcmp(av2, ">")

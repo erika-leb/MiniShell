@@ -137,7 +137,8 @@ static void	ft_ambig(char *result_k)
 		//Dans bash il faut essayer d'expand la suite si jamais il y a plusieurs $. Et si aucune variable ne donne rien
 		//alors on renvoie tout le nom de la var.
 		// < $A$A$HOME retourne le HOME. Pour ifexpand normal (hors redirection) ca se gere tout seul on a pas d'erreur a indiquer.
-		
+		//		Tant que (result_k[++k] != '$' && ft_isalnum(result_k[k])) if ()
+
 
 		printf("bash: $%s: ambiguous redirect\n", tmp);//il faut exit ?
 	}

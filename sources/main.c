@@ -74,13 +74,23 @@ int	main(void)
 		}
 		if (line && *line)
 			add_history(line);
-		if (ft_checkq(line))
-			result = ft_split(ft_tokenize(line), 0, 0);//Il faudrait juste revenir à la ligne
-		else
+		if (!ft_checkq(line))
 			result = ft_split(ft_tokenize(line), 0, 0);
-		while (result[i])
+		else
+			result = NULL;//Si des quotes sont pas fermes on malloc rien et on retourne result == NULL
+		while (result && result[i])
  		{
 			result[i] = ft_concat(result[i], -1, 0, 0);
+			i++;
+ 		}
+		if (ft_unexptoken(result))
+		{//si des token sont cote a cote a tord alors on free et on retourne result == NULL
+			ft_freesplit(result, i);
+			result = NULL;
+		}
+		i = 0;
+		while (result && result[i])
+ 		{
  			printf("token %d :%s\n", i, result[i]);
 			i++;
  		}

@@ -1,7 +1,10 @@
 A CHECKER :
 - gestion des signqux dans le heredoc (que pasa si on fait ctrl+c et ctrl+d)
--
-
+- ATTENTION si le delimiteur comporte des quote alors les variables d'environnement ne s'expand pas,
+sinon on utilise ft_ifexpand sur chaque newline de heredoc.
+- ATTENTION a l'ordre d'execution et a la recuperation de resultats si je fais plusieurs heredoc a la fois
+: << $HELLO ls | ls << $CAVA       il faut ici fermer les 2 heredoc avant d'afficher le resultat
+- Erika sait elle gerer ls | < $HOME cad un enfant qui n'a pas de cmd ?
 
 //Difference entre un directory et une chaine random pour >
 
@@ -126,37 +129,105 @@ il les coupe.
 
 
 
-ATTENTION : il faudrait gérer aussi les cas où le user s'amuse à entrer $'hello' ce qui renvoie hello.
-SOLUTION : modifier la chaine de base en effacant les dollars s'ils sont suivi de quotes (hors quote)
-
-Y'a un petit souci avec ca, c'est que si le user ecrit "$'hello'" alors bash renvoie $'hello': command not found (comme nous).
-Maintenant si le user entre $'hello' alors ca renvoie hello: command not found.
-Dans ft_concat a la toute fin de la fonction, il faut simplement faire en sorte que si on est hors de quote, et qu'on croise une quote
-mais qu'elle suit un $ alors on erase juste le dollar.
-On pourrait par exemple modifier le 1er if dans la boucle while :
-
-	while (result_i[++k])
-	{
-		if (result_i[k] == result_i[to_erase])
-		{
-			is_concat = 1;
-			///////////////////////////
-			if (result_i[to_erase - 1] == '$')
-				ft_erase(result_i, to_erase - 1);
-			else
-				ft_erase(result_i, to_erase);
-			k--;
-			ft_erase(result_i, k);
-			k--;
-			while (result_i[++k] && !(result_i[k] == '\''
-					|| result_i[k] == '\"'))
-			if (!result_i[k])
-				return (result_i);
-			to_erase = k;
-		}
-	}
 
 
-SINON on créé une fonction edge_case dans la boucle while : si en k - 1 j'ai un $ et qu'en k j'ai un quote et que juste avant la fin
-de  la chaine j'ai un quote du meme type alors je erase juste le dollar et je me casse. Mais meme ps sur que ca marcherait
-pour les cas du style $'"'hello'"'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//a="'TEST TEST''autre test'"          < $a   donne 'TEST TEST''autre test': No such file or directory
+//autrement dit ft_concat ne doit pas merge les elements de a entre eux.
+//Par ailleurs si je fais ls $a   ca donne :
+//ls: cannot access "'TEST": No such file or directory
+//ls: cannot access "TEST''autre": No such file or directory
+//ls: cannot access "test'": No such file or directory
+
+//A tester quand j'aurai fait export a="'TEST TEST'' HELLO'" etc
+// static void	ft_complexpand(char *result, int start, int *k)
+// {
+// 	int	i;
+// 	int	is_redir;
+// 	int	dq;
+// 	int	sq;
+
+// 	//*k est incremente uniquement lorsqu'on ajoute un element.
+// 	//en effet *k est l'endroit ou on doit se retrouver a la fin de ft_complexpand,
+// 	//afin de continuer le code
+// 	is_redir = 0;
+// 	i = start;//Pour savoir si y'a une redir avant
+// 	while (--i && result[i] == ' ')
+// 	//i == -1 si j'ai juste un $HOME. C'est peut etre pas un pb ??
+// 	if (!ft_strncmp(result + i, ">> ", 3)
+// 		|| !ft_strncmp(result + i, "> ", 2)
+// 		|| !ft_strncmp(result + i, "< ", 2))
+// 		is_redir = 1;
+// 	printf("result + i : %s  valeur i = %d\n", result + i, i);
+// 	dq = 0;
+// 	sq = 0;
+// 	if (result[start] != '\"')
+// 	{
+// 		ft_insert(result, start, '\"');
+// 		(*k)++;
+// 		dq = 1;
+// 	}
+// 	else
+// 	{
+// 		ft_insert(result, start, '\'');
+// 		(*k)++;
+// 		sq = 1;
+// 	}
+// 	while (start != *k)
+// 	{
+// 		if (result[start] == ' ' && !is_redir)
+// 		{
+// 			//Le but ici est de reussir a inserer un " (ou un ') et un espace
+// 			//pour que split puisse faire son travail correctement
+			
+// 			//y a t il un risque que ca fasse pleins de  ' ' ' ' ' ??
+// 			if (dq)
+// 				ft_insert(ft_insert(result, start, ' '), start, '\"');
+// 			else
+// 				ft_insert(ft_insert(result, start, ' '), start, '\'');
+// 			start += 2;
+// 			(*k) += 2;
+// 			while (result[start] == ' ')
+// 				start++;
+// 		}
+// 		start++;
+// 	}
+// 	if (dq)
+// 	{
+// 		ft_insert(result, start, '\"');
+// 		(*k)++;
+// 	}
+// 	else
+// 	{
+// 		ft_insert(result, start, '\'');
+// 		(*k)++;	
+// 	}
+// 	printf("start :%c      end :%c\n", result[start], result[*k]);
+// }

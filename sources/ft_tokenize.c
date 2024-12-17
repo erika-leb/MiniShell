@@ -88,7 +88,7 @@ char	*ft_tokenize(char *av2)
 
 	i = 0;
 	j = 0;
-	ft_ft(av2);//voir parsing.c
+	ft_deldollar(av2);//voir parsing.c
 	while (av2[i])
 	{
 		if (ft_istok(av2 + i))

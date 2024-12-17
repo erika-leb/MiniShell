@@ -40,79 +40,6 @@ static char	*ft_getenvv(char *result, int *k, char *tmp)
     return (getenv(tmp));
 }
 
-//a="'TEST TEST''autre test'"          < $a   donne 'TEST TEST''autre test': No such file or directory
-//autrement dit ft_concat ne doit pas merge les elements de a entre eux.
-//Par ailleurs si je fais ls $a   ca donne :
-//ls: cannot access "'TEST": No such file or directory
-//ls: cannot access "TEST''autre": No such file or directory
-//ls: cannot access "test'": No such file or directory
-
-//A tester quand j'aurai fait export a="'TEST TEST'' HELLO'" etc
-// static void	ft_complexpand(char *result, int start, int *k)
-// {
-// 	int	i;
-// 	int	is_redir;
-// 	int	dq;
-// 	int	sq;
-
-// 	//*k est incremente uniquement lorsqu'on ajoute un element.
-// 	//en effet *k est l'endroit ou on doit se retrouver a la fin de ft_complexpand,
-// 	//afin de continuer le code
-// 	is_redir = 0;
-// 	i = start;//Pour savoir si y'a une redir avant
-// 	while (--i && result[i] == ' ')
-// 	//i == -1 si j'ai juste un $HOME. C'est peut etre pas un pb ??
-// 	if (!ft_strncmp(result + i, ">> ", 3)
-// 		|| !ft_strncmp(result + i, "> ", 2)
-// 		|| !ft_strncmp(result + i, "< ", 2))
-// 		is_redir = 1;
-// 	printf("result + i : %s  valeur i = %d\n", result + i, i);
-// 	dq = 0;
-// 	sq = 0;
-// 	if (result[start] != '\"')
-// 	{
-// 		ft_insert(result, start, '\"');
-// 		(*k)++;
-// 		dq = 1;
-// 	}
-// 	else
-// 	{
-// 		ft_insert(result, start, '\'');
-// 		(*k)++;
-// 		sq = 1;
-// 	}
-// 	while (start != *k)
-// 	{
-// 		if (result[start] == ' ' && !is_redir)
-// 		{
-// 			//Le but ici est de reussir a inserer un " (ou un ') et un espace
-// 			//pour que split puisse faire son travail correctement
-			
-// 			//y a t il un risque que ca fasse pleins de  ' ' ' ' ' ??
-// 			if (dq)
-// 				ft_insert(ft_insert(result, start, ' '), start, '\"');
-// 			else
-// 				ft_insert(ft_insert(result, start, ' '), start, '\'');
-// 			start += 2;
-// 			(*k) += 2;
-// 			while (result[start] == ' ')
-// 				start++;
-// 		}
-// 		start++;
-// 	}
-// 	if (dq)
-// 	{
-// 		ft_insert(result, start, '\"');
-// 		(*k)++;
-// 	}
-// 	else
-// 	{
-// 		ft_insert(result, start, '\'');
-// 		(*k)++;	
-// 	}
-// 	printf("start :%c      end :%c\n", result[start], result[*k]);
-// }
-
 static void	ft_expand(char *result, int *k)
 {
 	char	tmp[20000];
@@ -125,8 +52,7 @@ static void	ft_expand(char *result, int *k)
     if (!envv)
         return (ft_erase_substr(result, k, tmp));
 	//Si envv est full et contient des quotes alors on n'expand pas et on
-	//remet le dollar. Apres ft_concat on pourra expand puis reverifier
-	//que le token final n'est pas un token de type (< > >> << |).
+	//remet le dollar. Je n'oublie pas d'ecraser tmp comme fait juste en dessous Apres ft_concat on pourra expand.
 	// ... ... ...
     i = 0;
 	while (tmp[i])
@@ -161,13 +87,15 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 	{
 		//sq est important car les var d'env inexistantes comme "  $HELLO" doivent apparaitre tel quel
 		(*k)++;
-		while (result[*k] && !(result[*k] == '\'' && result[*k + 1] == ' '))
+		while (result[*k] && !(result[*k] == '\''
+				&& result[*k + 1] == ' '))
 			(*k)++;
 	}
 	else if (dq)
 	{
 		(*k)++;
-		while (result[*k] && !(result[*k] == '\"' && result[*k + 1] == ' '))
+		while (result[*k] && !(result[*k] == '\"'
+				&& result[*k + 1] == ' '))
 			(*k)++;
 	}
 	else
@@ -194,6 +122,21 @@ static void	ft_ambig(char *result_k)
 		envv = ft_getenvv(result_k + 1, &k, tmp);//getenvv remplie tmp
 	if (!envv)
 	{
+		//il faudrait simplement remettre le dollar et le nom de la variable.
+		//comme ca apres ft_split (et avant ft_concat qui transforme les '$a' en $a) on parcourt tous les token. La 1er var d'env
+		//qui n'existe pas ou la 1ere redirection qui s'ouvre pas je renvoie le message d'erreur.
+		//En effet le souci est que si j'ai une redirection qui s'ouvre pas avant un var env vide alors il faut afficher Permission denied
+		//et pas ambiguous redirect.
+
+		//On pourrait sinon laisser a Erika le soin d'expand pour voir si c'est ambiguous et ainsi afficher le bon message au bon endroit.
+		//Le souci est que ft_concat transforme les '$a' en $a et donc je risque d'expand des var d'env qui sont cense rester en valeur
+		//litterale.
+
+		//Il faut ellaborer une strategie de gestion des erreurs bcp plus poussee avec une liste chainee par ex.
+
+		//Dans bash il faut essayer d'expand la suite si jamais il y a plusieurs $. Et si aucune variable ne donne rien
+		//alors on renvoie tout le nom de la var
+
 		printf("bash: $%s: ambiguous redirect\n", tmp);//il faut exit ?
 	}
 	

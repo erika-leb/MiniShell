@@ -29,14 +29,21 @@
 # define COLOR_MAGENTA "\x1b[35m"
 # define COLOR_CYAN    "\x1b[36m"
 
+//Useless ?? A quoi ca sert ?
 # define UN_TOKEN "bash: syntax error"
 
 //ft_itoa.c
 char	*ft_itoa(int nb);//unused pour l'instant
 
 //parsing.c
+typedef struct pars_file
+{
+	char	strerror[20000];
+}	t_pars;
+
 int		ft_checkq(char *input);
-void	ft_ft(char *input);
+int     ft_unexptoken(char **result);
+void	ft_deldollar(char *input);
 
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq);
@@ -57,7 +64,6 @@ int     ft_isalnum(int c);
 char	*ft_tokenize(char *av2);
 
 //ft_ifexpand
-//char	*ft_ifexpand(char *result);
 char	*ft_ifexpand(char *result, int sq, int dq);
 
 //man_large_str.c

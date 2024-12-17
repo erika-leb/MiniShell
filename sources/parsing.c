@@ -1,12 +1,5 @@
 #include "../minishell.h"
 
-
-//									PAS TRES PERTINENT
-//									PARSING AVANT TOKENIZATION
-//while (str[i]) si a un moment donné, je suis hors des quotes et ft_strncmp(str, "<<<", 3)
-//alors Invalid token. Idem pour >>>, ||, &&, & tout seul [HORS DES QUOTES !]
-// syntax error near unexpected token `|' ...
-
 int ft_checkq(char *input)
 {
     int sq;
@@ -25,11 +18,52 @@ int ft_checkq(char *input)
         ptr++;
     }
 	if (sq || dq)
-		return(printf("bash: error: unclosed brackets\n"));
+		return(printf("bash: unclosed quotes\n"));
 	return (0);
 }
 
-void	ft_ft(char *input)
+static int	ft_istok_(char *av2)
+{
+	if (*av2 == '|' || *av2 == '<' || *av2 == '>'
+		|| (*av2 == '<' && *(av2 + 1) == '<')
+		|| (*av2 == '>' && *(av2 + 1) == '>'))
+		return (1);
+	return (0);
+}
+
+//Si Erika recoit un result NULL c'est qu'une erreur fatale a eu lieu,
+//il faut juste renvoyer la ligne.
+
+//Si j'ai ambiguous redirect alors l'erreur newline s'affiche aussi.
+//si je veux eviter ca je peux remplir un buffer d'erreur
+int	ft_unexptoken(char **result)
+{
+	int	i;
+
+	//on peut pas commencer par un |
+	if (!ft_strcmp(result[0], "|"))
+		return(printf("bash: syntax error near unexpected token `|'\n"));
+	i = 0;
+	while (result[i])
+	{
+		//seul le | peut avoir < > << >> apres lui. Mais il peut pas avoir un autre |
+		if (!ft_strcmp(result[i], "|") && result[i + 1] && !ft_strcmp(result[i + 1], "|"))
+			return(printf("bash: syntax error near unexpected token `|'\n"));
+		if (ft_istok_(result[i]) && ft_strcmp(result[i], "|")
+			&& result[i + 1] && ft_istok_(result[i + 1]))
+			return(printf("bash: syntax error near unexpected token `%s'\n", result[i + 1]));
+		if (ft_istok_(result[i]) && !result[i + 1])
+			return(printf("bash: syntax error near unexpected token `newline'\n"));
+		//contrairement a bash on refuse de prendre les infos en dquote si le user met un | en fin de commande.
+		i++;
+	}
+	// if (*error_)
+	// 	return(printf("%s\n", error_));
+	return (0);
+}
+
+//Si le user ecrit $'HAHA' (hors quotes) alors on retient 'HAHA'
+void	ft_deldollar(char *input)
 {
 	int	sq;
 	int	dq;
@@ -47,33 +81,3 @@ void	ft_ft(char *input)
 		i++;
 	}
 }
-
-//En debut d'execution je modifie la chaine : si je suis hors brackets, que je tombe sur un $ et qu ce qui suit c'est un quote
-//alors je erase le dollar.
-
-
-
-
-//Je m'inspire de ft_concat pour m'assurer que les macro quote sont fermées. Je refuse les quotes non fermées :
-//	- 'hello " ' est valide car '' fermé
-//	-'hello  '' invalide.			Unclosed brackets.
-
-
-//									PARSING APRES TOKENIZATION
-
-//Privilegier le parsing apres quand on est pret a l'emploi afin de savoir reellement qui est quoi
-//TRES UTILE POUR LES CHOSES QUI CONCERNENT PAS LE PROJET : comme empecher le user d'entrer des quotes non fermés pour les delim de heredoc
-//ou meme de facon generale. Les erreurs qui font qu'on execute meme pas la commande.
-
-//PB Le pb du parsing c'est que seul l'erreur du dernier enfant doit apparaitre. Or, apres la tokenization,
-//On ne sait pas encore delimiter les enfants. Ex : si j'ecris <<uu < uu | << seul l'erreur du 2eme enfant apparait.
-//Je pense que le parsing est plus pertinent apres qu'Erika ait créé les noeuds. Genre si un noeud est labelisé REDIR
-//et qu'il est suivi d'un autre noeud REDIR alors erreur.
-
-
-// -----------------------------------------------------------------------------------------------------------
-
-//ATTENTION si le delimiteur comporte des quote alors les variables d'environnement ne s'expand pas,
-//sinon on utilise ft_ifexpand sur chaque newline de heredoc.
-
-

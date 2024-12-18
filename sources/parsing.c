@@ -4,12 +4,10 @@ int ft_checkq(char *input)
 {
     int sq;
     int dq;
-	int	doll;
     char *ptr;
 
 	sq = 0;
 	dq = 0;
-	doll = 0;
 	ptr = input;
     while (*ptr)
 	{

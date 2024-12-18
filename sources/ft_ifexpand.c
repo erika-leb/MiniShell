@@ -71,8 +71,6 @@ static void	ft_expand(char *result, int *k)
 	}
 	(*k)--;//permet de se retrouver sur le dernier caractere de la variable expand (le 'n' de hello/tuvabien)
 	//Comme ca dans ft_isexpand on peut regarder le terme d'apres (qui peut etre un $)
-
-	//ft_complexpand(result, start, k);//on modifie le tout et on incremente *k selon les besoins
 }
 
 static void	ft_delim(char *result, int *k, int sq, int dq)
@@ -159,28 +157,43 @@ static void	ft_ambig(char *result_k, int *k)
 			break ;
 		m++;
 	}
-	printf("%s\n", name + m);
 	if (!envv && !name[m])
 	{// && !name[m] : Si j'ecris < $u"HOME" alors grace au !name[m]  et au if (envv || !ft_moredoll(name + 1 + m)) j'entre pas le if.
 		//En effet dans "HOME" il n'y a pas de dollars hors quote et donc le break du dessus s'enclenche.
 
-		//Cette methode permet a Erika d'identifier les var d'env vides, ou elles se situent et donc faire peter l'enfant.
-		//Ca lui permet aussi de savoir la priorite d'apparition du message d'erreur.
+		//Le user ne peut pas ouvrir des quotes sans les fermer. Il ne peut donc pas ecrire $'a. La seule maniere d'obtenir ce resultat
+		//est d'ecrire '$'"'"a OU "$""'"a (ce qui est tres improbable). Ainsi si Erika recoit $'a elle saura que la var d'env a est NULL.
+		//Pour identifier ce type de var d'env elle doit la parcourir et ne tomber que sur des caracteres alphanumeriques, des _ ou des $.
 
 		//Quid si le user entre '$$a' ? Il faut intercepter ce cas dans ft_concat.
 		//Si Erika tombe sur $$ et un alphanum c'est qu'il s'agit d'une variable expand qui n'existe pas, elle doit donc
 		//tej 1 $ et recuperer tout ce qui vient apres pour faire le message d'erreur.
 		//Si elle tombe sur un token '$$[alphanum]' (avec ft_strncmp) c'est qu'elle doit traiter la chose comme une valeur litterale
+		// (*k)++;//car on ajoute un $
+		// ft_insert(result_k, 0, '$');
+		// m = 0;
+		// //on fait en sorte que if_expand zappe tous les caracteres de name (dans result).
+		// while (name[m])
+		// {
+		// 	m++;
+		// 	(*k)++;
+		// }
+		// printf("bash: $%s: ambiguous redirect\n", name + 1);//il faut exit ?
 
-		(*k)++;//car on ajoute un $
-		ft_insert(result_k, 0, '$');
+
+		//On peut faire sinon avec un \n !!! On reprend le code du dessous n faisant (*k)++ etc...
+		
+		//Donc on peut autoriser les $$ ? Je peux aussi l'utiliser pour les var env avec espaces et quotes
+		ft_insert(ft_insert(ft_insert(result_k, 1, '\"'), 1, '\''), 1, '\"');
+		(*k) += 3;//car on ajoute un $
+		printf("%s\n", result_k);
 		m = 0;
+		//on fait en sorte que if_expand zappe tous les caracteres de name (dans result).
 		while (name[m])
 		{
 			m++;
 			(*k)++;
 		}
-
 		printf("bash: $%s: ambiguous redirect\n", name + 1);//il faut exit ?
 	}
 	

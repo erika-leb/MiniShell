@@ -32,14 +32,14 @@
 //Useless ?? A quoi ca sert ?
 # define UN_TOKEN "bash: syntax error"
 
-//ft_itoa.c
-char	*ft_itoa(int nb);//unused pour l'instant
+//ft_getenvv.c
+char	*ft_getenvv(char *result, int *k, char *tmp);
 
 //parsing.c
-typedef struct pars_file
-{
-	char	strerror[20000];
-}	t_pars;
+// typedef struct pars_file
+// {
+// 	char	strerror[20000];
+// }	t_pars;
 
 int		ft_checkq(char *input);
 int     ft_unexptoken(char **result);
@@ -65,6 +65,9 @@ char	*ft_tokenize(char *av2);
 
 //ft_ifexpand
 char	*ft_ifexpand(char *result, int sq, int dq);
+
+//ft_ifexpand_utils
+void	ft_ambig(char *result_k, int *k);
 
 //man_large_str.c
 char *ft_insert(char *result, int k, char c);

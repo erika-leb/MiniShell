@@ -1,34 +1,16 @@
 A CHECKER :
-- gestion des signqux dans le heredoc (que pasa si on fait ctrl+c et ctrl+d)
+- gestion des signaux dans le heredoc (que pasa si on fait ctrl+c et ctrl+d)
 - ATTENTION si le delimiteur comporte des quote alors les variables d'environnement ne s'expand pas,
-sinon on utilise ft_ifexpand sur chaque newline de heredoc.
+sinon on utilise une version basique de ft_ifexpand sur chaque newline de heredoc.
 - ATTENTION a l'ordre d'execution et a la recuperation de resultats si je fais plusieurs heredoc a la fois
 : << $HELLO ls | ls << $CAVA       il faut ici fermer les 2 heredoc avant d'afficher le resultat
 - Erika sait elle gerer ls | < $HOME cad un enfant qui n'a pas de cmd ?
 - Attention comment Erika gere le heredoc. Il faut d'abord le faire avant de lancer la commande associee je crois (redemander a Mabrouk)
 - proteger notre minishell pour eviter les leaks avec ulimit. Proteger les fork pour eviter les leaks lorsque je lance une commande
 
-//Difference entre un directory et une chaine random pour >
-
-ls $HOME>> cava 	insere le resultat de ls dans le fichier cava
-ls TODO>> cava 		insere "TODO" (str random) dans le fichier cava
-ls $hello>> cava 	insere hello=TODO (str random) dans le fichier cava 
-
-Je pense qu'il suffit simplement d'integrer la forme expand de $HOME de $hello et TODO
-en arg dans execve et ls se charge du reste
-
-//Difference entre un directory et une chaine random pour <
-ls $HOME< cava stdin est redirige vers cava. ls tente de lire
-dans $HELLO (format expand), s'il peut alors pas de message d'erreur
-et ls affiche "TODO"
-
 //Autre
 Que se passe t il si le user fait Ctrl+D dans un heredoc non fermé. Bash semble renvoyer :
 bash: warning: here-document at line [XXX] delimited by end-of-file (wanted `[le mot en question]')
-
-//A gerer en priorité
-
-- Gerer les unclosed brackets (voir bloc note sur telephone)
 
 GOOD TO KMOW :
 - Si le delim contient des quotes alors on n'expand pas les var d'env contenus dans le fichier tmp.txt.
@@ -42,201 +24,16 @@ les signaux et eviter ce pb.
 - Aller chercher les cas d'erreur a gerer par mail
 
 
-
-- ni ls | |     ni ls | ls |      ni   | ls | ls  ne donne de resultat (ca renvoie juste une erreur). Genre rien du tout pas meme les enfants qui fonctionne.
-Donc je pense que si le user oublie d'entrer qqchose entre des pipes (ou entre 1 pipe et le debut/la fin de la chaine) alors on renvoie
-syntax error near unexpected token `|'
-A la limite je peux laisser Erika gerer ca avec le debut de fonction qu'elle avait faite, où elle disait que si y'a 2 pipes cote a cote alors on renvoie l'erreur.
----------------
-
-
-
-- si j'ecris : < $a    OU > $a        avec $a vide/inexistant alors bash retourne : $a: ambiguous redirect
-Ca ne retourne pas syntax error near unexpected token `newline' comme le ferait un simple < ou un simple >. (Quid de >> ??)
-Autrement dit bash crame que ca va pas s'expand et vu que c'est apres un <, il le garde et dit que ca pose pb
-maintenant si j'assigne à a="file1 file2"   puis que je fais < $a alors j'ai bien file1 file2: No such file or directory.
+Si j'assigne à a="file1 file2"   puis que je fais < $a alors j'ai file1 file2: No such file or directory.
 Idem pour >, j'obtiens la creation d'un fichier nommé "file1 file2".
 
-Voici comment je compte gérer le truc dans ft_expand :
-    if (!envv)
-        return (ft_erase_substr(result, k, tmp));//Ici il faudrait parcourir en arriere result pour voir si ce qui precede c'est un <.
-	//Si c'est le cas alors on a l'erreur ambiguous ambiguous redirect et l'enfant ne s'active plus.
-
-!!!
-On peut sinon aussi gérer ce cas dans ft_ifexpand en dessous du cas pour <<.
-!!!
-Avec un truc du style (dans une fct dédiée qui recupere result, &k, sq, dq):
-
-if (!sq && !dq && (!ft_strncmp(result + k, "< ", 2) 
-	|| !ft_strncmp(result + k, "> ", 2) || !ft_strncmp(result + k, ">> ", 2)))
-{
-	int pos;
-	char *name;
-
-	if (!ft_strncmp(result + k, ">> ", 2))
-		k += 2;
-	else
-		k++;
-	while (result[k] == ' ')
-		k++;
-	pos = k;
-	//on recupere le nom dans une chaine de caractere via une fonction dédiée
-	name = ft_trunc(result, pos);
-	if (result[k] == '$' && !sq
-		&& (result[k + 1] == '_' || ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
-		ft_expand(ft_erase(result, k), &k);
-	//Si l'expansion a foiré alors ca veut dire qu'on a pas bougé dans result et donc :
-	if (pos == k)
-	{
-		//dans le tableau des erreurs on ecrit l'erreur (ambiguous redirect). 
-		//On supprime tout l'enfant ? en effet il ne sera pas exécuté par bash.
-	}
-}
-
-
-Je pense qu'il faut un tableau de suivi des erreurs qu'Erika va pouvoir incorporer et manipuler.
-Comme ca meme si je supprime des enfants elle sait où remplir quoi.. Ca devrait meme etre un tableau de tableau de chaines de caracteres
-car parfois un meme enfant renvoie plusieurs erreurs :
-si je dis que a="bonjour ca va" et que je lance 
+Si je dis que a="bonjour ca va" et que je lance 
 ls $a
 ls: cannot access 'bonjour': No such file or directory
 ls: cannot access 'ca': No such file or directory
 ls: cannot access 'va': No such file or directory
 
----
-
-en revanche si j'ecris juste $a dans le terminal alors j'obtiens : file1: command not found
-C'est dû au fait qu'une commande bash ne peut pas contenir d'espace donc il créé 2 tokens et vu que le 1er n'existe pas il affiche que ca n'existe
-pas et s'arrete la.
-Il en est de meme pour une option.
-
-
-NB : ce qui est marrant c'est que si a="oui( petit test)" et que je fais ls $a j'obtiens :
-ls: cannot access 'oui(': No such file or directory
+NB : si a="oui' petit test'" et que je fais ls $a j'obtiens :
+ls: cannot access 'oui'': No such file or directory
 ls: cannot access 'petit': No such file or directory
-ls: cannot access 'test)': No such file or directory
-
-alors que si j'ecris directement dans le terminal ls "oui( petit test)" j'obtiens :
-ls: cannot access 'oui( petit test)': No such file or directory
-
-Ca confirme bien que l'expansion d'une commande ou une option se fait en plusieurs tokens separés par des espaces, et notre code
-fonctionne deja tres bien si cette cmd ou option est entrée directement par le user.
-
-CA fonctione tres bien si j'ecris A="PETIT TEST" alors PETIT et TEST seront decoupe correctement.
-En revanche si j'ecris A="'PETIT TEST'" alors mon ft_split va le gérer comme un seul morceau alors que dans bash
-il les coupe.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//a="'TEST TEST''autre test'"          < $a   donne 'TEST TEST''autre test': No such file or directory
-//autrement dit ft_concat ne doit pas merge les elements de a entre eux.
-//Par ailleurs si je fais ls $a   ca donne :
-//ls: cannot access "'TEST": No such file or directory
-//ls: cannot access "TEST''autre": No such file or directory
-//ls: cannot access "test'": No such file or directory
-
-//A tester quand j'aurai fait export a="'TEST TEST'' HELLO'" etc
-// static void	ft_complexpand(char *result, int start, int *k)
-// {
-// 	int	i;
-// 	int	is_redir;
-// 	int	dq;
-// 	int	sq;
-
-// 	//*k est incremente uniquement lorsqu'on ajoute un element.
-// 	//en effet *k est l'endroit ou on doit se retrouver a la fin de ft_complexpand,
-// 	//afin de continuer le code
-// 	is_redir = 0;
-// 	i = start;//Pour savoir si y'a une redir avant
-// 	while (--i && result[i] == ' ')
-// 	//i == -1 si j'ai juste un $HOME. C'est peut etre pas un pb ??
-// 	if (!ft_strncmp(result + i, ">> ", 3)
-// 		|| !ft_strncmp(result + i, "> ", 2)
-// 		|| !ft_strncmp(result + i, "< ", 2))
-// 		is_redir = 1;
-// 	printf("result + i : %s  valeur i = %d\n", result + i, i);
-// 	dq = 0;
-// 	sq = 0;
-// 	if (result[start] != '\"')
-// 	{
-// 		ft_insert(result, start, '\"');
-// 		(*k)++;
-// 		dq = 1;
-// 	}
-// 	else
-// 	{
-// 		ft_insert(result, start, '\'');
-// 		(*k)++;
-// 		sq = 1;
-// 	}
-// 	while (start != *k)
-// 	{
-// 		if (result[start] == ' ' && !is_redir)
-// 		{
-// 			//Le but ici est de reussir a inserer un " (ou un ') et un espace
-// 			//pour que split puisse faire son travail correctement
-			
-// 			//y a t il un risque que ca fasse pleins de  ' ' ' ' ' ??
-// 			if (dq)
-// 				ft_insert(ft_insert(result, start, ' '), start, '\"');
-// 			else
-// 				ft_insert(ft_insert(result, start, ' '), start, '\'');
-// 			start += 2;
-// 			(*k) += 2;
-// 			while (result[start] == ' ')
-// 				start++;
-// 		}
-// 		start++;
-// 	}
-// 	if (dq)
-// 	{
-// 		ft_insert(result, start, '\"');
-// 		(*k)++;
-// 	}
-// 	else
-// 	{
-// 		ft_insert(result, start, '\'');
-// 		(*k)++;	
-// 	}
-// 	printf("start :%c      end :%c\n", result[start], result[*k]);
-// }
-
-
-
-
-
-
-Bonjour, je ne parviens pas a recuperer mon home. Apres avoir lance la commande recu via home-dowloader, je me suis rendu dans le dossier Other Locations > Computer > 
+ls: cannot access 'test'': No such file or directory

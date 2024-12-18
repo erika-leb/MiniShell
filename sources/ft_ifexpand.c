@@ -129,7 +129,7 @@ static int	ft_moredoll(char *str)
 	return (0);
 }
 
-static void	ft_ambig(char *result_k, int *k, int *ambig)
+static void	ft_ambig(char *result_k, int *k)
 {
 	//on cherche getenv et on regarde si ambiguous redirect.
 	//si pas d'ambiguous on laisse ifexpand faire son travail.
@@ -168,11 +168,12 @@ static void	ft_ambig(char *result_k, int *k, int *ambig)
 		//Ca lui permet aussi de savoir la priorite d'apparition du message d'erreur.
 
 		//Quid si le user entre '$$a' ? Il faut intercepter ce cas dans ft_concat.
-		//Gerer le cas $a$b$c
+		//Si Erika tombe sur $$ et un alphanum c'est qu'il s'agit d'une variable expand qui n'existe pas, elle doit donc
+		//tej 1 $ et recuperer tout ce qui vient apres pour faire le message d'erreur.
+		//Si elle tombe sur un token '$$[alphanum]' (avec ft_strncmp) c'est qu'elle doit traiter la chose comme une valeur litterale
+
 		(*k)++;//car on ajoute un $
 		ft_insert(result_k, 0, '$');
-		*ambig = 0;
-		//En + du dollar il faudrait inserer l'integralite de name et peut etre zapper le ambig
 		m = 0;
 		while (name[m])
 		{
@@ -180,7 +181,7 @@ static void	ft_ambig(char *result_k, int *k, int *ambig)
 			(*k)++;
 		}
 
-		printf("bash: $%s: ambiguous redirect\n", name);//il faut exit ?
+		printf("bash: $%s: ambiguous redirect\n", name + 1);//il faut exit ?
 	}
 	
 }
@@ -197,10 +198,8 @@ static void	ft_incrk(char *result, int *k)
 char	*ft_ifexpand(char *result, int sq, int dq)
 {
 	int	k;
-	int	ambig;
 
 	k = 0;
-	ambig = 0;
 	while (result[k])
 	{
 		ft_modifquote_(result, &sq, &dq, &k);
@@ -222,14 +221,13 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 			ft_modifquote_(result, &sq, &dq, &k);//soit on est sur une quote soit on est sur autre chose
 			//si on est sur une quote on change juste la valeur de sq et dq et on laisse ifexpand faire son travail
 			if (!sq && !dq)
-				ft_ambig(result + k, &k, &ambig);
+				ft_ambig(result + k, &k);
 		}
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
-		if (result[k] == '$' && !sq && !ambig && (result[k + 1] == '_'
+		if (result[k] == '$' && !sq && (result[k + 1] == '_'
 			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
 			ft_expand(ft_erase(result, k), &k);//ft_erase(result, k);//k n'est pas incremente, j'envoie qu'une copie.
-		ambig = 0;
 		k++;
 	}
 	result[k] = '\0';

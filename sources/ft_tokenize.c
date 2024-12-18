@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//expand qui foire = rien
-//expand qui foire dans "" (ex "$HOMEE") renvoie chaine vide
 //ATTENTION il faut free split si y'a un pb !!!
 
 #include "minishell.h"

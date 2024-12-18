@@ -91,7 +91,7 @@ void	ft_ambig(char *result_k, int *k)
 			m++;
 			(*k)++;
 		}
-		printf("bash: $%s: ambiguous redirect\n", name + 1);//il faut exit ?
+		//printf("bash: $%s: ambiguous redirect\n", name + 1);//il faut exit ?
 	}
 	
 }

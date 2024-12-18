@@ -105,41 +105,34 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 	}
 }
 
-static void	ft_ambig(char *result_k)
+static void	ft_ambig(char *result_k, int *k, int *ambig)
 {
 	//on cherche getenv et on regarde si ambiguous redirect.
 	//si pas d'ambiguous on laisse ifexpand faire son travail.
 	char		*envv;
 	static char	tmp[20000];//il faut garder en copie le nom de la var d'env pour la reecrire dans le message d'erreur
-	int			k;
+	int			m;
 
-	k = 0;
-	if (result_k[k] != '$')
+	m = 0;
+	if (result_k[m] != '$')
 		return ;
 	envv = NULL;
-	if (result_k[k] == '$' && (result_k[k + 1] == '_'
-		|| ft_isalnum(result_k[k + 1]) || result_k[k + 1] == '?'))
-		envv = ft_getenvv(result_k + 1, &k, tmp);//getenvv remplie tmp
+	if (result_k[m] == '$' && (result_k[m + 1] == '_'
+		|| ft_isalnum(result_k[m + 1]) || result_k[m + 1] == '?'))
+		envv = ft_getenvv(result_k + 1, &m, tmp);//getenvv remplie tmp
 	if (!envv)
 	{
-		//il faudrait simplement remettre le dollar et le nom de la variable.
-		//comme ca apres ft_split (et avant ft_concat qui transforme les '$a' en $a) on parcourt tous les token. La 1er var d'env
-		//qui n'existe pas ou la 1ere redirection qui s'ouvre pas je renvoie le message d'erreur.
-		//En effet le souci est que si j'ai une redirection qui s'ouvre pas avant un var env vide alors il faut afficher Permission denied
-		//et pas ambiguous redirect.
+		//Cette methode permet a Erika d'identifier les var d'env vides, ou elles se situent et donc faire peter l'enfant.
 
-		//On pourrait sinon laisser a Erika le soin d'expand pour voir si c'est ambiguous et ainsi afficher le bon message au bon endroit.
-		//Le souci est que ft_concat transforme les '$a' en $a et donc je risque d'expand des var d'env qui sont cense rester en valeur
-		//litterale.
 
-		//Il faut ellaborer une strategie de gestion des erreurs bcp plus poussee avec une liste chainee par ex.
-
-		//Dans bash il faut essayer d'expand la suite si jamais il y a plusieurs $. Et si aucune variable ne donne rien
-		//alors on renvoie tout le nom de la var. Si on a atteint letape envv c'est que ce qui suit apres est soit un $
-		//soit un non alphanum soit un espace. La recursivite est elle appropriee ? Est-ce que vu que tmp est static
-		//il se remplie au fur et a mesure ?
-		//Comment eviter une boucle infinie vue que envv est initialise a NULL ?
-
+		//Quid si le user entre '$$a' ? Il faut intercepter ce cas dans ft_concat.
+		//Gerer le cas $a$b$c
+		(*k)++;//car on ajoute un dollar
+		ft_insert(result_k, m, '$');
+		printf("tmp : %s\n", tmp);
+		// while (tmp[++m])
+		// 	(*k)++;
+		*ambig = 1;
 
 		printf("bash: $%s: ambiguous redirect\n", tmp);//il faut exit ?
 	}
@@ -158,8 +151,10 @@ static void	ft_incrk(char *result, int *k)
 char	*ft_ifexpand(char *result, int sq, int dq)
 {
 	int	k;
+	int	ambig;
 
 	k = 0;
+	ambig = 0;
 	while (result[k])
 	{
 		ft_modifquote_(result, &sq, &dq, &k);
@@ -181,13 +176,14 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 			ft_modifquote_(result, &sq, &dq, &k);//soit on est sur une quote soit on est sur autre chose
 			//si on est sur une quote on change juste la valeur de sq et dq et on laisse ifexpand faire son travail
 			if (!sq && !dq)
-				ft_ambig(result + k);
+				ft_ambig(result + k, &k, &ambig);
 		}
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
-		if (result[k] == '$' && !sq && (result[k + 1] == '_'
+		if (result[k] == '$' && !sq && !ambig && (result[k + 1] == '_'
 			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
 			ft_expand(ft_erase(result, k), &k);//ft_erase(result, k);//k n'est pas incremente, j'envoie qu'une copie.
+		ambig = 0;
 		k++;
 	}
 	result[k] = '\0';

@@ -5,6 +5,8 @@ sinon on utilise ft_ifexpand sur chaque newline de heredoc.
 - ATTENTION a l'ordre d'execution et a la recuperation de resultats si je fais plusieurs heredoc a la fois
 : << $HELLO ls | ls << $CAVA       il faut ici fermer les 2 heredoc avant d'afficher le resultat
 - Erika sait elle gerer ls | < $HOME cad un enfant qui n'a pas de cmd ?
+- Attention comment Erika gere le heredoc. Il faut d'abord le faire avant de lancer la commande associee je crois (redemander a Mabrouk)
+- proteger notre minishell pour eviter les leaks avec ulimit. Proteger les fork pour eviter les leaks lorsque je lance une commande
 
 //Difference entre un directory et une chaine random pour >
 
@@ -231,3 +233,10 @@ il les coupe.
 // 	}
 // 	printf("start :%c      end :%c\n", result[start], result[*k]);
 // }
+
+
+
+
+
+
+Bonjour, je ne parviens pas a recuperer mon home. Apres avoir lance la commande recu via home-dowloader, je me suis rendu dans le dossier Other Locations > Computer > 

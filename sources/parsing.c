@@ -4,13 +4,17 @@ int ft_checkq(char *input)
 {
     int sq;
     int dq;
+	int	doll;
     char *ptr;
 
 	sq = 0;
 	dq = 0;
+	doll = 0;
 	ptr = input;
     while (*ptr)
 	{
+		if (!sq && !dq && *ptr == '$' && *(ptr + 1) == '$')
+			return(printf("bash: syntax error near unexpected token `$'\n"));
         if (*ptr == '\'' && !dq)
 			sq = !sq;
         else if (*ptr == '\"' && !sq)
@@ -22,10 +26,11 @@ int ft_checkq(char *input)
 	return (0);
 }
 
+//redondant avec ft_onetoken dans ft_concat.c. Mais cette version est meilleure
 static int	ft_istok_(char *av2)
 {
-	if (ft_strcmp(av2, "|") || ft_strcmp(av2, "<") || ft_strcmp(av2, ">")
-		|| ft_strcmp(av2, "<<") || ft_strcmp(av2, ">>"))
+	if (!ft_strcmp(av2, "|") || !ft_strcmp(av2, "<") || !ft_strcmp(av2, ">")
+		|| !ft_strcmp(av2, "<<") || !ft_strcmp(av2, ">>"))
 		return (1);
 	return (0);
 }
@@ -45,7 +50,6 @@ int	ft_unexptoken(char **result)
 	i = 0;
 	while (result[i])
 	{
-		//seul le | peut avoir < > << >> apres lui. Mais il peut pas avoir un autre |
 		if (!ft_strcmp(result[i], "|") && result[i + 1] && !ft_strcmp(result[i + 1], "|"))
 			return(printf("bash: syntax error near unexpected token `|'\n"));
 		if (ft_istok_(result[i]) && ft_strcmp(result[i], "|")

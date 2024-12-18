@@ -105,14 +105,38 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 	}
 }
 
+static int	ft_moredoll(char *str)
+{
+	int	i;
+	int	sq;
+	int	dq;
+
+	//< $u$j : apres j il n'y a plus rien. Or cela provoquait un comportement indesirable
+	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
+	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
+	if (!str[1])
+		return (1);
+	i = 0;
+	sq = 0;
+	dq = 0;
+	while (str[i])
+	{
+		ft_modifquote_(str, &sq, &dq, &i);
+		if (str[i] == '$' && !sq && !dq)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 static void	ft_ambig(char *result_k, int *k, int *ambig)
 {
 	//on cherche getenv et on regarde si ambiguous redirect.
 	//si pas d'ambiguous on laisse ifexpand faire son travail.
-	char		*envv;
+	char	*envv;
 	char	tmp[20000];
 	char	name[20000];
-	int			m;
+	int		m;
 
 	if (*result_k != '$')
 		return ;
@@ -124,30 +148,37 @@ static void	ft_ambig(char *result_k, int *k, int *ambig)
 		m++;
 	}
 	name[m] = '\0';
-	printf("%s\n", name);
 	m = 0;
 	while (name[m])
 	{
 		if (name[m] == '$' && (*(name + m + 1) == '_'
 			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
 			envv = ft_getenvv(name + 1, &m, tmp);
-		if (envv)
+		//Si je vois qu'apres (en name + 1 + m) il n'y a plus de dollars (hors quotes) alors je peux m'arreter
+		if (envv || !ft_moredoll(name + 1 + m))
 			break ;
 		m++;
 	}
-	////////
-	if (!envv)
-	{
+	printf("%s\n", name + m);
+	if (!envv && !name[m])
+	{// && !name[m] : Si j'ecris < $u"HOME" alors grace au !name[m]  et au if (envv || !ft_moredoll(name + 1 + m)) j'entre pas le if.
+		//En effet dans "HOME" il n'y a pas de dollars hors quote et donc le break du dessus s'enclenche.
+
 		//Cette methode permet a Erika d'identifier les var d'env vides, ou elles se situent et donc faire peter l'enfant.
 		//Ca lui permet aussi de savoir la priorite d'apparition du message d'erreur.
-
 
 		//Quid si le user entre '$$a' ? Il faut intercepter ce cas dans ft_concat.
 		//Gerer le cas $a$b$c
 		(*k)++;//car on ajoute un $
 		ft_insert(result_k, 0, '$');
-		*ambig = 1;
+		*ambig = 0;
 		//En + du dollar il faudrait inserer l'integralite de name et peut etre zapper le ambig
+		m = 0;
+		while (name[m])
+		{
+			m++;
+			(*k)++;
+		}
 
 		printf("bash: $%s: ambiguous redirect\n", name);//il faut exit ?
 	}

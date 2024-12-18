@@ -110,31 +110,46 @@ static void	ft_ambig(char *result_k, int *k, int *ambig)
 	//on cherche getenv et on regarde si ambiguous redirect.
 	//si pas d'ambiguous on laisse ifexpand faire son travail.
 	char		*envv;
-	static char	tmp[20000];//il faut garder en copie le nom de la var d'env pour la reecrire dans le message d'erreur
+	char	tmp[20000];
+	char	name[20000];
 	int			m;
 
-	m = 0;
-	if (result_k[m] != '$')
+	if (*result_k != '$')
 		return ;
 	envv = NULL;
-	if (result_k[m] == '$' && (result_k[m + 1] == '_'
-		|| ft_isalnum(result_k[m + 1]) || result_k[m + 1] == '?'))
-		envv = ft_getenvv(result_k + 1, &m, tmp);//getenvv remplie tmp
+	m = 0;
+	while (result_k[m] && result_k[m] != ' ')
+	{
+		name[m] = result_k[m];
+		m++;
+	}
+	name[m] = '\0';
+	printf("%s\n", name);
+	m = 0;
+	while (name[m])
+	{
+		if (name[m] == '$' && (*(name + m + 1) == '_'
+			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
+			envv = ft_getenvv(name + 1, &m, tmp);
+		if (envv)
+			break ;
+		m++;
+	}
+	////////
 	if (!envv)
 	{
 		//Cette methode permet a Erika d'identifier les var d'env vides, ou elles se situent et donc faire peter l'enfant.
+		//Ca lui permet aussi de savoir la priorite d'apparition du message d'erreur.
 
 
 		//Quid si le user entre '$$a' ? Il faut intercepter ce cas dans ft_concat.
 		//Gerer le cas $a$b$c
-		(*k)++;//car on ajoute un dollar
-		ft_insert(result_k, m, '$');
-		printf("tmp : %s\n", tmp);
-		// while (tmp[++m])
-		// 	(*k)++;
+		(*k)++;//car on ajoute un $
+		ft_insert(result_k, 0, '$');
 		*ambig = 1;
+		//En + du dollar il faudrait inserer l'integralite de name et peut etre zapper le ambig
 
-		printf("bash: $%s: ambiguous redirect\n", tmp);//il faut exit ?
+		printf("bash: $%s: ambiguous redirect\n", name);//il faut exit ?
 	}
 	
 }

@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int ft_checkq(char *input)
+static int ft_checkq(char *input)
 {
     int sq;
     int dq;
@@ -37,7 +37,7 @@ int	ft_istok_(char *av2)
 
 //Si j'ai ambiguous redirect alors l'erreur newline s'affiche aussi.
 //si je veux eviter ca je peux remplir un buffer d'erreur
-int	ft_unexptoken(char **result)
+static int	ft_unexptoken(char **result)
 {
 	int	i;
 
@@ -100,25 +100,3 @@ void	ft_ft(char *line, char **result, int i, int go)
 	if (go && result)
 		ft_freesplit(result, i);
 }
-
-
-// if (!ft_checkq(line))
-// 	result = ft_split(ft_tokenize(line), 0, 0);
-// else
-// 	result = NULL;//Si des quotes sont pas fermes on malloc rien et on retourne result == NULL
-// while (result && result[i])
-// {
-// 	result[i] = ft_concat(result[i], -1, 0, 0);
-// 	i++;
-// }
-// if (ft_unexptoken(result))
-// {//si des token sont cote a cote a tord alors on free et on retourne result == NULL
-// 	ft_freesplit(result, i);
-// 	result = NULL;
-// }
-// i = 0;
-// while (result && result[i])
-// {
-// 	printf("token %d :%s\n", i, result[i]);
-// 	i++;
-// }

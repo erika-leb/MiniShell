@@ -37,8 +37,6 @@
 char	*ft_getenvv(char *result, int *k, char *tmp);
 
 //parsing.c
-int		ft_checkq(char *input);
-int     ft_unexptoken(char **result);
 void	ft_deldollar(char *input);
 int     ft_istok_(char *av2);
 void	ft_ft(char *line, char **result, int i, int go);

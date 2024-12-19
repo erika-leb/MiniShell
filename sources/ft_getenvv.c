@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <limits.h>//Car uniquement utilisé pour ft_itoa
-
-//AJOUTER FICHIER  .c DANS MAKEFILE et ft_itoa dans minishell.h
 
 static size_t	ft_countt(int nb)
 {

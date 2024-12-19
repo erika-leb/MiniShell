@@ -7,6 +7,8 @@ sinon on utilise une version basique de ft_ifexpand sur chaque newline de heredo
 - Erika sait elle gerer ls | < $HOME cad un enfant qui n'a pas de cmd ?
 - Attention comment Erika gere le heredoc. Il faut d'abord le faire avant de lancer la commande associee je crois (redemander a Mabrouk)
 - proteger notre minishell pour eviter les leaks avec ulimit. Proteger les fork pour eviter les leaks lorsque je lance une commande
+- Si je fais un Shift + Enter (introduction de \n) alors ca segfault. Pas un souci car dans bash je peux faire Shift + Enter uniquement apres un | ou heredoc
+Par ailleurs en bash il est impossible de mettre un dollar suivi de \n
 
 //Autre
 Que se passe t il si le user fait Ctrl+D dans un heredoc non fermé. Bash semble renvoyer :
@@ -22,7 +24,6 @@ GOOD TO KMOW :
 les signaux et eviter ce pb.
 
 - Aller chercher les cas d'erreur a gerer par mail
-
 
 Si j'assigne à a="file1 file2"   puis que je fais < $a alors j'ai file1 file2: No such file or directory.
 Idem pour >, j'obtiens la creation d'un fichier nommé "file1 file2".

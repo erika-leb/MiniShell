@@ -24,8 +24,7 @@ int ft_checkq(char *input)
 	return (0);
 }
 
-//redondant avec ft_onetoken dans ft_concat.c. Mais cette version est meilleure
-static int	ft_istok_(char *av2)
+int	ft_istok_(char *av2)
 {
 	if (!ft_strcmp(av2, "|") || !ft_strcmp(av2, "<") || !ft_strcmp(av2, ">")
 		|| !ft_strcmp(av2, "<<") || !ft_strcmp(av2, ">>"))
@@ -82,3 +81,34 @@ void	ft_deldollar(char *input)
 		i++;
 	}
 }
+
+
+// void	ft_ft(char *line, char **result)
+// {
+// 	int	i;
+
+// 	i = 0;
+
+// }
+
+
+// if (!ft_checkq(line))
+// 	result = ft_split(ft_tokenize(line), 0, 0);
+// else
+// 	result = NULL;//Si des quotes sont pas fermes on malloc rien et on retourne result == NULL
+// while (result && result[i])
+// {
+// 	result[i] = ft_concat(result[i], -1, 0, 0);
+// 	i++;
+// }
+// if (ft_unexptoken(result))
+// {//si des token sont cote a cote a tord alors on free et on retourne result == NULL
+// 	ft_freesplit(result, i);
+// 	result = NULL;
+// }
+// i = 0;
+// while (result && result[i])
+// {
+// 	printf("token %d :%s\n", i, result[i]);
+// 	i++;
+// }

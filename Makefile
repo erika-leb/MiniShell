@@ -16,27 +16,27 @@ SRC_DIR = sources
 OBJ_DIR = objets
 
 SRC_FILES = ${SRC_DIR}/main.c \
-			${SRC_DIR}/libft.c \
+			${SRC_DIR}/libft_a.c \
 			${SRC_DIR}/ft_getenvv.c \
 			${SRC_DIR}/parsing.c \
 			${SRC_DIR}/ft_split.c \
-			${SRC_DIR}/ft_split_utils.c \
+			${SRC_DIR}/split_utils.c \
 			${SRC_DIR}/ft_tokenize.c \
 			${SRC_DIR}/ft_ifexpand.c \
-			${SRC_DIR}/ft_ifexpand_utils.c \
-			${SRC_DIR}/man_large_str.c \
+			${SRC_DIR}/ft_ambig.c \
+			${SRC_DIR}/str_manager.c \
 			${SRC_DIR}/ft_concat.c
 
 OBJ_FILES = $(OBJ_DIR)/main.o \
-            ${OBJ_DIR}/libft.o \
+            ${OBJ_DIR}/libft_a.o \
 			${OBJ_DIR}/ft_getenvv.o \
 			${OBJ_DIR}/parsing.o \
 			${OBJ_DIR}/ft_split.o \
-			${OBJ_DIR}/ft_split_utils.o \
+			${OBJ_DIR}/split_utils.o \
 			${OBJ_DIR}/ft_tokenize.o \
 			${OBJ_DIR}/ft_ifexpand.o \
-			${OBJ_DIR}/ft_ifexpand_utils.o \
-			${OBJ_DIR}/man_large_str.o \
+			${OBJ_DIR}/ft_ambig.o \
+			${OBJ_DIR}/str_manager.o \
 			${OBJ_DIR}/ft_concat.o
 
 NAME = minishell

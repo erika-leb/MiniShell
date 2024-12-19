@@ -1,20 +1,19 @@
 #include "../minishell.h"
 
-//Erika pourra reutiliser cette fonction pour reperer les token litteraux
-static int	ft_onetoken(char *av2)
-{
-	if ((av2[0] == '|' && !av2[1])
-		|| (av2[0] == '<' && !av2[1])
-		|| (av2[0] == '>' && !av2[1])
-		|| (av2[0] == '<' && av2[1] == '<' && !av2[2])
-		|| (av2[0] == '>' && av2[1] == '>' && !av2[2]))
-		return (1);
-	return (0);
-}
+// static int	ft_onetoken(char *av2)
+// {
+// 	if ((av2[0] == '|' && !av2[1])
+// 		|| (av2[0] == '<' && !av2[1])
+// 		|| (av2[0] == '>' && !av2[1])
+// 		|| (av2[0] == '<' && av2[1] == '<' && !av2[2])
+// 		|| (av2[0] == '>' && av2[1] == '>' && !av2[2]))
+// 		return (1);
+// 	return (0);
+// }
 
 static char	*ft_retmerge(char *result_i, int is_concat)
 {
-	if (is_concat && ft_onetoken(result_i))
+	if (is_concat && ft_istok_(result_i))
 		ft_insert(ft_insert(result_i, 0, '\''), ft_strlen(result_i), '\'');// + 1
 	//printf("%zu\n", ft_strlen(result_i));//Verifie que les tokens nuls sont bien crees
 	return (result_i);

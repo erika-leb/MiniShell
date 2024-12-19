@@ -1,22 +1,17 @@
 #include "../minishell.h"
 
-static int	ft_moredoll(char *str)
+static int	ft_moredoll(char *str, int i, int sq, int dq)
 {
-	int	i;
-	int	sq;
-	int	dq;
-
 	//< $u$j : apres j il n'y a plus rien. Or cela provoquait un comportement indesirable
 	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
 	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
-	//<$hello$u fonctionne mais pas <$hello$uu
+	//<$hello$u fonctionne mais pas <$hello$uu.
+	//Fonctionne pas non plus si je fais < $uuuu
+	printf("moredoll : %s\n", str);
 	if (!str[1])
 		return (1);
 	// if (!str || !str[0] || !str[1])// || !str[2]
 	// 	return (1);
-	i = 0;
-	sq = 0;
-	dq = 0;
 	while (str[i])
 	{
 		ft_modifquote_(str, &sq, &dq, &i);
@@ -64,9 +59,14 @@ void	ft_ambig(char *result_k, int *k)
 	{
 		if (name[m] == '$' && (*(name + m + 1) == '_'
 			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
+		{
+			printf("name : %s\n", name + 1);//le probleme n'est pas la
 			envv = ft_getenvv(name + 1, &m, tmp);
+			printf("%s\n", envv);
+		}
+		//m++;
 		//Si je vois qu'apres (en name + 1 + m) il n'y a plus de dollars (hors quotes) alors je peux m'arreter
-		if (envv || !ft_moredoll(name + m))
+		if (envv || !ft_moredoll(name + m, 0, 0, 0))
 			break ;// + 1
 		m++;
 	}

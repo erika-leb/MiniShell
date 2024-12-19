@@ -9,8 +9,11 @@ static int	ft_moredoll(char *str)
 	//< $u$j : apres j il n'y a plus rien. Or cela provoquait un comportement indesirable
 	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
 	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
+	//<$hello$u fonctionne mais pas <$hello$uu
 	if (!str[1])
 		return (1);
+	// if (!str || !str[0] || !str[1])// || !str[2]
+	// 	return (1);
 	i = 0;
 	sq = 0;
 	dq = 0;
@@ -63,8 +66,8 @@ void	ft_ambig(char *result_k, int *k)
 			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
 			envv = ft_getenvv(name + 1, &m, tmp);
 		//Si je vois qu'apres (en name + 1 + m) il n'y a plus de dollars (hors quotes) alors je peux m'arreter
-		if (envv || !ft_moredoll(name + 1 + m))
-			break ;
+		if (envv || !ft_moredoll(name + m))
+			break ;// + 1
 		m++;
 	}
 	if (!envv && !name[m])

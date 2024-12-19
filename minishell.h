@@ -41,6 +41,7 @@ int		ft_checkq(char *input);
 int     ft_unexptoken(char **result);
 void	ft_deldollar(char *input);
 int     ft_istok_(char *av2);
+void	ft_ft(char *line, char **result, int i, int go);
 
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq);

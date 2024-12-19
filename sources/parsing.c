@@ -41,7 +41,9 @@ int	ft_unexptoken(char **result)
 {
 	int	i;
 
-	//on peut pas commencer par un |
+	//\0 est un unexpected token
+	if (!(*result))
+		return (1);//Sinon ecrire juste $a (qui ne correspond a rien) provoquait un segfault a cause de ft_strcmp
 	if (!ft_strcmp(result[0], "|"))
 		return(printf("bash: syntax error near unexpected token `|'\n"));
 	i = 0;
@@ -82,37 +84,21 @@ void	ft_deldollar(char *input)
 	}
 }
 
-void	ft_ft(char *line, char **result)
+void	ft_ft(char *line, char **result, int i, int go)
 {
-	//Erika doit changer result pour elements.
-	int	i;
-	int	go;
-
-	i = 0;
-	go = 0;
+	//Erika doit remplacer result par elements.
 	if (!ft_checkq(line))
 		go = 1;
 	result = ft_split(ft_tokenize(line), 0, 0);
-	while (go && result && result[i])
-	{
+	while (go && result && result[++i])
 		result[i] = ft_concat(result[i], -1, 0, 0);
-		i++;
-	}
-	if (go && result && ft_unexptoken(result))
-	{
-		//si des token sont cote a cote a tord alors on s'arrete
+	if (result && ft_unexptoken(result))
 		go = 0;
-	}
-	i = 0;
-	while (go && result && result[i])
-	{
+	i = -1;
+	while (go && result && result[++i])
 		printf("token %d :%s\n", i, result[i]);
-		i++;
-	}
 	if (go && result)
-	{
 		ft_freesplit(result, i);
-	}
 }
 
 

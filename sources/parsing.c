@@ -82,14 +82,38 @@ void	ft_deldollar(char *input)
 	}
 }
 
+void	ft_ft(char *line, char **result)
+{
+	//Erika doit changer result pour elements.
+	int	i;
+	int	go;
 
-// void	ft_ft(char *line, char **result)
-// {
-// 	int	i;
-
-// 	i = 0;
-
-// }
+	i = 0;
+	go = 0;
+	if (!ft_checkq(line))
+		go = 1;
+	result = ft_split(ft_tokenize(line), 0, 0);
+	while (go && result && result[i])
+	{
+		result[i] = ft_concat(result[i], -1, 0, 0);
+		i++;
+	}
+	if (go && result && ft_unexptoken(result))
+	{
+		//si des token sont cote a cote a tord alors on s'arrete
+		go = 0;
+	}
+	i = 0;
+	while (go && result && result[i])
+	{
+		printf("token %d :%s\n", i, result[i]);
+		i++;
+	}
+	if (go && result)
+	{
+		ft_freesplit(result, i);
+	}
+}
 
 
 // if (!ft_checkq(line))

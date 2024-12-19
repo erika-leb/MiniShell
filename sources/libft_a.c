@@ -12,6 +12,9 @@
 
 #include "../minishell.h"
 
+//ft_calloc useless vu qu'on fait un gc_cleaner ?
+//Est-ce que gc_cleaner malloc a 0 comme calloc ?
+
 int	ft_isalnum(int c)
 {
 	if ((c >= 'A' && c <= 'Z')

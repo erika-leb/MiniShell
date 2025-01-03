@@ -7,9 +7,9 @@ static void	ft_expand(char *result, int *k)
 	char	tmp[20000];
 	char	*envv;
 	int		i;
-	int		start;
+	//int		start;
 
-	start = *k;
+	//start = *k;
     envv = ft_getenvv(result, k, tmp);
     if (!envv)
         return (ft_erase_substr(result, k, tmp));
@@ -70,7 +70,7 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 static void	ft_incrk(char *result, int *k)
 {
 	(*k)++;
-	if (!ft_strncmp(result + *k, ">> ", 3))
+	if (!ft_strncmp_(result + *k, ">> ", 3))
 		(*k)++;
 	while (result[*k] == ' ')
 		(*k)++;
@@ -88,15 +88,15 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 		//qui a ete prealablement separé par ft_tokenize. J'avance de +2, je me situe donc forcement
 		//sur un espace normalement. Il ne faut pas expand ce qui vient apres.
 		//et donc je modifie aussi le if pour ne pas qu'il s'enclenche.
-		if (!sq && !dq && !ft_strncmp(result + k, "<< ", 3))
+		if (!sq && !dq && !ft_strncmp_(result + k, "<< ", 3))
 			ft_delim(result, &k, 0, 0);//On est forcement hors quote donc sq = 0 et dq = 0 en param
 
 		//ambiguous redirect ne fonctionne que si $a n'est pas dans une quote. Car si sq on retire juste les quote
 		//et on a pas a expand. Si dq on renvoie une chaine vide.
 		//ls < $HOME < $b entraine ambiguous redirect meme si le 1er est valable.
-		if (!sq && !dq && (!ft_strncmp(result + k, ">> ", 3)
-			|| !ft_strncmp(result + k, "> ", 2)
-			|| !ft_strncmp(result + k, "< ", 2)))
+		if (!sq && !dq && (!ft_strncmp_(result + k, ">> ", 3)
+			|| !ft_strncmp_(result + k, "> ", 2)
+			|| !ft_strncmp_(result + k, "< ", 2)))
 		{
 			ft_incrk(result, &k);
 			ft_modifquote_(result, &sq, &dq, &k);//soit on est sur une quote soit on est sur autre chose

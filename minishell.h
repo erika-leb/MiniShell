@@ -53,7 +53,7 @@ void	*ft_freesplit(char **tab, size_t n);
 void	*ft_calloc(size_t n, size_t sizof);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_strncmp(const char *str1, const char *str2, size_t n);
+int		ft_strncmp_(const char *str1, const char *str2, size_t n);
 int     ft_isalnum(int c);
 
 //ft_tokenize.c

@@ -1,6 +1,9 @@
 #include "../minishell.h"
 
-// Modifier le nom de ft_strncmp car Erika a sa version.
+// Modifier le nom de ft_strncmp car Erika a sa version (DONE)
+
+//Dans un chaine "" on peut ecrire un $ et revenir à la ligne.
+//Petu etre est il judicieux d'ajouter un /t quelque part ?
 
 static int	ft_moredoll(char *str, int i, int sq, int dq)
 {

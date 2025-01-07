@@ -70,7 +70,7 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 static void	ft_incrk(char *result, int *k)
 {
 	(*k)++;
-	if (!ft_strncmp(result + *k, ">> ", 3))
+	if (!ft_strncmp(result + *k, "> ", 2))
 		(*k)++;
 	while (result[*k] == ' ')
 		(*k)++;

@@ -33,6 +33,15 @@ static void	ft_ibslash(char *result_k, char *name, int *k)
 	//printf("bash: %s: ambiguous redirect\n", name);
 }
 
+static void	ft_initambig(char *result_k, char *name, int *m)
+{
+	*m = -1;
+	while (result_k[++(*m)] && result_k[*m] != ' ')
+		name[*m] = result_k[*m];
+	name[*m] = '\0';
+	*m = 0;
+}
+
 void	ft_ambig(char *result_k, int *k)
 {
 	//on cherche getenv et on regarde si ambiguous redirect.
@@ -44,13 +53,16 @@ void	ft_ambig(char *result_k, int *k)
 
 	if (*result_k != '$')
 		return ;
+
 	envv = NULL;
-	m = -1;
-	//On rempit name. ex : name = $a$bbb (forcement qqchose qui commence par un $)
-	while (result_k[++m] && result_k[m] != ' ')
-		name[m] = result_k[m];
-	name[m] = '\0';
-	m = 0;
+	// m = -1;
+	// //On rempit name. ex : name = $a$bbb (forcement qqchose qui commence par un $)
+	// while (result_k[++m] && result_k[m] != ' ')
+	// 	name[m] = result_k[m];
+	// name[m] = '\0';
+	// m = 0;
+
+	ft_initambig(result_k, name, &m);
 	while (name[m])
 	{
 		//Des que je tombe sur le 1er $ ou les suivants, je check

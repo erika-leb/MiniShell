@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/11 19:44:37 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:09:36 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*ft_freesplit(char **tab, size_t n);
 void	*ft_calloc(size_t n, size_t sizof);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_strncmp(const char *str1, const char *str2, size_t n);
+int		ft_strncmp(const char *str1, const char *str2, size_t n);//ATTENTION Erika a aussi un ft_strncmp pas code exactement comme moi
 int     ft_isalnum(int c);
 
 //ft_tokenize.c

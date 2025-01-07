@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/07 16:09:36 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:20:34 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,8 @@ void ft_modifquote_(char const *str, int *sq, int *dq, int *i);
 
 //ft_concat.c
 char	*ft_concat(char *result_i, int k, int sq, int dq);
+
+//ft_exit.c
+int	ft_exit(const char *str);
 
 #endif

@@ -1,74 +1,74 @@
 #include "../minishell.h"
-//atoi adapté ? Je crois dans les test y'a exit -----42.
-//est ce que ca se comporte de la meme façon ? bash: exit: --42: numeric argument required
-//mais par contre exit est quand meme execute et le retour d'erreur est command not found je crois
-//Les code retour ne peuvent pas etre negatifs et sont convertis en positif :
-//ex -42 donne 214. "exit" 42 est valide. "exit 42" n'est pas valide et correspond a une
-//commande du meme nom.
-//Il vaut mieux donc lancer exit apres ft_ft pour le traiter correctement
-
 
 //J'ai remarqué que quand je fais un exit "  42" par ex, puis que je fais $? alors j'obtiens bien
-// le code 42. Par contre si je refais $? j'obtiens le code 127. Why ?
+// le code 42. Par contre si je refais $? j'obtiens le code 127. Car il tente de lancer
+//la cmd 42 et la trouve pas.
 
-
-//Il faut modifier ft_atoi pour que ca overflow quand le nb est negatif, et que ca
-//renvoie l'erreur numeric argument required si j'entre un signe de trop ou un caractere
-//autre.
-
+static void ft_exitfail(const char *str)
+{
+	printf("bash: exit: %s: numeric argument required\n", str);
+	exit(2);
+}
 
 //Est ce que faire un exit suffit ? Les autres enfants ont ils egalement acces a ce code d'erreur ?
 //Il faudrait creer une variable globale et modifier sa valeur.
 
-//Que pasa si j'entre exit 6666666666666666666666666666666 ? Comment se comporte bash ?
-static int	ft_exit(const char *str)
+static void ft_initexit(const char *str, int *i, int *neg, long *res)
 {
-	int	i;
-	int	neg;
-	int	res;
+	*i = 0;
+    *neg = 1;
+    *res = 0;
+	//Pour gerer les exit "   42" :
+	while ((str[*i] >= '\t' && str[*i] <= '\r') || str[*i] == ' ')
+        (*i)++;
+}
 
-	i = 0;
-	neg = 1;
-	res = 0;
-	//Ce while est utile car exit "    42" est valide
-	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
-		i++;
-	if (str[i] == '-')
-	{
-		neg = -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
-	else if (!(str[i] >= '0' && str[i] <= '9'))
-	{
-		//on affiche le message d'erreur et on exit 127 ? En effet ca veut dire qu'on a ecrit
-		//un trud du style -a ou "+  ".
-		printf("bash: exit: %s: numeric argument required\n", str);
-		exit(2);
-	}
-	//else if c'est pas un numerique alors erreur numeric argument required
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10 + (str[i] - '0');
-		i++;
-	}
+//Si le nb ne peut pas etre contenu dans un long alors ca renvoie l'erreur numeric argument recquired.
+int ft_exit(const char *str)
+{
+    int i;
+    int neg;
+    long res;
+	int	curr_digit;
+
+	ft_initexit(str, &i, &neg, &res);
+    if (str[i] == '-')
+    {
+        neg = -1;
+        i++;
+    }
+    else if (str[i] == '+')
+        i++;
+	//Pour eviter que le user mette des trucs du style "  + " ou +a :
+    if (!(str[i] >= '0' && str[i] <= '9'))
+        ft_exitfail(str);
+    // Convertir la chaîne en long tout en vérifiant les débordements (voir GPT pour explications)
+    while (str[i] >= '0' && str[i] <= '9')
+    {
+        curr_digit = str[i] - '0';
+
+        // Vérifier les débordements avant d'ajouter le chiffre
+        if ((neg == 1 && res > (LONG_MAX - curr_digit) / 10) ||
+            (neg == -1 && res > (LONG_MIN + curr_digit) / -10))
+            ft_exitfail(str);
+
+        res = res * 10 + curr_digit;
+        i++;
+    }
+	//Pour gerer les cas exit "42   "
+    while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
+        i++;
 	//avant de return on verifie que soit on est en bout de chaine, soit il y a
 	//que des espaces avant le bout de chaine sinon c'est que dans la chaine y'a des trucs
 	//invalides ex : 43253a.
-	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
-        i++;
-	if (str[i])
-	{
-		printf("bash: exit: %s: numeric argument required\n", str);
-		exit(2);
-	}
-	if (neg == -1)
-		exit((unsigned int)(-res) % 256);
-	exit(res % 256);
+    if (str[i])
+        ft_exitfail(str);
+    if (neg == -1)
+        res = -res;
+    exit((unsigned int)res % 256);
 }
 
-//gcc -o sources/ft_exit ft_exit.c
+//gcc -o ft_exit sources/ft_exit.c
 //./ft_exit 42
 //echo $?
 int main(int argc, char **argv)

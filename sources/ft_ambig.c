@@ -5,13 +5,8 @@ static int	ft_moredoll(char *str, int i, int sq, int dq)
 	//< $u$j : apres j il n'y a plus rien. Or cela provoquait un comportement indesirable
 	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
 	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
-	//<$hello$u fonctionne mais pas <$hello$uu.
-	//Fonctionne pas non plus si je fais < $uuuu
-	printf("moredoll : %s\n", str);
 	if (!str[1])
 		return (1);
-	// if (!str || !str[0] || !str[1])// || !str[2]
-	// 	return (1);
 	while (str[i])
 	{
 		ft_modifquote_(str, &sq, &dq, &i);
@@ -51,27 +46,28 @@ void	ft_ambig(char *result_k, int *k)
 		return ;
 	envv = NULL;
 	m = -1;
+	//On rempit name. ex : name = $a$bbb (forcement qqchose qui commence par un $)
 	while (result_k[++m] && result_k[m] != ' ')
 		name[m] = result_k[m];
 	name[m] = '\0';
 	m = 0;
 	while (name[m])
 	{
+		//Des que je tombe sur le 1er $ ou les suivants, je check
+		//que ce qui vient apres c'est un alnum et on lance ft_getenvv
 		if (name[m] == '$' && (*(name + m + 1) == '_'
 			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
-		{
-			printf("name : %s\n", name + 1);//le probleme n'est pas la
-			envv = ft_getenvv(name + 1, &m, tmp);
-			printf("%s\n", envv);
-		}
-		//m++;
-		//Si je vois qu'apres (en name + 1 + m) il n'y a plus de dollars (hors quotes) alors je peux m'arreter
+			envv = ft_getenvv(name + 1, &m, tmp);//ft_getenvv ne va pas incrementer m
+		while (name[m] != '$' && (*(name + m) == '_'
+				|| ft_isalnum(*(name + m)) || *(name + m) == '?'))
+			m++;
+		//Si je vois qu'apres (en name + m) il n'y a plus de dollars (hors quotes) alors je peux m'arreter
 		if (envv || !ft_moredoll(name + m, 0, 0, 0))
 			break ;// + 1
 		m++;
 	}
 	if (!envv && !name[m])
 		ft_ibslash(result_k, name, k);
-	// && !name[m] : Si j'ecris < $u"HOME" alors grace au !name[m]  et au if (envv || !ft_moredoll(name + 1 + m)) j'entre pas dans le if.
+	// && !name[m] : Si j'ecris < $u"HOME" alors grace au !name[m]  et au if (envv || !ft_moredoll) j'entre pas dans le if.
 	//En effet dans "HOME" il n'y a pas de dollars hors quote et donc le break du dessus s'enclenche.
 }

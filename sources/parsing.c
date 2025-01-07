@@ -84,6 +84,7 @@ void	ft_deldollar(char *input)
 	}
 }
 
+//Rechecker la logique de ce truc. 
 void	ft_ft(char *line, char **result, int i, int go)
 {
 	//Erika doit remplacer result par elements.

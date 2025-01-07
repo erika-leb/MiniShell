@@ -76,6 +76,10 @@ static void	ft_incrk(char *result, int *k)
 		(*k)++;
 }
 
+//Dans ifexpand on pourrait inserer a differents endroits de la fonction (ou des sous fonctions)
+//des checkers pour savoir si la var contient des espaces et/ou des quotes et ainsi expand ou non.
+//Par ex si t'as var contient des espaces (pas sq ni dq) et qu'elle n'est pas apres une redir alors
+//on peut expand sans se poser de questions.
 char	*ft_ifexpand(char *result, int sq, int dq)
 {
 	int	k;

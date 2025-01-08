@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+//Demander aux gens les hedge cases
+
 //J'ai remarqué que quand je fais un exit "  42" par ex, puis que je fais $? alors j'obtiens bien
 // le code 42. Par contre si je refais $? j'obtiens le code 127. Car il tente de lancer
 //la cmd 42 et la trouve pas.

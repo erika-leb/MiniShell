@@ -25,13 +25,33 @@ static void ft_initexit(const char *str, int *i, int *neg, long *res)
         (*i)++;
 }
 
+static void ft_fillexit(const char *str, int *i, int neg, long *res)
+{
+    int	curr_digit;
+    // Convertir la chaîne en long tout en vérifiant les débordements (voir GPT pour explications)
+    while (str[*i] >= '0' && str[*i] <= '9')
+    {
+        curr_digit = str[*i] - '0';
+
+        // Vérifier les débordements avant d'ajouter le chiffre
+        if ((neg == 1 && *res > (LONG_MAX - curr_digit) / 10) ||
+            (neg == -1 && *res > (LONG_MIN + curr_digit) / -10))
+            ft_exitfail(str);
+        *res = (*res) * 10 + curr_digit;
+        (*i)++;
+    }
+	//Pour gerer les cas exit "42   "
+    while ((str[*i] >= '\t' && str[*i] <= '\r') || str[*i] == ' ')
+        (*i)++;
+}
+
 //Si le nb ne peut pas etre contenu dans un long alors ca renvoie l'erreur numeric argument recquired.
 int ft_exit(const char *str)
 {
     int i;
     int neg;
     long res;
-	int	curr_digit;
+	//int	curr_digit;
 
 	ft_initexit(str, &i, &neg, &res);
     if (str[i] == '-')
@@ -44,22 +64,7 @@ int ft_exit(const char *str)
 	//Pour eviter que le user mette des trucs du style "  + " ou +a :
     if (!(str[i] >= '0' && str[i] <= '9'))
         ft_exitfail(str);
-    // Convertir la chaîne en long tout en vérifiant les débordements (voir GPT pour explications)
-    while (str[i] >= '0' && str[i] <= '9')
-    {
-        curr_digit = str[i] - '0';
-
-        // Vérifier les débordements avant d'ajouter le chiffre
-        if ((neg == 1 && res > (LONG_MAX - curr_digit) / 10) ||
-            (neg == -1 && res > (LONG_MIN + curr_digit) / -10))
-            ft_exitfail(str);
-
-        res = res * 10 + curr_digit;
-        i++;
-    }
-	//Pour gerer les cas exit "42   "
-    while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
-        i++;
+    ft_fillexit(str, &i, neg, &res);
 	//avant de return on verifie que soit on est en bout de chaine, soit il y a
 	//que des espaces avant le bout de chaine sinon c'est que dans la chaine y'a des trucs
 	//invalides ex : 43253a.

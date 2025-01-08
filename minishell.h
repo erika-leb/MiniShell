@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/07 18:20:34 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/08 19:18:20 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <unistd.h>
 #include <limits.h>//Car uniquement utilisé pour ft_itoa (potentiellement useless)
+#include <errno.h>//pour errno et macros associees
 
 # define COLOR_RESET   "\x1b[0m"
 # define COLOR_RED     "\x1b[31m"

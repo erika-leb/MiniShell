@@ -56,7 +56,8 @@ void ft_export(char **env, char *arg)
     //Si on est la c'est qu'on va ajouter une variable (arg != NULL)
 
     //GOOD TO KNOW
-    //si je fais export kiwi="fraise" donne le meme resultat que kiwi=fraise
+    //si je fais export kiwi="fraise" donne le meme resultat que kiwi=fraise, qui est pareil que kiwi='fraise', donc il suffit de concat pour tej les quotes
+    //avant de creer la variable.
     //si je fais export kiwi="fraise" puis je fais export kiwi alors comme kiwi existe deja et que j'ai pas attribue de
     //nouvelle cle, alors il se passe rien
     //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env

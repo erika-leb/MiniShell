@@ -23,7 +23,7 @@ static void	ft_ibslash(char *result_k, char *name, int *k)
 
 	m = 0;
 	(*k)++;//car on ajoute un \n
-	ft_insert(result_k, 0, '\n');
+	ft_insert(result_k, 1, '\n');
 	//on fait en sorte que if_expand zappe tous les caracteres de name (dans result).
 	while (name[m])
 	{

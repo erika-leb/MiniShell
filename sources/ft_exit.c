@@ -34,7 +34,8 @@ static void ft_fillexit(const char *str, int *i, int neg, long *res)
     {
         curr_digit = str[*i] - '0';
 
-        // Vérifier les débordements avant d'ajouter le chiffre
+        // Vérifier les débordements avant d'ajouter le chiffre.
+        //Comme pour l'overflow de ft_calloc dans libft, on divise pour verifier que res n'est pas trop grand
         if ((neg == 1 && *res > (LONG_MAX - curr_digit) / 10) ||
             (neg == -1 && *res > (LONG_MIN + curr_digit) / -10))
             ft_exitfail(str);

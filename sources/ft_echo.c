@@ -1,3 +1,5 @@
+#include "../minishell.h"
+
 // gerer echo -nnnnnnnnnnn bonjour (affiche bonjourbash-5.1$)
 //echo -n -n -n ... -l bonjour (affiche -l bonjourbash-5.1$)
 //echo -nnnnnnnnl (affiche -nnnnnnl bonjour [\n]bash-5.1$)

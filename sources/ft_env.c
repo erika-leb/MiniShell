@@ -1,3 +1,5 @@
+#include "../minishell.h"
+
 //Si j'essaie de mettre une option mettre un message d'erreur (ex. no options allowed) puis
 //exit avec le code 125
 //Dans notre minishell il peut etre judicieux de hardcod le chemin ou se situe notre bash

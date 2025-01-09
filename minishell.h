@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/09 14:23:35 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:39:59 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ size_t	ft_strlen(const char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *str1, const char *str2, size_t n);//ATTENTION Erika a aussi un ft_strncmp pas code exactement comme moi
 int     ft_isalnum(int c);
+
+//libft_abis.c
+char	*ft_strdup_(char const *str);
+char    *ft_strncpy(char *dest, const char *src, size_t n);
 
 //ft_tokenize.c
 char	*ft_tokenize(char *av2);

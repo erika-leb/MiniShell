@@ -1,19 +1,19 @@
 #include "../minishell.h"
 
-static char	*ft_strdup_(char const *str)
-{
-	char	*dest;
-	int	i;
+// static char	*ft_strdup_(char const *str)
+// {
+// 	char	*dest;
+// 	int	i;
 
-	i = -1;
-	dest = malloc(ft_strlen(str) + 1);
-	if (dest == NULL)
-		return (NULL);//gc_cleaner
-	while (str[++i])
-		dest[i] = str[i];
-	dest[i] = '\0';
-	return (dest);
-}
+// 	i = -1;
+// 	dest = malloc(ft_strlen(str) + 1);
+// 	if (dest == NULL)
+// 		return (NULL);//gc_cleaner
+// 	while (str[++i])
+// 		dest[i] = str[i];
+// 	dest[i] = '\0';
+// 	return (dest);
+// }
 
 //Si dans l'argument d'export y'a pas de = alors key == NULL quand je cree la variable
 static t_env *ft_envnode(const char *name, const char *key)
@@ -76,18 +76,18 @@ void free_list(t_env *head)
     }
 }
 
-char *ft_strncpy(char *dest, const char *src, size_t n)
-{
+// char *ft_strncpy(char *dest, const char *src, size_t n)
+// {
 
-    size_t i;
+//     size_t i;
 
-    i = -1;
-    while (src[++i] && i < n)
-        dest[i] = src[i];
-    while (i++ < n)
-        dest[i] = '\0';
-    return dest;
-}
+//     i = -1;
+//     while (src[++i] && i < n)
+//         dest[i] = src[i];
+//     while (i++ < n)
+//         dest[i] = '\0';
+//     return dest;
+// }
 
 static char *ft_cut(const char *src, char delim, int is_end)
 {
@@ -112,9 +112,6 @@ static char *ft_cut(const char *src, char delim, int is_end)
         return result;
     }
 }
-
-
-
 
 // Fonction pour échanger deux nœuds
 void swap_nodes(t_env *node1, t_env *node2) {

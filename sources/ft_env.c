@@ -8,3 +8,4 @@
 //Le souci est qu'on sait pas si le user va lancer le minishell dans goinfre, sgoinfre etc...)
 
 //Est-ce que les var d'env sont ranges dans un certain ordre ?
+//Quand je fais export, j'ai du mal a comprendre ou je dois placer une nouvelle variable cree avec export.

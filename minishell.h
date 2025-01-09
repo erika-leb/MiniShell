@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/08 19:18:20 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:23:35 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@
 
 //Useless ?? A quoi ca sert ?
 # define UN_TOKEN "bash: syntax error"
+
+//ft_export.c
+typedef struct s_env
+{
+    char         *name;
+    char         *key;
+    struct s_env *next;
+}   t_env;
 
 //ft_getenvv.c
 char	*ft_getenvv(char *result, int *k, char *tmp);

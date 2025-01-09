@@ -38,3 +38,9 @@ NB : si a="oui' petit test'" et que je fais ls $a j'obtiens :
 ls: cannot access 'oui'': No such file or directory
 ls: cannot access 'petit': No such file or directory
 ls: cannot access 'test'': No such file or directory
+
+
+
+
+
+

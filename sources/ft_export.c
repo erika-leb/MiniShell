@@ -70,7 +70,7 @@ void print_list(const t_env *head)
 {
     const t_env *current = head;
     while (current) {
-        printf("Nom : %s, Valeur : %s\n", current->name, current->key ? current->key : "NULL");
+        printf("Nom :%s, Valeur :%s\n", current->name, current->key ? current->key : "NULL");
         current = current->next;
     }
 }
@@ -88,27 +88,43 @@ void free_list(t_env *head)
     }
 }
 
-//Verifier qu'on a pas impacte env !!! Vu qu'on fait tmp = src;
-static char *ft_strtok(char *src, char delim, int is_begin)
-{
-    static char *tmp;
-    static char *tmp2;
-    //delim = '=';
-    //if (is_begin) alors on doit prendre ce qui vient apres le delim.
-    //Sinon on prend ce qui vient avant.
+#include <stddef.h>
 
-    tmp = strcpy(src);//strcpy
-    while (src[i] && sr[i] != delim)
-        i++;//sert a trouver le = et retourner ce qu'il y a avant ou apres, au besoin
-    ft_insert(tmp, i, '\0');
-    if (!is_begin)
-        return (tmp);
-    //Si on arrive ici c'est qu'on veut ce qu'il y a apres le =.
-    //Il faut donc ft_erase_substr jusqu'au =.
-    //ATTENTION QUE PASA SI Y'A PAS DE = ???
-    tmp2 = strcpy(src);
-    ft_erase_substr(tmp2, *i, tmp);
-    return (tmp2);
+char *ft_strncpy(char *dest, const char *src, size_t n)
+{
+
+    size_t i;
+
+    i = -1;
+    while (src[++i] && i < n)
+        dest[i] = src[i];
+    while (i++ < n)
+        dest[i] = '\0';
+    return dest;
+}
+
+static char *ft_cut(const char *src, char delim, int is_end)
+{
+    char *result;
+    size_t i = 0;
+
+    // Trouver la position du délimiteur
+    while (src[i] && src[i] != delim)
+        i++;
+    if (is_end) {
+        // Si on veut la partie après le délimiteur
+        if (src[i] == delim)
+            return ft_strdup_(src + i + 1); // Copier la chaîne après le délimiteur
+        return NULL; // Une variable d'environnement sans le contenu
+    } else {
+        // Si on veut la partie avant le délimiteur
+        result = (char *)malloc(i + 1);
+        if (!result)
+            return NULL;
+        ft_strncpy(result, src, i); // Copier la partie avant le délimiteur
+        result[i] = '\0';
+        return result;
+    }
 }
 
 //gcc -o ft_export sources/str_manager.c sources/libft_a.c sources/ft_export.c
@@ -116,18 +132,21 @@ static char *ft_strtok(char *src, char delim, int is_begin)
 int main(int argc, char *argv[], char *env[])
 {
     t_env *head;
+    char *tmp1;
+    char *tmp2;
     int   i;
 
     // Gerer le cas ou env est NULL (voir bloc note)
     //Valable if (*env)
     head = NULL;
-    i = 0;
-    while (env[i])
+    i = -1;
+    while (env[++i])
     {
-        char *name = strtok(env[i], "=");
-        char *key = strtok(NULL, "");
-        head = ft_addenvnode(head, name, key);
-        i++;
+        tmp1 = ft_cut(env[i], '=', 0);
+        tmp2 = ft_cut(env[i], '=', 1);
+        head = ft_addenvnode(head, tmp1, tmp2);
+        free(tmp1);
+        free(tmp2);
     }
     print_list(head);
     free_list(head);

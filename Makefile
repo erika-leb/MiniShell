@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/09 17:37:48 by aisidore         ###   ########.fr        #
+#    Updated: 2025/01/09 18:13:29 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_ambig.c \
 			${SRC_DIR}/str_manager.c \
 			${SRC_DIR}/ft_concat.c#backslash
-#${SRC_DIR}/ft_exit.c
+#${SRC_DIR}/ft_exit.c ft_export ...
 
 OBJ_FILES = $(OBJ_DIR)/main.o \
             ${OBJ_DIR}/libft_a.o \
@@ -41,7 +41,7 @@ OBJ_FILES = $(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_ambig.o \
 			${OBJ_DIR}/str_manager.o \
 			${OBJ_DIR}/ft_concat.o#backslash
-#${OBJ_DIR}/ft_exit.o
+#${OBJ_DIR}/ft_exit.o ft_export ...
 
 NAME = minishell
 

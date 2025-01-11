@@ -47,14 +47,16 @@ char *ft_cut(const char *src, char delim, int is_end)
         if (src[i] == delim)
             return ft_strdup_(src + i + 1); // Copier la chaîne après le délimiteur
         return NULL; // Une variable d'environnement sans le contenu
-    } else {
+    }
+    else
+    {
         // Si on veut la partie avant le délimiteur
         result = (char *)malloc(i + 1);
         if (!result)
-            return NULL;
-        ft_strncpy(result, src, i); // Copier la partie avant le délimiteur
+            return NULL;//gc_cleaner ?
+        ft_strncpy(result, src, i); // Copier la partie avant le délimiteur. Risque de memory overlapping ? On s'en balek
         result[i] = '\0';
-        return result;
+        return (result);
     }
 }
 
@@ -66,7 +68,6 @@ void ft_swapnodes(t_env *node1, t_env *node2)
 
     node1->name = node2->name;
     node1->key = node2->key;
-    
     node2->name = temp_name;
     node2->key = temp_key;
 }

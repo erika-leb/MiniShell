@@ -30,7 +30,7 @@ static void ft_freelexport(t_env *head)
 //env est soit trie et affiche, soit modifie.
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
-void ft_export(char **env, char *arg)
+void ft_export(char **env, char **args)
 {
     // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
 
@@ -50,10 +50,10 @@ void ft_export(char **env, char *arg)
         free(tmp2);
     }
     //Le cas ou j'ecris juste export sans creer de nouvelle variable
-    if (!arg)
+    if (!args)
         return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head));
 
-    //Si on est la c'est qu'on va ajouter une variable (arg != NULL)
+    //Si on est la c'est qu'on va ajouter une variable (args != NULL)
 
     //GOOD TO KNOW
     //si je fais export kiwi="fraise" donne le meme resultat que kiwi=fraise, qui est pareil que kiwi='fraise', donc il suffit de concat pour tej les quotes
@@ -76,7 +76,10 @@ int main(int argc, char *argv[], char *env[])
     char *tmp2;
     int   i;
 
-    //Le cas ou j'ecris juste export sans creer de nouvelle variable
-    ft_export(env, NULL);
+    //if useless je peux juste laisser argv car un pointeur NULL peut etre represente par un pointeur de pointeur
+    if (argc == 1)
+        ft_export(env, NULL);
+    else
+        ft_export(env, argv);
     return 0;
 }

@@ -2,6 +2,7 @@
 
 //Si j'essaie de mettre une option mettre un message d'erreur (ex. no options allowed) puis
 //exit avec le code 125
+
 //Dans notre minishell il peut etre judicieux de hardcod le chemin ou se situe notre bash
 //le OLDPWD et mettre SHLVL a 1 puis on va l'incrementer si le user fait des ./minishell | ./minishell
 //D'ailleurs le ./minishell | ./minishell est un hedge case a prendre en compte dans la partie exec d'erika

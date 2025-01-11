@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_getenvv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:35:30 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/11 15:28:19 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/11 14:26:57 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ char	*ft_getenvv(char *result, int *k, char *tmp)
 	}
     tmp[i] = '\0';
 	if (!ft_strcmp(tmp, "?"))
-		return (ft_itoa(0));
+		return (ft_itoa(errno));//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
+	//pour que chaque enfant puisse modifier sa valeur. Puis y faire appel dans getenvv pour choper la derniere valeur prise
     return (getenv(tmp));
 }

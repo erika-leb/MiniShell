@@ -86,11 +86,11 @@ int main(int argc, char *argv[], char *env[])
     {
 
         //Continuer avec GPT
-        
-        //1) expand
+
         //2) concat (apres une etape interm ou on cree un tableau de chaine de carac [chaine, NULL])
         //NB : quand on fait des tests on remarque que si j'ecris bonjour'='cava on obtient bonjour=cava,
         //et c'est surement parce que bash s'occupe deja de concatener argv quand on l'envoie dans ft_exit.
+        //Hors dans minishell on passe pas par le bash mais c le user qui ecrit directement dans line.
         //3) split (avec le nouveau separateur '=' (hors sq dq))
         adder = ft_split(ft_ifexpand(argv[1], 0, 0), 0, 0);//Il faut changer le sep !!
         printf ("%s", adder[0]);
@@ -98,6 +98,8 @@ int main(int argc, char *argv[], char *env[])
             printf("(sep) %s\n", adder[1]);
         else
             printf("\n");
+        //Apres avoir fait 1) 2) et 3) j'arime le tout a env (qui doit etre une structure ou une static char **)
+
         ft_freesplit(adder, 2);//apres separation de ce qui est avant et apres =, on free les 2 chaines
     }
     //NB : si je fais "export HELLO=5" puis HELLO alors ca change pas la valeur de HELLO car elle n'a pas de cle.

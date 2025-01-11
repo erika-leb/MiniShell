@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:39:05 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/11 15:28:26 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:23:44 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**ft_split(char const *str, int sq, int dq)
 		else if (((str[i] == ' ' && !sq && !dq)
 				|| i == ft_strlen(str)) && fidx >= 0)
 		{
-			tab[j] = ft_eachword(str, fidx, i);
+			tab[j] = ft_eachword(str, fidx, i);//ft_filltab ?? 
 			if (tab[j++] == NULL)
 				return (ft_freesplit(tab, j - 1));
 			fidx = -1;
@@ -71,32 +71,3 @@ char	**ft_split(char const *str, int sq, int dq)
 	}
 	return (tab);
 }
-
-// char	**ft_split(char const *str, char sep, int sq, int dq)
-// {
-// 	char	**tab;
-// 	size_t	i;
-// 	size_t	j;
-// 	int		fidx;
-
-// 	ft_init(&i, &j, &fidx);
-// 	tab = ft_calloc(ft_count(str, sep) + 1, sizeof(char *));
-// 	if (tab == NULL)
-// 		return (NULL);
-// 	while (i <= ft_strlen(str))
-// 	{
-// 		ft_modifquote(str, &sq, &dq, &i);
-// 		if (str[i] != sep && fidx < 0)
-// 			fidx = i;
-// 		else if (((str[i] == sep && !sq && !dq)
-// 				|| i == ft_strlen(str)) && fidx >= 0)
-// 		{
-// 			tab[j] = ft_eachword(str, fidx, i);
-// 			if (tab[j++] == NULL)
-// 				return (ft_freesplit(tab, j - 1));
-// 			fidx = -1;
-// 		}
-// 		i++;
-// 	}
-// 	return (tab);
-// }

@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/09 18:13:29 by aisidore         ###   ########.fr        #
+#    Updated: 2025/01/11 15:25:01 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_getenvv.c \
 			${SRC_DIR}/parsing.c \
 			${SRC_DIR}/ft_split.c \
-			${SRC_DIR}/split_utils.c \
+			${SRC_DIR}/ft_split_utils.c \
 			${SRC_DIR}/ft_tokenize.c \
 			${SRC_DIR}/ft_ifexpand.c \
 			${SRC_DIR}/ft_ambig.c \
@@ -35,7 +35,7 @@ OBJ_FILES = $(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_getenvv.o \
 			${OBJ_DIR}/parsing.o \
 			${OBJ_DIR}/ft_split.o \
-			${OBJ_DIR}/split_utils.o \
+			${OBJ_DIR}/ft_split_utils.o \
 			${OBJ_DIR}/ft_tokenize.o \
 			${OBJ_DIR}/ft_ifexpand.o \
 			${OBJ_DIR}/ft_ambig.o \

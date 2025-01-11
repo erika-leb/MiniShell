@@ -8,5 +8,4 @@
 //D'ailleurs le ./minishell | ./minishell est un hedge case a prendre en compte dans la partie exec d'erika
 //Le souci est qu'on sait pas si le user va lancer le minishell dans goinfre, sgoinfre etc...)
 
-//Est-ce que les var d'env sont ranges dans un certain ordre ?
-//Quand je fais export, j'ai du mal a comprendre ou je dois placer une nouvelle variable cree avec export.
+//Y'a rien a faire juste un affichage et message d'erreur si y'a des arguments.

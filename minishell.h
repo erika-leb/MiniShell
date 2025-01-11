@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/09 18:13:18 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:24:47 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_ft(char *line, char **result, int i, int go);
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq);
 
-//split_utils.c
+//ft_split_utils.c
 size_t	ft_count(const char *str, const char sep);
 char	*ft_eachword(const char *str, int fidx, int end);
 void	*ft_freesplit(char **tab, size_t n);

@@ -76,10 +76,23 @@ int main(int argc, char *argv[], char *env[])
     char *tmp2;
     int   i;
 
-    //if useless je peux juste laisser argv car un pointeur NULL peut etre represente par un pointeur de pointeur
-    if (argc == 1)
-        ft_export(env, NULL);
-    else
-        ft_export(env, argv);
+    //if useless je peux juste laisser argv car un pointeur NULL
+    //peut etre represente par un pointeur de pointeur
+    ft_export(env, NULL);
+
+    char **adder;
+    int  j;
+
+    adder = ft_split(argv[1], 0, 0);
+    j = -1;
+    while (adder[++j])
+        printf("%s\n", adder[j]);
+    //NB : si je fais "export HELLO=5" puis HELLO alors ca change pas la valeur de HELLO car elle n'a pas de cle.
+    //On se sert de la liste chainee cree pour voir si le name HELLO existe deja. Si ca existe pas alors je l'ajoute
+    //a la fin de env (qui doit etre remalloc)
+
+    //tej la variable _ dans la structure env de minishell.
+
+    
     return 0;
 }

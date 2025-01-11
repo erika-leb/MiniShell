@@ -56,8 +56,6 @@ void ft_export(char **env, char **args)
     //Si on est la c'est qu'on va ajouter une variable (args != NULL)
 
     //GOOD TO KNOW
-    //si je fais export kiwi="fraise" donne le meme resultat que kiwi=fraise, qui est pareil que kiwi='fraise', donc il suffit de concat pour tej les quotes
-    //avant de creer la variable.
     //si je fais export kiwi="fraise" puis je fais export kiwi alors comme kiwi existe deja et que j'ai pas attribue de
     //nouvelle cle, alors il se passe rien
     //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
@@ -67,8 +65,14 @@ void ft_export(char **env, char **args)
     ft_freelexport(head);
 }
 
-//gcc -o ft_export sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c
-//./ft_export
+//voir excel vietdu91
+
+
+//gcc -o ft_export sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c
+//valgrind --leak-check=full ./ft_export "bonjour=\"ok=ok\""
+
+//zzzyzz' ='"boloss"       donne      `zzzyzz =boloss': not a valid identifier        En gro speut pas y avoir d'espace entre le nom et le '=' (apres concatenation).
+//Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.  
 int main(int argc, char *argv[], char *env[])
 {
     t_env *head;
@@ -79,28 +83,26 @@ int main(int argc, char *argv[], char *env[])
     if (argc == 1)
         return(ft_export(env, NULL), 0);
 
-    char **adder;
+    char **adder;//n'est pas malloc, on a pas besoin de le free
+    char **new_node;
 
-    j = 0;//on commence a argv[1]
+    j = 0;
     while (argv[++j])
     {
 
         //Continuer avec GPT
 
-        //2) concat (apres une etape interm ou on cree un tableau de chaine de carac [chaine, NULL])
-        //NB : quand on fait des tests on remarque que si j'ecris bonjour'='cava on obtient bonjour=cava,
-        //et c'est surement parce que bash s'occupe deja de concatener argv quand on l'envoie dans ft_exit.
-        //Hors dans minishell on passe pas par le bash mais c le user qui ecrit directement dans line.
-        //3) split (avec le nouveau separateur '=' (hors sq dq))
-        adder = ft_split(ft_ifexpand(argv[1], 0, 0), 0, 0);//Il faut changer le sep !!
-        printf ("%s", adder[0]);
-        if (adder[1])
-            printf("(sep) %s\n", adder[1]);
-        else
-            printf("\n");
+        //Il faut trouver un moyen pour ft_splitter s'arrete au 1er egale. ft_concat est parfaitement place
+        //En effet si jamais j'ecris ./ft_export bonjour'='"$HOME =cava"       j'obtiens     ./ft_export bonjour=$HOME =cava et le split bug
+
+        adder = ft_splitter(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), 0);
+        //adder = ft_splitter(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), 0, 0);
+        printf ("%s (=) %s\n", adder[0], adder[1]);
+
+
         //Apres avoir fait 1) 2) et 3) j'arime le tout a env (qui doit etre une structure ou une static char **)
 
-        ft_freesplit(adder, 2);//apres separation de ce qui est avant et apres =, on free les 2 chaines
+        ft_freesplit(adder, 3);//apres separation de ce qui est avant et apres =, on free les 2 chaines
     }
     //NB : si je fais "export HELLO=5" puis HELLO alors ca change pas la valeur de HELLO car elle n'a pas de cle.
     //On se sert de la liste chainee cree pour voir si le name HELLO existe deja. Si ca existe pas alors je l'ajoute

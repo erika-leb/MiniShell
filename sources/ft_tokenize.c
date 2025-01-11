@@ -6,13 +6,13 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/11 19:46:37 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:53:12 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //ATTENTION il faut free split si y'a un pb !!!
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_istok(char *av2)
 {

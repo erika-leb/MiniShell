@@ -67,29 +67,50 @@ void ft_export(char **env, char **args)
     ft_freelexport(head);
 }
 
-//gcc -o ft_export sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_export.c
+//gcc -o ft_export sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c
 //./ft_export
 int main(int argc, char *argv[], char *env[])
 {
     t_env *head;
     char *tmp1;
     char *tmp2;
-    int   i;
-
-    //if useless je peux juste laisser argv car un pointeur NULL
-    //peut etre represente par un pointeur de pointeur
-    ft_export(env, NULL);
-
-    char **adder;
     int  j;
 
-    adder = ft_split(argv[1], 0, 0);
-    j = -1;
-    while (adder[++j])
-        printf("%s\n", adder[j]);
+    if (argc == 1)
+        return(ft_export(env, NULL), 0);
+
+    char **adder;
+
+    j = 0;//on commence a argv[1]
+    while (argv[++j])
+    {
+
+        //Continuer avec GPT
+        
+        //1) expand
+        //2) concat (apres une etape interm ou on cree un tableau de chaine de carac [chaine, NULL])
+        //NB : quand on fait des tests on remarque que si j'ecris bonjour'='cava on obtient bonjour=cava,
+        //et c'est surement parce que bash s'occupe deja de concatener argv quand on l'envoie dans ft_exit.
+        //3) split (avec le nouveau separateur '=' (hors sq dq))
+        adder = ft_split(ft_ifexpand(argv[1], 0, 0), 0, 0);//Il faut changer le sep !!
+        printf ("%s", adder[0]);
+        if (adder[1])
+            printf("(sep) %s\n", adder[1]);
+        else
+            printf("\n");
+        ft_freesplit(adder, 2);//apres separation de ce qui est avant et apres =, on free les 2 chaines
+    }
     //NB : si je fais "export HELLO=5" puis HELLO alors ca change pas la valeur de HELLO car elle n'a pas de cle.
     //On se sert de la liste chainee cree pour voir si le name HELLO existe deja. Si ca existe pas alors je l'ajoute
     //a la fin de env (qui doit etre remalloc)
+
+    //Apres tri export(NULL) les minuscules sont bien en dernier ??
+
+    //NB expand et concat la var d'env avant de l'envoyer dans le pool de variables : export HELLO'='$HOME
+    //ft_ifexpand et ft_concat ont l'air adapte car dans ifexpand on entre jamais dans les cas speciaux vu qu'il faut pas etre
+    //dans des quotes et faut un espace "< ", ">> " etc
+
+    //Bizarrement dans export si y'a un $ j'ai un \ devant pour signifier que c'est un caractere special (pas dans env)
 
     //tej la variable _ dans la structure env de minishell.
 

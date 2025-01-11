@@ -12,7 +12,7 @@ static int ft_checkq(char *input)
     while (*ptr)
 	{
 		if (!sq && !dq && *ptr == '$' && *(ptr + 1) == '$')
-			return(printf("bash: syntax error near unexpected token `$'\n"));
+			return(printf("bash: syntax error near unexpected token `$'\n"));//write
         if (*ptr == '\'' && !dq)
 			sq = !sq;
         else if (*ptr == '\"' && !sq)
@@ -20,7 +20,7 @@ static int ft_checkq(char *input)
         ptr++;
     }
 	if (sq || dq)
-		return(printf("bash: unclosed quotes\n"));
+		return(printf("bash: unclosed quotes\n"));//write
 	return (0);
 }
 

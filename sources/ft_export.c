@@ -99,7 +99,7 @@ int main(int argc, char *argv[], char *env[])
         printf ("%s (=) %s\n", adder[0], adder[1]);
 
 
-        //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **)
+        //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **) : FUSIONNER ft_export et main
 
         ft_freesplit(adder, 3);//apres separation de ce qui est avant et apres =, on free les 2 chaines
     }

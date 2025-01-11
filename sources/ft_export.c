@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-// Fonction pour afficher la liste chaînée
 static void ft_printexport(const t_env *head)
 {
     const t_env *current = head;
@@ -14,7 +13,6 @@ static void ft_printexport(const t_env *head)
     }
 }
 
-// Fonction pour libérer la mémoire allouée à la liste chaînée
 static void ft_freelexport(t_env *head)
 {
     t_env *current = head;
@@ -27,7 +25,6 @@ static void ft_freelexport(t_env *head)
     }
 }
 
-//env est soit trie et affiche, soit modifie.
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
 void ft_export(char **env, char **args)
@@ -56,8 +53,6 @@ void ft_export(char **env, char **args)
     //Si on est la c'est qu'on va ajouter une variable (args != NULL)
 
     //GOOD TO KNOW
-    //si je fais export kiwi="fraise" puis je fais export kiwi alors comme kiwi existe deja et que j'ai pas attribue de
-    //nouvelle cle, alors il se passe rien
     //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
     //je vois pas apparaitre adrien
     //Dans bash --posix OLDPWD existe mais n'a pas de cle
@@ -90,17 +85,21 @@ int main(int argc, char *argv[], char *env[])
     while (argv[++j])
     {
 
-        //Continuer avec GPT
-
-        //Il faut trouver un moyen pour ft_splitter s'arrete au 1er egale. ft_concat est parfaitement place
+        //Il faut trouver un moyen pour ft_splitter s'arrete au 1er '='. ft_concat est parfaitement place
         //En effet si jamais j'ecris ./ft_export bonjour'='"$HOME =cava"       j'obtiens     ./ft_export bonjour=$HOME =cava et le split bug
 
+        //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
+        //                                                                            au lieu de bonjour="cava \oui\ et toi"
+        //Il faudrait remasteriser le ft_concat (en ft_concate) si j'ai le temps, en introduisant \" s'il concat un ". On peut par exemple
+        //ajouter une variable dq tel que si result_i[to_erase] = '\"' alors dq = !dq et apres avoir erase on insere \" (je crois que le buffer
+        //est de taille 20 000 donc ca pose pas de pb).
+        //Il faudrait aussi parcourir tout le resultat et ajouter un \ si je mets un $ (c'est un pb que j'ai remarque aussi).
+
         adder = ft_splitter(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), 0);
-        //adder = ft_splitter(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), 0, 0);
         printf ("%s (=) %s\n", adder[0], adder[1]);
 
 
-        //Apres avoir fait 1) 2) et 3) j'arime le tout a env (qui doit etre une structure ou une static char **)
+        //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **)
 
         ft_freesplit(adder, 3);//apres separation de ce qui est avant et apres =, on free les 2 chaines
     }
@@ -110,13 +109,7 @@ int main(int argc, char *argv[], char *env[])
 
     //Apres tri export(NULL) les minuscules sont bien en dernier ??
 
-    //NB expand et concat la var d'env avant de l'envoyer dans le pool de variables : export HELLO'='$HOME
-    //ft_ifexpand et ft_concat ont l'air adapte car dans ifexpand on entre jamais dans les cas speciaux vu qu'il faut pas etre
-    //dans des quotes et faut un espace "< ", ">> " etc
-
-    //Bizarrement dans export si y'a un $ j'ai un \ devant pour signifier que c'est un caractere special (pas dans env)
-
-    //tej la variable _ dans la structure env de minishell.
+    //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix).
 
     
     return 0;

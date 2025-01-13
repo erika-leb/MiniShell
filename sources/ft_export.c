@@ -28,7 +28,7 @@ static void ft_freelexport(t_env *head)
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
 //void ft_display(char **env, char **args)
-void ft_export(char **env, char **args)
+static t_env *ft_display(char **env, char **args)
 {
     // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
 
@@ -49,7 +49,7 @@ void ft_export(char **env, char **args)
     }
     //Le cas ou j'ecris juste export sans creer de nouvelle variable
     if (!args)
-        return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head));
+        return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
 
     //Si on est la c'est qu'on va ajouter au moins une variable (args != NULL)
 
@@ -59,6 +59,7 @@ void ft_export(char **env, char **args)
     //Dans bash --posix OLDPWD existe mais n'a pas de cle
     //On peut export autant de variables qu'on veut a la fois : export AAA=% BBB CCC=AHAH
     ft_freelexport(head);
+    return (head);
 }
 
 //voir excel vietdu91
@@ -71,34 +72,34 @@ void ft_export(char **env, char **args)
 //Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.  
 int main(int argc, char *argv[], char *env[])
 {
-    t_env *head;
-    char *tmp1;
-    char *tmp2;
+    t_env *lst;
+    char **adder;
     int  j;
 
     if (argc == 1)
-        return(ft_export(env, NULL), 0);
-
-    char **adder;//n'est pas malloc, on a pas besoin de le free
-    char **new_node;
-
-    j = 0;
+        return(ft_display(env, NULL), 0);
+    lst = NULL;
+    j = -1;
+    while (env[++j])
+    {
+        adder = ft_calloc(2 + 1, sizeof(char *));
+        adder[0] = ft_cut(env[j], '=', 0);
+        adder[1] = ft_cut(env[j], '=', 1);
+        lst = ft_addenvnode(lst, adder[0], adder[1]);
+        ft_freesplit(adder, 3);
+    }
+    j = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final.
     while (argv[++j])
     {
         //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
         //                                                                            au lieu de bonjour="cava \oui\ et toi"
-        //En gros il faut pas concatener ce qu'il y a apres le = (et entre les guillemets simples ou doubles). Mais a l'affichage
-        //(quand je fais ft_export(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
-
-        adder = ft_calloc(2 + 1, sizeof(char *));//gc cleaner
+        //Je pense que bash concatene deja les argv donc pour voir comment se comporte reellement ft_exit dans minishell il faut
+        //le tester en grandeur nature.
+        //A l'affichage (quand je fais ft_display(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
+        adder = ft_calloc(2 + 1, sizeof(char *));//gc cleaner ??
         adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 0);
         adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 1);
-        printf("%s", adder[0]);
-        if (adder[1])
-            printf (" (=) %s\n", adder[1]);
-        else
-            printf("\n");
-
+        lst = ft_addenvnode(lst, adder[0], adder[1]);
         //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **).
         //Le mieux c'est de faire en sorte que envv reste un tableau de chaine de caractere comme env.
         //Donc ici il faut cree un noeud (pour chaque couple adder[0] et adder[1]), transformer envv temporairement en
@@ -123,9 +124,11 @@ int main(int argc, char *argv[], char *env[])
 
         ft_freesplit(adder, 3);
     }
-
+    ft_bbsort(lst);
+    ft_printexport(lst);//
+    //Maintenant il faut trier lst et le transformer en un tableau de chaine de caractere comme env. Puis l'afficher pour verifier
+    ft_freelexport(lst);
     //Apres tri export(NULL) les minuscules sont bien en dernier ??
-
     //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix).
 
     

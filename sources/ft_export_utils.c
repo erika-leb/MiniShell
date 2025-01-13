@@ -21,17 +21,44 @@ t_env *ft_envnode(const char *name, const char *key)
 }
 
 // Fonction pour ajouter un nœud à la fin de la liste
-t_env *ft_addenvnode(t_env *head, const char *name, const char *key)
+//Autrement dit : on cherche s'il n'existe pas deja une var d'env nommée adder[0] avec strcmp. Si oui, alors on remplace sa clé
+//par la nouvelle clé (sauf si elle est NULL). Si la var d'env n'existe pas on l'ajoute a envv (on ecrase envv et on remalloc
+//une liste mise a jour).
+t_env *ft_addenvnode(t_env *head, char *name,char *key)
 {
-    t_env *current;
+    // t_env *current;
 
+    // if (!head)
+    //     return (ft_envnode(name, key));
+    // current = head;
+    // while (current->next)
+    //     current = current->next;
+    // current->next = ft_envnode(name, key);
+    // return (head);
+
+
+    t_env *current;
     if (!head)
         return (ft_envnode(name, key));
     current = head;
-    while (current->next)
+    while (current) {
+        if (ft_strcmp(current->name, name) == 0) {
+            // Si un nœud avec le même "name" est trouvé, mettre à jour "key"
+            if (key)
+            {
+                free(current->key);  // Libérer l'ancienne clé
+                current->key = ft_strdup_(key);  // Dupliquer et assigner la nouvelle clé
+            }
+            return head;  // Retourner la liste sans ajouter de nouveau nœud
+        }
+        // Passer au suivant ou arrêter si c'est le dernier
+        if (!current->next)
+            break;
         current = current->next;
+    }
+    // Si aucun nœud avec le même "name" n'a été trouvé, ajouter un nouveau nœud à la fin
     current->next = ft_envnode(name, key);
-    return (head);
+    return head;
 }
 
 char *ft_cut(const char *src, char delim, int is_end)

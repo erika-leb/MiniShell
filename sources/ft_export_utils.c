@@ -26,18 +26,8 @@ t_env *ft_envnode(const char *name, const char *key)
 //une liste mise a jour).
 t_env *ft_addenvnode(t_env *head, char *name,char *key)
 {
-    // t_env *current;
-
-    // if (!head)
-    //     return (ft_envnode(name, key));
-    // current = head;
-    // while (current->next)
-    //     current = current->next;
-    // current->next = ft_envnode(name, key);
-    // return (head);
-
-
     t_env *current;
+    
     if (!head)
         return (ft_envnode(name, key));
     current = head;

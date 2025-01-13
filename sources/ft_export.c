@@ -62,6 +62,73 @@ static t_env *ft_display(char **env, char **args)
     return (head);
 }
 
+
+
+
+
+static char **ft_ltoa(t_env *head)
+{
+
+    size_t  count;
+    size_t  i;
+    size_t  len;
+    t_env   *current;
+    char    **array;
+
+    current = head;
+    count = 0;
+    //Calcul du nombre de variables d'env
+    while (current)
+    {
+        count++;
+        current = current->next;
+    }
+    array = malloc((count + 1) * sizeof(char *));
+    if (!array) {
+        perror("malloc failed");//gc_cleaner
+        return NULL;
+    }
+    // Remplir le tableau avec les chaînes "name=key"
+    current = head;
+    i = -1;
+    while (++i < count - 1)
+    {
+        // Allouer de la mémoire pour la chaîne "name=key"
+        len = ft_strlen(current->name) + ft_strlen(current->key) + 2;// +1 pour '=' et +1 pour '\0'
+        array[i] = malloc(len * sizeof(char));
+        if (!array[i])
+            printf(" ");//gc_cleaner
+
+        // //snprintf(array[i], len, "%s=%s", current->name, current->key);
+        // //SOUCI : ca ecrase les donnees precedentes
+        // if (current->key)
+        //     ft_strncpy(array[i], current->key, ft_strlen(current->key));
+        // //je crois qu'il aime pas quand je decale tous les elements de 1 case. Ca fait des erreurs
+        // //ft_insert(array[i], 0, '=');
+        // //ft_strncpy(array[i], "=", 1);
+        // ft_strncpy(array[i], current->name, ft_strlen(current->name));
+        // current = current->next;
+
+        // Construire la chaîne "name=key"
+        char *buffer;
+
+        //buffer = malloc(len * sizeof(char));
+        buffer = array[i];
+        strcpy(buffer, current->name);   // Copier name.  AMODIFIER pour ft_strncpy ou alors coder ft_strcpy
+        buffer[ft_strlen(current->name)] = '=';         // Ajouter '='
+        if (current->key)
+            strcpy(buffer + ft_strlen(current->name) + 1, current->key); // Copier key
+        //buffer[len - 1] = '\0';
+        //free(buffer);
+        current = current->next;
+    }
+    // Ajouter un pointeur NULL à la fin du tableau
+    array[count] = NULL;
+
+    return array;
+}
+
+
 //voir excel vietdu91
 
 //gcc -o ft_export sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c
@@ -111,10 +178,21 @@ int main(int argc, char *argv[], char *env[])
         ft_freesplit(adder, 3);
     }
     //pour afficher lst
-    ft_bbsort(lst);
-    ft_printexport(lst);//
+    // ft_bbsort(lst);
+    // ft_printexport(lst);//
 
+    char **array;
+    
+    // array = NULL;
+    array = ft_ltoa(lst);
     //Maintenant il faut trier reconvertir lst en tableau de chaines de caracteres, puis l'afficher pour verifier
+    for (int i = 0; array[i]; i++) {
+        printf("%s\n", array[i]);
+        free(array[i]); // Libérer chaque chaîne
+    }
+    // Libérer le tableau
+    free(array);
+
     ft_freelexport(lst);
     //Apres tri export(NULL) les minuscules sont bien en dernier ??
     //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix) ?? Sur ?? Car ca apparait dans bash --posix

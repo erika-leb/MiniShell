@@ -64,12 +64,12 @@ static t_env *ft_display(char **env, char **args)
 
 //voir excel vietdu91
 
-
 //gcc -o ft_export sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c
 //valgrind --leak-check=full ./ft_export "bonjour=\"ok=ok\""
 
 //zzzyzz' ='"boloss"       donne      `zzzyzz =boloss': not a valid identifier        En gro speut pas y avoir d'espace entre le nom et le '=' (apres concatenation).
-//Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.  
+//Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.
+//. ne peut pas etre present dans le name. 
 int main(int argc, char *argv[], char *env[])
 {
     t_env *lst;
@@ -100,23 +100,9 @@ int main(int argc, char *argv[], char *env[])
         adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 0);
         adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 1);
         lst = ft_addenvnode(lst, adder[0], adder[1]);
-        //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **).
-        //Le mieux c'est de faire en sorte que envv reste un tableau de chaine de caractere comme env.
-        //Donc ici il faut cree un noeud (pour chaque couple adder[0] et adder[1]), transformer envv temporairement en
-        //liste chainee et comparer le noeud adder[0]/adder[1] avec chaque noeud envv de la facon suivante :
-
-        //Si adder[1] est NULL alors il me suffit de verifier qu'il n'existe pas deja une var d'env du meme nom (avec strcmp).
-        //Si c'est le cas on ne fait rien. Sinon on l'ajoute a envv.
-        //Si adder[1] n'est pas NULL alors on verifie s'il existe deja une var d'env du meme nom. Si c'est le cas on remplace sa cle,
-        //sinon on l'ajoute a envv.
-        //Autrement dit : on cherche s'il n'existe pas deja une var d'env nommée adder[0] avec strcmp. Si oui, alors on remplace sa clé
-        //par la nouvelle clé (sauf si elle est NULL). Si la var d'env n'existe pas on l'ajoute a envv (on ecrase envv et on remalloc
-        //une liste mise a jour).
 
         //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
-        //mais avec notre tableau envv
-
-        //NB : Pour unset il faut en fait s'assurer que s'il manque OLDPWD PWD ou SHLVL on le remet. Ou plus simplement que unset ne peut pas supprimer SHLVL (a verifier sur bash --posix).
+        //mais avec notre tableau envv ??
 
         //NB : pour unset on pourra facilement supprimer 1 ou plsr var en utilisant la meme logique de la chaine de caractere :
         //je créé une liste temporaire, je supprime le(s) noeud(s) souhaité(s) et je recréé un nouveau tableau envv mis a jour.
@@ -124,12 +110,14 @@ int main(int argc, char *argv[], char *env[])
 
         ft_freesplit(adder, 3);
     }
+    //pour afficher lst
     ft_bbsort(lst);
     ft_printexport(lst);//
-    //Maintenant il faut trier lst et le transformer en un tableau de chaine de caractere comme env. Puis l'afficher pour verifier
+
+    //Maintenant il faut trier reconvertir lst en tableau de chaines de caracteres, puis l'afficher pour verifier
     ft_freelexport(lst);
     //Apres tri export(NULL) les minuscules sont bien en dernier ??
-    //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix).
+    //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix) ?? Sur ?? Car ca apparait dans bash --posix
 
     
     return 0;

@@ -27,6 +27,7 @@ static void ft_freelexport(t_env *head)
 
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
+//void ft_display(char **env, char **args)
 void ft_export(char **env, char **args)
 {
     // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
@@ -50,7 +51,7 @@ void ft_export(char **env, char **args)
     if (!args)
         return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head));
 
-    //Si on est la c'est qu'on va ajouter une variable (args != NULL)
+    //Si on est la c'est qu'on va ajouter au moins une variable (args != NULL)
 
     //GOOD TO KNOW
     //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
@@ -85,27 +86,50 @@ int main(int argc, char *argv[], char *env[])
     while (argv[++j])
     {
 
-        //Il faut trouver un moyen pour ft_splitter s'arrete au 1er '='. ft_concat est parfaitement place
-        //En effet si jamais j'ecris ./ft_export bonjour'='"$HOME =cava"       j'obtiens     ./ft_export bonjour=$HOME =cava et le split bug
+        //Grace a ft_cut on s'arrete au 1er '='.
+        //En effet si jamais j'ecris ./ft_export bonjour'='"$HOME =cava"       j'obtiens     ./ft_export bonjour=$HOME =cava.
+        //Cela faisait buguer le splitter.
 
         //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
         //                                                                            au lieu de bonjour="cava \oui\ et toi"
-        //Il faudrait remasteriser le ft_concat (en ft_concate) si j'ai le temps, en introduisant \" s'il concat un ". On peut par exemple
-        //ajouter une variable dq tel que si result_i[to_erase] = '\"' alors dq = !dq et apres avoir erase on insere \" (je crois que le buffer
-        //est de taille 20 000 donc ca pose pas de pb).
-        //Il faudrait aussi parcourir tout le resultat et ajouter un \ si je mets un $ (c'est un pb que j'ai remarque aussi).
+        //En gros il faut pas concatener ce qu'il y a apres le = (et entre les guillemets simples ou doubles). Mais a l'affichage
+        //(quand je fais ft_export(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
 
-        adder = ft_splitter(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), 0);
-        printf ("%s (=) %s\n", adder[0], adder[1]);
+        //adder = ft_splitter(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), 0);
+        adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 0);
+        adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 1);
+        printf("%s", adder[0]);
+        if (adder[1])
+            printf (" (=) %s\n", adder[1]);
+        else
+            printf("\n");
 
 
-        //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **) : FUSIONNER ft_export et main
+        //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **).
+        //Le mieux c'est de faire en sorte que envv reste un tableau de chaine de caractere comme env.
+        //Donc ici il faut cree un noeud (pour chaque couple adder[0] et adder[1]), transformer envv temporairement en
+        //liste chainee et comparer le noeud adder[0]/adder[1] avec chaque noeud envv de la facon suivante :
 
-        ft_freesplit(adder, 3);//apres separation de ce qui est avant et apres =, on free les 2 chaines
+        //Si adder[1] est NULL alors il me suffit de verifier qu'il n'existe pas deja une var d'env du meme nom (avec strcmp).
+        //Si c'est le cas on ne fait rien. Sinon on l'ajoute a envv.
+        //Si adder[1] n'est pas NULL alors on verifie s'il existe deja une var d'env du meme nom. Si c'est le cas on remplace sa cle,
+        //sinon on l'ajoute a envv.
+        //Autrement dit : on cherche s'il n'existe pas deja une var d'env nommée adder[0] avec strcmp. Si oui, alors on remplace sa clé
+        //par la nouvelle clé (sauf si elle est NULL). Si la var d'env n'existe pas on l'ajoute a envv (on ecrase envv et on remalloc
+        //une liste mise a jour).
+
+        //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
+        //mais avec notre tableau envv
+
+        //NB : Pour unset il faut en fait s'assurer que s'il manque OLDPWD PWD ou SHLVL on le remet. Ou plus simplement que unset ne peut pas supprimer SHLVL (a verifier sur bash --posix).
+
+        //NB : pour unset on pourra facilement supprimer 1 ou plsr var en utilisant la meme logique de la chaine de caractere :
+        //je créé une liste temporaire, je supprime le(s) noeud(s) souhaité(s) et je recréé un nouveau tableau envv mis a jour.
+        //En oubliant pas que si je supprime tout il doit quand meme y avoir SHLVL OLDPWD et PWD.
+
+        //ft_freesplit(adder, 3);//apres separation de ce qui est avant et apres =, on free les 2 chaines
+        ft_freesplit(adder, 3);//Doit on free comme ceci ?
     }
-    //NB : si je fais "export HELLO=5" puis HELLO alors ca change pas la valeur de HELLO car elle n'a pas de cle.
-    //On se sert de la liste chainee cree pour voir si le name HELLO existe deja. Si ca existe pas alors je l'ajoute
-    //a la fin de env (qui doit etre remalloc)
 
     //Apres tri export(NULL) les minuscules sont bien en dernier ??
 

@@ -85,17 +85,12 @@ int main(int argc, char *argv[], char *env[])
     j = 0;
     while (argv[++j])
     {
-
-        //Grace a ft_cut on s'arrete au 1er '='.
-        //En effet si jamais j'ecris ./ft_export bonjour'='"$HOME =cava"       j'obtiens     ./ft_export bonjour=$HOME =cava.
-        //Cela faisait buguer le splitter.
-
         //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
         //                                                                            au lieu de bonjour="cava \oui\ et toi"
         //En gros il faut pas concatener ce qu'il y a apres le = (et entre les guillemets simples ou doubles). Mais a l'affichage
         //(quand je fais ft_export(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
 
-        //adder = ft_splitter(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), 0);
+        adder = ft_calloc(2 + 1, sizeof(char *));//gc cleaner
         adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 0);
         adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 1);
         printf("%s", adder[0]);
@@ -103,7 +98,6 @@ int main(int argc, char *argv[], char *env[])
             printf (" (=) %s\n", adder[1]);
         else
             printf("\n");
-
 
         //Il faut maintenant arimer le tout a env (qui doit etre une structure ou une static char **).
         //Le mieux c'est de faire en sorte que envv reste un tableau de chaine de caractere comme env.
@@ -127,8 +121,7 @@ int main(int argc, char *argv[], char *env[])
         //je créé une liste temporaire, je supprime le(s) noeud(s) souhaité(s) et je recréé un nouveau tableau envv mis a jour.
         //En oubliant pas que si je supprime tout il doit quand meme y avoir SHLVL OLDPWD et PWD.
 
-        //ft_freesplit(adder, 3);//apres separation de ce qui est avant et apres =, on free les 2 chaines
-        ft_freesplit(adder, 3);//Doit on free comme ceci ?
+        ft_freesplit(adder, 3);
     }
 
     //Apres tri export(NULL) les minuscules sont bien en dernier ??

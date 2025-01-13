@@ -36,9 +36,11 @@ t_env *ft_addenvnode(t_env *head, const char *name, const char *key)
 
 char *ft_cut(const char *src, char delim, int is_end)
 {
-    char *result;
-    size_t i = 0;
-
+    static char *result;
+    //char *result;
+    size_t i;
+    
+    i = 0;
     // Trouver la position du délimiteur
     while (src[i] && src[i] != delim)
         i++;
@@ -78,24 +80,23 @@ void ft_bbsort(t_env *head)
     t_env *ptr1;
     t_env *lptr = NULL;
 
-    if (head == NULL) {
+    if (head == NULL)
         return;
-    }
-
     // Tant qu'il y a eu un échange dans la dernière passe, on continue
-    while (swapped) {
+    while (swapped)
+    {
         swapped = 0; // Réinitialiser le flag à 0 à chaque nouvelle passe
         ptr1 = head;
-
         // Comparer chaque nœud avec le suivant
-        while (ptr1->next != lptr) {
-            if (strcmp(ptr1->name, ptr1->next->name) > 0) {
+        while (ptr1->next != lptr)
+        {
+            if (ft_strcmp(ptr1->name, ptr1->next->name) > 0)
+            {
                 ft_swapnodes(ptr1, ptr1->next);
                 swapped = 1; // Si on a échangé, on met `swapped` à 1
             }
             ptr1 = ptr1->next;
         }
-
         lptr = ptr1; // Marquer le dernier élément comme déjà trié
     }
 }

@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/11 19:07:45 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/13 11:16:02 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	ft_ft(char *line, char **result, int i, int go);
 
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq);
-char	**ft_splitter(char const *str, int done);
 
 //ft_split_utils.c
 size_t	ft_count(const char *str, const char sep);

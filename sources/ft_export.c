@@ -27,99 +27,9 @@ static void ft_freelexport(t_env *head)
     }
 }
 
-//a chaque fois que je fais cd je peux directement fair appel a ft_export
-//pour modifier OLPWD et PWD
-//void ft_display(char **env, char **args)
-static t_env *ft_display(char **env, char **args)
-{
-    // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
-
-    t_env *head;
-    char *tmp1;//ader[0]
-    char *tmp2;//ader[1]
-    int   i;
-
-    head = NULL;
-    i = -1;
-    while (env[++i])
-    {
-        tmp1 = ft_cut(env[i], '=', 0);
-        tmp2 = ft_cut(env[i], '=', 1);
-        head = ft_addenvnode(head, tmp1, tmp2);
-        free(tmp1);
-        free(tmp2);
-    }
-    //Le cas ou j'ecris juste export sans creer de nouvelle variable
-    if (!args)
-        return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
-
-    //Si on est la c'est qu'on va ajouter au moins une variable (args != NULL)
-
-    //ft_freelexport(head);
-    return (head);
-}
-
 
 //Il faudrait proteger cette fonction pour eviter les erreurs chelous
 //env_manager
-// static char **ft_ltoa(t_env *head)
-// {
-
-//     size_t  count;
-//     size_t  i;
-//     size_t  len;
-//     t_env   *current;
-//     char    **array;
-//     char    *buffer;//
-
-//     if (!head)
-//         return (NULL);//maybe useless
-//     current = head;
-//     count = 0;
-//     //Calcul du nombre de variables d'env
-//     while (current)
-//     {
-//         count++;
-//         current = current->next;
-//     }
-//     array = malloc((count + 1) * sizeof(char *));//ft_calloc(count + 1, sizeof(char *));//
-//     size_t init;
-//     init = count;
-//     while (init--)
-//         array[init] = NULL;//si je mets pas ca j'ai des valeurs j'ai une erreur : valeu rnon initialisee
-//     if (!array) {
-//         perror("malloc failed");//gc_cleaner
-//         return NULL;
-//     }
-//     // Remplir le tableau avec les chaînes "name=key"
-//     current = head;
-//     i = -1;
-//     while (++i < count)
-//     {
-//         len = ft_strlen(current->name) + ft_strlen(current->key) + 2;// +1 pour '=' et +1 pour '\0'
-//         array[i] = malloc(len * sizeof(char));
-//         if (!array[i])
-//             printf(" ");//gc_cleaner
-//         //buffer = array[i];
-//         //strcpy(buffer, current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
-//         strcpy(array[i], current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
-//         if (current->key)
-//         {
-//             //buffer[ft_strlen(current->name)] = '=';
-//             array[i][ft_strlen(current->name)] = '=';
-//             strcpy(array[i] + ft_strlen(current->name) + 1, current->key);
-//             //strcpy(buffer + ft_strlen(current->name) + 1, current->key);
-//         }
-//         printf("%s\n\n\n\n", array[i]);
-//         current = current->next;
-//     }
-//     // Ajouter un pointeur NULL à la fin du tableau si je fais gc cleaner
-//     //array[count] = NULL;
-//     return array;
-// }
-
-
-
 static char **ft_ltoa(t_env *head)
 {
     if (!head)
@@ -148,37 +58,89 @@ static char **ft_ltoa(t_env *head)
     //     array[init] = NULL;//meme en mettant ca j'ai des valeurs non initialisees
     //     init++;
     // }
-        
-    if (!array) {
-        perror("malloc failed");
+    if (!array)
+    {
+        perror("malloc failed");//gc_cleaner
         return NULL;
     }
 
     current = head;
-    for (size_t i = 0; i < count; i++) {
+    size_t i;
+
+    i = 0;
+    while (i < count)
+    {
         size_t len = ft_strlen(current->name) + (current->key ? ft_strlen(current->key) : 0) + 2;
         array[i] = malloc(len * sizeof(char));
-        if (!array[i]) {
-            perror("malloc failed");
-            while (i-- > 0) free(array[i]);
-            free(array);
-            return NULL;
+        if (!array[i])
+        {
+            //gc_malloc
+            // perror("malloc failed");
+            // while (i-- > 0) free(array[i]);
+            // free(array);
+            // return NULL;
         }
-
-        strcpy(array[i], current->name);
-        if (current->key) {
-            strcat(array[i], "=");
-            strcat(array[i], current->key);
+        strcpy(array[i], current->name);//A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
+        if (current->key)
+        {
+            ft_strcat(array[i], "=");//A MODIFIER pour ft_strncpy ou alors coder ft_strcat
+            ft_strcat(array[i], current->key);//A MODIFIER pour ft_strncpy ou alors coder ft_strcat
         }
-
-        printf("DEBUG: array[%zu] = %s\n", i, array[i]); // Debug temporaire
+        printf("%s\n", array[i]);// Debug temporaire
         current = current->next;
+        i++;
     }
-
     return array;
 }
 
+//NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
+        //mais avec notre tableau envv ??
 
+//a chaque fois que je fais cd je peux directement fair appel a ft_export
+//pour modifier OLPWD et PWD
+//void ft_display(char **env, char **args)
+static t_env *ft_export(char **env, char **argv)
+{
+    // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
+
+    t_env *head;
+    char  **adder;
+    int   i;
+
+    head = NULL;
+    i = -1;
+    while (env[++i])
+    {
+        adder = ft_calloc(2 + 1, sizeof(char *));//gc_cleaner
+        adder[0] = ft_cut(env[i], '=', 0);
+        adder[1] = ft_cut(env[i], '=', 1);
+        head = ft_addenvnode(head, adder[0], adder[1]);
+        ft_freesplit(adder, 3);
+    }
+    //Le cas ou j'ecris juste export sans creer de nouvelle variable
+    if (!argv)
+        return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
+
+    //Si on est la c'est qu'on va ajouter au moins une variable (args != NULL)
+    i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i]
+    while (argv[++i])
+    {
+        //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
+        //                                                                            au lieu de bonjour="cava \oui\ et toi"
+        //Je pense que bash concatene deja les argv donc pour voir comment se comporte reellement ft_exit dans minishell il faut
+        //le tester grandeur nature.
+        //A l'affichage (quand je fais ft_display(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
+        adder = ft_calloc(2 + 1, sizeof(char *));//gc cleaner ??
+        adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[i], 0, 0), -1, 0, 0), '=', 0);
+        adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[i], 0, 0), -1, 0, 0), '=', 1);
+        head = ft_addenvnode(head, adder[0], adder[1]);
+        ft_freesplit(adder, 3);
+    }
+
+
+    //ft_freelexport(head);
+    return (head);
+}
 
 //voir excel vietdu91
 
@@ -195,36 +157,13 @@ int main(int argc, char *argv[], char *env[])
     int  j;
 
     if (argc == 1)
-        return(ft_display(env, NULL), 0);
-    lst = NULL;
-    j = -1;
-    while (env[++j])
     {
-        adder = ft_calloc(2 + 1, sizeof(char *));
-        adder[0] = ft_cut(env[j], '=', 0);
-        adder[1] = ft_cut(env[j], '=', 1);
-        lst = ft_addenvnode(lst, adder[0], adder[1]);
-        ft_freesplit(adder, 3);
+        ft_export(env, NULL);
+        return (0);
     }
-    j = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final.
-    while (argv[++j])
-    {
-        //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
-        //                                                                            au lieu de bonjour="cava \oui\ et toi"
-        //Je pense que bash concatene deja les argv donc pour voir comment se comporte reellement ft_exit dans minishell il faut
-        //le tester en grandeur nature.
-        //A l'affichage (quand je fais ft_display(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
-        adder = ft_calloc(2 + 1, sizeof(char *));//gc cleaner ??
-        adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 0);
-        adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 1);
-        lst = ft_addenvnode(lst, adder[0], adder[1]);
-        //printf("adder[0] = %s    adder[1] = %s\n\n\n\n\n", adder[0], adder[1]);
-        //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
-        //mais avec notre tableau envv ??
-
-        ft_freesplit(adder, 3);
-    }
+    lst = ft_export(env, argv);
     
+    ///CETTE PARTIE SERT A MODIFIER LA COPIE DE ENV apres avoir fait des modifications avec ft_export
     char **array;
     
     // array = NULL;

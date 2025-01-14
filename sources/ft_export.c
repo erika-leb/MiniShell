@@ -81,7 +81,11 @@ static char **ft_ltoa(t_env *head)
         count++;
         current = current->next;
     }
-    array = malloc((count + 1) * sizeof(char *));
+    array = malloc((count + 1) * sizeof(char *));//ft_calloc(count + 1, sizeof(char *));//
+    size_t init;
+    init = count;
+    while (init--)
+        array[init] = NULL;//si je mets pas ca j'ai des valeurs j'ai une erreur : valeu rnon initialisee
     if (!array) {
         perror("malloc failed");//gc_cleaner
         return NULL;
@@ -91,30 +95,21 @@ static char **ft_ltoa(t_env *head)
     i = -1;
     while (++i < count - 1)
     {
-        // Allouer de la mémoire pour la chaîne "name=key"
         len = ft_strlen(current->name) + ft_strlen(current->key) + 2;// +1 pour '=' et +1 pour '\0'
         array[i] = malloc(len * sizeof(char));
         if (!array[i])
             printf(" ");//gc_cleaner
-        //buffer = malloc(len * sizeof(char));
         buffer = array[i];
-        // if (current->name)
-        // {
-            strcpy(buffer, current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
-            if (current->key)
-            {
-                buffer[ft_strlen(current->name)] = '=';
-                strcpy(buffer + ft_strlen(current->name) + 1, current->key);
-            }
-
-        // }
-        //buffer[len - 1] = '\0';
-        //free(buffer);
+        strcpy(buffer, current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
+        if (current->key)
+        {
+            buffer[ft_strlen(current->name)] = '=';
+            strcpy(buffer + ft_strlen(current->name) + 1, current->key);
+        }
         current = current->next;
     }
-    // Ajouter un pointeur NULL à la fin du tableau
-    array[count] = NULL;
-
+    // Ajouter un pointeur NULL à la fin du tableau si je fais gc cleaner
+    //array[count] = NULL;
     return array;
 }
 

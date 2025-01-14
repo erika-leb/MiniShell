@@ -1,6 +1,7 @@
 #include "../minishell.h"
 
 //GOOD TO KNOW
+    //getcwd permet d'obtenir PWD meme sans environnement ?
     //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
     //je vois pas apparaitre adrien
     //Dans bash --posix OLDPWD existe mais n'a pas de cle
@@ -90,4 +91,19 @@ void ft_freetab(char **array)
         free(array[j]);
     free(array);
 
+}
+
+//zzzyzz' ='"boloss"       donne      `zzzyzz =boloss': not a valid identifier        En gro speut pas y avoir d'espace entre le nom et le '=' (apres concatenation).
+//Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.
+//. ne peut pas etre present dans le name.
+void    ft_exparser(char **argv)
+{
+
+}
+
+void    ft_envparser(char **argv)
+{
+    if (argv[1])
+        printf("env: No option(s) or argument(s) allowed\n");
+    exit (127);
 }

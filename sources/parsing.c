@@ -84,6 +84,9 @@ void	ft_deldollar(char *input)
 	}
 }
 
+//NB : le delimiteur du heredoc doit etre concat. En effet si je fait << "$HOME" alors le user devra entrer $HOME pour arreter le heredoc.
+//Si le user entre << $HOME'bonjour' alors le user entrera $HOMEbonjour.
+
 //Rechecker la logique de ce truc. 
 void	ft_ft(char *line, char **result, int i, int go)
 {

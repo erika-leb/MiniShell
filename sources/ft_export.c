@@ -35,8 +35,8 @@ static t_env *ft_display(char **env, char **args)
     // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
 
     t_env *head;
-    char *tmp1;
-    char *tmp2;
+    char *tmp1;//ader[0]
+    char *tmp2;//ader[1]
     int   i;
 
     head = NULL;
@@ -55,63 +55,129 @@ static t_env *ft_display(char **env, char **args)
 
     //Si on est la c'est qu'on va ajouter au moins une variable (args != NULL)
 
-    ft_freelexport(head);
+    //ft_freelexport(head);
     return (head);
 }
 
 
 //Il faudrait proteger cette fonction pour eviter les erreurs chelous
+//env_manager
+// static char **ft_ltoa(t_env *head)
+// {
+
+//     size_t  count;
+//     size_t  i;
+//     size_t  len;
+//     t_env   *current;
+//     char    **array;
+//     char    *buffer;//
+
+//     if (!head)
+//         return (NULL);//maybe useless
+//     current = head;
+//     count = 0;
+//     //Calcul du nombre de variables d'env
+//     while (current)
+//     {
+//         count++;
+//         current = current->next;
+//     }
+//     array = malloc((count + 1) * sizeof(char *));//ft_calloc(count + 1, sizeof(char *));//
+//     size_t init;
+//     init = count;
+//     while (init--)
+//         array[init] = NULL;//si je mets pas ca j'ai des valeurs j'ai une erreur : valeu rnon initialisee
+//     if (!array) {
+//         perror("malloc failed");//gc_cleaner
+//         return NULL;
+//     }
+//     // Remplir le tableau avec les chaînes "name=key"
+//     current = head;
+//     i = -1;
+//     while (++i < count)
+//     {
+//         len = ft_strlen(current->name) + ft_strlen(current->key) + 2;// +1 pour '=' et +1 pour '\0'
+//         array[i] = malloc(len * sizeof(char));
+//         if (!array[i])
+//             printf(" ");//gc_cleaner
+//         //buffer = array[i];
+//         //strcpy(buffer, current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
+//         strcpy(array[i], current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
+//         if (current->key)
+//         {
+//             //buffer[ft_strlen(current->name)] = '=';
+//             array[i][ft_strlen(current->name)] = '=';
+//             strcpy(array[i] + ft_strlen(current->name) + 1, current->key);
+//             //strcpy(buffer + ft_strlen(current->name) + 1, current->key);
+//         }
+//         printf("%s\n\n\n\n", array[i]);
+//         current = current->next;
+//     }
+//     // Ajouter un pointeur NULL à la fin du tableau si je fais gc cleaner
+//     //array[count] = NULL;
+//     return array;
+// }
+
+
+
 static char **ft_ltoa(t_env *head)
 {
-
-    size_t  count;
-    size_t  i;
-    size_t  len;
-    t_env   *current;
-    char    **array;
-    char    *buffer;
-
     if (!head)
-        return (NULL);//maybe useless
+        return NULL;//maybe useless
+
+    size_t count;
+    t_env *current;
+
+    // Calcul du nombre d'éléments
     current = head;
     count = 0;
-    //Calcul du nombre de variables d'env
     while (current)
     {
         count++;
         current = current->next;
     }
-    array = malloc((count + 1) * sizeof(char *));//ft_calloc(count + 1, sizeof(char *));//
-    size_t init;
-    init = count;
-    while (init--)
-        array[init] = NULL;//si je mets pas ca j'ai des valeurs j'ai une erreur : valeu rnon initialisee
+
+    char **array;
+    array = ft_calloc(count + 1, sizeof(char *)); // Utilisation de calloc pour éviter les valeurs non initialisées
+    // char **array;
+    // array = malloc((count + 1) * sizeof(char *));
+    // size_t init;
+    // init = 0;
+    // while (init < count)
+    // {
+    //     array[init] = NULL;//meme en mettant ca j'ai des valeurs non initialisees
+    //     init++;
+    // }
+        
     if (!array) {
-        perror("malloc failed");//gc_cleaner
+        perror("malloc failed");
         return NULL;
     }
-    // Remplir le tableau avec les chaînes "name=key"
+
     current = head;
-    i = -1;
-    while (++i < count - 1)
-    {
-        len = ft_strlen(current->name) + ft_strlen(current->key) + 2;// +1 pour '=' et +1 pour '\0'
+    for (size_t i = 0; i < count; i++) {
+        size_t len = ft_strlen(current->name) + (current->key ? ft_strlen(current->key) : 0) + 2;
         array[i] = malloc(len * sizeof(char));
-        if (!array[i])
-            printf(" ");//gc_cleaner
-        buffer = array[i];
-        strcpy(buffer, current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
-        if (current->key)
-        {
-            buffer[ft_strlen(current->name)] = '=';
-            strcpy(buffer + ft_strlen(current->name) + 1, current->key);
+        if (!array[i]) {
+            perror("malloc failed");
+            while (i-- > 0) free(array[i]);
+            free(array);
+            return NULL;
         }
+
+        strcpy(array[i], current->name);
+        if (current->key) {
+            strcat(array[i], "=");
+            strcat(array[i], current->key);
+        }
+
+        printf("DEBUG: array[%zu] = %s\n", i, array[i]); // Debug temporaire
         current = current->next;
     }
-    // Ajouter un pointeur NULL à la fin du tableau si je fais gc cleaner
-    //array[count] = NULL;
+
     return array;
 }
+
 
 
 //voir excel vietdu91
@@ -152,21 +218,22 @@ int main(int argc, char *argv[], char *env[])
         adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 0);
         adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[j], 0, 0), -1, 0, 0), '=', 1);
         lst = ft_addenvnode(lst, adder[0], adder[1]);
-
+        //printf("adder[0] = %s    adder[1] = %s\n\n\n\n\n", adder[0], adder[1]);
         //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
         //mais avec notre tableau envv ??
 
         ft_freesplit(adder, 3);
     }
-
+    
     char **array;
     
     // array = NULL;
     array = ft_ltoa(lst);
     j = -1;
+    //ft_display(array, NULL);
     while (array[++j])
     {
-        printf("%s\n", array[j]);
+        //printf("%s\n", array[j]);
         free(array[j]);
     }
     free(array);

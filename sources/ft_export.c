@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+//getcwd permet d'obtenir PWD meme sans environnement ?
+
 static void ft_printexport(const t_env *head)
 {
     const t_env *current = head;
@@ -53,19 +55,12 @@ static t_env *ft_display(char **env, char **args)
 
     //Si on est la c'est qu'on va ajouter au moins une variable (args != NULL)
 
-    //GOOD TO KNOW
-    //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
-    //je vois pas apparaitre adrien
-    //Dans bash --posix OLDPWD existe mais n'a pas de cle
-    //On peut export autant de variables qu'on veut a la fois : export AAA=% BBB CCC=AHAH
     ft_freelexport(head);
     return (head);
 }
 
 
-
-
-
+//Il faudrait proteger cette fonction pour eviter les erreurs chelous
 static char **ft_ltoa(t_env *head)
 {
 
@@ -74,7 +69,10 @@ static char **ft_ltoa(t_env *head)
     size_t  len;
     t_env   *current;
     char    **array;
+    char    *buffer;
 
+    if (!head)
+        return (NULL);//maybe useless
     current = head;
     count = 0;
     //Calcul du nombre de variables d'env
@@ -98,26 +96,18 @@ static char **ft_ltoa(t_env *head)
         array[i] = malloc(len * sizeof(char));
         if (!array[i])
             printf(" ");//gc_cleaner
-
-        // //snprintf(array[i], len, "%s=%s", current->name, current->key);
-        // //SOUCI : ca ecrase les donnees precedentes
-        // if (current->key)
-        //     ft_strncpy(array[i], current->key, ft_strlen(current->key));
-        // //je crois qu'il aime pas quand je decale tous les elements de 1 case. Ca fait des erreurs
-        // //ft_insert(array[i], 0, '=');
-        // //ft_strncpy(array[i], "=", 1);
-        // ft_strncpy(array[i], current->name, ft_strlen(current->name));
-        // current = current->next;
-
-        // Construire la chaîne "name=key"
-        char *buffer;
-
         //buffer = malloc(len * sizeof(char));
         buffer = array[i];
-        strcpy(buffer, current->name);   // Copier name.  AMODIFIER pour ft_strncpy ou alors coder ft_strcpy
-        buffer[ft_strlen(current->name)] = '=';         // Ajouter '='
-        if (current->key)
-            strcpy(buffer + ft_strlen(current->name) + 1, current->key); // Copier key
+        // if (current->name)
+        // {
+            strcpy(buffer, current->name);   //A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
+            if (current->key)
+            {
+                buffer[ft_strlen(current->name)] = '=';
+                strcpy(buffer + ft_strlen(current->name) + 1, current->key);
+            }
+
+        // }
         //buffer[len - 1] = '\0';
         //free(buffer);
         current = current->next;
@@ -171,27 +161,21 @@ int main(int argc, char *argv[], char *env[])
         //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
         //mais avec notre tableau envv ??
 
-        //NB : pour unset on pourra facilement supprimer 1 ou plsr var en utilisant la meme logique de la chaine de caractere :
-        //je créé une liste temporaire, je supprime le(s) noeud(s) souhaité(s) et je recréé un nouveau tableau envv mis a jour.
-        //En oubliant pas que si je supprime tout il doit quand meme y avoir SHLVL OLDPWD et PWD.
-
         ft_freesplit(adder, 3);
     }
-    //pour afficher lst
-    // ft_bbsort(lst);
-    // ft_printexport(lst);//
 
     char **array;
     
     // array = NULL;
     array = ft_ltoa(lst);
-    //Maintenant il faut trier reconvertir lst en tableau de chaines de caracteres, puis l'afficher pour verifier
-    for (int i = 0; array[i]; i++) {
-        printf("%s\n", array[i]);
-        free(array[i]); // Libérer chaque chaîne
+    j = -1;
+    while (array[++j])
+    {
+        printf("%s\n", array[j]);
+        free(array[j]);
     }
-    // Libérer le tableau
     free(array);
+    //ft_freesplit(array, 256);
 
     ft_freelexport(lst);
     //Apres tri export(NULL) les minuscules sont bien en dernier ??

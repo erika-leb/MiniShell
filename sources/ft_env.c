@@ -1,5 +1,10 @@
 #include "../minishell.h"
 
+//GOOD TO KNOW
+    //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
+    //je vois pas apparaitre adrien
+    //Dans bash --posix OLDPWD existe mais n'a pas de cle
+
 //Si j'essaie de mettre une option mettre un message d'erreur (ex. no options allowed) puis
 //exit avec le code 125
 

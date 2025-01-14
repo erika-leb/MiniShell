@@ -27,82 +27,15 @@ static void ft_freelexport(t_env *head)
     }
 }
 
-
-//Il faudrait proteger cette fonction pour eviter les erreurs chelous
-//env_manager
-static char **ft_ltoa(t_env *head)
-{
-    if (!head)
-        return NULL;//maybe useless
-
-    size_t count;
-    t_env *current;
-
-    // Calcul du nombre d'éléments
-    current = head;
-    count = 0;
-    while (current)
-    {
-        count++;
-        current = current->next;
-    }
-
-    char **array;
-    array = ft_calloc(count + 1, sizeof(char *)); // Utilisation de calloc pour éviter les valeurs non initialisées
-    // char **array;
-    // array = malloc((count + 1) * sizeof(char *));
-    // size_t init;
-    // init = 0;
-    // while (init < count)
-    // {
-    //     array[init] = NULL;//meme en mettant ca j'ai des valeurs non initialisees
-    //     init++;
-    // }
-    if (!array)
-    {
-        perror("malloc failed");//gc_cleaner
-        return NULL;
-    }
-
-    current = head;
-    size_t i;
-
-    i = 0;
-    while (i < count)
-    {
-        size_t len = ft_strlen(current->name) + (current->key ? ft_strlen(current->key) : 0) + 2;
-        array[i] = malloc(len * sizeof(char));
-        if (!array[i])
-        {
-            //gc_malloc
-            // perror("malloc failed");
-            // while (i-- > 0) free(array[i]);
-            // free(array);
-            // return NULL;
-        }
-        strcpy(array[i], current->name);//A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
-        if (current->key)
-        {
-            ft_strcat(array[i], "=");//A MODIFIER pour ft_strncpy ou alors coder ft_strcat
-            ft_strcat(array[i], current->key);//A MODIFIER pour ft_strncpy ou alors coder ft_strcat
-        }
-        printf("%s\n", array[i]);// Debug temporaire
-        current = current->next;
-        i++;
-    }
-    return array;
-}
-
 //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
         //mais avec notre tableau envv ??
 
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
 //void ft_display(char **env, char **args)
-static t_env *ft_export(char **env, char **argv)
+static char **ft_export(char **env, char **argv)
 {
     // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
-
     t_env *head;
     char  **adder;
     int   i;
@@ -120,7 +53,6 @@ static t_env *ft_export(char **env, char **argv)
     //Le cas ou j'ecris juste export sans creer de nouvelle variable
     if (!argv)
         return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
-
     //Si on est la c'est qu'on va ajouter au moins une variable (args != NULL)
     i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i]
     while (argv[++i])
@@ -136,10 +68,16 @@ static t_env *ft_export(char **env, char **argv)
         head = ft_addenvnode(head, adder[0], adder[1]);
         ft_freesplit(adder, 3);
     }
+    //return (head);
 
-
-    //ft_freelexport(head);
-    return (head);
+        
+    ///CETTE PARTIE SERT A MODIFIER LA COPIE DE ENV apres avoir fait des modifications avec ft_export
+    char **array;
+    
+    array = ft_ltoa(head);//apres modification on reformat la liste en tableau de chaine de caractere
+    ft_freelexport(head);
+    //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix) ?? Sur ?? Car ca apparait dans bash --posix
+    return (array);
 }
 
 //voir excel vietdu91
@@ -152,35 +90,24 @@ static t_env *ft_export(char **env, char **argv)
 //. ne peut pas etre present dans le name. 
 int main(int argc, char *argv[], char *env[])
 {
-    t_env *lst;
-    char **adder;
-    int  j;
+    char **array;
 
+    //Si cmd[1] est vide alors on fera ft_export(env, NULL);
     if (argc == 1)
     {
         ft_export(env, NULL);
         return (0);
     }
-    lst = ft_export(env, argv);
-    
-    ///CETTE PARTIE SERT A MODIFIER LA COPIE DE ENV apres avoir fait des modifications avec ft_export
-    char **array;
-    
-    // array = NULL;
-    array = ft_ltoa(lst);
-    j = -1;
-    //ft_display(array, NULL);
-    while (array[++j])
-    {
-        //printf("%s\n", array[j]);
-        free(array[j]);
-    }
-    free(array);
-    //ft_freesplit(array, 256);
 
-    ft_freelexport(lst);
-    //Apres tri export(NULL) les minuscules sont bien en dernier ??
-    //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix) ?? Sur ?? Car ca apparait dans bash --posix
+    //Si cmd[1] non vide alors ft_export(env, argv);
+    array = ft_export(env, argv);
+    //afficher array /////////////////////
+    int i;
+    i = 0;
+    while (array[i])
+        printf("%s\n", array[i++]);// Debug temporaire
+    //////////////////////////////////////
+    ft_freetab(array);
 
     
     return 0;

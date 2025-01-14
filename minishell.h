@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/14 16:28:29 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:45:31 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ t_env    *ft_addenvnode(t_env *head, char *name, char *key);
 char     *ft_cut(const char *src, char delim, int is_end);
 void     ft_swapnodes(t_env *node1, t_env *node2);
 void     ft_bbsort(t_env *head);
+
+//env_manager.c
+char    **ft_ltoa(t_env *head);
+void    ft_freetab(char **array);
 
 
 

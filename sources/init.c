@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 15:09:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:11:58 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_element	*ft_init_struct(t_gc *gc) //utile ? plus tard peut-etre
 {
 	t_element 	*elements;
 	
-	elements=NULL;
+	elements = NULL;
 	elements = gc_malloc(sizeof(t_element), gc);
 	elements->line = NULL;
 	elements->arr = NULL;
@@ -94,8 +94,10 @@ t_element	*ft_init_struct(t_gc *gc) //utile ? plus tard peut-etre
 	elements->pid_arr = NULL;
 	elements->pipes = NULL;
 	elements->child_to_wait = 0;
+	elements->error = NULL;
  	return (elements);
 }
+
 
 /*void	ft_error_exit(char *s, t_element *elements, int	i, int type)
 {

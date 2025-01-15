@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2024/11/29 16:50:08 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/01/14 17:21:55 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/fill_arrays.c \
 			${SRC_DIR}/execution.c \
 			${SRC_DIR}/pipe_handle.c \
+			${SRC_DIR}/error_message.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/gc_cleanup.o \
@@ -63,6 +64,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/fill_arrays.o \
 			${OBJ_DIR}/execution.o \
 			${OBJ_DIR}/pipe_handle.o \
+			${OBJ_DIR}/error_message.o \
 
 NAME = minishell
 

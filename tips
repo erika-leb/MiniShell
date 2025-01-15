@@ -1,3 +1,24 @@
 flags pour valgrind
 
 valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
+
+
+valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
+
+a faire
+mettre a la norme
+built in
+test exec
+signaux fonction expres signaux dans heredoc, gerer signaux hors mode interactif ex cat ; code erreur a gerer voir cat puis ctrl c puis $? donne 130 github openbsd
+pwd a faire avec getcpwd
+tester minishell dans minishell
+shlvl voir adrien
+il faut expand les var d'env avec echo sauf sq
+gerer boucle infini yes ; yes | head
+redir sans cmd
+2 cas a gerer entre partie adri et partie erika : - si j'ai une redir comme < $a avec a="boloss 'ca va'" (var contenant espace et?ou quotes) alors je dois expand quand je cree la redir. Adri m'enverra $/n/ta
+                                                  - si j'ai ls $a (une var contenant des quotes) alors je dois split avec sep=' ' quand je remplit cmd.
+si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il faut un message d'erreur (toute redir sauf heredoc) et ca ne lance pas l'enfant test a faire
+verifier si gc_calloc marche
+
+cas = ls > a | grep a

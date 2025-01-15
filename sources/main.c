@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/29 16:16:55 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/15 11:54:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 	// 	printf("myenv %i = %s\n", i, elements->env[i]);
 	// 	i++;
 	// }
-
 }
 
  int	main(int ac, char **av, char **env)
@@ -73,22 +72,25 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 		elements->arr = ft_split(ft_tokenize(elements->line), 0, 0, &gc);
 		//result = ft_split(ft_concat(ft_tokenize(line), 0, 0), ' ', 0, 0);
 		
-		int i = 0;
+		//int i = 0;
 		// int s = ft_arr_size(elements->arr);
 		// printf("i = %d, s = %d\n", i, s);
 		//while (i < s - 1)
-		while(elements->arr[i])
- 		{
-			elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
- 			//printf("i = %d, s = %d\n", i, s);
-			printf("token %d :%s\n", i, elements->arr[i]);
-			i++;
- 		}
+		// while(elements->arr[i])
+ 		// {
+		// 	elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
+ 		// 	//printf("i = %d, s = %d\n", i, s);
+		// 	printf("token %d :%s\n", i, elements->arr[i]);
+		// 	i++;
+ 		// }
 		//perror("test2");
 		//lexing(elements, &gc);
 		lexing(elements->arr, &elements->lst, &gc);
+		//perror("kikoulol");
 		ft_fill_arrays(elements, &gc);
+		//perror("bolosskikou");
 		pipe_creation(elements, &gc);
+		//perror("boloss");
 		child_creation(elements, &gc);
 		close_pipes(elements);
 		wait_for_children(elements);

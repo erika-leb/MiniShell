@@ -29,6 +29,7 @@ void	gc_remove(t_gc *gc, void *ptr)
 				prev->next = current->next;
 			else
 				gc->head = current->next;
+			free(current->ptr);
 			free(current);
 			return ;
 		}

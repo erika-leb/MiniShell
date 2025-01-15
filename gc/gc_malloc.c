@@ -65,3 +65,25 @@ void	*gc_malloc(size_t size, t_gc *gc)
 	gc_add(gc, ptr, size);
 	return (ptr);
 }
+
+void	*gc_calloc(size_t n, size_t sizof, t_gc *gc) // a verifier si ca marche
+{
+	void	*ptr;
+
+	ptr = ft_calloc(n, sizof);
+	//ptr = ft_calloc(size);
+	// printf("allocation de %zu size\n", size);
+	// if (size == sizeof(t_cmd))
+	// {
+	// 	free(ptr);
+	// 	ptr = NULL;
+	// }
+	if (!ptr)
+	{
+		perror("Error: allocation failed");
+		gc_cleanup(gc);
+		exit(EXIT_FAILURE);
+	}
+	gc_add(gc, ptr, n * sizof);
+	return (ptr);
+}

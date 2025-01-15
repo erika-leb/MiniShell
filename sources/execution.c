@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/12/01 23:36:55 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/15 10:49:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	while (elements->mypaths[j])
 	{
 		if (filepath != NULL)
-			free(filepath);
+			gc_remove(gc, filepath);
 		filepath = ft_strjoin(elements->mypaths[j], cmd[0], gc);
 		//printf(" ")
 		// if (filepath == NULL)
@@ -114,6 +114,7 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	{
 		write(2, "Error : command not found\n", 27);
 		(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
+		//(free_std(), exit(EXIT_FAILURE));
 	}
 	//dprintf(2,"filepath = %s\n", filepath);
 	execve(filepath, cmd, elements->env); //mettre ici un gc_cleanup ?

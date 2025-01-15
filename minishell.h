@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2024/12/01 23:45:59 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:09:44 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@
 # define	ERROR_OPEN	-1
 # define	CLOSED		-3
 
+# define	TRUE		1
+# define	FALSE		0
+
 # define UN_TOKEN "bash: syntax error"
 
 typedef struct s_file
@@ -83,6 +86,7 @@ typedef struct	s_element
 	int		nb_cmd;
 	int		*pid_arr;
 	int		**pipes;
+	char	*error;
 	int		child_to_wait;
 }	t_element;
 
@@ -173,6 +177,8 @@ void	free_std(void);
 void	child_creation(t_element *elements, t_gc *gc);
 
 //execution.c
+void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc);
+void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc);
 void	exec_command(t_element *elements, t_gc *gc, int i);
 
 

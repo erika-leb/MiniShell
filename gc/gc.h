@@ -39,5 +39,6 @@ void	gc_cleanup(t_gc *gc);
 void	gc_remove(t_gc *gc, void *ptr);
 size_t	gc_get_malloc_size(void *ptr, t_gc *gc);
 void	*gc_realloc(void *ptr, size_t new_size, t_gc *gc);
+void	*gc_calloc(size_t n, size_t sizof, t_gc *gc);// a verifier si ca marche
 
 #endif

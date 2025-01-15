@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 14:08:00 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:14:46 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,8 @@ void	lexing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
 	//perror("test");
 	handle_redir(lst);
 
-	printf("\n APRES OUVERTURE \n\n");
-	print_cmd_list(*lst);
+	// printf("\n APRES OUVERTURE \n\n");
+	// print_cmd_list(*lst);
 }
 
 void	ft_error_cases(char **tab, t_gc *gc)

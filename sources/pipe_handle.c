@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/12/01 22:24:23 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:35:13 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	pipe_creation(t_element *elements, t_gc *gc)
 	int	t;
 	
 	i = 0;
-
+	//printf("ip = %d, nb cmd - 1 = %d\n", i, elements->nb_cmd - 1);
 	while (i < elements->nb_cmd - 1)
 	{
 		//printf("pipe[%d] = %p\n", i, elements->pipes[i]);
@@ -37,6 +37,7 @@ void	pipe_creation(t_element *elements, t_gc *gc)
 void	close_pipes(t_element *elements)
 {
 	int	k;
+	t_cmd *cmd;
 
 	k = 0;
 	while (k < elements->nb_cmd - 1)
@@ -44,6 +45,21 @@ void	close_pipes(t_element *elements)
 		close(elements->pipes[k][1]);
 		close(elements->pipes[k][0]);
 		k++;
+	}
+	cmd = elements->lst;
+	while (cmd)
+	{
+		if (cmd->fd_in>0)
+		{
+			close(cmd->fd_in);
+			cmd->fd_in = CLOSED;
+		}
+		if (cmd->fd_out>0)
+		{
+			close(cmd->fd_out);
+			cmd->fd_out = CLOSED;
+		}
+		cmd = cmd->next;
 	}
 }
 

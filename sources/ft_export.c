@@ -26,8 +26,7 @@ static void ft_freelexport(t_env *head)
 }
 
 //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn
-//on travaille plus avec l'environnement bash
-//mais avec notre tableau envv ??
+//on travaille plus avec l'environnement bash mais avec notre tableau envv ??
 static void ft_adder(t_env **head, char *str)
 {
     char  **adder;
@@ -39,7 +38,6 @@ static void ft_adder(t_env **head, char *str)
     ft_freesplit(adder, 3);
     
 }
-
 
 //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
 //                                                                            au lieu de bonjour="cava \oui\ et toi"
@@ -60,7 +58,7 @@ static char **ft_export(char **env, char **argv)
     i = -1;
     while (env[++i])
         ft_adder(&head, env[i]);
-    if (!argv)
+    if (!argv)//Ou plutot !argv[1] dans le code final ?
         return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
 
     //Le parser arrive ici ! argv[1][0] = export a priori
@@ -78,13 +76,12 @@ static char **ft_export(char **env, char **argv)
     //         ft_adder(&head, argv[i]);
     // }
     //////////////
-
-
-
     i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i] !!!!!!!
     //Ah non en fait pas sur puisque cmd[0] sera egal a "export"
     while (argv[++i])
         ft_adder(&head, argv[i]);
+
+
     adder = ft_ltoa(head);
     ft_printexport(head);
     ft_freelexport(head);

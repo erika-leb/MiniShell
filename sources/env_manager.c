@@ -99,19 +99,34 @@ int   ft_exparser(char *name_key)
 {
     int i;
 
-    //le premier terme doit etre un alphabetique ou un _ sinon :
-    // - on affiche le message d'erreur bash: export: `name=key': not a valid identifier
-    // - on return 1 pour verifier que y'a eu un pb et donc ca sera pas ajoute dans les var d'env
-    // if (name_key[i][0])
-
+    if (name_key[0][0] >= '0' && name_key[0][0] <= '9')
+    {
+        //(il faudrait remplir le meme ft_write que ce qu'il y en dessous ?)
+        printf("export: `name=key': not a valid identifier\n");
+        return (1);
+    }
     i = -1;
     while (name_key[++i])
     {
-        //tous les autres termes DANS name (pas dans key) doivent etre alnum ou _ sinon : meme chose
-        //Il faut donc s'arreter au 1er egale.
-        //Si on tombe sur un egale il faut bien verifier que ce qui precede c'est un alnum ou un _.
-        //En effet le = doit etre colle a name.
-        
+        if (!(ft_isalnum(name_key[i]) || name_key[i] = '_'))
+        {
+            //(il faudrait remplir le meme ft_write que ce qu'il y a dessus ?)
+            printf("export: `name=key': not a valid identifier\n");
+            return (1);
+        }
+        if (name_key[i] == '=')
+        {
+            //Si on tombe sur un egale il faut bien verifier que ce qui precede c'est un alnum ou un _.
+            //En effet le = doit etre colle a name.
+            if (!(ft_isalnum(name_key[i - 1]) || name_key[i - 1] = '_'))
+            {
+                //(il faudrait remplir le meme ft_write que ce qu'il y a dessus ?)
+                printf("export: `name=key': not a valid identifier\n");
+                return (1); 
+            }
+            //Par ailleurs si je tombe sur un '=' (colle a name) alors le parsing est fini
+            break;
+        } 
     }
 }
 

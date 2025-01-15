@@ -59,27 +59,28 @@ static char **ft_export(char **env, char **argv)
     while (env[++i])
         ft_adder(&head, env[i]);
     if (!argv)//Ou plutot !argv[1] dans le code final ?
-        return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
+        return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);//gc_cleaner ?
 
     //Le parser arrive ici ! argv[1][0] = export a priori
-    //cmds[0] = export cmds[1] = premier truc apres export. Hors l'option ne peut que se situer la.
-    // if (argv[1][0] = '-')
-    // {
-    //     //Si le user entre une option d'apres le sujet on ne traite plus rien
-    //     printf("export: No option(s) allowed\n");//ft_write
-    //     exit(2);//quel code d'erreur mettre ? 2 : arbitraire
-    // }
-    // i = 0;//car argv[0] est le nom du prg?? Il faut mettre -1 ? Pas sur
-    // while (argv[++i])
-    // {
-    //     if (!ft_exparser(argv[i]))
-    //         ft_adder(&head, argv[i]);
-    // }
-    //////////////
-    i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i] !!!!!!!
-    //Ah non en fait pas sur puisque cmd[0] sera egal a "export"
+    //cmds[0] = export, cmds[1] = premier truc apres export. Hors l'option ne peut que se situer la.
+    if (argv[1][0] == '-')
+    {
+        //Si le user entre une option d'apres le sujet on ne traite plus rien
+        printf("export: No option(s) allowed\n");//ft_write
+        ft_freelexport(head);//gc_cleaner
+        exit(2);//quel code d'erreur mettre ? 2 : arbitraire
+    }
+    i = 0;//car argv[0] est le nom du prg?? Il faut mettre -1 ? Pas sur
     while (argv[++i])
-        ft_adder(&head, argv[i]);
+    {
+        if (!ft_exparser(argv[i]))
+            ft_adder(&head, argv[i]);
+    }
+    //////////////
+    // i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i] !!!!!!!
+    // //Ah non en fait pas sur puisque cmd[0] sera egal a "export"
+    // while (argv[++i])
+    //     ft_adder(&head, argv[i]);
 
 
     adder = ft_ltoa(head);
@@ -112,10 +113,10 @@ int main(int argc, char *argv[], char *env[])
     //Si cmd[1] non vide alors ft_export(env, argv);
     array = ft_export(env, argv);
     //afficher array /////////////////////
-    int i;
-    i = 0;
-    while (array[i])
-        printf("%s\n", array[i++]);
+    // int i;
+    // i = 0;
+    // while (array[i])
+    //     printf("%s\n", array[i++]);
     //////////////////////////////////////
     ft_freetab(array);
 

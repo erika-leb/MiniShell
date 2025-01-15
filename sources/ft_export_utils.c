@@ -24,18 +24,24 @@ t_env *ft_envnode(const char *name, const char *key)
 //Autrement dit : on cherche s'il n'existe pas deja une var d'env nommée adder[0] avec strcmp. Si oui, alors on remplace sa clé
 //par la nouvelle clé (sauf si elle est NULL). Si la var d'env n'existe pas on l'ajoute a envv (on ecrase envv et on remalloc
 //une liste mise a jour).
-t_env *ft_addenvnode(t_env *head, char *name,char *key)
+t_env *ft_addenvnode(t_env *head, char *name, char *key)
 {
     t_env *current;
     
+    //S'il peut y avoir un + dans name (par exemple HELLO+ car j'ai voulu faire HELLO+=5) alors on le tej ?
     if (!head)
         return (ft_envnode(name, key));
     current = head;
-    while (current) {
-        if (ft_strcmp(current->name, name) == 0) {
+    while (current)
+    {
+        if (ft_strcmp(current->name, name) == 0)
+        {
             // Si un nœud avec le même "name" est trouvé, mettre à jour "key"
             if (key)
             {
+                //Si y'a un '+' en derniere position de name alors on concatene (strlcat ?)
+                //(on le fait dans key car si y'a pas de key on a rien a faire)
+
                 free(current->key);
                 current->key = ft_strdup_(key);
             }

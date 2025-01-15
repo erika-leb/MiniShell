@@ -90,44 +90,40 @@ void ft_freetab(char **array)
 
 }
 
-//zzzyzz' ='"boloss"       donne      `zzzyzz =boloss': not a valid identifier        En gros peut pas y avoir d'espace entre le nom et le '=' (apres concatenation).
-//Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.
-//. ne peut pas etre present dans le name.
+//export +=5. Si la var d'env existe deja ca ajoute 5 a la suite.
+//Le + doit se situer juste devant le =.
 
 //De facon general il faut bien faire gaffe au comportement de minishell si le user s'amuse a mettre les options n'importe ou dans cmds[i]
 int   ft_exparser(char *name_key)
 {
     int i;
 
-    if (name_key[0][0] >= '0' && name_key[0][0] <= '9')
+    if (name_key[0] >= '0' && name_key[0] <= '9')
     {
         //(il faudrait remplir le meme ft_write que ce qu'il y en dessous ?)
-        printf("export: `name=key': not a valid identifier\n");
+        printf("export:t'as mis un numerique en pos 0\n");
         return (1);
     }
     i = -1;
     while (name_key[++i])
     {
-        if (!(ft_isalnum(name_key[i]) || name_key[i] = '_'))
+        //Si en i j'ai un alnum ou _, qu'en i + 1 j'ai un '+' et qu'en i + 2 j'ai un '=' alors je mets ma dummy a 1
+        //et dans addenvnode on fera une concatenation.
+
+
+        //C'est cense gerer le cas ou name vaut \0 et le cas ou name commence par '='.
+        //ca gere aussi le cas ou un espace est avant le = puisqu'on teste le if en dessous jusqu'au '='.
+        // if (!(ft_isalnum(name_key[i]) || name_key[i] == '_'))
+        if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
         {
             //(il faudrait remplir le meme ft_write que ce qu'il y a dessus ?)
             printf("export: `name=key': not a valid identifier\n");
             return (1);
         }
         if (name_key[i] == '=')
-        {
-            //Si on tombe sur un egale il faut bien verifier que ce qui precede c'est un alnum ou un _.
-            //En effet le = doit etre colle a name.
-            if (!(ft_isalnum(name_key[i - 1]) || name_key[i - 1] = '_'))
-            {
-                //(il faudrait remplir le meme ft_write que ce qu'il y a dessus ?)
-                printf("export: `name=key': not a valid identifier\n");
-                return (1); 
-            }
-            //Par ailleurs si je tombe sur un '=' (colle a name) alors le parsing est fini
             break;
-        } 
     }
+    return (0);
 }
 
 void ft_env(char **array, char **cmds)

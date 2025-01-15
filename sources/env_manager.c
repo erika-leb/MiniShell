@@ -6,9 +6,6 @@
     //je vois pas apparaitre adrien
     //Dans bash --posix OLDPWD existe mais n'a pas de cle
 
-//Si j'essaie de mettre une option mettre un message d'erreur (ex. no options allowed) puis
-//exit avec le code 125
-
 //Dans notre minishell il peut etre judicieux de hardcod le chemin ou se situe notre bash
 //le OLDPWD et mettre SHLVL a 1 puis on va l'incrementer si le user fait des ./minishell | ./minishell
 //D'ailleurs le ./minishell | ./minishell est un hedge case a prendre en compte dans la partie exec d'erika
@@ -104,6 +101,20 @@ void    ft_exparser(char **argv)
 void    ft_envparser(char **argv)
 {
     if (argv[1])
-        printf("env: No option(s) or argument(s) allowed\n");
-    exit (127);
+        printf("env: No option(s) or argument(s) allowed\n");//ft_write
+    exit (127);//ou 125 ?
+}
+
+void ft_env(char **array, char **cmds)
+{
+    int i;
+
+    i = 0;
+    if (cmds[1])
+    {
+        printf("env: No option(s) or argument(s) allowed\n");//ft_write 
+        exit (127);//ou 125 ?
+    }
+    while (array[i])
+        printf("%s\n", array[i++]);//ft_write
 }

@@ -36,12 +36,12 @@ t_env *ft_addenvnode(t_env *head, char *name,char *key)
             // Si un nœud avec le même "name" est trouvé, mettre à jour "key"
             if (key)
             {
-                free(current->key);  // Libérer l'ancienne clé
-                current->key = ft_strdup_(key);  // Dupliquer et assigner la nouvelle clé
+                free(current->key);
+                current->key = ft_strdup_(key);
             }
-            return head;  // Retourner la liste sans ajouter de nouveau nœud
+            return (head);
         }
-        // Passer au suivant ou arrêter si c'est le dernier
+        // Des qu'on a tout checke on arrete et on ajoute simplement le noeud a la suite
         if (!current->next)
             break;
         current = current->next;
@@ -53,33 +53,31 @@ t_env *ft_addenvnode(t_env *head, char *name,char *key)
 
 char *ft_cut(const char *src, char delim, int is_end)
 {
-    static char *result;
-    //char *result;
+    // static char *result;
+    char *result;
     size_t i;
     
     i = 0;
-    // Trouver la position du délimiteur
     while (src[i] && src[i] != delim)
         i++;
-    if (is_end) {
-        // Si on veut la partie après le délimiteur
+    if (is_end)
+    {
         if (src[i] == delim)
-            return ft_strdup_(src + i + 1); // Copier la chaîne après le délimiteur
-        return NULL; // Une variable d'environnement sans le contenu
+            return (ft_strdup_(src + i + 1));
+        return (NULL); // Si y'a pas de delimiteur alors key est un pointeur NULL
     }
     else
     {
         // Si on veut la partie avant le délimiteur
         result = (char *)malloc(i + 1);
         if (!result)
-            return NULL;//gc_cleaner ?
-        ft_strncpy(result, src, i); // Copier la partie avant le délimiteur. Risque de memory overlapping ? On s'en balek
+            return (NULL);//gc_cleaner ?
+        ft_strncpy(result, src, i);
         result[i] = '\0';
         return (result);
     }
 }
 
-// Fonction pour échanger deux nœuds
 void ft_swapnodes(t_env *node1, t_env *node2)
 {
     char *temp_name = node1->name;
@@ -93,18 +91,18 @@ void ft_swapnodes(t_env *node1, t_env *node2)
 
 void ft_bbsort(t_env *head)
 {
-    int swapped = 1; // On initialise `swapped` à 1 pour entrer dans la boucle
+    int swapped;
     t_env *ptr1;
-    t_env *lptr = NULL;
+    t_env *lptr;
 
     if (head == NULL)
         return;
-    // Tant qu'il y a eu un échange dans la dernière passe, on continue
+    swapped = 1;
+    lptr = NULL;
     while (swapped)
     {
-        swapped = 0; // Réinitialiser le flag à 0 à chaque nouvelle passe
+        swapped = 0; // Réinitialiser le flag à 0 à chaque nouveau tri
         ptr1 = head;
-        // Comparer chaque nœud avec le suivant
         while (ptr1->next != lptr)
         {
             if (ft_strcmp(ptr1->name, ptr1->next->name) > 0)

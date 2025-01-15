@@ -25,28 +25,35 @@ static void ft_freelexport(t_env *head)
     }
 }
 
-//NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn on travaille plus avec l'environnement bash
-        //mais avec notre tableau envv ??
-//MARCHE PAAAAS
-// static void ft_adder(t_env *head, char *str, int concat)
-// {
-//     char  **adder;
+//NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn
+//on travaille plus avec l'environnement bash
+//mais avec notre tableau envv ??
+static void ft_adder(t_env **head, char *str, int concat)
+{
+    char  **adder;
 
-//     adder = ft_calloc(2 + 1, sizeof(char *));//gc_cleaner
-//     if (!concat)
-//     {
-//         adder[0] = ft_cut(str, '=', 0);
-//         adder[1] = ft_cut(str, '=', 1);
-//     }
-//     else
-//     {
-//         adder[0] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 0);
-//         adder[1] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 1);
-//     }
-//     head = ft_addenvnode(head, adder[0], adder[1]);
-//     ft_freesplit(adder, 3);
-// }
+    adder = ft_calloc(2 + 1, sizeof(char *));//gc_cleaner
+    if (!concat)
+    {
+        adder[0] = ft_cut(str, '=', 0);
+        adder[1] = ft_cut(str, '=', 1);
+    }
+    else
+    {
+        adder[0] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 0);
+        adder[1] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 1);
+    }
+    *head = ft_addenvnode(*head, adder[0], adder[1]);
+    ft_freesplit(adder, 3);
+    
+}
 
+
+//J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
+//                                                                            au lieu de bonjour="cava \oui\ et toi"
+//Je pense que bash concatene deja les argv donc pour voir comment se comporte reellement ft_exit dans minishell il faut
+//le tester grandeur nature.
+//A l'affichage (quand je fais ft_export(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
 
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
@@ -60,37 +67,19 @@ static char **ft_export(char **env, char **argv)
     head = NULL;
     i = -1;
     while (env[++i])
-    {
-        adder = ft_calloc(2 + 1, sizeof(char *));//gc_cleaner
-        adder[0] = ft_cut(env[i], '=', 0);
-        adder[1] = ft_cut(env[i], '=', 1);
-        head = ft_addenvnode(head, adder[0], adder[1]);
-        ft_freesplit(adder, 3);
-
-        // ft_adder(head, env[i], 0);
-    }
+        ft_adder(&head, env[i], 0);
     if (!argv)
         return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
-    i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i]
+    i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final.
+    //Il faudra le changer quand on passera a cmd[i]
     while (argv[++i])
-    {
-        //J'ai aussi remarque que si le user ecrit bonjour="cava \"oui\" et toi"  alors ca donne bonjour="cava \"oui\" et toi"
-        //                                                                            au lieu de bonjour="cava \oui\ et toi"
-        //Je pense que bash concatene deja les argv donc pour voir comment se comporte reellement ft_exit dans minishell il faut
-        //le tester grandeur nature.
-        //A l'affichage (quand je fais ft_export(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
-
-        adder = ft_calloc(2 + 1, sizeof(char *));//gc cleaner ??
-        adder[0] = ft_cut(ft_concat(ft_ifexpand(argv[i], 0, 0), -1, 0, 0), '=', 0);
-        adder[1] = ft_cut(ft_concat(ft_ifexpand(argv[i], 0, 0), -1, 0, 0), '=', 1);
-        head = ft_addenvnode(head, adder[0], adder[1]);
-        ft_freesplit(adder, 3);
-
-        // ft_adder(head, argv[i], 1);
-    }
+        ft_adder(&head, argv[i], 1);
     adder = ft_ltoa(head);
+    // ft_printexport(head);
     ft_freelexport(head);
-    //Retirer la variable _ dans la structure env de minishell (ca n'apparait pas dans bash --posix) ?? Sur ?? Car ca apparait dans bash --posix
+    //Retirer la variable _ dans la structure env de minishell
+    //(ca n'apparait pas dans bash --posix) ??
+    //Sur ?? Car ca apparait dans bash --posix
     return (adder);
 }
 
@@ -104,7 +93,8 @@ int main(int argc, char *argv[], char *env[])
 {
     char **array;
 
-    //Si cmd[1] est vide alors on fera ft_export(env, NULL); DEJA GERE DANS ft_export !!!
+    //Si cmd[1] est vide alors on fera ft_export(env, NULL);
+    //DEJA GERE DANS ft_export !!!
     if (argc == 1)
     {
         ft_export(env, NULL);
@@ -114,10 +104,10 @@ int main(int argc, char *argv[], char *env[])
     //Si cmd[1] non vide alors ft_export(env, argv);
     array = ft_export(env, argv);
     //afficher array /////////////////////
-    int i;
-    i = 0;
-    while (array[i])
-        printf("%s\n", array[i++]);// Debug temporaire
+    // int i;
+    // i = 0;
+    // while (array[i])
+    //     printf("%s\n", array[i++]);
     //////////////////////////////////////
     ft_freetab(array);
 

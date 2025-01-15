@@ -42,6 +42,7 @@ static void ft_adder(t_env **head, char *str, int concat)
     {
         adder[0] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 0);
         adder[1] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 1);
+        printf("nom apres cut : %s\n\n\n\n\n\n", adder[0]);
     }
     *head = ft_addenvnode(*head, adder[0], adder[1]);
     ft_freesplit(adder, 3);
@@ -75,7 +76,7 @@ static char **ft_export(char **env, char **argv)
     while (argv[++i])
         ft_adder(&head, argv[i], 1);
     adder = ft_ltoa(head);
-    // ft_printexport(head);
+    ft_printexport(head);
     ft_freelexport(head);
     //Retirer la variable _ dans la structure env de minishell
     //(ca n'apparait pas dans bash --posix) ??
@@ -104,10 +105,10 @@ int main(int argc, char *argv[], char *env[])
     //Si cmd[1] non vide alors ft_export(env, argv);
     array = ft_export(env, argv);
     //afficher array /////////////////////
-    // int i;
-    // i = 0;
-    // while (array[i])
-    //     printf("%s\n", array[i++]);
+    int i;
+    i = 0;
+    while (array[i])
+        printf("%s\n", array[i++]);
     //////////////////////////////////////
     ft_freetab(array);
 

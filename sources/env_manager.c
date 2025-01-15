@@ -93,6 +93,7 @@ void ft_freetab(char **array)
 //zzzyzz' ='"boloss"       donne      `zzzyzz =boloss': not a valid identifier        En gro speut pas y avoir d'espace entre le nom et le '=' (apres concatenation).
 //Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.
 //. ne peut pas etre present dans le name.
+//Attention si on fait export HELLO= ca equivaut a export HELLO=""
 void    ft_exparser(char **argv)
 {
 
@@ -100,9 +101,20 @@ void    ft_exparser(char **argv)
 
 void    ft_envparser(char **argv)
 {
-    if (argv[1])
-        printf("env: No option(s) or argument(s) allowed\n");//ft_write
-    exit (127);//ou 125 ?
+    int i;
+
+    i = 0;
+    while (argv[i])
+    {
+        //j'ai remarque si je fais export -n HELLO alors ca cree pas la variable HELLO
+        //et meme de facon general il peut pas y avoir d'option. En effet si je fais export -l j'ai l'erreur:
+        //export: usage: export [-fn] [name[=value] ...] or export -p.
+        //indiquant qu'il ne peut y avoir d'autres options que -fn et -p.
+        if (argv[i][0] = '-')
+            printf("env: No option(s) allowed\n");//ft_write 
+    }
+
+    exit;
 }
 
 void ft_env(char **array, char **cmds)
@@ -111,7 +123,7 @@ void ft_env(char **array, char **cmds)
 
     i = 0;
     if (cmds[1])
-    {
+    {//parsing
         printf("env: No option(s) or argument(s) allowed\n");//ft_write 
         exit (127);//ou 125 ?
     }

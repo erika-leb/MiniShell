@@ -13,7 +13,7 @@ t_env *ft_envnode(const char *name, const char *key)
     }
     new_node->name = ft_strdup_(name);
     if (key)
-        new_node->key = ft_strdup_(key);
+        new_node->key = ft_strdup_(key);//else if dernier terme de name est un '=' alors new_node->key = "\0";
     else
         new_node->key = NULL;
     new_node->next = NULL;

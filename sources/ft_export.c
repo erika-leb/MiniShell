@@ -28,22 +28,13 @@ static void ft_freelexport(t_env *head)
 //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn
 //on travaille plus avec l'environnement bash
 //mais avec notre tableau envv ??
-static void ft_adder(t_env **head, char *str, int concat)
+static void ft_adder(t_env **head, char *str)
 {
     char  **adder;
 
     adder = ft_calloc(2 + 1, sizeof(char *));//gc_cleaner
-    if (!concat)
-    {
-        adder[0] = ft_cut(str, '=', 0);
-        adder[1] = ft_cut(str, '=', 1);
-    }
-    else
-    {
-        adder[0] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 0);
-        adder[1] = ft_cut(ft_concat(ft_ifexpand(str, 0, 0), -1, 0, 0), '=', 1);
-        printf("nom apres cut : %s\n\n\n\n\n\n", adder[0]);
-    }
+    adder[0] = ft_cut(str, '=', 0);//dans l'exportation je concatene/expand deja bien.
+    adder[1] = ft_cut(str, '=', 1);
     *head = ft_addenvnode(*head, adder[0], adder[1]);
     ft_freesplit(adder, 3);
     
@@ -68,13 +59,32 @@ static char **ft_export(char **env, char **argv)
     head = NULL;
     i = -1;
     while (env[++i])
-        ft_adder(&head, env[i], 0);
+        ft_adder(&head, env[i]);
     if (!argv)
         return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);
-    i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final.
-    //Il faudra le changer quand on passera a cmd[i]
+
+    //Le parser arrive ici ! argv[1][0] = export a priori
+    //cmds[0] = export cmds[1] = premier truc apres export. Hors l'option ne peut que se situer la.
+    // if (argv[1][0] = '-')
+    // {
+    //     //Si le user entre une option d'apres le sujet on ne traite plus rien
+    //     printf("export: No option(s) allowed\n");//ft_write
+    //     exit(2);//quel code d'erreur mettre ? 2 : arbitraire
+    // }
+    // i = 0;//car argv[0] est le nom du prg?? Il faut mettre -1 ? Pas sur
+    // while (argv[++i])
+    // {
+    //     if (!ft_exparser(argv[i]))
+    //         ft_adder(&head, argv[i]);
+    // }
+    //////////////
+
+
+
+    i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i] !!!!!!!
+    //Ah non en fait pas sur puisque cmd[0] sera egal a "export"
     while (argv[++i])
-        ft_adder(&head, argv[i], 1);
+        ft_adder(&head, argv[i]);
     adder = ft_ltoa(head);
     ft_printexport(head);
     ft_freelexport(head);

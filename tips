@@ -22,3 +22,13 @@ si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il fa
 verifier si gc_calloc marche
 
 cas = ls > a | grep a
+
+
+
+
+
+
+pour la correction : 
+./minishell | ./minishell ne marche pas car bash | bash ne marche pas
+1> 2> pas a etre gerer
+ls | hola fait un sigpipe c est normal ; env | hola non car built in donc on a pas programme pour que ca fasse ca

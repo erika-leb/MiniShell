@@ -6,12 +6,108 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/15 14:44:04 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:14:11 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
+
+void	close_other_redir(int i, t_element *elements)
+{
+	t_cmd	*cmd;
+	int		k;
+
+	k = 0;
+	cmd = elements->lst;
+	while (cmd)
+	{
+		if (k != i)
+		{
+			if (cmd->fd_in > 0)
+			{
+				close(cmd->fd_in);
+				cmd->fd_in = CLOSED;
+			}
+			if (cmd->fd_out > 0)
+			{
+				close(cmd->fd_out);
+				cmd->fd_out = CLOSED;
+			}	
+		}
+		k++;
+		cmd=cmd->next;
+	}
+}
+
+void	all_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
+{
+	int		k;
+
+	k = 0;
+	if (i == 0 && cmd->fd_in >= 0) // cas premier
+	{
+		if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
+		{
+			perror("Error: dup2 in failed"); //changer ici a la fin
+			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+		}
+	}
+	if (i == elements->nb_cmd - 1 && cmd->fd_out >= 0) // cas dernier
+	{
+		if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
+		{
+			perror("Error: dup2 out failed"); //changer ici a la fin
+			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+		}
+	}
+	while (k < elements->nb_cmd - 1)
+	{
+		if (k == i)   // out
+		{
+			if (cmd->fd_out == NO_TRY_OPEN)
+			{
+				if (dup2(elements->pipes[k][1], STDOUT_FILENO) == ERROR_OPEN)
+				{
+					perror("Error: dup2 out failed"); //changer ici a la fin
+					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
+				}
+			}
+			if (cmd->fd_out > 0)
+			{
+				if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
+				{
+					perror("Error: dup2 out failed"); //changer ici a la fin
+					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
+				}
+			}
+			(close(elements->pipes[k][0]), close(elements->pipes[k][1]));
+		}
+		else if (k == i - 1)  // in
+		{
+			if (cmd->fd_in == NO_TRY_OPEN)
+			{
+				if (dup2(elements->pipes[k][0], STDIN_FILENO) == -1)
+				{
+					perror("Error: dup2 in failed"); //changer ici a la fin
+					(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+				}
+			}
+			if (cmd->fd_in > 0)
+			{
+				if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
+				{
+					perror("Error: dup2 in failed"); //changer ici a la fin
+					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
+				}
+			}
+			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
+		}
+		else
+			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
+		k++;
+	}	
+}
 
 void	other_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 {
@@ -63,8 +159,8 @@ void	first_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc) //norminette a
 	k = 0;
 	//perror("test");
 	//dprintf(2, "first fdout =%d fd_in = %d\n", cmd->fd_out, cmd->fd_in);
-	if (cmd->fd_in == ERROR_OPEN || cmd->fd_out == ERROR_OPEN)
-		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+	// if (cmd->fd_in == ERROR_OPEN || cmd->fd_out == ERROR_OPEN)
+	// 	(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 	//printf("fd_in = %d\n", cmd->fd_in);
 //	if (cmd->fd_in == -2)
 	if (cmd->fd_in >= 0)
@@ -126,8 +222,8 @@ void	last_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 	k = 0;
 	//perror("on passe ici");
 	//dprintf(2, "last fdout =%d fd_in = %d\n", cmd->fd_out, cmd->fd_in);
-	if (cmd->fd_out == ERROR_OPEN || cmd->fd_in == ERROR_OPEN)
-		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+	// if (cmd->fd_out == ERROR_OPEN || cmd->fd_in == ERROR_OPEN)
+	// 	(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 	if (cmd->fd_out >= 0) // possible de mettre les deux conditions a la suite
 	{
 		//cmd->fd_out = STDOUT_FILENO;
@@ -207,17 +303,22 @@ void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc)
 void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 {
 	//printf("i = %d\n", i);
+	if (cmd->fd_out == ERROR_OPEN || cmd->fd_in == ERROR_OPEN)
+		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+	close_other_redir(i, elements);
 	if (i == 0 && elements->nb_cmd == 1)
 	{
 		uniq_case(elements, cmd, gc);
 		//perror("on est ici");
 	}
-	if (i == 0)
-		first_case(i, elements, cmd, gc);
-	else if (i == elements->nb_cmd - 1)
-		last_case(i, elements, cmd, gc);
 	else
-		other_cases(i, elements, cmd, gc);
+		all_cases(i, elements, cmd, gc);
+	// if (i == 0)
+	// 	first_case(i, elements, cmd, gc);
+	// else if (i == elements->nb_cmd - 1)
+	// 	last_case(i, elements, cmd, gc);
+	// else
+	// 	other_cases(i, elements, cmd, gc);
 	if (cmd->fd_in >= 0)  // pk ?
 	{
 		close(cmd->fd_in);
@@ -313,16 +414,6 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 	//printf("nb cmd = %d\n", elements->nb_cmd);
 	if (!current->cmd[0])
 	{
-		// if (is_built_in(current->cmd[0]) == TRUE)
-		// 	ft_built_in(elements, current->cmd, gc); // a voir
-		// else
-			//exec_uniq_command(elements, gc);
-		//perror("ic");
-		// if (current->fd_in == ERROR_OPEN || current->fd_in == ERROR_OPEN)
-		// (close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-		// close_pipes(elements);
-		//printf("in = %d \n", current->fd_in);
-		//printf("out = %d \n", current->fd_out);
 		if (current->fd_in >= 0)
 			close(current->fd_in);
 		if (current->fd_out >= 0)

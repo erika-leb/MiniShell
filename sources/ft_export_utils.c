@@ -28,7 +28,9 @@ t_env *ft_addenvnode(t_env *head, char *name, char *key)
 {
     t_env *current;
     
-    //S'il peut y avoir un + dans name (par exemple HELLO+ car j'ai voulu faire HELLO+=5) alors on le tej ?
+    //S'il peut y avoir un '+' dans name (par exemple HELLO+ car j'ai voulu faire HELLO+=5) alors on le tej ?
+    //En effet si y'a un '+' on pourra pas rentrer dans le if (ft_strcmp(current->name, name) == 0)
+
     if (!head)
         return (ft_envnode(name, key));
     current = head;

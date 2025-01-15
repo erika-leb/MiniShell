@@ -73,6 +73,7 @@ static char **ft_export(char **env, char **argv)
     i = 0;//car argv[0] est le nom du prg?? Il faut mettre -1 ? Pas sur
     while (argv[++i])
     {
+        //MARCHE PAS JE PENSE QUE J'AI MAL FAIT MA CONDITION DANS env_manager.c
         if (!ft_exparser(argv[i]))
             ft_adder(&head, argv[i]);
     }

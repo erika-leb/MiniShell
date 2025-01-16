@@ -63,8 +63,8 @@ static char **ft_export(char **env, char **argv)
 
     //Le parser arrive ici ! argv[1][0] = export a priori
     //cmds[0] = export, cmds[1] = premier truc apres export. Hors l'option ne peut que se situer la.
-    if (argv[1][0] == '-')
-    {
+    if (argv[2][0] == '-')
+    {//argv[1][0]
         //Si le user entre une option d'apres le sujet on ne traite plus rien
         printf("export: No option(s) allowed\n");//ft_write
         ft_freelexport(head);//gc_cleaner
@@ -73,7 +73,6 @@ static char **ft_export(char **env, char **argv)
     i = 0;//car argv[0] est le nom du prg?? Il faut mettre -1 ? Pas sur
     while (argv[++i])
     {
-        //MARCHE PAS JE PENSE QUE J'AI MAL FAIT MA CONDITION DANS env_manager.c
         if (!ft_exparser(argv[i]))
             ft_adder(&head, argv[i]);
     }

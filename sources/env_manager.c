@@ -98,30 +98,22 @@ int   ft_exparser(char *name_key)
 {
     int i;
 
-    if (name_key[0] >= '0' && name_key[0] <= '9')
+    if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
     {
         //(il faudrait remplir le meme ft_write que ce qu'il y en dessous ?)
-        printf("export:t'as mis un numerique en pos 0\n");
+        printf("export: FIRST LETTER not a valid identifier\n");
         return (1);
     }
-    i = -1;
+    i = 0;//on check a partir du 2eme terme
     while (name_key[++i])
     {
-        //Si en i j'ai un alnum ou _, qu'en i + 1 j'ai un '+' et qu'en i + 2 j'ai un '=' alors je mets ma dummy a 1
-        //et dans addenvnode on fera une concatenation.
-
-
-        //C'est cense gerer le cas ou name vaut \0 et le cas ou name commence par '='.
-        //ca gere aussi le cas ou un espace est avant le = puisqu'on teste le if en dessous jusqu'au '='.
-        // if (!(ft_isalnum(name_key[i]) || name_key[i] == '_'))
+        if (name_key[i] == '=')// || (name_key[i] == '+' && name_key[i + 1] == '=')
+            break;
         if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
         {
-            //(il faudrait remplir le meme ft_write que ce qu'il y a dessus ?)
             printf("export: `name=key': not a valid identifier\n");
             return (1);
         }
-        if (name_key[i] == '=')
-            break;
     }
     return (0);
 }

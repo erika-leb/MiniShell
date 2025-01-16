@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/15 17:51:50 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:40:45 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int     ft_isalnum(int c);
 char	*ft_strdup_(char const *str);
 char    *ft_strncpy(char *dest, const char *src, size_t n);
 char    *ft_strcat(char *dst, const char *src);
+int     ft_isalpha(int c);
 
 //ft_tokenize.c
 char	*ft_tokenize(char *av2);

@@ -55,36 +55,21 @@ ls: cannot access 'test'': No such file or directory
 
 
 
-
-
-
-
-
-
-
-
-//zzzyzz' ='"boloss"       donne      `zzzyzz =boloss': not a valid identifier        En gros peut pas y avoir d'espace entre le nom et le '=' (apres concatenation).
-//Il faut faut faire un parser pour gerer tous ces cas. Autre cas impossible : le nom de la variable ne peut pas commencer par =. Exemple "="hello=5.
-//. ne peut pas etre present dans le name.
-
-//De facon general il faut bien faire gaffe au comportement de minishell si le user s'amuse a mettre les options n'importe ou dans cmds[i]
 int   ft_exparser(char *name_key)
 {
     int i;
 
-    if ((name_key[0] >= '0' && name_key[0] <= '9') || name_key[i] == '=')
-    {
-        //(il faudrait remplir le meme ft_write que ce qu'il y en dessous ?)
-        printf("export:t'as mis un numerique en pos 0\n");
-        return (1);
-    }
     i = -1;
     while (name_key[++i])
     {
-        //C'est cense gerer le cas ou name vaut \0 et le cas ou name commence par '='
-        //if (!(ft_isalnum(name_key[i]) || name_key[i] == '_'))
-        if (!(ft_isalnum(name_key[i])
-            || name_key[i] == '_' || name_key[i] == '='))
+        //Si en i j'ai un alnum ou _, qu'en i + 1 j'ai un '+' et qu'en i + 2 j'ai un '=' alors je mets ma dummy a 1
+        //et dans addenvnode on fera une concatenation.
+
+
+        //C'est cense gerer le cas ou name vaut \0 et le cas ou name commence par '='.
+        //ca gere aussi le cas ou un espace est avant le = puisqu'on teste le if en dessous jusqu'au '='.
+        // if (!(ft_isalnum(name_key[i]) || name_key[i] == '_'))
+        if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
         {
             //(il faudrait remplir le meme ft_write que ce qu'il y a dessus ?)
             printf("export: `name=key': not a valid identifier\n");
@@ -94,4 +79,64 @@ int   ft_exparser(char *name_key)
             break;
     }
     return (0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static char **ft_export(char **env, char **argv)
+{
+    // Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
+    t_env *head;
+    char  **adder;
+    int   i;
+
+    head = NULL;
+    i = -1;
+    while (env[++i])
+        ft_adder(&head, env[i]);
+    if (!argv)//Ou plutot !argv[1] dans le code final ?
+        return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);//gc_cleaner ?
+
+    //Le parser arrive ici ! argv[1][0] = export a priori
+    //cmds[0] = export, cmds[1] = premier truc apres export. Hors l'option ne peut que se situer la.
+    if (argv[1][0] == '-')
+    {
+        //Si le user entre une option d'apres le sujet on ne traite plus rien
+        printf("export: No option(s) allowed\n");//ft_write
+        ft_freelexport(head);//gc_cleaner
+        exit(2);//quel code d'erreur mettre ? 2 : arbitraire
+    }
+    i = 0;//car argv[0] est le nom du prg?? Il faut mettre -1 ? Pas sur
+    while (argv[++i])
+    {
+        //MARCHE PAS JE PENSE QUE J'AI MAL FAIT MA CONDITION DANS env_manager.c
+        if (!ft_exparser(argv[i]))
+            ft_adder(&head, argv[i]);
+    }
+    //////////////
+    // i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i] !!!!!!!
+    // //Ah non en fait pas sur puisque cmd[0] sera egal a "export"
+    // while (argv[++i])
+    //     ft_adder(&head, argv[i]);
+
+
+    adder = ft_ltoa(head);
+    ft_printexport(head);
+    ft_freelexport(head);
+    //Retirer la variable _ dans la structure env de minishell
+    //(ca n'apparait pas dans bash --posix) ??
+    //Sur ?? Car ca apparait dans bash --posix
+    return (adder);
 }

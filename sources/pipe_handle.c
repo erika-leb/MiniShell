@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/15 14:35:13 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:46:03 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	pipe_creation(t_element *elements, t_gc *gc)
 {
 	int	i;
 	int	t;
-	
+
 	i = 0;
 	//printf("ip = %d, nb cmd - 1 = %d\n", i, elements->nb_cmd - 1);
 	while (i < elements->nb_cmd - 1)
@@ -78,11 +78,14 @@ void	wait_for_children(t_element *elements)
 	int	i;
 
 	i = 0;
+	//perror("chelou");
 	while (i < elements->child_to_wait)
 	{
+		//perror(" tres chelou");
 		wait(NULL);
 		i++;
 	}
+	//perror(" tres tres chelou");
 }
 
 void	free_std(void)

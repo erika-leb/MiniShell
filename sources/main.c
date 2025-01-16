@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/15 11:54:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:45:57 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 	t_element	*elements;
 	t_gc		gc;
 	//char  *line;
-	
+
 	((void)ac, (void)av);
 	gc_init(&gc);
 	elements = ft_init_struct(&gc);
@@ -71,11 +71,11 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
  			add_history(elements->line);
 		elements->arr = ft_split(ft_tokenize(elements->line), 0, 0, &gc);
 		//result = ft_split(ft_concat(ft_tokenize(line), 0, 0), ' ', 0, 0);
-		
-		//int i = 0;
-		// int s = ft_arr_size(elements->arr);
-		// printf("i = %d, s = %d\n", i, s);
-		//while (i < s - 1)
+
+		// int i = 0;
+		// // int s = ft_arr_size(elements->arr);
+		// // printf("i = %d, s = %d\n", i, s);
+		// //while (i < s - 1)
 		// while(elements->arr[i])
  		// {
 		// 	elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
@@ -92,7 +92,9 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 		pipe_creation(elements, &gc);
 		//perror("boloss");
 		child_creation(elements, &gc);
+		//perror("bolosskikou");
 		close_pipes(elements);
+		//perror("kikoulol");
 		wait_for_children(elements);
 		//perror("test3");
  	}

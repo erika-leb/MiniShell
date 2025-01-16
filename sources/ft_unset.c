@@ -27,3 +27,53 @@
 //En oubliant pas que si je supprime tout il doit quand meme y avoir SHLVL OLDPWD et PWD.
 
 //tranformer env en liste chainee. remove le noeud name (si y'en a pas on fait rien). je retransforme en envv et je remplace l'ancien env.
+
+//A TESTER avec un main()
+void    ft_unset(char **env, char **argv)
+{//la boucle current doit etre enrobee dans la boucle argv car il faut le faire pour chaque argv a partir de cmds[1]
+    t_env *head;
+    t_env *current;
+    t_env *previous;
+    int    i;
+
+    if (!argv[1])
+        return ;
+    head = NULL;
+    i = -1;
+    while (env[++i])
+        ft_adder(&head, env[i]);
+    current = head;
+    previous = NULL;
+    i = 1;//on commence a cmds[1]
+    while (argv[i])
+    {
+        while (current)
+        {
+            if (strcmp(current->name, argv[i]) == 0)
+            {
+                // Nœud trouvé, suppression
+                if (previous)
+                {
+                    // Le nœud n'est pas le premier, on ajuste le lien du nœud précédent
+                    previous->next = current->next;
+                }
+                else
+                {
+                    // Le nœud est le premier, on déplace le head
+                    head = current->next;
+                }
+                // Libération du nœud
+                free(current->name);
+                free(current->key);
+                free(current);
+            }
+            // Avancer dans la liste
+            previous = current;
+            current = current->next;
+        }
+        i++;
+    }
+    //a la fin on modifie env et on free l'ancienne version !!!!!!! (Ici on le fait pas car env est de la stack et c le vrai env)
+    ft_printexport(head);
+    ft_freelexport(head);
+}

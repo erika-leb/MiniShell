@@ -104,10 +104,6 @@ int main(int argc, char *argv[], char *env[])
     //Si cmd[1] non vide alors ft_export(env, argv);
     array = ft_export(env, argv);
     //afficher array /////////////////////
-    // int i;
-    // i = 0;
-    // while (array[i])
-    //     printf("%s\n", array[i++]);
     ft_env(array, NULL);
     //////////////////////////////////////
     ft_freetab(array);

@@ -1,18 +1,5 @@
 #include "../minishell.h"
 
-//GOOD TO KNOW
-    //getcwd permet d'obtenir PWD meme sans environnement ?
-    //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
-    //je vois pas apparaitre adrien
-    //Dans bash --posix OLDPWD existe mais n'a pas de cle
-
-//Dans notre minishell il peut etre judicieux de hardcod le chemin ou se situe notre bash
-//le OLDPWD et mettre SHLVL a 1 puis on va l'incrementer si le user fait des ./minishell | ./minishell
-//D'ailleurs le ./minishell | ./minishell est un hedge case a prendre en compte dans la partie exec d'erika
-//Le souci est qu'on sait pas si le user va lancer le minishell dans goinfre, sgoinfre etc...)
-
-
-//void ft_filltoa(char **array, t_env *current, size_t i)
 t_env *ft_filltoa(char **array, t_env *current, size_t i)
 {
     size_t  j;
@@ -44,7 +31,7 @@ char **ft_ltoa(t_env *head)
     if (!head)
         return NULL;//maybe useless
     current = head;
-    count = 0;//Erika utilise ft_arr_size(char **tab) pour calculer nb de chaines dans un tableau
+    count = 0;
     while (current)
     {
         count++;
@@ -69,10 +56,8 @@ void ft_freetab(char **array)
 
 }
 
-//export +=5. Si la var d'env existe deja ca ajoute 5 a la suite.
-//Le + doit se situer juste devant le =.
-
-//De facon general il faut bien faire gaffe au comportement de minishell si le user s'amuse a mettre les options n'importe ou dans cmds[i]
+//De facon general il faut bien faire gaffe au comportement de minishell
+//si le user s'amuse a mettre les options n'importe ou dans cmds[i] ?
 int   ft_exparser(char *name_key)
 {
     int i;
@@ -84,10 +69,7 @@ int   ft_exparser(char *name_key)
     while (name_key[++i])
     {
         if (name_key[i] == '+' && name_key[i + 1] == '=')
-        {
-            //dummy = 1 pour que addenvnode on fasse une concatenation (useless I guess, autan tle faire dans addenvnode et envnode)
             break;
-        }
         if (name_key[i] == '=')
             break;
         if (!ft_isalnum(name_key[i]) && name_key[i] != '_')

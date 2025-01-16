@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 //Si dans l'argument d'export y'a pas de = alors key == NULL quand je cree la variable
-t_env *ft_envnode(const char *name, const char *key)
+t_env *ft_envnode(char *name, const char *key)
 {
     t_env *new_node;
     
@@ -11,7 +11,7 @@ t_env *ft_envnode(const char *name, const char *key)
         perror("Erreur d'allocation mémoire");//gc_cleaner
         exit(EXIT_FAILURE);
     }
-    new_node->name = ft_strdup_(name);//Si le dernier terme de name est un + alors on fait un ft_erase et on met une demi a 1 
+    new_node->name = ft_strdup_(name); 
     if (key)
         new_node->key = ft_strdup_(key);
     else
@@ -27,10 +27,16 @@ t_env *ft_envnode(const char *name, const char *key)
 t_env *ft_addenvnode(t_env *head, char *name, char *key)
 {
     t_env *current;
+    int   catt;
     
     //S'il peut y avoir un '+' dans name (par exemple HELLO+ car j'ai voulu faire HELLO+=5) alors on le tej ?
     //En effet si y'a un '+' on pourra pas rentrer dans le if (ft_strcmp(current->name, name) == 0)
-
+    catt = 0;
+    if (name[ft_strlen(name) - 1] == '+')
+    {
+        ft_erase(name, ft_strlen(name) - 1);
+        catt = 1;
+    }
     if (!head)
         return (ft_envnode(name, key));
     current = head;
@@ -41,12 +47,13 @@ t_env *ft_addenvnode(t_env *head, char *name, char *key)
             // Si un nœud avec le même "name" est trouvé, mettre à jour "key"
             if (key)
             {
-                //Si y'a un '+' en derniere position de name alors on concatene (strlcat ?)
-                //(on le fait dans key car si y'a pas de key on a rien a faire).
-                //(on le sait grace a la dummy)
-
-                free(current->key);
-                current->key = ft_strdup_(key);
+                if (catt)
+                    current->key = ft_strjoin_(current->key, key);
+                else
+                {
+                    free(current->key);
+                    current->key = ft_strdup_(key);
+                }
             }
             return (head);
         }

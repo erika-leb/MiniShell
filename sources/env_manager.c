@@ -11,72 +11,51 @@
 //D'ailleurs le ./minishell | ./minishell est un hedge case a prendre en compte dans la partie exec d'erika
 //Le souci est qu'on sait pas si le user va lancer le minishell dans goinfre, sgoinfre etc...)
 
-//Y'a rien a faire juste un affichage et message d'erreur si y'a des arguments.
 
+//void ft_filltoa(char **array, t_env *current, size_t i)
+t_env *ft_filltoa(char **array, t_env *current, size_t i)
+{
+    size_t  j;
+    size_t  len;
+
+    if (current->key)
+        len = ft_strlen(current->name) + ft_strlen(current->key) + 2;
+    else
+        len = ft_strlen(current->name) + 2;
+    array[i] = malloc(len * sizeof(char));
+    j = -1;
+    while (current->name[++j])
+        array[i][j] = current->name[j];
+    array[i][j] = '\0';//useless avec gc_calloc I guess
+    if (current->key)
+        ft_strcat(ft_strcat(array[i], "="), current->key);
+    // printf("%s\n", array[i]);// Debug temporaire
+    return (current->next);
+}
 
 //Il faudrait proteger cette fonction pour eviter les erreurs chelous
 char **ft_ltoa(t_env *head)
 {
+    size_t  count;
+    size_t  i;
+    t_env   *current;
+    char    **array;
+
     if (!head)
         return NULL;//maybe useless
-
-    size_t count;
-    t_env *current;
-
-    // Calcul du nombre d'éléments
     current = head;
-    count = 0;
+    count = 0;//Erika utilise ft_arr_size(char **tab) pour calculer nb de chaines dans un tableau
     while (current)
     {
         count++;
         current = current->next;
     }
-
-    char **array;
     array = ft_calloc(count + 1, sizeof(char *)); // Utilisation de calloc pour éviter les valeurs non initialisées
-    // char **array;
-    // array = malloc((count + 1) * sizeof(char *));
-    // size_t init;
-    // init = 0;
-    // while (init < count)
-    // {
-    //     array[init] = NULL;//meme en mettant ca j'ai des valeurs non initialisees
-    //     init++;
-    // }
-    if (!array)
-    {
-        perror("malloc failed");//gc_cleaner
-        return NULL;
-    }
-
-    //////////////////////////a decouper ici
     current = head;
-    size_t i;
-
     i = 0;
     while (i < count)
-    {
-        size_t len = ft_strlen(current->name) + (current->key ? ft_strlen(current->key) : 0) + 2;
-        array[i] = malloc(len * sizeof(char));
-        if (!array[i])
-        {
-            //gc_malloc
-            // perror("malloc failed");
-            // while (i-- > 0) free(array[i]);
-            // free(array);
-            // return NULL;
-        }
-        strcpy(array[i], current->name);//A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
-        if (current->key)
-        {
-            ft_strcat(array[i], "=");
-            ft_strcat(array[i], current->key);
-        }
-        // printf("%s\n", array[i]);// Debug temporaire
-        current = current->next;
-        i++;
-    }
-    return array;
+        current = ft_filltoa(array, current, i++);
+    return (array);
 }
 
 void ft_freetab(char **array)
@@ -117,16 +96,38 @@ int   ft_exparser(char *name_key)
     return (0);
 }
 
+static char	*ft_strchr(char const *str, int c)
+{
+	unsigned int	i;
+	char			char_c;
+
+	i = 0;
+	char_c = (char)c;
+	while (str[i] != '\0')
+	{
+		if (str[i] == char_c)
+			return ((char *)&str[i]);
+		i++;
+	}
+	if (str[i] == char_c)
+		return ((char *)&str[i]);
+	return (NULL);
+}
+
 void ft_env(char **array, char **cmds)
 {
     int i;
 
-    if (cmds[1])
+    if (cmds && cmds[1])//cmds && servait juste a le tester dans mon main
     {//parsing. cmds[0] = env     cmds[1...] = le reste ...
         printf("env: No option(s) or argument(s) allowed\n");//ft_write 
         exit (127);//ou 125 ?
     }
     i = 0;
     while (array[i])
-        printf("%s\n", array[i++]);//ft_write
+    {
+        if (ft_strchr(array[i],'='))
+            printf("%s\n", array[i]);//ft_write
+        i++;
+    }
 }

@@ -52,3 +52,33 @@ char *ft_strcat(char *dst, const char *src)
     dst[dstlen + i] = '\0';
     return (dst);
 }
+
+char	*ft_strjoin_(char *str1, char *str2)
+{
+	size_t	len_str1;
+	size_t	len_str2;
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	len_str1 = ft_strlen(str1);
+	len_str2 = ft_strlen(str2);
+	i = 0;
+	j = 0;
+	str = ft_calloc(len_str1 + len_str2 + 1, sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (i < len_str1)
+	{
+		str[i] = str1[i];
+		i++;
+	}
+	while (j < len_str2)
+	{
+		str[i + j] = str2[j];
+		j++;
+	}
+	str[i + j] = '\0';
+    free(str1);
+	return (str);
+}

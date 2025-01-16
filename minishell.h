@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/16 11:40:45 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:59:20 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_env
 //ft_export(...)
 
 //ft_export_utils.c
-t_env    *ft_envnode(const char *name, const char *key);
+t_env    *ft_envnode(char *name, const char *key);
 t_env    *ft_addenvnode(t_env *head, char *name, char *key);
 char     *ft_cut(const char *src, char delim, int is_end);
 void     ft_swapnodes(t_env *node1, t_env *node2);
@@ -54,7 +54,7 @@ void     ft_bbsort(t_env *head);
 char    **ft_ltoa(t_env *head);
 void    ft_freetab(char **array);
 int     ft_exparser(char *name_key);
-
+void    ft_env(char **array, char **cmds);
 
 
 //ft_getenvv.c
@@ -85,6 +85,7 @@ char	*ft_strdup_(char const *str);
 char    *ft_strncpy(char *dest, const char *src, size_t n);
 char    *ft_strcat(char *dst, const char *src);
 int     ft_isalpha(int c);
+char	*ft_strjoin_(char *str1, char *str2);
 
 //ft_tokenize.c
 char	*ft_tokenize(char *av2);

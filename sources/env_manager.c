@@ -15,7 +15,6 @@
 
 
 //Il faudrait proteger cette fonction pour eviter les erreurs chelous
-//env_manager
 char **ft_ltoa(t_env *head)
 {
     if (!head)
@@ -50,6 +49,7 @@ char **ft_ltoa(t_env *head)
         return NULL;
     }
 
+    //////////////////////////a decouper ici
     current = head;
     size_t i;
 
@@ -69,8 +69,8 @@ char **ft_ltoa(t_env *head)
         strcpy(array[i], current->name);//A MODIFIER pour ft_strncpy ou alors coder ft_strcpy
         if (current->key)
         {
-            ft_strcat(array[i], "=");//A MODIFIER pour ft_strncpy ou alors coder ft_strcat
-            ft_strcat(array[i], current->key);//A MODIFIER pour ft_strncpy ou alors coder ft_strcat
+            ft_strcat(array[i], "=");
+            ft_strcat(array[i], current->key);
         }
         // printf("%s\n", array[i]);// Debug temporaire
         current = current->next;
@@ -98,22 +98,21 @@ int   ft_exparser(char *name_key)
 {
     int i;
 
+    //(il faudrait remplir le meme ft_write que ce qu'il y en dessous ?)
     if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
-    {
-        //(il faudrait remplir le meme ft_write que ce qu'il y en dessous ?)
-        printf("export: FIRST LETTER not a valid identifier\n");
-        return (1);
-    }
-    i = 0;//on check a partir du 2eme terme
+        return (printf("export: FIRST LETTER not a valid identifier\n"));
+    i = 0;//on check a partir du 2eme caractere c'est pourquoi on met i = 0.
     while (name_key[++i])
     {
-        if (name_key[i] == '=')// || (name_key[i] == '+' && name_key[i + 1] == '=')
+        if (name_key[i] == '+' && name_key[i + 1] == '=')
+        {
+            //dummy = 1 pour que addenvnode on fasse une concatenation (useless I guess, autan tle faire dans addenvnode et envnode)
+            break;
+        }
+        if (name_key[i] == '=')
             break;
         if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
-        {
-            printf("export: `name=key': not a valid identifier\n");
-            return (1);
-        }
+            return(printf("export: `name=key': not a valid identifier\n"));
     }
     return (0);
 }

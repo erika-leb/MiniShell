@@ -11,9 +11,9 @@ t_env *ft_envnode(const char *name, const char *key)
         perror("Erreur d'allocation mémoire");//gc_cleaner
         exit(EXIT_FAILURE);
     }
-    new_node->name = ft_strdup_(name);
+    new_node->name = ft_strdup_(name);//Si le dernier terme de name est un + alors on fait un ft_erase et on met une demi a 1 
     if (key)
-        new_node->key = ft_strdup_(key);//else if dernier terme de name est un '=' alors new_node->key = "\0";
+        new_node->key = ft_strdup_(key);
     else
         new_node->key = NULL;
     new_node->next = NULL;
@@ -42,7 +42,8 @@ t_env *ft_addenvnode(t_env *head, char *name, char *key)
             if (key)
             {
                 //Si y'a un '+' en derniere position de name alors on concatene (strlcat ?)
-                //(on le fait dans key car si y'a pas de key on a rien a faire)
+                //(on le fait dans key car si y'a pas de key on a rien a faire).
+                //(on le sait grace a la dummy)
 
                 free(current->key);
                 current->key = ft_strdup_(key);

@@ -76,12 +76,6 @@ static char **ft_export(char **env, char **argv)
         if (!ft_exparser(argv[i]))
             ft_adder(&head, argv[i]);
     }
-    //////////////
-    // i = 0;//car argv[0] est le nom du prg, mais a voir si c adapte au code final. Il faudra le changer quand on passera a cmd[i] !!!!!!!
-    // //Ah non en fait pas sur puisque cmd[0] sera egal a "export"
-    // while (argv[++i])
-    //     ft_adder(&head, argv[i]);
-
 
     adder = ft_ltoa(head);
     ft_printexport(head);
@@ -103,7 +97,7 @@ int main(int argc, char *argv[], char *env[])
     char **array;
 
     //Si cmd[1] est vide alors on fera ft_export(env, NULL);
-    //DEJA GERE DANS ft_export !!!
+    //Dans ft_export si le deuxieme argument est un pointeur NULL alors ca marche tout seul
     if (argc == 1)
     {
         ft_export(env, NULL);

@@ -1,16 +1,5 @@
 #include "../minishell.h"
 
-//GOOD TO KNOW
-    //getcwd permet d'obtenir PWD meme sans environnement ?
-    //si je fais export adri (sans cle) et que je fais export alors ca apparait sans cle. Mais apres si je fais env
-    //je vois pas apparaitre adrien
-    //Dans bash --posix OLDPWD existe mais n'a pas de cle
-
-//Dans notre minishell il peut etre judicieux de hardcod le chemin ou se situe notre bash
-//le OLDPWD et mettre SHLVL a 1 puis on va l'incrementer si le user fait des ./minishell | ./minishell
-//D'ailleurs le ./minishell | ./minishell est un hedge case a prendre en compte dans la partie exec d'erika
-//Le souci est qu'on sait pas si le user va lancer le minishell dans goinfre, sgoinfre etc...)
-
 //Demander quels sont les pieges a eviter
 
 //Je crois que pour unset si le name n'existe pas il se passe rien. Si par exemple je fais unset boloss=5 (sachant que boloss est une var d'env)
@@ -28,12 +17,12 @@
 
 //tranformer env en liste chainee. remove le noeud name (si y'en a pas on fait rien). je retransforme en envv et je remplace l'ancien env.
 
-//A TESTER avec un main()
 void    ft_unset(char **env, char **argv)
 {//la boucle current doit etre enrobee dans la boucle argv car il faut le faire pour chaque argv a partir de cmds[1]
     t_env *head;
     t_env *current;
     t_env *previous;
+    t_env *temp;//
     int    i;
 
     if (!argv[1])
@@ -51,6 +40,7 @@ void    ft_unset(char **env, char **argv)
         {
             if (strcmp(current->name, argv[i]) == 0)
             {
+                temp = current->next;
                 // Nœud trouvé, suppression
                 if (previous)
                 {
@@ -60,20 +50,52 @@ void    ft_unset(char **env, char **argv)
                 else
                 {
                     // Le nœud est le premier, on déplace le head
-                    head = current->next;
+                    // head = current->next;
+                    head = temp;
                 }
                 // Libération du nœud
                 free(current->name);
                 free(current->key);
                 free(current);
+
+                current = temp;
             }
-            // Avancer dans la liste
-            previous = current;
-            current = current->next;
+            else
+            {
+                // Avancer dans la liste
+                previous = current;
+                current = current->next;
+            }
         }
         i++;
     }
     //a la fin on modifie env et on free l'ancienne version !!!!!!! (Ici on le fait pas car env est de la stack et c le vrai env)
     ft_printexport(head);
     ft_freelexport(head);
+}
+
+//gcc -o ft_unset sources/env_manager.c sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c sources/ft_unset.c
+//valgrind --leak-check=full ./ft_unset "bonjour=\"ok=ok\""
+int main(int argc, char *argv[], char *env[])
+{
+    // //ft_export
+    // char **array;
+
+    // //Si cmd[1] est vide alors on fera ft_export(env, NULL);
+    // //Dans ft_export si le deuxieme argument est un pointeur NULL alors ca marche tout seul
+    // if (argc == 1)
+    // {
+    //     ft_export(env, NULL);
+    //     return (0);
+    // }
+    // //Si cmd[1] non vide alors ft_export(env, argv);
+    // array = ft_export(env, argv);
+    // //afficher array /////////////////////
+    // ft_env(array, NULL);
+    // //////////////////////////////////////
+    // ft_freetab(array);
+    // return 0;
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ft_unset(env, argv);
+    return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/16 15:59:20 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:16:18 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ typedef struct s_env
     char         *key;
     struct s_env *next;
 }   t_env;
-//ft_export(...)
+void ft_printexport(const t_env *head);
+void ft_freelexport(t_env *head);
+void ft_adder(t_env **head, char *str);
 
 //ft_export_utils.c
 t_env    *ft_envnode(char *name, const char *key);

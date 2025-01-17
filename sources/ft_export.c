@@ -1,6 +1,6 @@
 #include "../minishell.h"
-
-static void ft_printexport(const t_env *head)
+//static
+void ft_printexport(const t_env *head)
 {
     const t_env *current = head;
     //Tout mettre dans un buffer, comme pour l'erreur de ft_exit
@@ -12,8 +12,8 @@ static void ft_printexport(const t_env *head)
         current = current->next;
     }
 }
-
-static void ft_freelexport(t_env *head)
+//static
+void ft_freelexport(t_env *head)
 {
     t_env *current = head;
     while (current) {
@@ -27,7 +27,8 @@ static void ft_freelexport(t_env *head)
 
 //NB : quand on aura fini export il faudra reecrire ft_getenvv car a partir de mtn
 //on travaille plus avec l'environnement bash mais avec notre tableau envv ??
-static void ft_adder(t_env **head, char *str)
+//static
+void ft_adder(t_env **head, char *str)
 {
     char  **adder;
 
@@ -87,27 +88,22 @@ static char **ft_export(char **env, char **argv)
 
 //gcc -o ft_export sources/env_manager.c sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c
 //valgrind --leak-check=full ./ft_export "bonjour=\"ok=ok\""
+// int main(int argc, char *argv[], char *env[])
+// {
+//     char **array;
 
- 
-int main(int argc, char *argv[], char *env[])
-{
-    char **array;
-
-    //Si cmd[1] est vide alors on fera ft_export(env, NULL);
-    //Dans ft_export si le deuxieme argument est un pointeur NULL alors ca marche tout seul
-    if (argc == 1)
-    {
-        ft_export(env, NULL);
-        return (0);
-    }
-
-    //Si cmd[1] non vide alors ft_export(env, argv);
-    array = ft_export(env, argv);
-    //afficher array /////////////////////
-    ft_env(array, NULL);
-    //////////////////////////////////////
-    ft_freetab(array);
-
-    
-    return 0;
-}
+//     //Si cmd[1] est vide alors on fera ft_export(env, NULL);
+//     //Dans ft_export si le deuxieme argument est un pointeur NULL alors ca marche tout seul
+//     if (argc == 1)
+//     {
+//         ft_export(env, NULL);
+//         return (0);
+//     }
+//     //Si cmd[1] non vide alors ft_export(env, argv);
+//     array = ft_export(env, argv);
+//     //afficher array /////////////////////
+//     ft_env(array, NULL);
+//     //////////////////////////////////////
+//     ft_freetab(array);
+//     return 0;
+// }

@@ -140,3 +140,137 @@ static char **ft_export(char **env, char **argv)
     //Sur ?? Car ca apparait dans bash --posix
     return (adder);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void    ft_freeun(t_env **ptr_current, t_env **ptr_previous, t_env **ptr_head)
+{
+    t_env *temp;
+
+    temp = (*ptr_current)->next;
+    if (*ptr_previous)
+        (*ptr_previous)->next = (*ptr_current)->next;
+    else
+        *ptr_head = temp;
+    free((*ptr_current)->name);
+    free((*ptr_current)->key);
+    free(*ptr_current);
+    *ptr_current = temp;  
+}
+
+void    ft_unset(char **env, char **argv)
+{//la boucle current doit etre enrobee dans la boucle argv car il faut le faire pour chaque argv a partir de cmds[1]
+    t_env *head;
+    t_env *current;
+    t_env *previous;
+    //t_env *temp;//
+    int    i;
+
+    if (ft_initunset(&head, env, argv))
+        return ;
+    current = head;
+    previous = NULL;
+    i = 1;//on commence a cmds[1]
+    while (argv[i])
+    {
+        while (current)
+        {
+            if (strcmp(current->name, argv[i]) == 0)
+            {
+                // temp = current->next;
+                // if (previous)
+                //     previous->next = current->next;
+                // else
+                //     head = temp;
+                // free(current->name);
+                // free(current->key);
+                // free(current);
+                // current = temp;
+                ft_freeun(&current, &previous, &head);
+            }
+            else
+            {
+                previous = current;
+                current = current->next;
+            }
+        }
+        i++;
+    }
+    //a la fin on modifie env et on free l'ancienne version !!!!!!!
+    //(Ici on le fait pas car env est de la stack et c le vrai env)
+    return (ft_printexport(head), ft_freelexport(head));
+}
+
+
+void    ft_unset(char **env, char **argv)
+{//la boucle current doit etre enrobee dans la boucle argv car il faut le faire pour chaque argv a partir de cmds[1]
+    t_env *head;
+    t_env *current;
+    t_env *previous;
+    t_env *temp;//
+    int    i;
+
+    if (!argv[1])
+        return ;
+    head = NULL;
+    i = -1;
+    while (env[++i])
+        ft_adder(&head, env[i]);
+    current = head;
+    previous = NULL;
+    i = 1;//on commence a cmds[1]
+    while (argv[i])
+    {
+        while (current)
+        {
+            if (strcmp(current->name, argv[i]) == 0)
+            {
+                temp = current->next;
+                if (previous)
+                    previous->next = current->next;
+                else
+                    head = temp;
+                free(current->name);
+                free(current->key);
+                free(current);
+                current = temp;
+            }
+            else
+            {
+                previous = current;
+                current = current->next;
+            }
+        }
+        i++;
+    }
+    //a la fin on modifie env et on free l'ancienne version !!!!!!!
+    //(Ici on le fait pas car env est de la stack et c le vrai env)
+    return (ft_printexport(head), ft_freelexport(head));
+}

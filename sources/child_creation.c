@@ -6,14 +6,14 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/16 11:09:01 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:34:35 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
 
-void	close_other_redir(int i, t_element *elements)
+void	close_other_redir(int i, t_element *elements) // fonction inutile ?
 {
 	t_cmd	*cmd;
 	int		k;
@@ -47,6 +47,7 @@ void	first_cmd_with_valid_infile(t_element *elements, t_cmd *cmd, t_gc *gc)
 		perror("Error: dup2 in failed"); //changer ici a la fin
 		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
+	//(close(elements->pipes[0][0]), close(elements->pipes[0][1]));
 }
 
 void	last_cmd_with_valid_outfile(t_element *elements, t_cmd *cmd, t_gc *gc)
@@ -56,6 +57,7 @@ void	last_cmd_with_valid_outfile(t_element *elements, t_cmd *cmd, t_gc *gc)
 		perror("Error: dup2 out failed"); //changer ici a la fin
 		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
+	//(close(elements->pipes[elements->nb_cmd - 1][0]), close(elements->pipes[elements->nb_cmd - 1][1]));
 }
 
 void	dup_and_close_read_pipe(int k, t_element *elements, t_cmd *cmd, t_gc *gc)
@@ -123,6 +125,8 @@ void	all_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 	// 		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 	// 	}
 	// }
+	// printf("\n CAS 3 \n\n");
+	// print_cmd_list(elements->lst);
 	while (k < elements->nb_cmd - 1)
 	{
 		if (k == i)   // out
@@ -173,132 +177,172 @@ void	all_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 	}
 }
 
-void	other_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
+// void	other_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
+// {
+// 	int	k;
+
+// 	k = 0;
+// 	while (k < elements->nb_cmd - 1)
+// 	{
+// 		if (k == i)   // out
+// 		{
+// 			if (cmd->fd_out == NO_TRY_OPEN)
+// 			{
+// 				if (dup2(elements->pipes[k][1], STDOUT_FILENO) == ERROR_OPEN)
+// 				{
+// 					perror("Error: dup2 out failed"); //changer ici a la fin
+// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 				}
+// 			}
+// 			if (cmd->fd_out > 0)
+// 			{
+// 				if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
+// 				{
+// 					perror("Error: dup2 out failed"); //changer ici a la fin
+// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 				}
+// 			}
+// 			(close(elements->pipes[k][0]), close(elements->pipes[k][1]));
+// 		}
+// 		else if (k == i - 1)  // in
+// 		{
+// 			if (cmd->fd_in == NO_TRY_OPEN)
+// 			{
+// 				if (dup2(elements->pipes[k][0], STDIN_FILENO) == -1)
+// 				{
+// 					perror("Error: dup2 in failed"); //changer ici a la fin
+// 					(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 				}
+// 			}
+// 			if (cmd->fd_in > 0)
+// 			{
+// 				if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
+// 				{
+// 					perror("Error: dup2 in failed"); //changer ici a la fin
+// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 				}
+// 			}
+// 			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
+// 		}
+// 		else
+// 			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
+// 		k++;
+// 	}
+// }
+
+// void	first_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc) //norminette a travailler ici
+// {
+// 	int	k;
+
+// 	k = 0;
+// 	if (cmd->fd_in >= 0)
+// 	{
+// 		if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
+// 		{
+// 			perror("Error: dup2 in failed"); //changer ici a la fin
+// 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 		}
+// 	}
+// 	while (k < elements->nb_cmd - 1)
+// 	{
+// 		if (k == i)
+// 		{
+// 			if (cmd->fd_out == NO_TRY_OPEN)
+// 			{
+// 				if (dup2(elements->pipes[k][1], STDOUT_FILENO) == ERROR_OPEN)
+// 				{
+// 					perror("Error: dup2 out failed"); //changer ici a la fin
+// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 				}
+// 				(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
+// 			}
+// 		}
+// 		else
+// 			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
+// 		k++;
+// 	}
+// }
+
+// void	last_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
+// {
+// 	int	k;
+
+// 	k = 0;
+// 	if (cmd->fd_out >= 0) // possible de mettre les deux conditions a la suite
+// 	{
+// 		//cmd->fd_out = STDOUT_FILENO;
+// 		//perror("ici");
+// 		if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
+// 		{
+// 			perror("Error: dup2 out failed"); //changer ici a la fin
+// 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 		}
+// 		//dprintf(2, "fd_out= %d\n", cmd->fd_out);
+// 	}
+// 	while (k < elements->nb_cmd - 1)
+// 	{
+// 		if (k == i - 1)
+// 		{
+// 			//perror("on passe la");
+// 			if (cmd->fd_in == NO_TRY_OPEN)
+// 			{
+// 				if (dup2(elements->pipes[k][0], STDIN_FILENO) == ERROR_OPEN)
+// 				{
+// 					perror("Error: dup2 in failed"); //changer ici a la fin
+// 					(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
+// 				}
+// 			}
+// 			close(elements->pipes[k][1]);
+// 			close(elements->pipes[k][0]);
+// 		}
+// 		else
+// 		{
+// 			close(elements->pipes[k][1]);
+// 			close(elements->pipes[k][0]);
+// 		}
+// 		k++;
+// 	}
+// }
+
+void check_fds(const char *context)
 {
-	int	k;
+    struct stat statbuf;
 
-	k = 0;
-	while (k < elements->nb_cmd - 1)
-	{
-		if (k == i)   // out
-		{
-			if (cmd->fd_out == NO_TRY_OPEN)
-			{
-				if (dup2(elements->pipes[k][1], STDOUT_FILENO) == ERROR_OPEN)
-				{
-					perror("Error: dup2 out failed"); //changer ici a la fin
-					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-				}
-			}
-			if (cmd->fd_out > 0)
-			{
-				if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
-				{
-					perror("Error: dup2 out failed"); //changer ici a la fin
-					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-				}
-			}
-			(close(elements->pipes[k][0]), close(elements->pipes[k][1]));
-		}
-		else if (k == i - 1)  // in
-		{
-			if (cmd->fd_in == NO_TRY_OPEN)
-			{
-				if (dup2(elements->pipes[k][0], STDIN_FILENO) == -1)
-				{
-					perror("Error: dup2 in failed"); //changer ici a la fin
-					(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-				}
-			}
-			if (cmd->fd_in > 0)
-			{
-				if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
-				{
-					perror("Error: dup2 in failed"); //changer ici a la fin
-					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-				}
-			}
-			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-		}
-		else
-			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-		k++;
-	}
-}
+    dprintf(2, "Checking fds in %s\n", context);
 
-void	first_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc) //norminette a travailler ici
-{
-	int	k;
+    if (fcntl(STDIN_FILENO, F_GETFD) != -1)
+    {
+        dprintf(2, "stdin is open\n");
+        if (fstat(STDIN_FILENO, &statbuf) == 0)
+        {
+            dprintf(2, "stdin is associated with inode: %ld\n", statbuf.st_ino);
+        }
+        else
+        {
+            perror("fstat stdin");
+        }
+    }
+    else
+    {
+        dprintf(2, "stdin is closed\n");
+    }
 
-	k = 0;
-	if (cmd->fd_in >= 0)
-	{
-		if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
-		{
-			perror("Error: dup2 in failed"); //changer ici a la fin
-			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-		}
-	}
-	while (k < elements->nb_cmd - 1)
-	{
-		if (k == i)
-		{
-			if (cmd->fd_out == NO_TRY_OPEN)
-			{
-				if (dup2(elements->pipes[k][1], STDOUT_FILENO) == ERROR_OPEN)
-				{
-					perror("Error: dup2 out failed"); //changer ici a la fin
-					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-				}
-				(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-			}
-		}
-		else
-			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-		k++;
-	}
-}
-
-
-void	last_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
-{
-	int	k;
-
-	k = 0;
-	if (cmd->fd_out >= 0) // possible de mettre les deux conditions a la suite
-	{
-		//cmd->fd_out = STDOUT_FILENO;
-		//perror("ici");
-		if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
-		{
-			perror("Error: dup2 out failed"); //changer ici a la fin
-			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-		}
-		//dprintf(2, "fd_out= %d\n", cmd->fd_out);
-	}
-	while (k < elements->nb_cmd - 1)
-	{
-		if (k == i - 1)
-		{
-			//perror("on passe la");
-			if (cmd->fd_in == NO_TRY_OPEN)
-			{
-				if (dup2(elements->pipes[k][0], STDIN_FILENO) == ERROR_OPEN)
-				{
-					perror("Error: dup2 in failed"); //changer ici a la fin
-					(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-				}
-			}
-			close(elements->pipes[k][1]);
-			close(elements->pipes[k][0]);
-		}
-		else
-		{
-			close(elements->pipes[k][1]);
-			close(elements->pipes[k][0]);
-		}
-		k++;
-	}
+    if (fcntl(STDOUT_FILENO, F_GETFD) != -1)
+    {
+        dprintf(2, "stdout is open\n");
+        if (fstat(STDOUT_FILENO, &statbuf) == 0)
+        {
+            dprintf(2, "stdout is associated with inode: %ld\n", statbuf.st_ino);
+        }
+        else
+        {
+            perror("fstat stdout");
+        }
+    }
+    else
+    {
+        dprintf(2, "stdout is closed\n");
+    }
 }
 
 void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc)
@@ -331,6 +375,8 @@ void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc)
 		}
 		//dprintf(2, "fd_out= %d\n", cmd->fd_out);
 	}
+
+	//check_fds("child");
 	// close(elements->pipes[0][1]);
 	// close(elements->pipes[0][0]);
 }
@@ -354,16 +400,25 @@ void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 	// 	last_case(i, elements, cmd, gc);
 	// else
 	// 	other_cases(i, elements, cmd, gc);
-	if (cmd->fd_in >= 0)  // pk ?
+	// printf("\n CAS 5 \n\n");
+	// print_cmd_list(elements->lst);
+
+
+
+	if (cmd->fd_in >= 0)
 	{
 		close(cmd->fd_in);
 		cmd->fd_in = CLOSED;
 	}
-	if (cmd->fd_out >= 0) // pk ?
+	if (cmd->fd_out >= 0)
 	{
 		close(cmd->fd_out);
 		cmd->fd_out = CLOSED;
 	}
+
+
+	// printf("\n CAS 6 \n\n");
+	// print_cmd_list(elements->lst);
 }
 
 // void	exec_uniq_command(t_element *elements, t_gc *gc)

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/16 11:45:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:35:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,16 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 		//perror("bolosskikou");
 		pipe_creation(elements, &gc);
 		//perror("boloss");
+		//check_fds("parent au debut");
 		child_creation(elements, &gc);
 		//perror("bolosskikou");
 		close_pipes(elements);
 		//perror("kikoulol");
 		wait_for_children(elements);
 		//perror("test3");
+		if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
+			unlink(".here"); //peut on le supprimer si on a pas les droits ?
+		//check_fds("parent a la fin");
  	}
 	//ft_error_exit("", 0, NO_PERROR);
 	gc_cleanup(&gc); // utile ?

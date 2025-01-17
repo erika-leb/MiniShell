@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/15 10:49:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:36:01 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,45 @@ void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 	}
 }
 
+// void check_fds()
+// {
+//     struct stat statbuf;
+
+//     if (fcntl(STDIN_FILENO, F_GETFD) != -1)
+//     {
+//         dprintf(2, "stdin is open\n");
+//         if (fstat(STDIN_FILENO, &statbuf) == 0)
+//         {
+//             dprintf(2, "stdin is associated with inode: %ld\n", statbuf.st_ino);
+//         }
+//         else
+//         {
+//             perror("fstat stdin");
+//         }
+//     }
+//     else
+//     {
+//         dprintf(2, "stdin is closed\n");
+//     }
+
+//     if (fcntl(STDOUT_FILENO, F_GETFD) != -1)
+//     {
+//         dprintf(2, "stdout is open\n");
+//         if (fstat(STDOUT_FILENO, &statbuf) == 0)
+//         {
+//             dprintf(2, "stdout is associated with inode: %ld\n", statbuf.st_ino);
+//         }
+//         else
+//         {
+//             perror("fstat stdout");
+//         }
+//     }
+//     else
+//     {
+//         dprintf(2, "stdout is closed\n");
+//     }
+// }
+
 void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 {
 	int		j;
@@ -116,8 +155,12 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 		(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
 		//(free_std(), exit(EXIT_FAILURE));
 	}
+	// printf("\n AVANT EXEC \n\n");
+	// print_cmd_list(elements->lst);
 	//dprintf(2,"filepath = %s\n", filepath);
+	//check_fds();
 	execve(filepath, cmd, elements->env); //mettre ici un gc_cleanup ?
+	perror("execve failed");
 	//perror("test3");
 }
 

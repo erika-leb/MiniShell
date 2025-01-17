@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/14 17:09:44 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:37:14 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+#include <sys/stat.h>
 //# include <asm/signal.h> //pour eviter le rouge sa chez Erika
 # include "gc.h"
 
@@ -184,5 +185,6 @@ void	exec_command(t_element *elements, t_gc *gc, int i);
 
 // pour test
 void print_cmd_list(t_cmd *cmd_list);
+void check_fds(const char *context);
 
 #endif

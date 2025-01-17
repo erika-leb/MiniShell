@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/14 15:14:46 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:14:28 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,14 @@ void print_redir(t_file *redir)
 
     if (!current)
     {
-        printf("  No redirections.\n");
+        dprintf(2,"  No redirections.\n");
         return;
     }
 
-    printf("  Redirections:\n");
+    dprintf(2,"  Redirections:\n");
     while (current)
     {
-        printf("    - Name: %s, Token: %d\n", current->name, current->token);
+        dprintf(2,"    - Name: %s, Token: %d\n", current->name, current->token);
         current = current->next;
     }
 }
@@ -143,26 +143,26 @@ void print_cmd_list(t_cmd *cmd_list)
 
     while (current)
     {
-        printf("Commande n°%d:\n", cmd_index);
+        dprintf(2, "Commande n°%d:\n", cmd_index);
 
         // Afficher la commande (cmd)
         if (current->cmd)
         {
-            printf("  Command arguments:\n");
+            dprintf(2, "  Command arguments:\n");
             for (int i = 0; current->cmd[i]; i++)
-                printf("    cmd[%d]: %s\n", i, current->cmd[i]);
+                dprintf(2,"    cmd[%d]: %s\n", i, current->cmd[i]);
         }
         else
         {
-            printf("  No command arguments.\n");
+            dprintf(2, "  No command arguments.\n");
         }
 
         // Afficher les redirections
         print_redir(current->redir);
 
         // Afficher fd_in et fd_out
-        printf("  fd_in: %d\n", current->fd_in);
-        printf("  fd_out: %d\n", current->fd_out);
+        dprintf(2,"  fd_in: %d\n", current->fd_in);
+        dprintf(2,"  fd_out: %d\n", current->fd_out);
 
         // Passer au suivant
         current = current->next;

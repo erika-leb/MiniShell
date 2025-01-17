@@ -14,6 +14,7 @@ pwd a faire avec getcpwd
 tester minishell dans minishell
 shlvl voir adrien
 il faut expand les var d'env avec echo sauf sq
+le dernier enfant doit envoyer son exit code au parent
 gerer boucle infini yes ; yes | head
 redir sans cmd
 2 cas a gerer entre partie adri et partie erika : - si j'ai une redir comme < $a avec a="boloss 'ca va'" (var contenant espace et?ou quotes) alors je dois expand quand je cree la redir. Adri m'enverra $/n/ta
@@ -21,6 +22,7 @@ redir sans cmd
 si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il faut un message d'erreur (toute redir sauf heredoc) et ca ne lance pas l'enfant test a faire
 verifier si gc_calloc marche
 si un .here est utilise comme sortie > >> alors message d'iterdiction.
+ecrire les messages d'erreur apres avoir ouvert les heredoc
 
 
 

@@ -41,37 +41,28 @@ void    ft_unset(char **env, char **argv)
             if (strcmp(current->name, argv[i]) == 0)
             {
                 temp = current->next;
-                // Nœud trouvé, suppression
                 if (previous)
-                {
-                    // Le nœud n'est pas le premier, on ajuste le lien du nœud précédent
                     previous->next = current->next;
-                }
                 else
-                {
-                    // Le nœud est le premier, on déplace le head
-                    // head = current->next;
                     head = temp;
-                }
-                // Libération du nœud
                 free(current->name);
                 free(current->key);
                 free(current);
-
                 current = temp;
             }
             else
             {
-                // Avancer dans la liste
                 previous = current;
                 current = current->next;
             }
         }
         i++;
     }
-    //a la fin on modifie env et on free l'ancienne version !!!!!!! (Ici on le fait pas car env est de la stack et c le vrai env)
+    //a la fin on modifie env et on free l'ancienne version !!!!!!!
+    //(Ici on le fait pas car env est de la stack et c le vrai env)
     ft_printexport(head);
     ft_freelexport(head);
+    return (ft_printexport(head), ft_freelexport(head));
 }
 
 //gcc -o ft_unset sources/env_manager.c sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c sources/ft_unset.c

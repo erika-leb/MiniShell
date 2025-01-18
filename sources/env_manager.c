@@ -16,7 +16,6 @@ t_env *ft_filltoa(char **array, t_env *current, size_t i)
     array[i][j] = '\0';//useless avec gc_calloc I guess
     if (current->key)
         ft_strcat(ft_strcat(array[i], "="), current->key);
-    // printf("%s\n", array[i]);// Debug temporaire
     return (current->next);
 }
 
@@ -62,7 +61,7 @@ int   ft_exparser(char *name_key)
 {
     int i;
 
-    //(il faudrait remplir le meme ft_write que ce qu'il y en dessous ?)
+    //creer un buffer, remplir avec le 1er if, puis avec le dernier if et enfin tout envoyer (+return 1)
     if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
         return (printf("export: FIRST LETTER not a valid identifier\n"));
     i = 0;//on check a partir du 2eme caractere c'est pourquoi on met i = 0.

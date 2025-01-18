@@ -53,15 +53,7 @@ void	ft_ambig(char *result_k, int *k)
 
 	if (*result_k != '$')
 		return ;
-
 	envv = NULL;
-	// m = -1;
-	// //On rempit name. ex : name = $a$bbb (forcement qqchose qui commence par un $)
-	// while (result_k[++m] && result_k[m] != ' ')
-	// 	name[m] = result_k[m];
-	// name[m] = '\0';
-	// m = 0;
-
 	ft_initambig(result_k, name, &m);
 	while (name[m])
 	{
@@ -75,7 +67,7 @@ void	ft_ambig(char *result_k, int *k)
 			m++;
 		//Si je vois qu'apres (en name + m) il n'y a plus de dollars (hors quotes) alors je peux m'arreter
 		if (envv || !ft_moredoll(name + m, 0, 0, 0))
-			break ;// + 1
+			break ;
 		m++;
 	}
 	if (!envv && !name[m])

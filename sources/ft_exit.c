@@ -1,17 +1,13 @@
 #include "../minishell.h"
 
-//Est ce que faire un exit suffit ? Les autres enfants ont ils egalement acces a ce code d'erreur ?
-//Il faudrait creer une variable globale et modifier sa valeur.
-//Demander aux gens comment ils font pour acceder au dernier code d'erreur (var globale ? Autre ?)
-
+//Seul le code d'erreur du dernier enfant compte
 //Si y'a plus d'1 arguments alors exit ne s'execute pas !!! Ce sera a retranscrire
 //quand j'integrerai exit dans le code d'Erika
+//(A FAIRE)
 
 static void ft_exitfail(const char *str)
 {
-    //un write (le dup2 souhaite, "bash: exit: %s: numeric argument required\n", ft_strlen);
-    //sera plus approprie. Il faudra juste incorporer le %s avant de mettre le tout dans write.
-	printf("bash: exit: %s: numeric argument required\n", str);
+	printf("minishell: exit: %s: numeric argument required\n", str);//ft_write
 	exit(2);
 }
 
@@ -28,8 +24,7 @@ static void ft_initexit(const char *str, int *i, int *neg, long *res)
 static void ft_fillexit(const char *str, int *i, int neg, long *res)
 {
     int	curr_digit;
-    // Convertir la chaîne en long tout en vérifiant les débordements (voir GPT pour explications)
-    //Si le nb ne peut pas etre contenu dans un long alors ca renvoie l'erreur numeric argument recquired.
+
     while (str[*i] >= '0' && str[*i] <= '9')
     {
         curr_digit = str[*i] - '0';
@@ -92,6 +87,5 @@ int main(int argc, char **argv)
     }
     printf("Calling ft_exit with argument: %s\n", argv[1]);
     ft_exit(argv[1]);
-	printf("Haha");
     return 0;
 }

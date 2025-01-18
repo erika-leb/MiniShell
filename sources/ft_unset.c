@@ -76,27 +76,9 @@ void ft_unset(char **env, char **argv)
 
 
 //gcc -o ft_unset sources/env_manager.c sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c sources/ft_unset.c
-//valgrind --leak-check=full ./ft_unset "bonjour=\"ok=ok\""
-int main(int argc, char *argv[], char *env[])
-{
-    // //ft_export
-    // char **array;
-
-    // //Si cmd[1] est vide alors on fera ft_export(env, NULL);
-    // //Dans ft_export si le deuxieme argument est un pointeur NULL alors ca marche tout seul
-    // if (argc == 1)
-    // {
-    //     ft_export(env, NULL);
-    //     return (0);
-    // }
-    // //Si cmd[1] non vide alors ft_export(env, argv);
-    // array = ft_export(env, argv);
-    // //afficher array /////////////////////
-    // ft_env(array, NULL);
-    // //////////////////////////////////////
-    // ft_freetab(array);
-    // return 0;
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    ft_unset(env, argv);
-    return 0;
-}
+//valgrind --leak-check=full ./ft_unset HOME
+// int main(int argc, char *argv[], char *env[])
+// {
+//     ft_unset(env, argv);
+//     return 0;
+// }

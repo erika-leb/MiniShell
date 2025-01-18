@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/15 17:41:37 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:08:12 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(void)
 		}
 		if (line && *line)
 			add_history(line);
-		ft_ft(line, result, -1, 0);
+		ft_ft(line, result);
 		free(line);
 		ft_freesplit(result, i);//??
 	}

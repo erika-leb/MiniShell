@@ -34,9 +34,7 @@ int	ft_istok_(char *av2)
 
 //Si Erika recoit un result NULL c'est qu'une erreur fatale a eu lieu,
 //il faut juste renvoyer la ligne.
-
-//Si j'ai ambiguous redirect alors l'erreur newline s'affiche aussi.
-//si je veux eviter ca je peux remplir un buffer d'erreur
+//            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 static int	ft_unexptoken(char **result)
 {
 	int	i;
@@ -64,7 +62,6 @@ static int	ft_unexptoken(char **result)
 	return (0);
 }
 
-//Si le user ecrit $'HAHA' (hors quotes) alors on retient 'HAHA'
 void	ft_deldollar(char *input)
 {
 	int	sq;
@@ -84,13 +81,15 @@ void	ft_deldollar(char *input)
 	}
 }
 
-//NB : le delimiteur du heredoc doit etre concat. En effet si je fait << "$HOME" alors le user devra entrer $HOME pour arreter le heredoc.
-//Si le user entre << $HOME'bonjour' alors le user entrera $HOMEbonjour.
-
-//Rechecker la logique de ce truc. 
-void	ft_ft(char *line, char **result, int i, int go)
+//Rechecker la logique de ce truc.
+//Remplacer result par elements.
+void	ft_ft(char *line, char **result)
 {
-	//Erika doit remplacer result par elements.
+	int	i;
+	int	go;
+
+	i = -1;
+	go = 0;
 	if (!ft_checkq(line))
 		go = 1;
 	result = ft_split(ft_tokenize(line), 0, 0);

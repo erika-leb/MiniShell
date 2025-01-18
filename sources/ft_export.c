@@ -16,7 +16,8 @@ void ft_printexport(const t_env *head)
 void ft_freelexport(t_env *head)
 {
     t_env *current = head;
-    while (current) {
+    while (current)
+    {
         t_env *temp = current;
         current = current->next;
         free(temp->name);
@@ -44,7 +45,7 @@ void ft_adder(t_env **head, char *str)
 //                                                                            au lieu de bonjour="cava \oui\ et toi"
 //Je pense que bash concatene deja les argv donc pour voir comment se comporte reellement ft_export dans minishell il faut
 //le tester grandeur nature.
-//A l'affichage (quand je fais ft_export(env, NULL)) il faudra juste ajouter des \ devant les $ et les ".
+//A l'affichage (quand je fais ft_export(env, NULL)) il faudra juste ajouter des \ devant les $ et les " (ft_write)
 
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
@@ -62,8 +63,8 @@ static char **ft_export(char **env, char **argv)
     if (!argv)//Ou plutot !argv[1] dans le code final ?
         return (ft_bbsort(head), ft_printexport(head), ft_freelexport(head), NULL);//gc_cleaner ?
     //cmds[0] = export, cmds[1] = premier truc apres export. Hors l'option ne peut que se situer la.
-    if (argv[2][0] == '-')
-    {//argv[1][0]
+    if (argv[1][0] == '-')
+    {//argv[2][0]
         //Si le user entre une option d'apres le sujet on ne traite plus rien, l'enfant pete
         printf("export: No option(s) allowed\n");//ft_write
         ft_freelexport(head);//gc_cleaner
@@ -88,22 +89,22 @@ static char **ft_export(char **env, char **argv)
 
 //gcc -o ft_export sources/env_manager.c sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c
 //valgrind --leak-check=full ./ft_export "bonjour=\"ok=ok\""
-// int main(int argc, char *argv[], char *env[])
-// {
-//     char **array;
+int main(int argc, char *argv[], char *env[])
+{
+    char **array;
 
-//     //Si cmd[1] est vide alors on fera ft_export(env, NULL);
-//     //Dans ft_export si le deuxieme argument est un pointeur NULL alors ca marche tout seul
-//     if (argc == 1)
-//     {
-//         ft_export(env, NULL);
-//         return (0);
-//     }
-//     //Si cmd[1] non vide alors ft_export(env, argv);
-//     array = ft_export(env, argv);
-//     //afficher array /////////////////////
-//     ft_env(array, NULL);
-//     //////////////////////////////////////
-//     ft_freetab(array);
-//     return 0;
-// }
+    //Si cmd[1] est vide alors on fera ft_export(env, NULL);
+    //Dans ft_export si le deuxieme argument est un pointeur NULL alors ca marche tout seul
+    if (argc == 1)
+    {
+        ft_export(env, NULL);
+        return (0);
+    }
+    //Si cmd[1] non vide alors ft_export(env, argv);
+    array = ft_export(env, argv);
+    //afficher array /////////////////////
+    ft_env(array, NULL);
+    //////////////////////////////////////
+    ft_freetab(array);
+    return 0;
+}

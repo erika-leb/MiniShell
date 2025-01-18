@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/17 11:16:18 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:08:23 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*ft_getenvv(char *result, int *k, char *tmp);
 //parsing.c
 void	ft_deldollar(char *input);
 int     ft_istok_(char *av2);
-void	ft_ft(char *line, char **result, int i, int go);
+void	ft_ft(char *line, char **result);
 
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq);

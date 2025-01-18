@@ -63,22 +63,15 @@ char	*ft_strjoin_(char *str1, char *str2)
 
 	len_str1 = ft_strlen(str1);
 	len_str2 = ft_strlen(str2);
-	i = 0;
-	j = 0;
+	i = -1;
+	j = -1;
 	str = ft_calloc(len_str1 + len_str2 + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
-	while (i < len_str1)
-	{
+	while (++i < len_str1)
 		str[i] = str1[i];
-		i++;
-	}
-	while (j < len_str2)
-	{
+	while (++j < len_str2)
 		str[i + j] = str2[j];
-		j++;
-	}
 	str[i + j] = '\0';
-    free(str1);
-	return (str);
+	return (free(str1), str);
 }

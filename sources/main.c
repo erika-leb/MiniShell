@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/18 13:47:59 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 14:10:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
  		// }
 		//perror("test2");
 		//lexing(elements, &gc);
-		lexing(elements->arr, &elements->lst, elements);
+		lexing(elements->arr, &elements->lst, elements, &gc);
 		//perror("kikoulol");
 		ft_fill_arrays(elements, &gc);
 		//perror("bolosskikou");

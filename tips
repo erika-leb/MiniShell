@@ -23,6 +23,8 @@ si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il fa
 verifier si gc_calloc marche
 si un .here est utilise comme sortie > >> alors message d'iterdiction.
 ecrire les messages d'erreur apres avoir ouvert les heredoc
+ecrire tous les messages d'erreur
+verifier qu on peut ecrire plusieurs messages d erreur a la suite
 
 
 

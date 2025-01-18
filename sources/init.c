@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/14 17:11:58 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:08:13 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void	ft_signal_handle(t_gc *gc)
 		gc_cleanup(gc);
 		exit(EXIT_FAILURE);
 	}
-		//ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
+		//ft_error_exit("Error: sigaction failed", elements, -1, );
 }
 
 
 void gc_print(t_gc *gc)
 {
     t_gc_node *current = gc->head;
-    
+
     if (current == NULL)
     {
         printf("GC is empty, no allocations tracked.\n");
@@ -83,7 +83,7 @@ void gc_print(t_gc *gc)
 t_element	*ft_init_struct(t_gc *gc) //utile ? plus tard peut-etre
 {
 	t_element 	*elements;
-	
+
 	elements = NULL;
 	elements = gc_malloc(sizeof(t_element), gc);
 	elements->line = NULL;

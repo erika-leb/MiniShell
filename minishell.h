@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/18 13:47:35 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 14:38:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,18 +148,18 @@ t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc);
 //lexing.c
 bool	ft_is_redir(char *s);
 bool	ft_is_str(char *s);
-void	lexing(char **tab, t_cmd **lst, t_element *elements);
+void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc);
 void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 
 // redir_open_parta.c
-void	ft_fd_open(t_cmd *node);
-void	handle_redir(t_cmd **lst);
+void	ft_fd_open(t_cmd *node, t_element *elements, t_gc *gc);
+void	handle_redir(t_cmd **lst, t_element *elements, t_gc *gc);
 
 // redir_open_partb.c
 int		ft_open_heredoc(char *del);
-void	ft_handle_in(t_cmd *node, t_file *redir);
-void	ft_handle_no_here_out(t_cmd *node, t_file *redir);
-void	ft_handle_out(t_cmd *node, t_file *redir);
+void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
+void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
+void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 
 // cmd_arr.c
 int		nb_arg(char **tab, int i, int last_i);

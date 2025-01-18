@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/18 13:48:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:29:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void print_cmd_list(t_cmd *cmd_list)
     }
 }
 
-void	lexing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
+void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc) //ajouter les qutres elements
 {
 	int	i;
 	int	last_i;
@@ -193,10 +193,11 @@ void	lexing(char **tab, t_cmd **lst, t_gc *gc) //ajouter les qutres elements
 	// print_cmd_list(*lst);
 
 	//perror("test");
-	handle_redir(lst);
+	handle_redir(lst, elements, gc);
 
 	// printf("\n APRES OUVERTURE \n\n");
 	// print_cmd_list(*lst);
+	ft_write_error(elements, gc);
 }
 
 void	ft_error_cases(char **tab, t_gc *gc)

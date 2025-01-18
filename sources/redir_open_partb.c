@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/18 13:48:51 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:28:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ int	ft_open_heredoc(char *del)
 	return (fd);
 }
 
-void	ft_handle_in(t_cmd *node, t_file *redir)
+void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
 {
+	(void) elements;
+	(void) gc;
+
 	if (node->fd_out != ERROR_OPEN && node->fd_in != ERROR_OPEN)
 	{
 		if (node->fd_out >= 0)
@@ -66,13 +69,17 @@ void	ft_handle_in(t_cmd *node, t_file *redir)
 	}
 }
 
-void	ft_handle_no_here_out(t_cmd *node, t_file *redir)
+void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
 {
 	node->fd_in = open(redir->name, O_RDONLY, 0644);
 	if (node->fd_in == ERROR_OPEN)
 	{
 		//perror("Error");
-		ft_buff_error("minishell: ")
+		ft_buff_error("minishell: ", elements, gc);
+		// if (elements->error)
+		// 	ft_putstr_fd(elements->error, 1);
+		ft_buff_error(redir->name, elements, gc);
+		ft_buff_error(": Permission denied\n", elements, gc);
 		if (node->fd_out >= 0)
 		{
 			close(node->fd_out);
@@ -109,7 +116,7 @@ void	ft_open_heredoc_error(char *del)
 	//return (fd);
 }
 
-void	ft_handle_out(t_cmd *node, t_file *redir)
+void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
 {
 	if ((node->fd_in == ERROR_OPEN || node->fd_out == ERROR_OPEN) && redir->token == HEREDOC) // il ya eu un redir invalide et c est un heredoc
 		ft_open_heredoc_error(redir->name);
@@ -124,7 +131,7 @@ void	ft_handle_out(t_cmd *node, t_file *redir)
 		if (redir->token == HEREDOC)
 			node->fd_in = ft_open_heredoc(redir->name);
 		else
-			ft_handle_no_here_out(node, redir);
+			ft_handle_no_here_out(node, redir, elements, gc);
 		// {
 		// 	node->fd_in = open(redir->name, O_RDONLY, 0644);
 		// 	if (node->fd_in == ERROR_OPEN)

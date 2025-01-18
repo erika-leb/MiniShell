@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/16 18:36:01 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:09:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,11 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	//perror("test2");
 	if (!elements->mypaths[j]) //voir le cas ou !elements->mypaths a gerer
 	{
-		write(2, "Error : command not found\n", 27);
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(cmd[0], elements, gc);
+		ft_buff_error(":  command not found\n", elements, gc);
+		ft_write_error(elements, gc);
+		//write(2, "Error : command not found\n", 27);
 		(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
 		//(free_std(), exit(EXIT_FAILURE));
 	}
@@ -160,7 +164,6 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	//dprintf(2,"filepath = %s\n", filepath);
 	//check_fds();
 	execve(filepath, cmd, elements->env); //mettre ici un gc_cleanup ?
-	perror("execve failed");
 	//perror("test3");
 }
 

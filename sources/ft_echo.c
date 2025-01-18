@@ -74,7 +74,7 @@ void    ft_echo(char **cmd)
 		buf[k++] = '\n';
 	write(1, buf, k); //a verifier le 1
 	if (errno == ENOSPC) // a veririfer a la fin
-		perror("echo: write error:");
+		perror("echo: write error: No space left on device");
 }
 
 int main() {

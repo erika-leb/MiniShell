@@ -17,7 +17,7 @@
 
 // Initialisation de la liste chainée
 
-void gc_init(t_gc *gc) 
+void gc_init(t_gc *gc)
 {
 	gc->head = NULL;
 }
@@ -30,7 +30,7 @@ void	gc_add(t_gc *gc, void *ptr, size_t size)
 	//new_node = ft_calloc(1, sizeof(t_gc_node));
 	if (!new_node)
 	{
-		perror("Error: allocation failed");
+		perror("allocation failed: Cannot allocate memory");
 		gc_cleanup(gc);
 		free(ptr);
 		exit(EXIT_FAILURE);
@@ -39,7 +39,7 @@ void	gc_add(t_gc *gc, void *ptr, size_t size)
 	new_node->size = size;
 	new_node->next = gc->head;
 	gc->head = new_node;
-	//printf("Added pointer %p to GC (size: %zu)\n", ptr, size); 
+	//printf("Added pointer %p to GC (size: %zu)\n", ptr, size);
 }
 
 // Ajout d'un malloc a la chaine
@@ -58,7 +58,7 @@ void	*gc_malloc(size_t size, t_gc *gc)
 	// }
 	if (!ptr)
 	{
-		perror("Error: allocation failed");
+		perror("allocation failed: Cannot allocate memory");
 		gc_cleanup(gc);
 		exit(EXIT_FAILURE);
 	}
@@ -80,7 +80,7 @@ void	*gc_calloc(size_t n, size_t sizof, t_gc *gc) // a verifier si ca marche
 	// }
 	if (!ptr)
 	{
-		perror("Error: allocation failed");
+		perror("allocation failed: Cannot allocate memory");
 		gc_cleanup(gc);
 		exit(EXIT_FAILURE);
 	}

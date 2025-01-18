@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/16 18:37:14 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:47:35 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ int		ft_isalnum(int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc *gc);
 void	ft_putstr_fd(char *s, int fd);
 
+//error.c
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+void	ft_buff_error(char *str, t_element *elements, t_gc *gc);
+void	ft_write_error(t_element *elements, t_gc *gc);
+
 //init.c
 void		ft_signal_handle(t_gc *gc);
 void		ft_welcome(void);
@@ -143,7 +148,7 @@ t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc);
 //lexing.c
 bool	ft_is_redir(char *s);
 bool	ft_is_str(char *s);
-void	lexing(char **tab, t_cmd **lst, t_gc *gc);
+void	lexing(char **tab, t_cmd **lst, t_element *elements);
 void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 
 // redir_open_parta.c

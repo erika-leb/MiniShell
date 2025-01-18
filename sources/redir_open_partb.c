@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/17 12:37:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:48:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	ft_handle_no_here_out(t_cmd *node, t_file *redir)
 	node->fd_in = open(redir->name, O_RDONLY, 0644);
 	if (node->fd_in == ERROR_OPEN)
 	{
-		perror("Error");
+		//perror("Error");
+		ft_buff_error("minishell: ")
 		if (node->fd_out >= 0)
 		{
 			close(node->fd_out);

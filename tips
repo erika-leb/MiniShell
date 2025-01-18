@@ -13,7 +13,7 @@ signaux fonction expres signaux dans heredoc, gerer signaux hors mode interactif
 pwd a faire avec getcpwd
 tester minishell dans minishell
 shlvl voir adrien
-il faut expand les var d'env avec echo sauf sq
+echo : il faut expand les var d'env avec echo sauf sq
 le dernier enfant doit envoyer son exit code au parent
 gerer boucle infini yes ; yes | head
 redir sans cmd

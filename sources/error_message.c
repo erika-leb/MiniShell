@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:21:11 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/15 10:44:20 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:37:58 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,93 @@
 // 	return (s);
 // }
 
-void    ft_buff_error(char *str, t_element *elements, t_gc *gc)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-    int k;
-    int i;
-    int s1;
-    int s2;
-    
-    (void) gc;
-    k = 0;
-    i = 0;
-    if (!str)
-        return ;
-    s1 = ft_strlen(elements->error);
-    s2 = ft_strlen(str);
-    
-    while(elements->error[k])
-        k++;
-    while(str[i])
-        elements->error[k++] = str[i++];
+	size_t	sd;
+	size_t	sc;
+	size_t	i;
+	size_t	k;
+
+	sd = ft_strlen(dst);
+	sc = ft_strlen(src);
+	i = 0;
+	k = 0;
+	while (dst[i])
+		i++;
+	if (sd < dstsize && dstsize > 0)
+	{
+		while (src[k] && dstsize - sd > 1)
+		{
+			dst[i] = src[k];
+			i++;
+			k++;
+			dstsize--;
+		}
+		dst[i] = '\0';
+	}
+	if (dstsize < sd)
+		sd = dstsize;
+	return (sd + sc);
 }
 
-void    ft_write_error(t_element *elements, t_gc *gc)
+void	ft_buff_error(char *str, t_element *elements, t_gc *gc)
 {
-    int size;
+	int		s1;
+	int		s2;
+	char	*s;
+	int		i;
 
-    size = ft_strlen(elements->error);
-    write(1, elements->error, size);
-    gc_remove(gc, elements->error);
-    elements->error = NULL;
+	i = 0;
+	s1 = ft_strlen(elements->error);
+	s2 = ft_strlen(str);
+	if (!elements->error)
+		elements->error = gc_malloc(sizeof(char) * (s2 + 1), gc);
+	else
+	{
+		s = gc_malloc(sizeof(char) * (s2 + s1 + 1), gc);
+		while (elements->error[i])
+		{
+			s[i] = elements->error[i];
+			i++;
+		}
+		ft_strlcat(s, str, s1 + s2 + 1);
+		gc_remove(gc, elements->error);
+		elements->error = s;
+	}
+}
+
+// void    ft_buff_error(char *str, t_element *elements, t_gc *gc)
+// {
+//     int k;
+//     int i;
+//     int s1;
+//     int s2;
+
+//     (void) gc;
+//     k = 0;
+//     i = 0;
+//     if (!str)
+//         return ;
+//     s1 = ft_strlen(elements->error);
+//     s2 = ft_strlen(str);
+
+//     while(elements->error[k])
+//         k++;
+//     while(str[i])
+//         elements->error[k++] = str[i++];
+// }
+
+void	ft_write_error(t_element *elements, t_gc *gc)
+{
+	int size;
+
+	size = ft_strlen(elements->error);
+	write(1, elements->error, size);
+	gc_remove(gc, elements->error);
+	elements->error = NULL;
+}
+
+int	main(void)
+{
+
 }

@@ -6,13 +6,13 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/28 21:46:59 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:44:24 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_fd_open(t_cmd *node)
+void	ft_fd_open(t_cmd *node, t_gc *gc)
 {
 	t_file	*redir;
 
@@ -20,9 +20,9 @@ void	ft_fd_open(t_cmd *node)
 	while(redir)
 	{
 		if (redir->token == TRUNC || redir->token == APPEND)
-			ft_handle_in(node, redir);
+			ft_handle_in(node, redir, gc);
 		if (redir->token == HEREDOC || redir->token == INPUT)
-			ft_handle_out(node, redir);
+			ft_handle_out(node, redir, gc);
 		redir = redir->next;
 	}
 }
@@ -97,14 +97,14 @@ void	ft_fd_open(t_cmd *node)
 // }
 
 
-void	handle_redir(t_cmd **lst)
+void	handle_redir(t_cmd **lst, t_gc *gc)
 {
 	t_cmd	*current;
 
 	current = *lst;
 	while (current)
 	{
-		ft_fd_open(current);
+		ft_fd_open(current, gc);
 		current = current->next;
 	}
 }

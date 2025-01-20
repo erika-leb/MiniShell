@@ -5,7 +5,6 @@ static int	ft_moredoll(char *str, int i, int sq, int dq)
 	//< $u$j : apres j il n'y a plus rien. Or cela provoquait un comportement indesirable
 	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
 	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
-	printf("%s\n\n\n\n", str);
 	if (str[0] && !str[1])
 		return (1);
 	while (str[i])

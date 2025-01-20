@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/20 14:35:56 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:56:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,9 +343,9 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 {
 	int		i;
 	t_cmd	*current;
+	t_built	*built;
 
 	i = 0;
-
 	//while (i < ac - 3)
 	current = elements->lst;
 	elements->child_to_wait = elements->nb_cmd;
@@ -363,40 +363,14 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 		//exec_command(elements, gc, 0);
 		return ;
 	}
-	// if (elements->nb_cmd == 1)
-	// {
-	// 	// if (is_built_in(current->cmd[0]) == TRUE)
-	// 	// 	ft_built_in(elements, current->cmd, gc); // a voir
-	// 	// else
-	// 		//exec_uniq_command(elements, gc);
-	// 	//perror("ic");
-	// 	if (current->fd_in == ERROR_OPEN || current->fd_in == ERROR_OPEN)
-	// 	(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-	// 	if (current->fd_in >= 0)
-	// 	{
-	// 		//cmd->fd_in = STDIN_FILENO;
-	// 		// perror("test");
-	// 		if (dup2(current->fd_in, STDIN_FILENO) == ERROR_OPEN)
-	// 		{
-	// 			perror("Error: dup2 in failed"); //changer ici a la fin
-	// 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-	// 		}
-	// 	}
-	// 	if (current->fd_out >= 0) // possible de mettre les deux conditions a la suite
-	// 	{
-	// 		//cmd->fd_out = STDOUT_FILENO;
-	// 		//perror("ici");
-	// 		if (dup2(current->fd_out, STDOUT_FILENO) == ERROR_OPEN)
-	// 		{
-	// 			perror("Error: dup2 out failed"); //changer ici a la fin
-	// 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-	// 		}
-	// 		//dprintf(2, "fd_out= %d\n", cmd->fd_out);
-	// 	}
-	// 	//perror("kioulol");
-	// 	exec_command(elements, gc, 0);
-	// }
-	//printf("i = %d, nb cmd = %d\n", i, elements->nb_cmd);
+	if (elements->nb_cmd == 1 && ft_strcmp(elements->lst->cmd[0], "exit") == 0)
+	{
+		built = gc_malloc(sizeof(t_built), gc);
+		built->cmd = elements->lst->cmd;
+		built->elements = elements;
+		ft_exit(built, gc);
+		return ;
+	}
 	while (i < elements->nb_cmd) //voir a partir de la
 	{
 		elements->pid_arr[i] = fork();

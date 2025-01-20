@@ -5,13 +5,10 @@
 
 static char	*ft_retmerge(char *result_i, int is_concat)
 {
-	//Erika : '\n<' veut dire qu'on prend la valeur litterale de <.
+	//Erika : \n< veut dire qu'on prend la valeur litterale de <.
 	// '<' veut dire qu'on prend '<' tout simplement.
 	if (is_concat && ft_istok_(result_i))
-	{
 		ft_insert(result_i, 0, '\n');
-		ft_insert(ft_insert(result_i, 0, '\''), ft_strlen(result_i), '\'');// + 1
-	}
 	//printf("%zu\n", ft_strlen(result_i));//Verifie que les tokens nuls sont bien crees
 	return (result_i);
 }

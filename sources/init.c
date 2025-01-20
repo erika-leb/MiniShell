@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/18 17:52:17 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:13:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_element	*ft_init_struct(t_gc *gc)
 	elements->pipes = NULL;
 	elements->child_to_wait = 0;
 	elements->error = NULL;
+	elements->env = NULL;
  	return (elements);
 }
 

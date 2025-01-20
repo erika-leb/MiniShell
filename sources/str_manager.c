@@ -1,5 +1,18 @@
 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:06:31 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 //insere un caractere a l'endroit k, augmente la taille de la chaine de + 1
 char *ft_insert(char *result, int k, char c)

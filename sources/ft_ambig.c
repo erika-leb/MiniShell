@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ambig.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:31:31 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static int	ft_moredoll(char *str, int i, int sq, int dq)
 {
@@ -6,7 +19,7 @@ static int	ft_moredoll(char *str, int i, int sq, int dq)
 	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
 	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
 	if (!str[1])
-		return (1);
+		return (1);//GERER LE CONDITIONAL JUMP ON UNITIALIZED VALUE
 	while (str[i])
 	{
 		ft_modifquote_(str, &sq, &dq, &i);

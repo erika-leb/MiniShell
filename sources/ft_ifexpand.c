@@ -1,6 +1,17 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ifexpand.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:24:19 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static void	ft_expand(char *result, int *k, t_gc *gc)
 {
@@ -19,10 +30,9 @@ static void	ft_expand(char *result, int *k, t_gc *gc)
     i = 0;
 	while (tmp[i])
  	{
-		//Dans result je copie/colle le debut de envv sur les caracteres de tmp
 		if (envv[i] && result[*k] == tmp[i])
 			result[*k] = envv[i];
-		(*k)++;//On ecrase le nom de la var env
+		(*k)++;
 		i++;
  	}
 	while (envv[i])
@@ -31,8 +41,7 @@ static void	ft_expand(char *result, int *k, t_gc *gc)
 		(*k)++;
 		i++;
 	}
-	(*k)--;//permet de se retrouver sur le dernier caractere de la variable expand (le 'n' de hello/tuvabien)
-	//Comme ca dans ft_isexpand on peut regarder le terme d'apres (qui peut etre un $)
+	(*k)--;
 }
 
 static void	ft_delim(char *result, int *k, int sq, int dq)
@@ -40,12 +49,9 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 	*k += 2;
 	while (result[*k] == ' ')
 		(*k)++;
-	//si le 1er caractere du delim est une quote alors on avance jusqu'a revoir la meme quote suivie d'un espace
-	//sinon on avance jusqu'a voir un espace
 	ft_modifquote_(result, &sq, &dq, k);
 	if (sq)
 	{
-		//sq est important car les var d'env inexistantes comme "  $HELLO" doivent apparaitre tel quel
 		(*k)++;
 		while (result[*k] && !(result[*k] == '\''
 				&& result[*k + 1] == ' '))

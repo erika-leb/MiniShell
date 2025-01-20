@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/20 14:56:51 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:32:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	dup_and_close_write_pipe(int k, t_element *elements, t_cmd *cmd, t_gc *gc)
 {
 	if (cmd->fd_in == NO_TRY_OPEN)
 	{
+		perror("test");
+		//check_fds("ici");
 		if (dup2(elements->pipes[k][0], STDIN_FILENO) == -1)
 		{
 			perror("Error: dup2 in failed"); //changer ici a la fin

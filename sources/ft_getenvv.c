@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 13:35:30 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 16:25:24 by ele-borg         ###   ########.fr       */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:20:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static size_t	ft_countt(int nb)
 {

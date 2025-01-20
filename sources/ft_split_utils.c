@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 17:31:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 16:29:45 by ele-borg         ###   ########.fr       */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:20:48 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static void	ft_cit(size_t	*count, size_t *sw, int *sq, int *dq)
 {

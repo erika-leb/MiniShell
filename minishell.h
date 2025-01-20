@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 16:51:03 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:00:53 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@
 #define CMAGENTA	"\x1b[35m"
 #define CCYAN		"\x1b[36m"
 
+#define UN_DOLLAR	"minishell: syntax error near unexpected token `$'\n"
+#define UN_PIPE		"minishell: syntax error near unexpected token `|'\n"
+#define UN_TOKEN	"minishell: syntax error near unexpected token `%s'\n"
+#define UN_NLINE	"minishell: syntax error near unexpected token `newline'\n"
+
 # define 	INPUT	1
 # define	HEREDOC	2
 # define 	TRUNC	3
@@ -57,8 +62,6 @@
 
 # define	TRUE		1
 # define	FALSE		0
-
-# define UN_TOKEN "bash: syntax error"
 
 typedef struct s_file
 {

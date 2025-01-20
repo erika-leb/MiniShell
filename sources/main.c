@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 15:32:11 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:06:31 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,28 @@
 			(gc_cleanup(&gc), exit(EXIT_SUCCESS));
  		if (elements->line && *(elements->line))
  			add_history(elements->line);
-		//////////////////////////////////////////////////////////////////////
-		// elements->arr = ft_split(ft_tokenize(elements->line), 0, 0, &gc);
-		// int i = 0;
-		// while(elements->arr[i])
- 		// {
-		// 	elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
- 		// 	//printf("i = %d, s = %d\n", i, s);
-		// 	printf("token %d :%s\n", i, elements->arr[i]);
-		// 	i++;
- 		// }
 		ft_ft(elements, &gc);
-		/////////////////////////////////////////////////////////////////
-		//perror("test2");
-		//lexing(elements, &gc);
-		lexing(elements->arr, &elements->lst, elements, &gc);
-		//perror("kikoulol");
-		ft_fill_arrays(elements, &gc);
-		//perror("bolosskikou");
-		pipe_creation(elements, &gc);
-		//perror("boloss");
-		//check_fds("parent au debut");
-		child_creation(elements, &gc);
-		//perror("bolosskikou");
-		close_pipes(elements);
-		//perror("kikoulol");
-		wait_for_children(elements);
-		//perror("test3");
-		if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
-			unlink(".here"); //peut on le supprimer si on a pas les droits ?
-		//check_fds("parent a la fin");
+		if (elements->arr)
+		{
+			perror("test2");
+			//lexing(elements, &gc);
+			lexing(elements->arr, &elements->lst, elements, &gc);
+			//perror("kikoulol");
+			ft_fill_arrays(elements, &gc);
+			//perror("bolosskikou");
+			pipe_creation(elements, &gc);
+			//perror("boloss");
+			//check_fds("parent au debut");
+			child_creation(elements, &gc);
+			//perror("bolosskikou");
+			close_pipes(elements);
+			//perror("kikoulol");
+			wait_for_children(elements);
+			//perror("test3");
+			if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
+				unlink(".here"); //peut on le supprimer si on a pas les droits ?
+			//check_fds("parent a la fin");
+		}
  	}
 	//ft_error_exit("", 0, NO_PERROR);
 	gc_cleanup(&gc); // utile ?

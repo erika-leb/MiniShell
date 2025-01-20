@@ -1,0 +1,104 @@
+ flags pour valgrind
+
+valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
+
+
+valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
+
+a faire
+mettre a la norme
+built in
+test exec
+signaux fonction expres signaux dans heredoc, gerer signaux hors mode interactif ex cat ; code erreur a gerer voir cat puis ctrl c puis $? donne 130 github openbsd
+pwd a faire avec getcpwd
+tester minishell dans minishell
+shlvl voir adrien
+echo : il faut expand les var d'env avec echo sauf sq
+le dernier enfant doit envoyer son exit code au parent avec waitpid
+gerer boucle infini yes ; yes | head
+redir sans cmd // code erreur ?
+
+2 cas a gerer entre partie adri et partie erika : - si j'ai une redir comme < $a avec a="boloss 'ca va'" (var contenant espace et?ou quotes) alors je dois expand quand je cree la redir. Adri m'enverra $/n/ta
+                                                  - si j'ai ls $a (une var contenant des quotes) alors je dois split avec sep=' ' quand je remplit cmd.
+si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il faut un message d'erreur (toute redir sauf heredoc) et ca ne lance pas l'enfant test a faire
+
+verifier si gc_calloc marche
+si un .here est utilise comme sortie > >> alors message d'iterdiction.
+
+ecrire les messages d'erreur apres avoir ouvert les heredoc
+verifier l affichage des differents types d erreur
+
+
+
+
+
+
+
+
+Si Erika recoi un elements->arr avec elements->arr[0] = "\n" alors elle parcourt
+elements->arr pour ouvrir les here doc. Et quand le user les a referme elle ne lance aucune commande.
+
+
+// Fonction pour ajouter une chaîne contenant "\n" au début du tableau
+char **add_newline_to_array(char **array, size_t size) {
+    // Nouveau tableau avec une taille augmentée de 1
+    char **new_array = malloc((size + 1) * sizeof(char *));
+    if (!new_array)
+        return NULL; // Gestion d'erreur si malloc échoue
+
+    // Utiliser strdup pour créer la chaîne "\n"
+    new_array[0] = strdup("\n");
+    if (!new_array[0]) {
+        free(new_array);
+        return NULL; // Gestion d'erreur si strdup échoue
+    }
+
+    // Copier les anciens éléments dans le nouveau tableau
+    size_t i = 0;
+    while (i < size) {
+        new_array[i + 1] = array[i]; // Décalage de +1
+        i++;
+    }
+
+    // Libérer l'ancien tableau (conteneur uniquement)
+    //Il libere juste la tete. Mais pas les chaines qui la composait on dirait
+    free(array);
+
+    return new_array;
+}
+
+
+
+
+Quand Erika recupere les redirections il faudra qu'elle check si le nom de la redirection commence
+par $\n. Si oui alors elle ouvre les potentiels heredoc et quand le user les a ferme
+elle affiche le message"minishell: [nom] ambiguous redirect" et elle
+ne lance aucune commande
+
+
+
+
+
+
+
+
+
+pour la correction :
+./minishell | ./minishell ne marche pas car bash | bash ne marche pas
+1> 2> pas a etre gerer
+ls | hola fait un sigpipe c est normal ; env | hola non car built in donc on a pas programme pour que ca fasse ca
+Si creation fichier .here : interdiciton dajouter fichiers dans code source. .here est reserve a notre shell, interdiction
+d'utiliser ce mot (comme shell peut le faire pour if elif ...)
+
+
+
+<< aa grep a >a | << bb grep b >>a
+<< aa grep a >a
+
+echo "cat lol.c | cat > lol.c"
+
+
+echo hello | cat il y a un bad file descriptor
+ls | echo hello
+
+

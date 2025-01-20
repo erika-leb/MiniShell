@@ -2,19 +2,20 @@
 #include "../minishell.h"
 
 //insere un caractere a l'endroit k, augmente la taille de la chaine de + 1
-void ft_insert(char *result, int k, char c)
+char *ft_insert(char *result, int k, char c)
 {
-    int len;
-    int i;
-    
-    len = ft_strlen(result);
-    i = len;
-    while (i >= k)
-    {
-        result[i + 1] = result[i];
-        i--;
-    }
-    result[k] = c;
+	int len;
+	int i;
+
+	len = ft_strlen(result);
+	i = len;
+	while (i >= k)
+	{
+		result[i + 1] = result[i];
+		i--;
+	}
+	result[k] = c;
+	return (result);
 }
 
 //Supprime un caractere au niveau de tmp_k, reduit la taille de la chaine de -1.

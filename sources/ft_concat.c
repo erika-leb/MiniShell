@@ -1,67 +1,56 @@
 #include "../minishell.h"
 
-//Erika pourra reutiliser cette fonction pour reperer les token litteraux
-//if (ft_littoken(result_i)) alors ft_erase(result_i, 0); ft_erase(result_i, 1);
-//les 2 premiers if ne seront jamais activés car je me suis chargé de modifier
-//en amont les "<" ">" etc
-static int		ft_littoken(char *result_i)
+static char	*ft_retmerge(char *result_i, int is_concat)
 {
-	if (!ft_strcmp(result_i, "\"<\"")
-		|| !ft_strcmp(result_i, "\">\"")
-		|| !ft_strcmp(result_i, "\"|\""))
+	//Erika : '\n<' veut dire qu'on prend la valeur litterale de <.
+	// '<' veut dire qu'on prend '<' tout simplement.
+	if (is_concat && ft_istok_(result_i))
 	{
-		result_i[0] = '\'';
-		result_i[2] = '\'';
+		//ft_insert(result_i, 0, '\n');
+		//Taille memoire trop petitede1 byte. Je devrais remalloc la chaine '<'
+		//pour passer de 3 bytes a 4 bytes ('\n<') mais flemme.
+		// ft_insert(ft_insert(result_i, 0, '\''), ft_strlen(result_i), '\'');
+
+		//AUTRE SOLUTION :
+		ft_insert(result_i, 0, '\n');
+
 	}
-	if (!ft_strcmp(result_i, "\"<<\"")
-		|| !ft_strcmp(result_i, "\">>\""))
-	{
-		result_i[0] = '\'';
-		result_i[3] = '\'';
-	}
-	if (!ft_strcmp(result_i, "\'<\'")
-		|| !ft_strcmp(result_i, "\'>\'")
-		|| !ft_strcmp(result_i, "\'<<\'")
-		|| !ft_strcmp(result_i, "\'>>\'")
-		|| !ft_strcmp(result_i, "\'|\'"))
-		return (1);	
-	return (0);
+	return (result_i);
 }
 
+static void	ft_initconcat(int *to_erase, int k, int *is_concat)
+{
+	*to_erase = k;
+	*is_concat = 0;
+}
+
+//SOUCI : si je créé une var d'env et que je lui attribue la valeur 'hello' alors ft_concat va modifier a tord
+//cette variable. C'est pourquoi il vaut mieux expand les var d'env CONTENANT DES QUOTES apres ft_concat.
 char	*ft_concat(char *result_i, int k, int sq, int dq)
 {
 	int	to_erase;
+	int	is_concat;
 
-	if (ft_littoken(result_i))
-		return (result_i);
 	while (result_i[++k] && !(result_i[k] == '\'' || result_i[k] == '\"'))
 	if (!result_i[k + 1])
 		return (result_i);
-	to_erase = k;
+	ft_initconcat(&to_erase, k, &is_concat);
 	ft_modifquote_(result_i, &sq, &dq, &k);
-	//k++;
 	while (result_i[++k])
-	{// && !ft_littoken(result_i)
+	{
 		if (result_i[k] == result_i[to_erase])
 		{
-			//Que pasa si y'a un seul apostrophe ?
-			//Ca passe puisqu'elle n'est pas du meme type
+			is_concat = 1;
 			ft_erase(result_i, to_erase);
-			k--;//Comme on vient de supprimer un quote tout ce decale vers la gauche
+			k--;
 			ft_erase(result_i, k);
 			k--;
-			while (result_i[++k] && !(result_i[k] == '\'' || result_i[k] == '\"'))
+			while (result_i[++k] && !(result_i[k] == '\''
+					|| result_i[k] == '\"'))
 			if (!result_i[k])
 				return (result_i);
-			// if ()
-			// {
-			//	gestion des cas <'' ''< etc
-			// 	//if(ft_istok(result_i) && ft_isquote(result_i[k]) && ft_isquote(result_i[k + 1]))
-			// }
 			to_erase = k;
 		}
-		//printf("%s\n",result_i);
-		//k++;
 	}
-	return (result_i);
+	return (ft_retmerge(result_i, is_concat));
 }

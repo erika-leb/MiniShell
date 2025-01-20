@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 17:31:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/27 16:12:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:29:45 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ char	*ft_eachword(const char *str, int fidx, int end, t_gc *gc)
 	int		i;
 
 	i = 0;
-	//word = ft_calloc(end - fidx + 1, sizeof(char));
 	word = gc_malloc((end - fidx + 1) * sizeof(char), gc);
-	// if (word == NULL)
-	// 	return (NULL);
 	while (fidx < end)
 	{
 		word[i] = str[fidx];
@@ -67,7 +64,7 @@ char	*ft_eachword(const char *str, int fidx, int end, t_gc *gc)
 	word[i] = '\0';
 	return (word);
 }
-
+//Verifier la pertinence avec l'arrivee de gc_cleaner
 void	*ft_freesplit(char **tab, size_t n)
 {
 	size_t	i;

@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/20 14:36:30 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/01/20 16:12:48 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,14 @@ OBJ_DIR = objets
 GC_DIR = gc
 
 SRC_FILES = ${SRC_DIR}/main.c \
+			${SRC_DIR}/parsing.c \
 			${GC_DIR}/gc_cleanup.c \
 			${GC_DIR}/gc_malloc.c \
 			${GC_DIR}/gc_realloc.c \
 			${GC_DIR}/gc_remove.c \
-			${SRC_DIR}/libft.c \
+			${SRC_DIR}/libft_e.c \
+			${SRC_DIR}/libft_a.c \
+			${SRC_DIR}/libft_abis.c \
 			${SRC_DIR}/ft_split.c \
 			${SRC_DIR}/ft_split_utils.c \
 			${SRC_DIR}/init.c \
@@ -29,7 +32,9 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_tokenize.c \
 			${SRC_DIR}/redir_chain.c \
 			${SRC_DIR}/ft_ifexpand.c \
-			${SRC_DIR}/man_large_str.c \
+			${SRC_DIR}/ft_ambig.c \
+			${SRC_DIR}/ft_getenvv.c \
+			${SRC_DIR}/str_manager.c \
 			${SRC_DIR}/ft_concat.c \
 			${SRC_DIR}/redir_open_parta.c \
 			${SRC_DIR}/redir_open_partb.c \
@@ -45,11 +50,14 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_echo.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
+			$(OBJ_DIR)/parsing.o \
 			${OBJ_DIR}/gc_cleanup.o \
 			${OBJ_DIR}/gc_malloc.o \
 			${OBJ_DIR}/gc_realloc.o \
 			${OBJ_DIR}/gc_remove.o \
-			${OBJ_DIR}/libft.o \
+			${OBJ_DIR}/libft_e.o \
+			${OBJ_DIR}/libft_a.o \
+			${OBJ_DIR}/libft_abis.o \
 			${OBJ_DIR}/ft_split.o \
 			${OBJ_DIR}/ft_split_utils.o \
 			${OBJ_DIR}/init.o \
@@ -57,7 +65,9 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_tokenize.o \
 			${OBJ_DIR}/redir_chain.o \
 			${OBJ_DIR}/ft_ifexpand.o \
-			${OBJ_DIR}/man_large_str.o \
+			${OBJ_DIR}/ft_ambig.o \
+			${OBJ_DIR}/ft_getenvv.o \
+			${OBJ_DIR}/str_manager.o \
 			${OBJ_DIR}/ft_concat.o \
 			${OBJ_DIR}/redir_open_parta.o \
 			${OBJ_DIR}/redir_open_partb.o \

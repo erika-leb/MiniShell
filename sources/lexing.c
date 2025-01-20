@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/18 15:29:51 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:57:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,15 @@ bool	ft_is_redir(char *s)
 
 bool	ft_is_str(char *s)
 {
-	if (ft_strcmp(s, "'|'") == 0)
+	if (ft_strcmp(s, "\n|") == 0)
 		return (true);
-	if (ft_strcmp(s, "'<'") == 0)
+	if (ft_strcmp(s, "\n<") == 0)
 		return (true);
-	if (ft_strcmp(s, "'>'") == 0)
+	if (ft_strcmp(s, "\n>") == 0)
 		return (true);
-	if (ft_strcmp(s, "'<<'") == 0)
+	if (ft_strcmp(s, "\n<<") == 0)
 		return (true);
-	if (ft_strcmp(s, "'>>'") == 0)
-		return (true);
-	if (ft_strcmp(s, "'$?'") == 0)
+	if (ft_strcmp(s, "\n>>") == 0)
 		return (true);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 14:39:32 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:51:03 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ typedef struct	s_var
 	int	k;
 }	t_var;
 
+//parsing.c
+void	ft_deldollar(char *input);
+int		ft_istok_(char *av2);
+void	ft_ft(t_element *elements, t_gc *gc);
+
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq, t_gc *gc);
 
@@ -118,15 +123,25 @@ size_t	ft_count(const char *str, const char sep);
 char	*ft_eachword(const char *str, int fidx, int end, t_gc *gc);
 void	*ft_freesplit(char **tab, size_t n);
 
-//libft.c
-void	*ft_calloc(size_t n, size_t sizof); // A SUPPRIMER
-size_t	ft_strlen(const char *str);
-int		ft_strcmp(char *s1, char *s2);
+//libft_e.c
 int		ft_arr_size(char **tab);
 char	*ft_strdup(const char *s1, t_gc *gc);
-int		ft_isalnum(int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc *gc);
 void	ft_putstr_fd(char *s, int fd);
+
+//libft_a.c
+size_t	ft_strlen(const char *str);
+void	*ft_calloc(size_t n, size_t sizof);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(const char *str1, const char *str2, size_t n);//ATTENTION Erika a aussi un ft_strncmp pas code exactement comme moi
+int     ft_isalnum(int c);
+
+//libft_abis.c
+char	*ft_strdup_(char const *str, t_gc *gc);
+char    *ft_strncpy(char *dest, const char *src, size_t n);
+char    *ft_strcat(char *dst, const char *src);
+int     ft_isalpha(int c);
+// char	*ft_strjoin_(char *str1, char *str2, t_gc *gc);//a gerer pour built-in
 
 //error.c
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -143,17 +158,22 @@ t_element	*ft_init_struct(t_gc *gc);
 //void		ft_error_exit(char *s, int	i, int type);
 
 //ft_tokenize.c
-char	*ft_tokenize(char *av2);
-//char	*ft_concat(char *result, int sq, int dq);//unused pour l'instant
+char	*ft_tokenize(char *av2, t_gc *gc);
 
-//ft_ifexpand
-char	*ft_ifexpand(char *result);
+//ft_ifexpand.c
+char	*ft_ifexpand(char *result, int sq, int dq, t_gc *gc);
 
-//man_large_str.c
-void 	ft_insert(char *result, int k, char c);
-char 	*ft_erase(char *result, int tmp_k);
-void 	ft_erase_substr(char *result, int *k, char *tmp);
-void 	ft_modifquote_(char const *str, int *sq, int *dq, int *i);
+//ft_ambig.c
+void	ft_ambig(char *result_k, int *k, t_gc *gc);
+
+//ft_getenvv.c
+char	*ft_getenvv(char *result, int *k, char *tmp, t_gc *gc);
+
+//str_manager.c
+char	*ft_insert(char *result, int k, char c);
+char	*ft_erase(char *result, int tmp_k);
+void	ft_erase_substr(char *result, int *k, char *tmp);
+void	ft_modifquote_(char const *str, int *sq, int *dq, int *i);
 
 //ft_concat.c
 char	*ft_concat(char *result_i, int k, int sq, int dq);

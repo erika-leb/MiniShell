@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/29 14:38:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:58:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void ft_put_words(char **arr, char **tab, t_var *var, t_gc *gc)
 
 	s = ft_strlen(tab[var->j]);
 	if (ft_is_str(tab[var->j]) == true)
-		arr[var->k] = ft_substr(tab[var->j], 1, s - 2, gc);
+		arr[var->k] = ft_substr(tab[var->j], 1, s - 1, gc);
 	else
 	{
 		arr[var->k] = gc_malloc(s + 1, gc);

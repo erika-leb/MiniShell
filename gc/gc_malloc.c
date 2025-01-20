@@ -30,7 +30,7 @@ void	gc_add(t_gc *gc, void *ptr, size_t size)
 	//new_node = ft_calloc(1, sizeof(t_gc_node));
 	if (!new_node)
 	{
-		perror("allocation failed: Cannot allocate memory");
+		perror("allocation failed");
 		gc_cleanup(gc);
 		free(ptr);
 		exit(EXIT_FAILURE);
@@ -48,6 +48,8 @@ void	*gc_malloc(size_t size, t_gc *gc)
 {
 	void	*ptr;
 
+	//(void) size;
+	//size_t huge_size = (size_t)1 << 40;
 	ptr = malloc(size);
 	//ptr = ft_calloc(size);
 	// printf("allocation de %zu size\n", size);
@@ -58,7 +60,7 @@ void	*gc_malloc(size_t size, t_gc *gc)
 	// }
 	if (!ptr)
 	{
-		perror("allocation failed: Cannot allocate memory");
+		perror("allocation failed");
 		gc_cleanup(gc);
 		exit(EXIT_FAILURE);
 	}
@@ -80,7 +82,7 @@ void	*gc_calloc(size_t n, size_t sizof, t_gc *gc) // a verifier si ca marche
 	// }
 	if (!ptr)
 	{
-		perror("allocation failed: Cannot allocate memory");
+		perror("allocation failed");
 		gc_cleanup(gc);
 		exit(EXIT_FAILURE);
 	}

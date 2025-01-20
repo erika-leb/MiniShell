@@ -14,19 +14,17 @@ pwd a faire avec getcpwd
 tester minishell dans minishell
 shlvl voir adrien
 echo : il faut expand les var d'env avec echo sauf sq
-le dernier enfant doit envoyer son exit code au parent
+le dernier enfant doit envoyer son exit code au parent avec waitpid
 gerer boucle infini yes ; yes | head
-redir sans cmd
+redir sans cmd // code erreur ?
 2 cas a gerer entre partie adri et partie erika : - si j'ai une redir comme < $a avec a="boloss 'ca va'" (var contenant espace et?ou quotes) alors je dois expand quand je cree la redir. Adri m'enverra $/n/ta
                                                   - si j'ai ls $a (une var contenant des quotes) alors je dois split avec sep=' ' quand je remplit cmd.
 si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il faut un message d'erreur (toute redir sauf heredoc) et ca ne lance pas l'enfant test a faire
 verifier si gc_calloc marche
 si un .here est utilise comme sortie > >> alors message d'iterdiction.
+
 ecrire les messages d'erreur apres avoir ouvert les heredoc
-ecrire tous les messages d'erreur
-verifier qu on peut ecrire plusieurs messages d erreur a la suite
-
-
+verifier l affichage des differents types d erreur
 
 
 pour la correction :

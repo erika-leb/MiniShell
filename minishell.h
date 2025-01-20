@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/18 14:38:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:39:32 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
+# include <limits.h>
 //# include <asm/signal.h> //pour eviter le rouge sa chez Erika
 # include "gc.h"
 
@@ -91,6 +92,12 @@ typedef struct	s_element
 	int		child_to_wait;
 }	t_element;
 
+typedef struct s_built
+{
+	t_element	*elements;
+	char		**cmd;
+}	t_built;
+
 typedef struct	s_var
 {
 	int	j;
@@ -99,6 +106,12 @@ typedef struct	s_var
 
 //ft_split.c
 char	**ft_split(char const *str, int sq, int dq, t_gc *gc);
+
+//ft_exit.c
+int ft_exit(t_built *built, t_gc *gc);
+
+//ft_echo.c
+void	ft_echo(char **cmd);
 
 //ft_split_utils.c
 size_t	ft_count(const char *str, const char sep);
@@ -120,9 +133,12 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 void	ft_buff_error(char *str, t_element *elements, t_gc *gc);
 void	ft_write_error(t_element *elements, t_gc *gc);
 
-//init.c
+//signal.c
 void		ft_signal_handle(t_gc *gc);
+
+//init.c
 void		ft_welcome(void);
+void		ft_cpy_env(t_element *elements, char **env, t_gc *gc);
 t_element	*ft_init_struct(t_gc *gc);
 //void		ft_error_exit(char *s, int	i, int type);
 

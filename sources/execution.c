@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/18 17:09:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:28:35 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,22 @@ void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 	(void) i;
 	if (access(cmd[0], X_OK) != 0)
 	{
-		write(2, "Error : command not found\n", 27);
+		//write(2, "Error : command not found\n", 27);
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(cmd[0], elements, gc);
+		ft_buff_error(":  command not found\n", elements, gc);
+		ft_write_error(elements, gc);
 		(free_std(), gc_cleanup(gc), exit(EXIT_FAILURE)); //autre que exit_fialure, il faut le numero en cas de cmd not found
 	}
 	execve(cmd[0], cmd, elements->env);
 	err = errno;
 	if (err == 26)
 	{
-		write(2, "Error : Text file busy\n", 24);
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(cmd[0], elements, gc);
+		ft_buff_error(": Text file busy\n", elements, gc);
+		ft_write_error(elements, gc);
+		//write(2, "Error : Text file busy\n", 24);
 		(gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
 }

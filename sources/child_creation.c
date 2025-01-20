@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/17 11:34:35 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:35:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,133 +177,6 @@ void	all_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 	}
 }
 
-// void	other_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
-// {
-// 	int	k;
-
-// 	k = 0;
-// 	while (k < elements->nb_cmd - 1)
-// 	{
-// 		if (k == i)   // out
-// 		{
-// 			if (cmd->fd_out == NO_TRY_OPEN)
-// 			{
-// 				if (dup2(elements->pipes[k][1], STDOUT_FILENO) == ERROR_OPEN)
-// 				{
-// 					perror("Error: dup2 out failed"); //changer ici a la fin
-// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 				}
-// 			}
-// 			if (cmd->fd_out > 0)
-// 			{
-// 				if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
-// 				{
-// 					perror("Error: dup2 out failed"); //changer ici a la fin
-// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 				}
-// 			}
-// 			(close(elements->pipes[k][0]), close(elements->pipes[k][1]));
-// 		}
-// 		else if (k == i - 1)  // in
-// 		{
-// 			if (cmd->fd_in == NO_TRY_OPEN)
-// 			{
-// 				if (dup2(elements->pipes[k][0], STDIN_FILENO) == -1)
-// 				{
-// 					perror("Error: dup2 in failed"); //changer ici a la fin
-// 					(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 				}
-// 			}
-// 			if (cmd->fd_in > 0)
-// 			{
-// 				if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
-// 				{
-// 					perror("Error: dup2 in failed"); //changer ici a la fin
-// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 				}
-// 			}
-// 			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-// 		}
-// 		else
-// 			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-// 		k++;
-// 	}
-// }
-
-// void	first_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc) //norminette a travailler ici
-// {
-// 	int	k;
-
-// 	k = 0;
-// 	if (cmd->fd_in >= 0)
-// 	{
-// 		if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
-// 		{
-// 			perror("Error: dup2 in failed"); //changer ici a la fin
-// 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 		}
-// 	}
-// 	while (k < elements->nb_cmd - 1)
-// 	{
-// 		if (k == i)
-// 		{
-// 			if (cmd->fd_out == NO_TRY_OPEN)
-// 			{
-// 				if (dup2(elements->pipes[k][1], STDOUT_FILENO) == ERROR_OPEN)
-// 				{
-// 					perror("Error: dup2 out failed"); //changer ici a la fin
-// 					(part_close(elements, k), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 				}
-// 				(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-// 			}
-// 		}
-// 		else
-// 			(close(elements->pipes[k][1]), close(elements->pipes[k][0]));
-// 		k++;
-// 	}
-// }
-
-// void	last_case(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
-// {
-// 	int	k;
-
-// 	k = 0;
-// 	if (cmd->fd_out >= 0) // possible de mettre les deux conditions a la suite
-// 	{
-// 		//cmd->fd_out = STDOUT_FILENO;
-// 		//perror("ici");
-// 		if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
-// 		{
-// 			perror("Error: dup2 out failed"); //changer ici a la fin
-// 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 		}
-// 		//dprintf(2, "fd_out= %d\n", cmd->fd_out);
-// 	}
-// 	while (k < elements->nb_cmd - 1)
-// 	{
-// 		if (k == i - 1)
-// 		{
-// 			//perror("on passe la");
-// 			if (cmd->fd_in == NO_TRY_OPEN)
-// 			{
-// 				if (dup2(elements->pipes[k][0], STDIN_FILENO) == ERROR_OPEN)
-// 				{
-// 					perror("Error: dup2 in failed"); //changer ici a la fin
-// 					(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
-// 				}
-// 			}
-// 			close(elements->pipes[k][1]);
-// 			close(elements->pipes[k][0]);
-// 		}
-// 		else
-// 		{
-// 			close(elements->pipes[k][1]);
-// 			close(elements->pipes[k][0]);
-// 		}
-// 		k++;
-// 	}
-// }
-
 void check_fds(const char *context)
 {
     struct stat statbuf;
@@ -421,33 +294,6 @@ void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 	// print_cmd_list(elements->lst);
 }
 
-// void	exec_uniq_command(t_element *elements, t_gc *gc)
-// {
-// 	t_cmd	*current;
-// 	int		j;
-
-// 	j = 0;
-// 	current = elements->lst;
-// 	//perror("test");
-// 	// while (j++ < i && current != NULL)
-// 	// 	current = current->next;
-// 	if (current->cmd[0] == NULL) // pas tout a fait !!! REVOIR CE CAS
-// 	{
-// 		write(2, "command not found\n", 19);
-// 		(gc_cleanup(gc), exit(EXIT_FAILURE));
-// 	}
-// 	if (current->cmd[0] && current->cmd[0][0]
-// 		&& (current->cmd[0][0] == '/'
-// 		|| current->cmd[0][0] == '.'))
-// 		path_abs(current->cmd, elements, 0, gc);
-// 	else
-// 	{
-// 		//perror("test");
-// 		path_relat(current->cmd, elements, 0, gc);
-// 	}
-// 	(gc_cleanup(gc), exit(EXIT_FAILURE));
-// }
-
 int		is_built_in(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
@@ -468,24 +314,30 @@ int		is_built_in(char *cmd)
 		return (FALSE);
 }
 
-// void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
-// {
-// 	if (ft_strcmp(cmd[0], "echo") == 0)
-// 		ft_echo(cmd);
-// 	else if (ft_strcmp(cmd[0], "cd") == 0)
+//Creer une super structure compose de elements etcmd d'un cote, et gc que adri
+//recevra en argument.
+void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
+{
+	t_built	*built;
 
-// 	else if (ft_strcmp(cmd[0], "pwd") == 0)
+	built = gc_malloc(sizeof(t_built), gc);
+	built->cmd = cmd;
+	built->elements = elements;
+	if (ft_strcmp(cmd[0], "echo") == 0)
+		ft_echo(cmd);
+	// else if (ft_strcmp(cmd[0], "cd") == 0)
 
-// 	else if (ft_strcmp(cmd[0], "export") == 0)
-// 		ft_export(elements->env, cmd);
-// 	else if (ft_strcmp(cmd[0], "unset") == 0)
-// 		ft_export(elements->env, cmd);
-// 	else if (ft_strcmp(cmd[0], "env") == 0)
+	// else if (ft_strcmp(cmd[0], "pwd") == 0)
 
-// 	else if (ft_strcmp(cmd[0], "exit") == 0)
-// 		ft_exit(cmd);
-// 	(void) gc;
-// }
+	// else if (ft_strcmp(cmd[0], "export") == 0)
+	// 	ft_export(elements->env, cmd);
+	// else if (ft_strcmp(cmd[0], "unset") == 0)
+	// 	ft_export(elements->env, cmd);
+	// else if (ft_strcmp(cmd[0], "env") == 0)
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		ft_exit(built, gc);
+	(void) gc;
+}
 
 void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NULL (mais on a des redir)
 {
@@ -560,9 +412,9 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 			// printf("\n APRES FORK \n\n");
 			// print_cmd_list(elements->lst);
 			//perror("tt2");
-			// if (is_built_in(current->cmd[0]) == TRUE)
-			// 	ft_built_in(elements, current->cmd, gc);  // a voir
-			//else
+			if (is_built_in(current->cmd[0]) == TRUE)
+				ft_built_in(elements, current->cmd, gc);  // a voir
+			else
 				exec_command(elements, gc, i); // faire distinction entre buil in et autre ici + rajouter cas ou une seule commande
 		}
 		i++;

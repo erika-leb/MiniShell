@@ -1,27 +1,18 @@
-# include <stdio.h>//printf
-# include <stdlib.h>//free, ...
-# include <stdint.h>//SIZE_MAX
-# include <signal.h>//sigaction
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <unistd.h>
-# include <stdbool.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <sys/wait.h>
 
-# define	TRUE		1
-# define	FALSE		0
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/18 18:19:30 by ele-borg          #+#    #+#             */
+/*   Updated: 2025/01/20 14:30:34 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
-}
+#include "../minishell.h"
+#include "../gc/gc.h"
 
 static int ft_is_option(char *opt)
 {
@@ -38,7 +29,7 @@ static int ft_is_option(char *opt)
 	}
 	return (TRUE);
 }
-void    ft_fill_buf(int *i, int *k, char **cmd, char *buf)
+static void	ft_fill_buf(int *i, int *k, char **cmd, char *buf)
 {
 	int j;
 
@@ -48,10 +39,10 @@ void    ft_fill_buf(int *i, int *k, char **cmd, char *buf)
 	(*i)++;
 }
 
-void    ft_echo(char **cmd)
+void	ft_echo(char **cmd)
 {
 	int i;
-	int j;
+	//int j;
 	int k;
 	int n;
 	char buf[70000];
@@ -77,29 +68,29 @@ void    ft_echo(char **cmd)
 		perror("echo: write error: No space left on device");
 }
 
-int main() {
-	// Test 1 : Avec l'option -n
-	char *cmd1[] = {"echo", "-n", "Hello", "World!", NULL};
-	ft_echo(cmd1); // "Hello World!" sans saut de ligne
+// int main() {
+// 	// Test 1 : Avec l'option -n
+// 	char *cmd1[] = {"echo", "-n", "Hello", "World!", NULL};
+// 	ft_echo(cmd1); // "Hello World!" sans saut de ligne
 
-	// Test 2 : Sans l'option -n
-	char *cmd2[] = {"echo", "Hello", "there", "friend!", NULL};
-	ft_echo(cmd2); // "Hello there friend!" avec saut de ligne
+// 	// Test 2 : Sans l'option -n
+// 	char *cmd2[] = {"echo", "Hello", "there", "friend!", NULL};
+// 	ft_echo(cmd2); // "Hello there friend!" avec saut de ligne
 
-	// Test 3 : Seulement l'option -n
-	char *cmd3[] = {"echo", "-n", NULL};
-	ft_echo(cmd3); // Aucun message, pas de saut de ligne
+// 	// Test 3 : Seulement l'option -n
+// 	char *cmd3[] = {"echo", "-n", NULL};
+// 	ft_echo(cmd3); // Aucun message, pas de saut de ligne
 
-	// Test 4 : Plusieurs options -n
-	char *cmd4[] = {"echo", "-n", "-n", "Hello", "again", NULL};
-	ft_echo(cmd4); // "Hello again" sans saut de ligne
+// 	// Test 4 : Plusieurs options -n
+// 	char *cmd4[] = {"echo", "-n", "-n", "Hello", "again", NULL};
+// 	ft_echo(cmd4); // "Hello again" sans saut de ligne
 
-	// Test 5 : Aucun argument (uniquement echo)
-	char *cmd5[] = {"echo", "-nnnnnnnnj", "ca", NULL};
-	ft_echo(cmd5); // Saut de ligne uniquement
+// 	// Test 5 : Aucun argument (uniquement echo)
+// 	char *cmd5[] = {"echo", "-nnnnnnnnj", "ca", NULL};
+// 	ft_echo(cmd5); // Saut de ligne uniquement
 
-	return 0;
-}
+// 	return 0;
+// }
 
 
 // gerer echo -nnnnnnnnnnn bonjour (affiche bonjourbash-5.1$)

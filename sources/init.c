@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/18 17:08:13 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/18 17:52:17 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,42 +22,49 @@ void	ft_welcome(void)
 	printf("\n");
 }
 
-static void	handle_sigint(int sig)
+void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
 {
-	(void)sig;
-	write(1, "\n", 1);          // Ajoute un saut de ligne
-	rl_on_new_line();           // Prépare une nouvelle ligne
-	rl_replace_line("", 0);     // Efface la ligne en cours
-	rl_redisplay();             // Redessine le prompt
+	int		s_arr;
+	int		i;
+	int		s;
+
+	s_arr = ft_arr_size(env);
+	elements->env = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
+	i = 0;
+	while (env[i])
+	{
+		s = ft_strlen(env[i]);
+		elements->env[i] = gc_malloc(s + 1, gc);
+		elements->env[i] = env[i];
+		i++;
+	}
+	elements->env[i] = NULL;
+	ft_handle_path(elements, gc);
+	// i = 0;
+	// while( i <= s_arr)
+	// {
+	// 	printf("env %i = %s\n", i, env[i]);
+	// 	printf("myenv %i = %s\n", i, elements->env[i]);
+	// 	i++;
+	// }
 }
 
-void	ft_signal_handle(t_gc *gc)
+t_element	*ft_init_struct(t_gc *gc)
 {
-	struct sigaction	sa;
-	struct sigaction	sa_bis;
+	t_element 	*elements;
 
-	memset(&sa, 0, sizeof(struct sigaction));
-	sa.sa_handler = &handle_sigint;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		perror("Error: sigaction failed");
-		gc_cleanup(gc);
-		exit(EXIT_FAILURE);
-	}
-	//	ft_error_exit("Error: sigaction failed", elements, -1, PERROR);
-	memset(&sa_bis, 0, sizeof(struct sigaction));
-	sa_bis.sa_handler = SIG_IGN;
-	sigemptyset(&sa_bis.sa_mask);
-	sa_bis.sa_flags = 0;
-	if (sigaction(SIGQUIT, &sa_bis, NULL) == -1)
-	{
-		perror("Error: sigaction failed");
-		gc_cleanup(gc);
-		exit(EXIT_FAILURE);
-	}
-		//ft_error_exit("Error: sigaction failed", elements, -1, );
+	elements = NULL;
+	elements = gc_malloc(sizeof(t_element), gc);
+	elements->line = NULL;
+	elements->arr = NULL;
+	elements->lst = NULL;
+	elements->mypaths = NULL;
+	elements->nb_cmd = 0;
+	elements->pid_arr = NULL;
+	elements->pipes = NULL;
+	elements->child_to_wait = 0;
+	elements->error = NULL;
+ 	return (elements);
 }
 
 
@@ -80,23 +87,7 @@ void gc_print(t_gc *gc)
     }
 }
 
-t_element	*ft_init_struct(t_gc *gc) //utile ? plus tard peut-etre
-{
-	t_element 	*elements;
 
-	elements = NULL;
-	elements = gc_malloc(sizeof(t_element), gc);
-	elements->line = NULL;
-	elements->arr = NULL;
-	elements->lst = NULL;
-	elements->mypaths = NULL;
-	elements->nb_cmd = 0;
-	elements->pid_arr = NULL;
-	elements->pipes = NULL;
-	elements->child_to_wait = 0;
-	elements->error = NULL;
- 	return (elements);
-}
 
 
 /*void	ft_error_exit(char *s, t_element *elements, int	i, int type)

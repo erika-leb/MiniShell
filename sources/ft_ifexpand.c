@@ -10,7 +10,7 @@ static void	ft_expand(char *result, int *k)
 	int		start;
 
 	start = *k;
-    envv = ft_getenvv(result, k, tmp);
+    envv = ft_getenvv(result, k, tmp);//si y'a des quotes alors j'expand pas et envv prend la valeur de $\n\t ...
     if (!envv)
         return (ft_erase_substr(result, k, tmp));
 	//Si envv est full et contient des quotes alors on n'expand pas et on

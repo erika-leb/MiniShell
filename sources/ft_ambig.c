@@ -74,4 +74,6 @@ void	ft_ambig(char *result_k, int *k)
 		ft_ibslash(result_k, name, k);
 	// && !name[m] : Si j'ecris < $u"HOME" alors grace au !name[m]  et au if (envv || !ft_moredoll) j'entre pas dans le if.
 	//En effet dans "HOME" il n'y a pas de dollars hors quote et donc le break du dessus s'enclenche.
+
+	//if env contient des quotes ou espaces alors j'expand pas car on est derriere une redir
 }

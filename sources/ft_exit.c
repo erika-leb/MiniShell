@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:19:30 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/20 15:16:20 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 15:19:34 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_initexit(const char *str, int *i, int *neg, long *res)
 	while ((str[*i] >= '\t' && str[*i] <= '\r') || str[*i] == ' ')
 		(*i)++;
 }
-
+//Duppliquer la logique de neg dans ft_fillexit pour diminuer argument de 1
 static void	ft_fillexit(t_built *built, int *i, int neg, long *res, t_gc *gc)
 {
 	int	curr_digit;

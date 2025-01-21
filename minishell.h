@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 14:28:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:34:28 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ char	*ft_strdup_(char const *str, t_gc *gc);
 char    *ft_strncpy(char *dest, const char *src, size_t n);
 char    *ft_strcat(char *dst, const char *src);
 int     ft_isalpha(int c);
-// char	*ft_strjoin_(char *str1, char *str2, t_gc *gc);//a gerer pour built-in
+char	*ft_strjoin_(char *str1, char *str2, t_gc *gc);
 
 //error.c
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -226,6 +226,42 @@ void	child_creation(t_element *elements, t_gc *gc);
 void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc);
 void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc);
 void	exec_command(t_element *elements, t_gc *gc, int i);
+
+
+
+//env_manager.c
+char	**ft_ltoa(t_env *head, t_gc *gc);
+void    ft_freetab(char **array);
+int     ft_exparser(char *name_key);
+void    ft_env(char **array, char **cmds);
+
+//ft_export.c
+typedef struct s_env
+{
+	char         *name;
+	char         *key;
+	struct s_env *next;
+}   t_env;
+void ft_printexport(const t_env *head);
+void ft_freelexport(t_env *head);
+void ft_adder(t_env **head, char *str, t_gc *gc);
+char **ft_export(char **env, char **argv, t_gc *gc);
+
+//ft_export_utils.c
+t_env    *ft_envnode(char *name, const char *key, t_gc *gc);
+t_env    *ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc);
+char     *ft_cut(const char *src, char delim, int is_end, t_gc *gc);
+void     ft_swapnodes(t_env *node1, t_env *node2);
+void     ft_bbsort(t_env *head);
+
+//ft_unset.c
+void ft_unset(char **env, char **argv);
+
+
+
+
+
+
 
 
 // pour test

@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/20 16:12:48 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/01/21 15:41:23 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,10 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/signal.c \
 			${SRC_DIR}/ft_exit.c \
 			${SRC_DIR}/ft_echo.c \
+			${SRC_DIR}/env_manager.c \
+			${SRC_DIR}/ft_export.c \
+			${SRC_DIR}/ft_export_utils.c \
+			${SRC_DIR}/ft_unset.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
@@ -81,6 +85,10 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/signal.o \
 			${OBJ_DIR}/ft_exit.o \
 			${OBJ_DIR}/ft_echo.o \
+			${OBJ_DIR}/env_manager.o \
+			${OBJ_DIR}/ft_export.o \
+			${OBJ_DIR}/ft_export_utils.o \
+			${OBJ_DIR}/ft_unset.o \
 
 NAME = minishell
 

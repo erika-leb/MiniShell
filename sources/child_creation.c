@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/21 14:09:26 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:55:57 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,11 +336,11 @@ int		is_built_in(char *cmd)
 		return (TRUE);
 	else if (ft_strcmp(cmd, "echo") == 0)
 		return (TRUE);
+	else if (ft_strcmp(cmd, "export") == 0)
+		return (TRUE);
 	// else if (ft_strcmp(cmd, "cd") == 0)
 	// 	return (TRUE);
 	// else if (ft_strcmp(cmd, "pwd") == 0)
-	// 	return (TRUE);
-	// else if (ft_strcmp(cmd, "export") == 0)
 	// 	return (TRUE);
 	// else if (ft_strcmp(cmd, "unset") == 0)
 	// 	return (TRUE);
@@ -363,12 +363,11 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 		ft_exit(built, gc);
 	else if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_echo(cmd, gc);
+	else if (ft_strcmp(cmd[0], "export") == 0)
+	 	ft_export(elements->env, cmd, gc);
 	// else if (ft_strcmp(cmd[0], "cd") == 0)
 
 	// else if (ft_strcmp(cmd[0], "pwd") == 0)
-
-	// else if (ft_strcmp(cmd[0], "export") == 0)
-	// 	ft_export(elements->env, cmd);
 	// else if (ft_strcmp(cmd[0], "unset") == 0)
 	// 	ft_export(elements->env, cmd);
 	// else if (ft_strcmp(cmd[0], "env") == 0)

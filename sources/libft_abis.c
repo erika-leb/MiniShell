@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:19:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:37:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,51 +37,52 @@ char	*ft_strdup_(char const *str, t_gc *gc)
 
 char *ft_strncpy(char *dest, const char *src, size_t n)
 {
-    size_t i;
+	size_t i;
 
-    i = -1;
-    while (src[++i] && i < n)
-        dest[i] = src[i];
-    while (i++ < n)
-        dest[i] = '\0';
-    return dest;
+	i = -1;
+	while (src[++i] && i < n)
+		dest[i] = src[i];
+	while (i++ < n)
+		dest[i] = '\0';
+	return dest;
 }
 
 char *ft_strcat(char *dst, const char *src)
 {
-    size_t dstlen;
-    size_t i;
+	size_t dstlen;
+	size_t i;
 
-    dstlen = ft_strlen(dst);
-    i = 0;
-    while (src[i])
-    {
-        dst[dstlen + i] = src[i];
-        i++;
-    }
-    dst[dstlen + i] = '\0';
-    return (dst);
+	dstlen = ft_strlen(dst);
+	i = 0;
+	while (src[i])
+	{
+		dst[dstlen + i] = src[i];
+		i++;
+	}
+	dst[dstlen + i] = '\0';
+	return (dst);
 }
 
-// char	*ft_strjoin_(char *str1, char *str2, t_gc *gc)
-// {
-// 	size_t	len_str1;
-// 	size_t	len_str2;
-// 	size_t	i;
-// 	size_t	j;
-// 	char	*str;
+char	*ft_strjoin_(char *str1, char *str2, t_gc *gc)
+{
+	size_t	len_str1;
+	size_t	len_str2;
+	size_t	i;
+	size_t	j;
+	char	*str;
 
-// 	len_str1 = ft_strlen(str1);
-// 	len_str2 = ft_strlen(str2);
-// 	i = -1;
-// 	j = -1;
-// 	str = gc_calloc(len_str1 + len_str2 + 1, sizeof(char), gc);
-// 	while (++i < len_str1)
-// 		str[i] = str1[i];
-// 	while (++j < len_str2)
-// 		str[i + j] = str2[j];
-// 	str[i + j] = '\0';
-// 	//str1 estfree car heap. Dans nouvelle version il se peut que str2 soit aussi de la heap
-// 	//gc_remove(gc, str1);
-// 	return (free(str1), str);
-// }
+	len_str1 = ft_strlen(str1);
+	len_str2 = ft_strlen(str2);
+	i = -1;
+	j = -1;
+	str = gc_calloc(len_str1 + len_str2 + 1, sizeof(char), gc);
+	while (++i < len_str1)
+		str[i] = str1[i];
+	while (++j < len_str2)
+		str[i + j] = str2[j];
+	str[i + j] = '\0';
+	//str1 estfree car heap. Dans nouvelle version il se peut que str2 soit aussi de la heap
+	gc_remove(gc, str1);
+	// gc_remove(gc, str2);
+	return (str);
+}

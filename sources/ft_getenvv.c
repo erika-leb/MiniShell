@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getenvv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 13:35:30 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/11 14:26:57 by aisidore         ###   ########.fr       */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:20:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static size_t	ft_countt(int nb)
 {
@@ -34,7 +35,7 @@ static size_t	ft_countt(int nb)
 	return (size);
 }
 
-static char	*ft_itoa(int nb)
+static char	*ft_itoa(int nb, t_gc *gc)
 {
 	char			*str;
 	int				i;
@@ -43,7 +44,8 @@ static char	*ft_itoa(int nb)
 
 	size = ft_countt(nb);
 	i = size - 1;
-	str = ft_calloc(size + 1, sizeof(char));//a supprimer dans le garbage collector ?
+	str = gc_calloc(size + 1, sizeof(char), gc);
+	//str = ft_calloc(size + 1, sizeof(char));//a supprimer dans le garbage collector ?
 	if (str == NULL)
 		return (NULL);
 	if (nb == 0)
@@ -78,7 +80,7 @@ static char	*ft_itoa(int nb)
 // 	return("0");
 // }
 
-char	*ft_getenvv(char *result, int *k, char *tmp)
+char	*ft_getenvv(char *result, int *k, char *tmp, t_gc *gc)
 {
     int i;
 
@@ -97,7 +99,7 @@ char	*ft_getenvv(char *result, int *k, char *tmp)
 	}
     tmp[i] = '\0';
 	if (!ft_strcmp(tmp, "?"))
-		return (ft_itoa(errno));//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
+		return (ft_itoa(errno, gc));//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
 	//pour que chaque enfant puisse modifier sa valeur. Puis y faire appel dans getenvv pour choper la derniere valeur prise
     return (getenv(tmp));
 }

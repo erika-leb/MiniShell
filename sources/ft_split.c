@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 14:39:05 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/13 11:15:51 by aisidore         ###   ########.fr       */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:20:52 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static void	ft_init(size_t *i, size_t *j, int *fidx)
 {
@@ -27,7 +28,7 @@ static void	ft_modifquote(char const *str, int *sq, int *dq, size_t *i)
 		*dq = !(*dq);
 }
 
-char	**ft_split(char const *str, int sq, int dq)
+char	**ft_split(char const *str, int sq, int dq, t_gc *gc)
 {
 	char	**tab;
 	size_t	i;
@@ -35,9 +36,7 @@ char	**ft_split(char const *str, int sq, int dq)
 	int		fidx;
 
 	ft_init(&i, &j, &fidx);
-	tab = ft_calloc(ft_count(str, ' ') + 1, sizeof(char *));
-	if (tab == NULL)
-		return (NULL);
+	tab = gc_malloc((ft_count(str, ' ') + 1) * sizeof(char *), gc);
 	while (i <= ft_strlen(str))
 	{
 		ft_modifquote(str, &sq, &dq, &i);
@@ -46,12 +45,12 @@ char	**ft_split(char const *str, int sq, int dq)
 		else if (((str[i] == ' ' && !sq && !dq)
 				|| i == ft_strlen(str)) && fidx >= 0)
 		{
-			tab[j] = ft_eachword(str, fidx, i);
-			if (tab[j++] == NULL)
-				return (ft_freesplit(tab, j - 1));
+			tab[j] = ft_eachword(str, fidx, i, gc);
+			j++;
 			fidx = -1;
 		}
 		i++;
 	}
+	tab[j] = NULL;
 	return (tab);
 }

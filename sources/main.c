@@ -6,78 +6,77 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/18 17:08:12 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:17:29 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
-void	handle_sigint(int sig)
-{
-	(void) sig;
-	write(1, "\nminishell> ", 12);
-}
 
-void	ft_welcome(void)
-{
-	printf("\n");
-	printf(COLOR_CYAN "******************************\n" COLOR_RESET);
-	printf(COLOR_MAGENTA "*  " COLOR_YELLOW "Bienvenue dans Minishell" COLOR_MAGENTA "  *\n" COLOR_RESET);
-	printf(COLOR_CYAN "******************************\n" COLOR_RESET);
-	printf("\n");
-}
 
-void	ft_signal_handle(char *line)
-{
-	struct sigaction	sa;
-	struct sigaction	sa_bis;
+ int	main(int ac, char **av, char **env)
+ {
+	t_element	*elements;
+	t_gc		gc;
 
-	sa.sa_handler = &handle_sigint;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		free(line);
-		perror("sigaction");
-		exit(1);
-	}
-	sa_bis.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &sa_bis, NULL) == -1)
-	{
-		free(line);
-		perror("sigaction");
-		exit(1);
-	}
-}
-
-int	main(void)
-{
-	char	*line;
-	char	**result;
-	int		i = 0;
-	
-	line = NULL;
-	result = NULL;
-	ft_signal_handle(line);
-	ft_welcome();
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (line == NULL)
+	((void)ac, (void)av);
+	gc_init(&gc);
+	elements = ft_init_struct(&gc);
+ 	ft_signal_handle(&gc);
+ 	ft_welcome();
+	ft_cpy_env(elements, env, &gc);
+ 	while (1)
+ 	{
+		elements->lst = NULL;
+ 		elements->line = readline("minishell> ");
+ 		if (elements->line == NULL)
+			(gc_cleanup(&gc), exit(EXIT_SUCCESS));
+ 		if (elements->line && *(elements->line))
+ 			add_history(elements->line);
+		ft_ft(elements, &gc);
+		if (elements->arr)
 		{
-			free(line);
-			printf("exit\n");
-			return (0); // rajouter le clean
+			//lexing(elements, &gc);
+			lexing(elements->arr, &elements->lst, elements, &gc);
+			//perror("kikoulol");
+			ft_fill_arrays(elements, &gc);
+			//perror("bolosskikou");
+			pipe_creation(elements, &gc);
+			//perror("boloss");
+			//check_fds("parent au debut");
+			child_creation(elements, &gc);
+			//perror("bolosskikou");
+			close_pipes(elements);
+			//perror("kikoulol");
+			wait_for_children(elements);
+			//perror("test3");
+			if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
+				unlink(".here"); //peut on le supprimer si on a pas les droits ?
+			//check_fds("parent a la fin");
 		}
-		if (ft_strcmp(line, "exit") == 0)
-		{
-			free(line);
-			printf("exit\n");
-			return (0); // rajouter le clean
-		}
-		if (line && *line)
-			add_history(line);
-		ft_ft(line, result);
-		free(line);
-		ft_freesplit(result, i);//??
-	}
-	return (0);
-}
+ 	}
+	//ft_error_exit("", 0, NO_PERROR);
+	gc_cleanup(&gc); // utile ?
+	exit(EXIT_SUCCESS); // utile ?
+ 	return (0);
+ }
+
+// int	main(int ac, char **av)
+// {
+// 	char	**result;
+// 	int		i;
+// 	(void) ac;
+
+// 	result = ft_split(ft_tokenize(av[1]), av[2][0], 0, 0);
+// 	if (result == NULL)
+// 		return (printf("Erreur : ft_split a renvoyé NULL\n"));
+// 	i = 0;
+// 	while (result[i])
+// 	{
+// 		printf("token %d : %s\n", i, result[i]);
+// 		i++;
+// 	}
+// 	ft_freesplit(result, i);
+// 	return (0);
+// }

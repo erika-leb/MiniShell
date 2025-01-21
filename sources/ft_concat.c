@@ -1,15 +1,33 @@
-#include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_concat.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:20:20 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//NB : les /n sont affiches par bash quand y'a une erreur
-//Le user ne peut pas entrer de \n car c'est unclosed quote
+#include "../minishell.h"
+#include "../gc/gc.h"
 
 static char	*ft_retmerge(char *result_i, int is_concat)
 {
-	//Erika : \n< veut dire qu'on prend la valeur litterale de <.
+	//Erika : '\n<' veut dire qu'on prend la valeur litterale de <.
 	// '<' veut dire qu'on prend '<' tout simplement.
 	if (is_concat && ft_istok_(result_i))
+	{
+		//ft_insert(result_i, 0, '\n');
+		//Taille memoire trop petitede1 byte. Je devrais remalloc la chaine '<'
+		//pour passer de 3 bytes a 4 bytes ('\n<') mais flemme.
+		// ft_insert(ft_insert(result_i, 0, '\''), ft_strlen(result_i), '\'');
+
+		//AUTRE SOLUTION :
 		ft_insert(result_i, 0, '\n');
-	//printf("%zu\n", ft_strlen(result_i));//Verifie que les tokens nuls sont bien crees
+
+	}
 	return (result_i);
 }
 

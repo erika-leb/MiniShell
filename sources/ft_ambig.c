@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ambig.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:31:31 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static int	ft_moredoll(char *str, int i, int sq, int dq)
 {
 	//< $u$j : apres j il n'y a plus rien. Or cela provoquait un comportement indesirable
 	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
 	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
-	if (str[0] && !str[1])
-		return (1);
+	if (!str[1])
+		return (1);//GERER LE CONDITIONAL JUMP ON UNITIALIZED VALUE
 	while (str[i])
 	{
 		ft_modifquote_(str, &sq, &dq, &i);
@@ -42,7 +55,7 @@ static void	ft_initambig(char *result_k, char *name, int *m)
 	*m = 0;
 }
 
-void	ft_ambig(char *result_k, int *k)
+void	ft_ambig(char *result_k, int *k, t_gc *gc)
 {
 	//on cherche getenv et on regarde si ambiguous redirect.
 	//si pas d'ambiguous on laisse ifexpand faire son travail.
@@ -61,7 +74,7 @@ void	ft_ambig(char *result_k, int *k)
 		//que ce qui vient apres c'est un alnum et on lance ft_getenvv
 		if (name[m] == '$' && (*(name + m + 1) == '_'
 			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
-			envv = ft_getenvv(name + 1, &m, tmp);//ft_getenvv ne va pas incrementer m
+			envv = ft_getenvv(name + 1, &m, tmp, gc);//ft_getenvv ne va pas incrementer m
 		while (name[m] != '$' && (*(name + m) == '_'
 				|| ft_isalnum(*(name + m)) || *(name + m) == '?'))
 			m++;

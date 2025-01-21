@@ -1,3 +1,12 @@
+//Difference entre un directory et une chaine random pour >
+
+ls $HOME>> cava 	insere le resultat de ls dans le fichier cava
+ls TODO>> cava 		insere "TODO" (str random) dans le fichier cava
+ls $hello>> cava 	insere hello=TODO (str random) dans le fichier cava 
+
+CONCLUSION : le directory est integre dans ls je pense. Ensuite ca recupere
+le dernier truc (resultat ls) et ca l'integre dans cava
+
 A CHECKER :
 - gestion des signaux dans le heredoc (que pasa si on fait ctrl+c et ctrl+d)
 - ATTENTION si le delimiteur comporte des quote alors les variables d'environnement ne s'expand pas,

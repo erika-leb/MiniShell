@@ -1,8 +1,19 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ifexpand.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/20 18:24:19 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../gc/gc.h"
 
-static void	ft_expand(char *result, int *k)
+static void	ft_expand(char *result, int *k, t_gc *gc)
 {
 	char	tmp[20000];
 	char	*envv;
@@ -10,7 +21,7 @@ static void	ft_expand(char *result, int *k)
 	int		start;
 
 	start = *k;
-    envv = ft_getenvv(result, k, tmp);//si y'a des quotes alors j'expand pas et envv prend la valeur de $\n\t ...
+    envv = ft_getenvv(result, k, tmp, gc);//si y'a des quotes alors j'expand pas et envv prend la valeur de $\n\t ...
     if (!envv)
         return (ft_erase_substr(result, k, tmp));
 	//Si envv est full et contient des quotes alors on n'expand pas et on
@@ -19,10 +30,9 @@ static void	ft_expand(char *result, int *k)
     i = 0;
 	while (tmp[i])
  	{
-		//Dans result je copie/colle le debut de envv sur les caracteres de tmp
 		if (envv[i] && result[*k] == tmp[i])
 			result[*k] = envv[i];
-		(*k)++;//On ecrase le nom de la var env
+		(*k)++;
 		i++;
  	}
 	while (envv[i])
@@ -31,8 +41,7 @@ static void	ft_expand(char *result, int *k)
 		(*k)++;
 		i++;
 	}
-	(*k)--;//permet de se retrouver sur le dernier caractere de la variable expand (le 'n' de hello/tuvabien)
-	//Comme ca dans ft_isexpand on peut regarder le terme d'apres (qui peut etre un $)
+	(*k)--;
 }
 
 static void	ft_delim(char *result, int *k, int sq, int dq)
@@ -40,12 +49,9 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 	*k += 2;
 	while (result[*k] == ' ')
 		(*k)++;
-	//si le 1er caractere du delim est une quote alors on avance jusqu'a revoir la meme quote suivie d'un espace
-	//sinon on avance jusqu'a voir un espace
 	ft_modifquote_(result, &sq, &dq, k);
 	if (sq)
 	{
-		//sq est important car les var d'env inexistantes comme "  $HELLO" doivent apparaitre tel quel
 		(*k)++;
 		while (result[*k] && !(result[*k] == '\''
 				&& result[*k + 1] == ' '))
@@ -80,7 +86,7 @@ static void	ft_incrk(char *result, int *k)
 //des checkers pour savoir si la var contient des espaces et/ou des quotes et ainsi expand ou non.
 //Par ex si t'as var contient des espaces (pas sq ni dq) et qu'elle n'est pas apres une redir alors
 //on peut expand sans se poser de questions.
-char	*ft_ifexpand(char *result, int sq, int dq)
+char	*ft_ifexpand(char *result, int sq, int dq, t_gc *gc)
 {
 	int	k;
 
@@ -106,13 +112,13 @@ char	*ft_ifexpand(char *result, int sq, int dq)
 			ft_modifquote_(result, &sq, &dq, &k);//soit on est sur une quote soit on est sur autre chose
 			//si on est sur une quote on change juste la valeur de sq et dq et on laisse ifexpand faire son travail
 			if (!sq && !dq)
-				ft_ambig(result + k, &k);
+				ft_ambig(result + k, &k, gc);
 		}
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
 		if (result[k] == '$' && !sq && (result[k + 1] == '_'
 			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
-			ft_expand(ft_erase(result, k), &k);//ft_erase(result, k);//k n'est pas incremente, j'envoie qu'une copie.
+			ft_expand(ft_erase(result, k), &k, gc);//ft_erase(result, k);//k n'est pas incremente, j'envoie qu'une copie.
 		k++;
 	}
 	result[k] = '\0';

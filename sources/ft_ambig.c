@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:31:31 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:39:03 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_moredoll(char *str, int i, int sq, int dq)
 	//< $u$j : apres j il n'y a plus rien. Or cela provoquait un comportement indesirable
 	//car ma fonction ft_moredoll indiquait (a raison) qu'il n'y avait plus de $ apres j,
 	//cela entrainait un break et m'empechait de rentrer dans le if (!envv && !name[m]).
-	if (!str[1])
+	if (str[0] && !str[1])
 		return (1);//GERER LE CONDITIONAL JUMP ON UNITIALIZED VALUE
 	while (str[i])
 	{

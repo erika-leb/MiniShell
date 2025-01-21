@@ -6,14 +6,15 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/18 15:28:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:07:46 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 int	ft_open_heredoc(char *del)
-{
+{//Si le delim ne possede pas de quotes alors expand les potentiels var d'env
+	//avec la fonction d'adri a faire aussi dans la fonction pluys bas
 	int		fd;
 	char	*lign; //a mettre dans
 

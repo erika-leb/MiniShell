@@ -34,9 +34,23 @@ elements->arr pour ouvrir les here doc. Et quand le user les a referme elle ne l
 Quand Erika recupere les redirections il faudra qu'elle check si le nom de la redirection commence
 par $\n. Si oui alors elle ouvre les potentiels heredoc et quand le user les a ferme
 elle affiche le message"bash: [nom] ambiguous redirect" et elle
-ne lance aucune commande
+ne lance pas la commande concernee
+on ne comprends le fonctionnement de ces commandes :
+bash-5.1$ ls | ls < $a | cat
+bash: $a: ambiguous redirect
+bash-5.1$ cat | ls < $a | ls
+bash: $a: ambiguous redirect
+ a	 gc	    minishell	       objets	       tips
+ a.out	 l	    minishell.h        readline.supp   TODO
+"'ca"	 Makefile   minishell_tester   sources	       ujygj
+c
 
-Adri doit gerer le Unitialized value dans ft_moredoll.
+
+
+ce cas la est mal gere : << here | ls
+
+
+Adri doit gerer le Uninitialized value dans ft_moredoll.
 
 pour la correction :
 ./minishell | ./minishell ne marche pas car bash | bash ne marche pas
@@ -52,8 +66,5 @@ d'utiliser ce mot (comme shell peut le faire pour if elif ...)
 
 echo "cat lol.c | cat > lol.c"
 
-
-echo hello | cat il y a un bad file descriptor
-ls | echo hello
 
 

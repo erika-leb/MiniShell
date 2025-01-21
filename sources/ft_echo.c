@@ -11,6 +11,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+//mettre a la norme
+
 #include "../minishell.h"
 #include "../gc/gc.h"
 
@@ -39,33 +41,44 @@ static void	ft_fill_buf(int *i, int *k, char **cmd, char *buf)
 	(*i)++;
 }
 
-void	ft_echo(char **cmd)
+void	ft_echo(char **cmd, t_gc *gc)
 {
 	int i;
-	//int j;
 	int k;
 	int n;
+	int	f;
 	char buf[70000];
 
 	i = 1;
 	k = 0;
 	n = 0;
+	f = 0;
 	if (!cmd[1])
 	{
 		write(1, "\n", 1);
-		return ;
+		(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 	}
 	if (ft_is_option(cmd[i]) == TRUE)
 		n = 1;
 	while (cmd[i] && ft_is_option(cmd[i]) == TRUE)
 		i++;
+	//Expand les var d'env avec la fonction d'adri
 	while (cmd[i])
+	{
+		if (f == 1)
+			buf[k++] = ' ';
 		ft_fill_buf(&i, &k, cmd, buf);
+		f = 1;
+	}
 	if (n == 0)
 		buf[k++] = '\n';
-	write(1, buf, k); //a verifier le 1
-	if (errno == ENOSPC) // a veririfer a la fin
-		perror("echo: write error: No space left on device");
+	f = write(1, buf, k); //a verifier le 1
+	if (f == -1) // a veririfer a la fin
+	{
+		perror("minishell: echo: write error");
+		(gc_cleanup(gc), free_std(), exit(1));
+	}
+	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 }
 
 // int main() {

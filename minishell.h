@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:00:53 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 13:55:45 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,26 @@
 //# include <asm/signal.h> //pour eviter le rouge sa chez Erika
 # include "gc.h"
 
-#define CRESET		"\x1b[0m"
-#define CRED		"\x1b[31m"
-#define CGREEN		"\x1b[32m"
-#define CYELLOW		"\x1b[33m"
-#define CBLUE		"\x1b[34m"
-#define CMAGENTA	"\x1b[35m"
-#define CCYAN		"\x1b[36m"
+# define CRESET		"\x1b[0m"
+# define CRED		"\x1b[31m"
+# define CGREEN		"\x1b[32m"
+# define CYELLOW		"\x1b[33m"
+# define CBLUE		"\x1b[34m"
+# define CMAGENTA	"\x1b[35m"
+# define CCYAN		"\x1b[36m"
 
-#define UN_DOLLAR	"minishell: syntax error near unexpected token `$'\n"
-#define UN_PIPE		"minishell: syntax error near unexpected token `|'\n"
-#define UN_TOKEN	"minishell: syntax error near unexpected token `%s'\n"
-#define UN_NLINE	"minishell: syntax error near unexpected token `newline'\n"
+# define UN_DOLLAR	"minishell: syntax error near unexpected token `$'\n"
+# define UN_PIPE		"minishell: syntax error near unexpected token `|'\n"
+# define UN_TOKEN	"minishell: syntax error near unexpected token `%s'\n"
+# define UN_NLINE	"minishell: syntax error near unexpected token `newline'\n"
 
-# define 	INPUT	1
-# define	HEREDOC	2
-# define 	TRUNC	3
-# define 	APPEND	4
-# define	PIPE	5
-# define	CMD		6
-# define 	ARG		7
+# define 	INPUT		1
+# define	HEREDOC		2
+# define 	TRUNC		3
+# define 	APPEND		4
+# define	PIPE		5
+# define	CMD			6
+# define 	ARG			7
 
 # define	PERROR		101
 # define	NO_PERROR	102
@@ -119,7 +119,7 @@ char	**ft_split(char const *str, int sq, int dq, t_gc *gc);
 int ft_exit(t_built *built, t_gc *gc);
 
 //ft_echo.c
-void	ft_echo(char **cmd);
+void	ft_echo(char **cmd, t_gc *gc);
 
 //ft_split_utils.c
 size_t	ft_count(const char *str, const char sep);

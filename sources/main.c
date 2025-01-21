@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:06:31 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:46:12 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 		ft_ft(elements, &gc);
 		if (elements->arr)
 		{
-			perror("test2");
+			//perror("test2");
 			//lexing(elements, &gc);
 			lexing(elements->arr, &elements->lst, elements, &gc);
 			//perror("kikoulol");

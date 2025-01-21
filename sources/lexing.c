@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/20 16:57:56 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:04:28 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,22 @@ void print_cmd_list(t_cmd *cmd_list)
     }
 }
 
+void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
+{
+	int	i;
+	int	p_max;
+
+	i = 0;
+	elements->child_to_wait = 0;
+	p_max = fonction_adrien;
+	while (i < p_max - 1) //stric ou pas ?
+	{
+		if (ft_strcmp(tab[i], "<<") == 0)
+			ft_open_heredoc_error(tab[i + 1]);
+		i++;
+	}
+}
+
 void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc) //ajouter les qutres elements
 {
 	int	i;
@@ -191,7 +207,10 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc) //ajouter le
 	// print_cmd_list(*lst);
 
 	//perror("test");
-	handle_redir(lst, elements, gc);
+	if (ft_strcmp(tab[0], "\n") == 0)
+		hedge_case_1(tab, elements, gc);
+	else
+		handle_redir(lst, elements, gc);
 
 	// printf("\n APRES OUVERTURE \n\n");
 	// print_cmd_list(*lst);

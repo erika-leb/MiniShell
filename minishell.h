@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 16:34:28 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:46:09 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,13 @@ typedef struct	s_var
 	int	j;
 	int	k;
 }	t_var;
+
+typedef struct s_env
+{
+	char         *name;
+	char         *key;
+	struct s_env *next;
+}   t_env;
 
 //parsing.c
 void	ft_deldollar(char *input);
@@ -233,32 +240,24 @@ void	exec_command(t_element *elements, t_gc *gc, int i);
 char	**ft_ltoa(t_env *head, t_gc *gc);
 void    ft_freetab(char **array);
 int     ft_exparser(char *name_key);
-void    ft_env(char **array, char **cmds);
+void    ft_env(char **array, char **cmds, t_gc *gc);
 
 //ft_export.c
-typedef struct s_env
-{
-	char         *name;
-	char         *key;
-	struct s_env *next;
-}   t_env;
+
 void ft_printexport(const t_env *head);
-void ft_freelexport(t_env *head);
+// void ft_freelexport(t_env *head);
 void ft_adder(t_env **head, char *str, t_gc *gc);
-char **ft_export(char **env, char **argv, t_gc *gc);
+char **ft_export(t_element *element, char **argv, t_gc *gc);
 
 //ft_export_utils.c
-t_env    *ft_envnode(char *name, const char *key, t_gc *gc);
+t_env    *ft_envnode(char *name, char *key, t_gc *gc);
 t_env    *ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc);
 char     *ft_cut(const char *src, char delim, int is_end, t_gc *gc);
 void     ft_swapnodes(t_env *node1, t_env *node2);
 void     ft_bbsort(t_env *head);
 
 //ft_unset.c
-void ft_unset(char **env, char **argv);
-
-
-
+void	ft_unset(t_element *element, char **argv, t_gc *gc);
 
 
 

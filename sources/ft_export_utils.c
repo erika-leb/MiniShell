@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/21 17:47:05 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 //Si dans l'argument d'export y'a pas de = alors key == NULL quand je cree la variable
-t_env *ft_envnode(char *name, const char *key, t_gc *gc)
+t_env *ft_envnode(char *name, char *key, t_gc *gc)
 {
 	t_env *new_node;
 
@@ -9,17 +22,17 @@ t_env *ft_envnode(char *name, const char *key, t_gc *gc)
 	new_node = gc_malloc(sizeof(t_env *), gc);
 	new_node->name = ft_strdup_(name, gc);
 	if (key)
+	{
+		printf("COUCOUUUUUUUUUU        %s\n\n\n\n", key);
 		new_node->key = ft_strdup_(key, gc);
+		//gc_remove(gc, key);
+	}
 	else
 		new_node->key = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-// Fonction pour ajouter un nœud à la fin de la liste
-//Autrement dit : on cherche s'il n'existe pas deja une var d'env nommée adder[0] avec strcmp. Si oui, alors on remplace sa clé
-//par la nouvelle clé (sauf si elle est NULL). Si la var d'env n'existe pas on l'ajoute a envv (on ecrase envv et on remalloc
-//une liste mise a jour).
 t_env *ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc)
 {
 	t_env *current;

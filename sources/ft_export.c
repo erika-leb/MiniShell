@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/21 17:52:57 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+#include "../gc/gc.h"
+
 //static
 void ft_printexport(const t_env *head)
 {
@@ -31,12 +45,12 @@ void ft_printexport(const t_env *head)
 //static
 void ft_adder(t_env **head, char *str, t_gc *gc)
 {
-    char  **adder;
+	char  **adder;
 
 	adder = gc_calloc(2 + 1, sizeof(char *), gc);//gc_cleaner
-    adder[0] = ft_cut(str, '=', 0, gc);//dans l'exportation je concatene/expand deja bien.
-    adder[1] = ft_cut(str, '=', 1, gc);
-    *head = ft_addenvnode(*head, adder[0], adder[1], gc);
+	adder[0] = ft_cut(str, '=', 0, gc);//dans l'exportation je concatene/expand deja bien.
+	adder[1] = ft_cut(str, '=', 1, gc);
+	*head = ft_addenvnode(*head, adder[0], adder[1], gc);
 	gc_remove(gc, adder[0]);//useless
 	gc_remove(gc, adder[1]);//useless
 	gc_remove(gc, adder);//useless aussi I guess
@@ -50,7 +64,7 @@ void ft_adder(t_env **head, char *str, t_gc *gc)
 
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
-char **ft_export(char **env, char **argv, t_gc *gc)
+char **ft_export(t_element *element, char **argv, t_gc *gc)
 {
 	// Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
 	t_env *head;
@@ -59,8 +73,8 @@ char **ft_export(char **env, char **argv, t_gc *gc)
 
 	head = NULL;
 	i = -1;
-	while (env[++i])
-		ft_adder(&head, env[i], gc);
+	while (element->env[++i])
+		ft_adder(&head, element->env[i], gc);
 	if (!argv[1])
 		return (ft_bbsort(head), ft_printexport(head), gc_remove(gc, head), NULL);
 	if (argv[1][0] == '-')
@@ -81,7 +95,9 @@ char **ft_export(char **env, char **argv, t_gc *gc)
 	//(ca n'apparait pas dans bash --posix) ??
 	//Sur ?? Car ca apparait dans bash --posix
 
-	gc_remove(gc, env);
-	env = adder;
-	return (adder);
+	//Pas sur que ca remplace correctement env
+	//(checker en modifiant &env)
+	gc_remove(gc, element->env);
+	element->env = adder;
+	return (adder);//a tej plus tard
 }

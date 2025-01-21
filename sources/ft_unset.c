@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/21 17:35:06 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 //Demander quels sont les pieges a eviter
 
@@ -14,71 +27,68 @@
 
 //tranformer env en liste chainee. remove le noeud name (si y'en a pas on fait rien). je retransforme en envv et je remplace l'ancien env.
 
-static int     ft_initunset(t_env **ptr_head, char **env, char **argv)
+static int     ft_initunset(t_env **ptr_head, char **env, char **argv, t_gc *gc)
 {
-    int i;
+	int i;
 
-    if (!argv[1])
-        return (1);
-    *ptr_head = NULL;
-    i = -1;
-    while (env[++i])
-        ft_adder(ptr_head, env[i]);
-    return (0);
+	if (!argv[1])
+		return (1);
+	*ptr_head = NULL;
+	i = -1;
+	while (env[++i])
+		ft_adder(ptr_head, env[i], gc);
+	return (0);
 }
 
-static void ft_freeun(t_env **current, t_env **previous, t_env **head)
+static void ft_freeun(t_env **current, t_env **previous, t_env **head, t_gc *gc)
 {
-    t_env *temp;
+	t_env *temp;
 
-    temp = *current;
-    if (*previous)
-        (*previous)->next = (*current)->next;
-    else
-        *head = (*current)->next;
-    *current = (*current)->next;
-    free(temp->name);
-    free(temp->key);
-    free(temp);
+	temp = *current;
+	if (*previous)
+		(*previous)->next = (*current)->next;
+	else
+		*head = (*current)->next;
+	*current = (*current)->next;
+	gc_remove(gc, temp->name);
+	gc_remove(gc, temp->key);
+	gc_remove(gc, temp);
 }
 
-void ft_unset(char **env, char **argv)
+void ft_unset(t_element *element, char **argv, t_gc *gc)
 {
-    t_env   *head;
-    t_env   *current;
-    t_env   *previous;
-    int     i;
+	t_env   *head;
+	t_env   *current;
+	t_env   *previous;
+	int     i;
+	char	**adder;
 
-    if (ft_initunset(&head, env, argv))
-        return ;
-    i = 1; // On commence à cmd[1]
-    while (argv[i])
-    {
-        current = head;
-        previous = NULL;
-        while (current)
-        {
-            if (strcmp(current->name, argv[i]) == 0)
-                ft_freeun(&current, &previous, &head);
-            else
-            {
-                previous = current;
-                current = current->next;
-            }
-        }
-        i++;
-    }
-    //a la fin on modifie env et on free l'ancienne version !!!!!!!
-    //ft_unset peut retourner un char **array comme ca dans ft_builtin on fera juste env = ft_unset
-    ft_printexport(head);
-    ft_freelexport(head);
+	if (ft_initunset(&head, element->env, argv, gc))
+		return ;
+	i = 1; // On commence à cmd[1]
+	while (argv[i])
+	{
+		current = head;
+		previous = NULL;
+		while (current)
+		{
+			if (strcmp(current->name, argv[i]) == 0)
+				ft_freeun(&current, &previous, &head, gc);
+			else
+			{
+				previous = current;
+				current = current->next;
+			}
+		}
+		i++;
+	}
+	//a la fin on modifie env et on free l'ancienne version !!!!!!!
+	//ft_unset peut retourner un char **array comme ca dans ft_builtin on fera juste env = ft_unset
+	// ft_printexport(head);
+
+
+	adder = ft_ltoa(head, gc);
+	gc_remove(gc, head);
+	gc_remove(gc, element->env);
+	element->env = adder;
 }
-
-
-//gcc -o ft_unset sources/env_manager.c sources/ft_tokenize.c sources/parsing.c sources/ft_concat.c sources/str_manager.c sources/libft_a.c sources/libft_abis.c sources/ft_export_utils.c sources/ft_split_utils.c sources/ft_split.c sources/ft_ambig.c sources/ft_getenvv.c sources/ft_ifexpand.c sources/ft_export.c sources/ft_unset.c
-//valgrind --leak-check=full ./ft_unset HOME
-// int main(int argc, char *argv[], char *env[])
-// {
-//     ft_unset(env, argv);
-//     return 0;
-// }

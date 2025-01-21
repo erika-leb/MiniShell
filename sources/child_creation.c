@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/21 15:55:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:33:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,7 @@ int		is_built_in(char *cmd)
 {
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (TRUE);
-	else if (ft_strcmp(cmd, "echo") == 0)
+	if (ft_strcmp(cmd, "echo") == 0)
 		return (TRUE);
 	else if (ft_strcmp(cmd, "export") == 0)
 		return (TRUE);
@@ -342,10 +342,10 @@ int		is_built_in(char *cmd)
 	// 	return (TRUE);
 	// else if (ft_strcmp(cmd, "pwd") == 0)
 	// 	return (TRUE);
-	// else if (ft_strcmp(cmd, "unset") == 0)
-	// 	return (TRUE);
-	// else if (ft_strcmp(cmd, "env") == 0)
-	// 	return (TRUE);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		return (TRUE);
+	else if (ft_strcmp(cmd, "env") == 0)
+		return (TRUE);
 	else
 		return (FALSE);
 }
@@ -361,16 +361,18 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 	built->elements = elements;
 	if (ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(built, gc);
-	else if (ft_strcmp(cmd[0], "echo") == 0)
+	if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_echo(cmd, gc);
 	else if (ft_strcmp(cmd[0], "export") == 0)
-	 	ft_export(elements->env, cmd, gc);
+	 	ft_export(elements, cmd, gc);
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		ft_env(elements->env, cmd, gc);
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		ft_unset(elements, cmd, gc);
 	// else if (ft_strcmp(cmd[0], "cd") == 0)
 
 	// else if (ft_strcmp(cmd[0], "pwd") == 0)
-	// else if (ft_strcmp(cmd[0], "unset") == 0)
-	// 	ft_export(elements->env, cmd);
-	// else if (ft_strcmp(cmd[0], "env") == 0)
+	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 }
 
 void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NULL (mais on a des redir)

@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_manager.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
+/*   Updated: 2025/01/21 17:37:17 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+#include "../gc/gc.h"
 
 static t_env *ft_filltoa(char **array, t_env *current, size_t i, t_gc *gc)
 {
@@ -43,7 +56,7 @@ char **ft_ltoa(t_env *head, t_gc *gc)
 		current = ft_filltoa(array, current, i++, gc);
 	return (array);
 }
-
+//Je l'utilise plus je crois
 void ft_freetab(char **array)
 {
     int j;
@@ -61,7 +74,7 @@ int   ft_exparser(char *name_key)
 {
     int i;
 
-    //ft_write de Erika
+    //ft_write de Erika a ajouter
     if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
         return (printf("export: FIRST LETTER not a valid identifier\n"));
     i = 0;//on check a partir du 2eme caractere c'est pourquoi on met i = 0.
@@ -95,9 +108,10 @@ static char	*ft_strchr(char const *str, int c)
 	return (NULL);
 }
 
-void ft_env(char **array, char **cmds)
+void ft_env(char **array, char **cmds, t_gc *gc)
 {
     int i;
+	(void)gc;
 
     if (cmds && cmds[1])//cmds && servait juste a le tester dans mon main
     {//parsing. cmds[0] = env     cmds[1...] = le reste ...

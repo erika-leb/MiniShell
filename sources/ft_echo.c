@@ -11,7 +11,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//mettre a la norme
+//mettre a la norme et demander a adri ce qu'il a fait pour $?
 
 #include "../minishell.h"
 #include "../gc/gc.h"

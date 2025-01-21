@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/21 14:04:28 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:19:41 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,37 @@ void print_cmd_list(t_cmd *cmd_list)
     }
 }
 
-void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
+int	ft_istok_2(char *av2)
+{
+	if (!ft_strcmp(av2, "<") || !ft_strcmp(av2, ">")
+		|| !ft_strcmp(av2, "<<") || !ft_strcmp(av2, ">>"))
+		return (1);
+	return (0);
+}
+
+void	hedge_case_1(char **tab, t_element *elements)
 {
 	int	i;
 	int	p_max;
 
 	i = 0;
 	elements->child_to_wait = 0;
-	p_max = fonction_adrien;
+	p_max = 0;
+	while (1)
+	{
+		if (!ft_strcmp(tab[p_max], "|")
+			&& tab[p_max + 1] && !ft_strcmp(tab[p_max + 1], "|"))
+			break ;
+		if (tab[p_max] && ft_istok_(tab[p_max]) && tab[p_max + 1]
+			&& ft_istok_(tab[p_max + 1]))
+			break ;
+		if (tab[p_max] && ft_istok_(tab[p_max]) && tab[p_max + 1]
+			&& !ft_strcmp(tab[p_max + 1], "|"))
+			break ;
+		if (ft_istok_(tab[p_max]) && !tab[p_max + 1])
+			break;
+		p_max++;
+	}
 	while (i < p_max - 1) //stric ou pas ?
 	{
 		if (ft_strcmp(tab[i], "<<") == 0)
@@ -207,8 +230,8 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc) //ajouter le
 	// print_cmd_list(*lst);
 
 	//perror("test");
-	if (ft_strcmp(tab[0], "\n") == 0)
-		hedge_case_1(tab, elements, gc);
+	if (tab && tab[0] && ft_strcmp(tab[0], "\n") == 0)
+		hedge_case_1(tab, elements);
 	else
 		handle_redir(lst, elements, gc);
 

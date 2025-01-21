@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:48:02 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:59:08 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static int	ft_unexptoken(char **result)
 {
 	int	i;
 
-	//JE COMPREND RIEN:
-	//\0 est un unexpected token
 	if (!(*result))
 		return (1);//Sinon ecrire juste $a (qui ne correspond a rien) provoquait un segfault a cause de ft_strcmp
 	if (!ft_strcmp(result[0], "|"))
@@ -93,11 +91,35 @@ void	ft_deldollar(char *input)
 	}
 }
 
+char **ft_fatalerror(char **array, t_gc *gc)
+{
+	// Nouveau tableau avec une taille augmentée de 1
+	char	**new_array;
+	size_t	i;
+	size_t	prev_size;
+
+	i = -1;
+	prev_size = 0;
+	while (array[++i])
+		prev_size++;
+	i = 0;
+	new_array = gc_malloc((prev_size + 2) * sizeof(char *), gc);
+	new_array[0] = ft_strdup_("\n", gc);
+	while (i < prev_size)
+	{
+		new_array[i + 1] = array[i];
+		i++;
+	}
+	new_array[i] = NULL;
+	return (new_array);
+}
+
 //Rechecker la logique de ce truc.
 void	ft_ft(t_element *elements, t_gc *gc)
 {
-	int	i;
-	int	go;
+	int		i;
+	int		go;
+	char	**tmp;
 
 	i = -1;
 	go = 0;
@@ -111,10 +133,10 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
 	if (elements->arr && ft_unexptoken(elements->arr))
 	{
-		//Il faut que j'envoie a Erika que les heredoc : << + nom delim
-		//Il faut que je lui envoie un
+		tmp = ft_fatalerror(elements->arr, gc);
 		gc_remove(gc, elements->arr);
 		elements->arr = NULL;
+		elements->arr = tmp;
 		return ;
 	}
 	i = -1;

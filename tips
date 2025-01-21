@@ -22,14 +22,10 @@ redir sans cmd // code erreur ?
                                                   - si j'ai ls $a (une var contenant des quotes) alors je dois split avec sep=' ' quand je remplit cmd.
 si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il faut un message d'erreur (toute redir sauf heredoc) et ca ne lance pas l'enfant test a faire
 
-verifier si gc_calloc marche
 si un .here est utilise comme sortie > >> alors message d'iterdiction.
 
-ecrire les messages d'erreur apres avoir ouvert les heredoc
 verifier l affichage des differents types d erreur
 
-Si Erika recoi un elements->arr avec elements->arr[0] = "\n" alors elle parcourt
-elements->arr pour ouvrir les here doc. Et quand le user les a referme elle ne lance aucune commande.
 
 Quand Erika recupere les redirections il faudra qu'elle check si le nom de la redirection commence
 par $\n. Si oui alors elle ouvre les potentiels heredoc et quand le user les a ferme
@@ -44,13 +40,13 @@ bash: $a: ambiguous redirect
  a.out	 l	    minishell.h        readline.supp   TODO
 "'ca"	 Makefile   minishell_tester   sources	       ujygj
 c
+ls | <$a
+dans ce cas la uniquement la commende concernee ne se lance pas, le reste si
 
+ls | <$HOME
 
 
 ce cas la est mal gere : << here | ls
-
-
-Adri doit gerer le Uninitialized value dans ft_moredoll.
 
 pour la correction :
 ./minishell | ./minishell ne marche pas car bash | bash ne marche pas

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 13:55:45 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:28:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ int		ft_open_heredoc(char *del);
 void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
+void	ft_open_heredoc_error(char *del);
 
 // cmd_arr.c
 int		nb_arg(char **tab, int i, int last_i);

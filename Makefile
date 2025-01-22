@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/22 15:58:34 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/01/22 17:05:19 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/redir_open_partb.c \
 			${SRC_DIR}/cmd_arr.c \
 			${SRC_DIR}/split_path.c \
+			${SRC_DIR}/pipe_closing.c \
+			${SRC_DIR}/built_in.c \
 			${SRC_DIR}/child_creation.c \
 			${SRC_DIR}/fill_arrays.c \
 			${SRC_DIR}/execution.c \
@@ -79,6 +81,8 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/redir_open_partb.o \
 			${OBJ_DIR}/cmd_arr.o \
 			${OBJ_DIR}/split_path.o \
+			${OBJ_DIR}/pipe_closing.o \
+			${OBJ_DIR}/built_in.o \
 			${OBJ_DIR}/child_creation.o \
 			${OBJ_DIR}/fill_arrays.o \
 			${OBJ_DIR}/execution.o \

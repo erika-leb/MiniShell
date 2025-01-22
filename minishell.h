@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 15:59:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:17:35 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,15 +230,30 @@ void	part_close(t_element *elements, int k);
 void	wait_for_children(t_element *elements);
 void	free_std(void);
 
+//pipe_closing.c
+void	first_cmd_with_valid_infile(t_element *elements, t_cmd *cmd, t_gc *gc);
+void	last_cmd_with_valid_outfile(t_element *elements, t_cmd *cmd, t_gc *gc);
+void	dup_and_close_read_pipe(int k, t_element *elements, t_cmd *cmd, t_gc *gc);
+void	dup_and_close_write_pipe(int k, t_element *elements, t_cmd *cmd, t_gc *gc);
+void	all_cases(int i, t_element *elements, t_cmd *cmd, t_gc *gc);
+
+//built_in.c
+int		is_built_in(char *cmd);
+void	ft_built_in(t_element *elements, char **cmd, t_gc *gc);
+void	built_in_no_child(t_element *elements, t_gc *gc);
+void	close_other_redir(int i, t_element *elements);
+
 //child_creation.c
+void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc);
+void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc);
+void	no_child_events(t_element *elements, t_gc *gc, t_cmd *current);
+void	hedge_child_cases(t_element *elements, t_gc *gc, t_cmd	*current);
 void	child_creation(t_element *elements, t_gc *gc);
 
 //execution.c
 void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc);
 void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc);
 void	exec_command(t_element *elements, t_gc *gc, int i);
-
-
 
 //env_manager.c
 char	**ft_ltoa(t_env *head, t_gc *gc);

@@ -41,6 +41,34 @@ static void	ft_fill_buf(int *i, int *k, char **cmd, char *buf)
 	(*i)++;
 }
 
+// static void	ft_init_var(int *i, int *k, int *n, int *f)
+// {
+// 	(*i) = 1;
+// 	(*k) = 0;
+// 	(*n) = 0;
+// 	(*f) = 0;
+// }
+
+static void	write_error(int f, t_gc *gc)
+{
+	if (f == -1) // a veririfer a la fin
+	{
+		perror("minishell: echo: write error");
+		(gc_cleanup(gc), free_std(), exit(1));
+	}
+}
+
+static void	no_arg(int *n, char **cmd, t_gc *gc)
+{
+	if (!cmd[1])
+	{
+		write(1, "\n", 1);
+		(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+	}
+	if (ft_is_option(cmd[1]) == TRUE)
+		(*n) = 1;
+}
+
 void	ft_echo(char **cmd, t_gc *gc)
 {
 	int i;
@@ -49,17 +77,19 @@ void	ft_echo(char **cmd, t_gc *gc)
 	int	f;
 	char buf[70000];
 
+	//ft_init_var(&i, &k, &n, &f);
 	i = 1;
 	k = 0;
 	n = 0;
 	f = 0;
-	if (!cmd[1])
-	{
-		write(1, "\n", 1);
-		(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
-	}
-	if (ft_is_option(cmd[i]) == TRUE)
-		n = 1;
+	no_arg(&n, cmd, gc);
+	// if (!cmd[1])
+	// {
+	// 	write(1, "\n", 1);
+	// 	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+	// }
+	// if (ft_is_option(cmd[i]) == TRUE)
+	// 	n = 1;
 	while (cmd[i] && ft_is_option(cmd[i]) == TRUE)
 		i++;
 	//Expand les var d'env avec la fonction d'adri
@@ -73,12 +103,7 @@ void	ft_echo(char **cmd, t_gc *gc)
 	if (n == 0)
 		buf[k++] = '\n';
 	f = write(1, buf, k); //a verifier le 1
-	if (f == -1) // a veririfer a la fin
-	{
-		perror("minishell: echo: write error");
-		(gc_cleanup(gc), free_std(), exit(1));
-	}
-	//(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+	write_error(f, gc);
 }
 
 // int main() {

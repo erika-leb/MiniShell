@@ -42,7 +42,7 @@ c
 ls | <$a
 dans ce cas la uniquement la commende concernee ne se lance pas, le reste si
 
-ls | <$HOME
+ 
 
 
 ce cas la est mal gere : << here | ls

@@ -1,3 +1,17 @@
 1) redirection (tout type) sans commande, seul ou dans pipe (enfant failed uniquement) avec fichier valide ou non
 
 2) echo $? : si premiere cmd  = < cfev ; il faut echo $? = 2
+
+3) plusieurs commandes fonctionnelles avec/sans chemin relatif/absolu
+
+4) cmd inexistantes avec/sans chemin relatif/absolu
+
+5) fichiers entrants/sortants inexistant/sans droits
+
+6) env -i ./minishell
+
+7) mettre cat dans le fichier
+
+8) minishell dans minishell
+
+Faire tous les tests avec 1 cmd puis plusieurs, fichiers valide ou non

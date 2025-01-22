@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:38:35 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/12/01 22:24:40 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:24:40 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,4 @@ void	ft_fill_arrays(t_element *elements, t_gc *gc)
 	elements->nb_cmd = ft_lstsize(&elements->lst);
 	ft_pipe_arr(elements, gc);
 	elements->pid_arr = gc_malloc(sizeof(int) * elements->nb_cmd, gc);
-} 
+}

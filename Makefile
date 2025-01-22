@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/21 15:41:23 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/01/22 15:58:34 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_getenvv.c \
 			${SRC_DIR}/str_manager.c \
 			${SRC_DIR}/ft_concat.c \
+			${SRC_DIR}/create_chain.c \
 			${SRC_DIR}/redir_open_parta.c \
 			${SRC_DIR}/redir_open_partb.c \
 			${SRC_DIR}/cmd_arr.c \
@@ -73,6 +74,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_getenvv.o \
 			${OBJ_DIR}/str_manager.o \
 			${OBJ_DIR}/ft_concat.o \
+			${OBJ_DIR}/create_chain.o \
 			${OBJ_DIR}/redir_open_parta.o \
 			${OBJ_DIR}/redir_open_partb.o \
 			${OBJ_DIR}/cmd_arr.o \

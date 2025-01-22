@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 14:56:42 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:59:52 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,9 +192,13 @@ char	*ft_concat(char *result_i, int k, int sq, int dq);
 t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc);
 
 //lexing.c
+void	hedge_case_1(char **tab, t_element *elements);
+int		ft_istok_2(char *av2);
+void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc);
+
+//create_chain.c
 bool	ft_is_redir(char *s);
 bool	ft_is_str(char *s);
-void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc);
 void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 
 // redir_open_parta.c

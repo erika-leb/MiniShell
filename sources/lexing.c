@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/22 15:22:36 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:57:53 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,68 +14,6 @@
 #include "../gc/gc.h"
 
 // void print_redir(t_file **redir);
-
-bool	ft_is_redir(char *s)
-{
-	if (ft_strcmp(s, "<") == 0 || ft_strcmp(s, "<<") == 0
-		|| ft_strcmp(s, ">") == 0 || ft_strcmp(s, ">>") == 0)
-		return (true);
-	return (false);
-}
-
-bool	ft_is_str(char *s)
-{
-	if (ft_strcmp(s, "\n|") == 0)
-		return (true);
-	if (ft_strcmp(s, "\n<") == 0)
-		return (true);
-	if (ft_strcmp(s, "\n>") == 0)
-		return (true);
-	if (ft_strcmp(s, "\n<<") == 0)
-		return (true);
-	if (ft_strcmp(s, "\n>>") == 0)
-		return (true);
-	return (false);
-}
-
-void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
-{
-	t_cmd	*new;
-	t_cmd	*current;
-
-	new = gc_malloc(sizeof(t_cmd), gc);
-	//perror("test");
-	// if (new == NULL)
-	// {
-	// 	perror("malloc failed"); // clean tout et exit ici ou return pour exit apres
-	// 	exit(-1);
-	// }
-	new->cmd = NULL;
-	new->redir = create_redir(tab, i, last_i, gc);
-		//perror("test2");
-	new->cmd = cmd_arr(tab, i, last_i, gc);
-	//new->here = NO_HERE;
-		//perror("test3");
-	// int	j = 0;
-	// while(new->cmd[j])
-	// {
-	// 	printf("ici tab[%d] = %s\n", j, new->cmd[j]);
-	// 	j++;
-	// }
-	new->fd_in = -2;
-	new->fd_out = -2;
-	new->code_status = 0;
-	new->next = NULL;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	current = *lst;
-	while (current -> next != NULL)
-		current = current -> next;
-	current -> next = new;
-}
 
 // Fonction pour afficher le contenu d'une structure t_file
 void print_redir(t_file *redir)
@@ -139,14 +77,19 @@ int	ft_istok_2(char *av2)
 	return (0);
 }
 
+static void	ft_init_values(int *i, int *p_max, t_element *elements)
+{
+	(*i) = 0;
+	elements->child_to_wait = 0;
+	(*p_max) = 0;
+}
+
 void	hedge_case_1(char **tab, t_element *elements)
 {
 	int	i;
 	int	p_max;
 
-	i = 0;
-	elements->child_to_wait = 0;
-	p_max = 0;
+	ft_init_values(&i, &p_max, elements);
 	while (1)
 	{
 		if (!ft_strcmp(tab[p_max], "|")
@@ -162,7 +105,7 @@ void	hedge_case_1(char **tab, t_element *elements)
 			break;
 		p_max++;
 	}
-	while (i < p_max - 1) //stric ou pas ?
+	while (i < p_max - 1)
 	{
 		if (ft_strcmp(tab[i], "<<") == 0)
 			ft_open_heredoc_error(tab[i + 1]);
@@ -170,7 +113,7 @@ void	hedge_case_1(char **tab, t_element *elements)
 	}
 }
 
-void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc) //ajouter les qutres elements
+void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
 {
 	int	i;
 	int	last_i;
@@ -204,37 +147,6 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc) //ajouter le
 	//printf("cmd = %d\n", elements->lst->cmd);
 	//printf("cmd[0] = %s\n", elements->lst->cmd[0]);
 }
-
-void	ft_error_cases(char **tab, t_gc *gc)
-{
-	int	s_arr;
-	int	i;
-
-	i = 1;
-	s_arr = ft_arr_size(tab);
-	if (ft_strcmp(tab[0], "|") == 0 || ft_strcmp(tab[s_arr -1], "|") == 0
-		|| ft_strcmp(tab[s_arr -1 ], "<<") == 0
-		|| ft_strcmp(tab[s_arr -1 ], ">>") == 0
-		|| ft_strcmp(tab[s_arr -1 ], ">") == 0
-		|| ft_strcmp(tab[s_arr -1 ], "<") == 0)
-	{
-		printf("syntax error near unexpected token\n");
-		(gc_cleanup(gc), exit(EXIT_FAILURE));
-	}
-	while (tab[i])
-	{
-		if (ft_is_redir(tab[i - 1]) == true)
-		{
-			if (ft_is_redir(tab[i]) == true || ft_strcmp(tab[i], "|") == 0)
-			{
-				printf("syntax error near unexpected token\n");
-				(gc_cleanup(gc), exit(EXIT_FAILURE));
-			}
-		}
-		i++;
-	}
-}
-
 
 // il faudra parcourir la liste de redirections, note si au moins une est ko mais aller jusqu'au bout pour traiter les heredoc
 // c'est toujours la derniere redicrection aui est pris en compte

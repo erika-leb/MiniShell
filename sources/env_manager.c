@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 17:37:17 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:25:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ char **ft_ltoa(t_env *head, t_gc *gc)
 //Je l'utilise plus je crois
 void ft_freetab(char **array)
 {
-    int j;
+	int j;
 
-    j = -1;
-    while (array[++j])
-        free(array[j]);
-    free(array);
+	j = -1;
+	while (array[++j])
+		free(array[j]);
+	free(array);
 
 }
 
@@ -72,22 +72,22 @@ void ft_freetab(char **array)
 //si le user s'amuse a mettre les options n'importe ou dans cmds[i] ?
 int   ft_exparser(char *name_key)
 {
-    int i;
+	int i;
 
-    //ft_write de Erika a ajouter
-    if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
-        return (printf("export: FIRST LETTER not a valid identifier\n"));
-    i = 0;//on check a partir du 2eme caractere c'est pourquoi on met i = 0.
-    while (name_key[++i])
-    {
-        if (name_key[i] == '+' && name_key[i + 1] == '=')
-            break;
-        if (name_key[i] == '=')
-            break;
-        if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
-            return(printf("export: `name=key': not a valid identifier\n"));
-    }
-    return (0);
+	//ft_write de Erika a ajouter
+	if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
+		return (printf("export: FIRST LETTER not a valid identifier\n"));
+	i = 0;//on check a partir du 2eme caractere c'est pourquoi on met i = 0.
+	while (name_key[++i])
+	{
+		if (name_key[i] == '+' && name_key[i + 1] == '=')
+			break;
+		if (name_key[i] == '=')
+			break;
+		if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
+			return(printf("export: `name=key': not a valid identifier\n"));
+	}
+	return (0);
 }
 
 static char	*ft_strchr(char const *str, int c)
@@ -110,19 +110,19 @@ static char	*ft_strchr(char const *str, int c)
 
 void ft_env(char **array, char **cmds, t_gc *gc)
 {
-    int i;
+	int i;
 	(void)gc;
 
-    if (cmds && cmds[1])//cmds && servait juste a le tester dans mon main
-    {//parsing. cmds[0] = env     cmds[1...] = le reste ...
-        printf("env: No option(s) or argument(s) allowed\n");//ft_write
-        exit (127);//ou 125 ?
-    }
-    i = 0;
-    while (array[i])
-    {
-        if (ft_strchr(array[i],'='))
-            printf("%s\n", array[i]);//ft_write
-        i++;
-    }
+	if (cmds && cmds[1])//cmds && servait juste a le tester dans mon main
+	{//parsing. cmds[0] = env     cmds[1...] = le reste ...
+		printf("env: No option(s) or argument(s) allowed\n");//ft_write
+		exit (127);//ou 125 ?
+	}
+	i = 0;
+	while (array[i])
+	{
+		if (ft_strchr(array[i],'='))
+			printf("%s\n", array[i]);//ft_write
+		i++;
+	}
 }

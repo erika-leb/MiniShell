@@ -8,7 +8,6 @@ valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-l
 a faire
 mettre a la norme
 built in
-test exec
 signaux fonction expres signaux dans heredoc, gerer signaux hors mode interactif ex cat ; code erreur a gerer voir cat puis ctrl c puis $? donne 130 github openbsd
 pwd a faire avec getcpwd
 tester minishell dans minishell
@@ -48,6 +47,18 @@ ls | <$HOME
 
 ce cas la est mal gere : << here | ls
 
+ Permission denied : si pas droit mais si fichier non existant le message est different
+
+valgrind <a
+
+<< aa grep a >a | << bb grep b >>a
+<< aa grep a >a
+
+echo "cat lol.c | cat > lol.c"
+
+
+
+
 pour la correction :
 ./minishell | ./minishell ne marche pas car bash | bash ne marche pas
 1> 2> pas a etre gerer
@@ -55,12 +66,6 @@ ls | hola fait un sigpipe c est normal ; env | hola non car built in donc on a p
 Si creation fichier .here : interdiciton dajouter fichiers dans code source. .here est reserve a notre shell, interdiction
 d'utiliser ce mot (comme shell peut le faire pour if elif ...)
 
-
-
-<< aa grep a >a | << bb grep b >>a
-<< aa grep a >a
-
-echo "cat lol.c | cat > lol.c"
 
 
 

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 17:52:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:32:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,17 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 
 	//Pas sur que ca remplace correctement env
 	//(checker en modifiant &env)
+
 	gc_remove(gc, element->env);
 	element->env = adder;
+	// s_arr = ft_arr_size(element->env);
+	// printf("s = %d\n", s_arr);
+	// i = 0;
+	// while( i <= s_arr)
+	// {
+	// 	printf("element->env %i = %s\n", i, element->env[i]);
+	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
+	// 	i++;
+	// }
 	return (adder);//a tej plus tard
 }

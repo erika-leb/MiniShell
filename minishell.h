@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 17:46:09 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:56:42 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc);
 void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 
 // redir_open_parta.c
-void	ft_fd_open(t_cmd *node, t_element *elements, t_gc *gc);
+void	ft_fd_open(t_cmd *node, t_element *elements, t_gc *gc, int flag);
 void	handle_redir(t_cmd **lst, t_element *elements, t_gc *gc);
 
 // redir_open_partb.c

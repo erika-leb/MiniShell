@@ -78,7 +78,7 @@ void	ft_echo(char **cmd, t_gc *gc)
 		perror("minishell: echo: write error");
 		(gc_cleanup(gc), free_std(), exit(1));
 	}
-	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+	//(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 }
 
 // int main() {

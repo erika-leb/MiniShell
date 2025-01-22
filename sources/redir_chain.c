@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 16:11:46 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/28 21:49:20 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:10:50 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc)
 
 	i++;
 	redir = NULL;
-	while (last_i < i && tab[i - 1] != NULL)// attention ici il y a peut etre un leak,
+	while (last_i < i && tab[i - 1] != NULL)
 	{
 		if (last_i > 0 && ft_is_redir(tab[last_i - 1]) == true)
 		{

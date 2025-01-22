@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 17:47:05 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:49:26 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ t_env *ft_envnode(char *name, char *key, t_gc *gc)
 	t_env *new_node;
 
 	// new_node = (t_env *)malloc(sizeof(t_env));
-	new_node = gc_malloc(sizeof(t_env *), gc);
+	new_node = gc_malloc(sizeof(t_env), gc);
 	new_node->name = ft_strdup_(name, gc);
 	if (key)
 	{
-		printf("COUCOUUUUUUUUUU        %s\n\n\n\n", key);
 		new_node->key = ft_strdup_(key, gc);
-		//gc_remove(gc, key);
+		gc_remove(gc, key);
 	}
 	else
 		new_node->key = NULL;

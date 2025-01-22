@@ -6,14 +6,12 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 19:46:12 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:20:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
-
-
 
  int	main(int ac, char **av, char **env)
  {
@@ -51,17 +49,18 @@
 			close_pipes(elements);
 			//perror("kikoulol");
 			wait_for_children(elements);
+			//perror("wtf");
 			//perror("test3");
+			printf("errno = %d\n", errno);
 			if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
 				unlink(".here"); //peut on le supprimer si on a pas les droits ?
 			//check_fds("parent a la fin");
 		}
  	}
-	//ft_error_exit("", 0, NO_PERROR);
 	gc_cleanup(&gc); // utile ?
 	exit(EXIT_SUCCESS); // utile ?
- 	return (0);
- }
+	return (0);
+}
 
 // int	main(int ac, char **av)
 // {

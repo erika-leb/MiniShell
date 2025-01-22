@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/21 17:33:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:14:04 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,14 +372,39 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 	// else if (ft_strcmp(cmd[0], "cd") == 0)
 
 	// else if (ft_strcmp(cmd[0], "pwd") == 0)
+	// int i;
+	// int s_arr;
+	// s_arr = ft_arr_size(elements->env);
+	// printf("s = %d\n", s_arr);
+	// i = 0;
+	// while( i <= s_arr)
+	// {
+	// 	printf("element2->env %i = %s\n", i, elements->env[i]);
+	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
+	// 	i++;
+	// }
 	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+}
+void	built_in_no_child(t_element *elements, t_gc *gc)
+{
+	t_built	*built;
+		//perror("passasge ici");
+	built = gc_malloc(sizeof(t_built), gc);
+	built->cmd = elements->lst->cmd;
+	built->elements = elements;
+	if (ft_strcmp(built->cmd[0], "exit") == 0)
+		ft_exit(built, gc);
+	else if (ft_strcmp(built->cmd[0], "export") == 0)
+		ft_export(elements, built->cmd, gc);
+	else if (ft_strcmp(built->cmd[0], "unset") == 0)
+		ft_unset(elements, built->cmd, gc);
 }
 
 void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NULL (mais on a des redir)
 {
 	int		i;
 	t_cmd	*current;
-	t_built	*built;
+	t_file 	*redir;
 
 	i = 0;
 	//while (i < ac - 3)
@@ -390,6 +415,11 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 	// print_cmd_list(elements->lst);
 	//perror("la");
 	//printf("nb cmd = %d\n", elements->nb_cmd);
+	if (elements->nb_cmd == 1 && !elements->lst->cmd[0])
+	{
+		elements->child_to_wait = 0;
+		return ;
+	}
 	if (ft_strcmp(elements->lst->cmd[0], "\n") == 0)
 	{
 		//perror("on entre ic ?");
@@ -400,14 +430,8 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 		//exec_command(elements, gc, 0);
 		return ;
 	}
-	if (elements->nb_cmd == 1 && ft_strcmp(elements->lst->cmd[0], "exit") == 0)
-	{
-		built = gc_malloc(sizeof(t_built), gc);
-		built->cmd = elements->lst->cmd;
-		built->elements = elements;
-		ft_exit(built, gc);
-		return ;
-	}
+	if (elements->nb_cmd == 1 && (ft_strcmp(elements->lst->cmd[0], "exit") == 0 || ft_strcmp(elements->lst->cmd[0], "export") == 0 || ft_strcmp(elements->lst->cmd[0], "unset") == 0))
+		built_in_no_child(elements, gc);
 	while (i < elements->nb_cmd) //voir a partir de la
 	{
 		elements->pid_arr[i] = fork();
@@ -420,7 +444,14 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 		{
 			//perror("tt");
 			if (!current->cmd[0])
-				(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+				(close_pipes(elements), gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+			redir = current->redir;
+			while(redir)
+			{
+				if (ft_strncmp("$\n", redir->name, 2) == 0)
+					(close_pipes(elements), gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+				redir = redir->next;
+			}
 			child_process(i, elements, current, gc);
 			// printf("\n APRES FORK \n\n");
 			// print_cmd_list(elements->lst);

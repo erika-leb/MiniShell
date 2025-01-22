@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/21 12:07:46 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:48:50 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc
 		// if (elements->error)
 		// 	ft_putstr_fd(elements->error, 1);
 		ft_buff_error(redir->name, elements, gc);
-		ft_buff_error(": Permission denied\n", elements, gc);
+		ft_buff_error(": Permission denied\n", elements, gc); //si pas droit mais si fichier non existant le message est different
+		//perror("test");
 		if (node->fd_out >= 0)
 		{
 			close(node->fd_out);

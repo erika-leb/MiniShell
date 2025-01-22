@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/16 11:46:03 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:40:36 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	wait_for_children(t_element *elements)
 
 	i = 0;
 	//perror("chelou");
+	if (elements->child_to_wait == 0)
+		return ;
 	while (i < elements->child_to_wait)
 	{
 		//perror(" tres chelou");

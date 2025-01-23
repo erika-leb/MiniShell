@@ -1,0 +1,59 @@
+ flags pour valgrind
+
+valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
+
+
+valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
+
+
+shlvl voir adrien
+
+
+2 cas a gerer entre partie adri et partie erika : - si j'ai une redir comme < $a avec a="boloss 'ca va'" (var contenant espace et?ou quotes) alors je dois expand quand je cree la redir. Adri m'enverra $/n/ta
+                                                  - si j'ai ls $a (une var contenant des quotes) alors je dois split avec sep=' ' quand je remplit cmd.
+si j ai une redir avec $\n mais pas $\n\t alors la var env n existe pas et il faut un message d'erreur (toute redir sauf heredoc) et ca ne lance pas l'enfant test a faire
+
+verifier si gc_calloc marche
+si un .here est utilise comme sortie > >> alors message d'iterdiction.
+
+ecrire les messages d'erreur apres avoir ouvert les heredoc
+verifier l affichage des differents types d erreur
+
+Recuperer le bon errno pour l'afficher dans ft_getenvv (dans element ?) avec les waitpid (demander a Paul).
+
+
+- Si Erika recoit un elements->arr avec elements->arr[0] = "\n" alors elle parcourt
+elements->arr pour ouvrir les here doc. Et quand le user les a referme elle ne lance aucune commande.
+
+- Quand Erika recupere les redirections il faudra qu'elle check si le nom de la redirection commence
+par $\n. Si oui alors elle ouvre les potentiels heredoc et quand le user les a ferme
+elle affiche le message"minishell: [nom] ambiguous redirect" et elle
+ne lance aucune commande
+
+
+
+
+
+
+
+
+
+pour la correction :
+./minishell | ./minishell ne marche pas car bash | bash ne marche pas
+1> 2> pas a etre gerer
+ls | hola fait un sigpipe c est normal ; env | hola non car built in donc on a pas programme pour que ca fasse ca
+Si creation fichier .here : interdiciton dajouter fichiers dans code source. .here est reserve a notre shell, interdiction
+d'utiliser ce mot (comme shell peut le faire pour if elif ...)
+
+
+
+<< aa grep a >a | << bb grep b >>a
+<< aa grep a >a
+
+echo "cat lol.c | cat > lol.c"
+
+
+echo hello | cat il y a un bad file descriptor
+ls | echo hello
+
+

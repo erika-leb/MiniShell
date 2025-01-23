@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 16:31:56 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:04:42 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,8 +283,8 @@ void     ft_bbsort(t_env *head);
 //ft_unset.c
 void	ft_unset(t_element *element, char **argv, t_gc *gc);
 
-
-
+//cd_pwd.c
+void	ft_pwd(t_element *elements, t_gc *gc);
 
 
 // pour test

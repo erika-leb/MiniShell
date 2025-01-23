@@ -6,14 +6,32 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:24:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:31:05 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
 
-static void	ft_expand(char *result, int *k, t_gc *gc)
+
+// //Fonction qui retourne 1 si y'a des espaces, 2 si y'a des quotes et 0 sinon.
+// static int	ft_spacequotes(char	*envv)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (envv[i])
+// 	{
+// 		if (envv[i] == ' ')
+// 			return (1);
+// 		if (envv[i] == '\'' || envv[i] == '\"')
+// 			return (2);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+static void	ft_expand(char *result, int *k, t_element *elements)
 {
 	char	tmp[20000];
 	char	*envv;
@@ -21,12 +39,16 @@ static void	ft_expand(char *result, int *k, t_gc *gc)
 	int		start;
 
 	start = *k;
-    envv = ft_getenvv(result, k, tmp, gc);//si y'a des quotes alors j'expand pas et envv prend la valeur de $\n\t ...
+    envv = ft_getenvv(result, k, tmp, elements);//si y'a des quotes alors j'expand pas et envv prend la valeur de $\n\t ...
     if (!envv)
         return (ft_erase_substr(result, k, tmp));
-	//Si envv est full et contient des quotes alors on n'expand pas et on
-	//remet le dollar. Je n'oublie pas d'ecraser tmp comme fait juste en dessous Apres ft_concat on pourra expand.
-	// ... ... ...
+	//Si envv contient des quotes (qu'il soit full ou pas on s'en fiche) alors on n'expand pas et on
+	//remet le dollar + /n/t. Je n'oublie pas d'ecraser tmp comme fait juste en dessous.
+	//ft_hedgecase va inserer $ + /n/t et incrementer k de ft_strlen(tmp) + 3. Ensuite on se sert d'une fonction
+	//qui ressemble a ft_fatalerror pour expand, et resize un new_array avec une chaine de la bonne taille et eventuellement
+	//split (sep = ' ') si y'avait des espaces en + des quotes.
+	// if (ft_spacequotes(envv) == 2)
+		// return (ft_hedgecase(result, k, tmp));
     i = 0;
 	while (tmp[i])
  	{
@@ -71,8 +93,6 @@ static void	ft_delim(char *result, int *k, int sq, int dq)
 	}
 }
 
-
-
 static void	ft_incrk(char *result, int *k)
 {
 	(*k)++;
@@ -82,11 +102,7 @@ static void	ft_incrk(char *result, int *k)
 		(*k)++;
 }
 
-//Dans ifexpand on pourrait inserer a differents endroits de la fonction (ou des sous fonctions)
-//des checkers pour savoir si la var contient des espaces et/ou des quotes et ainsi expand ou non.
-//Par ex si t'as var contient des espaces (pas sq ni dq) et qu'elle n'est pas apres une redir alors
-//on peut expand sans se poser de questions.
-char	*ft_ifexpand(char *result, int sq, int dq, t_gc *gc)
+char	*ft_ifexpand(char *result, int sq, int dq, t_element *elements)
 {
 	int	k;
 
@@ -111,14 +127,23 @@ char	*ft_ifexpand(char *result, int sq, int dq, t_gc *gc)
 			ft_incrk(result, &k);
 			ft_modifquote_(result, &sq, &dq, &k);//soit on est sur une quote soit on est sur autre chose
 			//si on est sur une quote on change juste la valeur de sq et dq et on laisse ifexpand faire son travail
+
+			//Mais avant de laisser ifexpand faire son travail, on check que si y'a des quotes ou des espaces dans la var d'env.
+			//Si c'est le cas on ajoute un \n\t et on fait un peu comme ft_delim en incremantant k pour parcourir/zapper le nom
+			//de la var d'env.
+			// if (ft_spacequotes(envv))
+				// return (ft_hedgecase(result, k, tmp));
+
+			//Je ne peux pas utiliser ft_ambig car il ne s'applique pas si je suis en double quote et mine de rien je peux avoir des cas ou
+			//le user fais export a="  "haha" 'ca va bien' " auquel cas j'a interet a aussi gerer le cas ou je suis dans des doubles quotes.
 			if (!sq && !dq)
-				ft_ambig(result + k, &k, gc);
+				ft_ambig(result + k, &k, elements);
 		}
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
 		if (result[k] == '$' && !sq && (result[k + 1] == '_'
 			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
-			ft_expand(ft_erase(result, k), &k, gc);//ft_erase(result, k);//k n'est pas incremente, j'envoie qu'une copie.
+			ft_expand(ft_erase(result, k), &k, elements);//k n'est pas incremente, j'envoie qu'une copie.
 		k++;
 	}
 	result[k] = '\0';

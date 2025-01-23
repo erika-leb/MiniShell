@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 15:20:22 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:40:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,26 @@
 
 	((void)ac, (void)av);
 	gc_init(&gc);
+	//perror("avant init");
 	elements = ft_init_struct(&gc);
  	ft_signal_handle(&gc);
  	ft_welcome();
 	ft_cpy_env(elements, env, &gc);
  	while (1)
  	{
+		//perror("henry");
 		elements->lst = NULL;
  		elements->line = readline("minishell> ");
  		if (elements->line == NULL)
 			(gc_cleanup(&gc), exit(EXIT_SUCCESS));
  		if (elements->line && *(elements->line))
  			add_history(elements->line);
+		//perror("thierry");
 		ft_ft(elements, &gc);
+		//perror("jerry");
 		if (elements->arr)
 		{
 			//perror("test2");
-			//lexing(elements, &gc);
 			lexing(elements->arr, &elements->lst, elements, &gc);
 			//perror("kikoulol");
 			ft_fill_arrays(elements, &gc);
@@ -48,12 +51,13 @@
 			//perror("bolosskikou");
 			close_pipes(elements);
 			//perror("kikoulol");
-			wait_for_children(elements);
+			wait_for_children(elements, &gc);
 			//perror("wtf");
 			//perror("test3");
 			printf("errno = %d\n", errno);
 			if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
 				unlink(".here"); //peut on le supprimer si on a pas les droits ?
+			elements->err = ft_itoa(errno, &gc);
 			//check_fds("parent a la fin");
 		}
  	}

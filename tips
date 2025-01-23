@@ -6,6 +6,11 @@ valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --lea
 valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
 a faire
+TEST EXEC ET REDIR
+BUILT IN RESTANT
+SIGNAUX
+ECHO $?
+
 mettre a la norme
 built in
 signaux fonction expres signaux dans heredoc, gerer signaux hors mode interactif ex cat ; code erreur a gerer voir cat puis ctrl c puis $? donne 130 github openbsd
@@ -16,6 +21,7 @@ echo : il faut expand les var d'env avec echo sauf sq
 le dernier enfant doit envoyer son exit code au parent avec waitpid
 gerer boucle infini yes ; yes | head
 redir sans cmd // code erreur ?
+A l'initialisation si y'a pas d'env alors on cree un env nous meme (getcwd etc...). Si le user lance minishell dans minishell il faut incrementer SHLVL
 
 2 cas a gerer entre partie adri et partie erika : - si j'ai une redir comme < $a avec a="boloss 'ca va'" (var contenant espace et?ou quotes) alors je dois expand quand je cree la redir. Adri m'enverra $/n/ta
                                                   - si j'ai ls $a (une var contenant des quotes) alors je dois split avec sep=' ' quand je remplit cmd.
@@ -40,21 +46,21 @@ bash: $a: ambiguous redirect
 "'ca"	 Makefile   minishell_tester   sources	       ujygj
 c
 ls | <$a
-dans ce cas la uniquement la commende concernee ne se lance pas, le reste si
-
- 
+dans ce cas la uniquement la commende concernee ne se lance pas, le reste si     //OK
 
 
-ce cas la est mal gere : << here | ls
 
- Permission denied : si pas droit mais si fichier non existant le message est different
 
-valgrind <a
+ce cas la est mal gere : << here | ls // OK
 
-<< aa grep a >a | << bb grep b >>a
-<< aa grep a >a
+ Permission denied : si pas droit mais si fichier non existant le message est different //OK
 
-echo "cat lol.c | cat > lol.c"
+valgrind <a //OK
+
+<< aa grep a >a | << bb grep b >>a  (dont a chmod 000 et voir le code de retour errno)
+<< aa grep a >a (code pas bon)
+
+echo "cat lol.c | cat > lol.c" //OK
 
 
 

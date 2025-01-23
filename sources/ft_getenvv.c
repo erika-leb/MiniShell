@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:20:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:33:44 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static size_t	ft_countt(int nb)
 	return (size);
 }
 
-static char	*ft_itoa(int nb, t_gc *gc)
+char	*ft_itoa(int nb, t_gc *gc)
 {
 	char			*str;
 	int				i;
@@ -65,24 +65,9 @@ static char	*ft_itoa(int nb, t_gc *gc)
 	return (str);
 }
 
-// static char	*ft_geterrcode(void)
-// {
-// 	// int		err;
-// 	// char	*str_err;
-
-// 	// err = errno;
-// 	// str_err = ft_itoa(err);
-// 	// return (str_err);
-
-// 	//ft_itoa présent dans Makefile, .h, mais inutilisé pour le moment
-// 	//Il se peut que ft_itoa soit useless. Il faut juste récupérer le code
-// 	//errno. On peut potentiellement le faire avec une variable globale.
-// 	return("0");
-// }
-
-char	*ft_getenvv(char *result, int *k, char *tmp, t_gc *gc)
+char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements)
 {
-    int i;
+	int i;
 
     i = 0;
  	while (result[*k + i] && (result[*k + i] == '_' || ft_isalnum(result[*k + i])))
@@ -98,8 +83,9 @@ char	*ft_getenvv(char *result, int *k, char *tmp, t_gc *gc)
 		i++;
 	}
     tmp[i] = '\0';
+	//printf("coucou\n");
 	if (!ft_strcmp(tmp, "?"))
-		return (ft_itoa(errno, gc));//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
+		return (elements->err);//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
 	//pour que chaque enfant puisse modifier sa valeur. Puis y faire appel dans getenvv pour choper la derniere valeur prise
     return (getenv(tmp));
 }

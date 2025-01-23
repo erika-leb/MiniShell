@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 11:49:26 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:22:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_env *ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc)
 		current = current->next;
 	}
 	current->next = ft_envnode(name, key, gc);
-	return head;
+	return (head);
 }
 
 char *ft_cut(const char *src, char delim, int is_end, t_gc *gc)

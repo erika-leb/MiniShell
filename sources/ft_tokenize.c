@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:22:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:23:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 
 	k = -1;
 	sq = 0;
-    dq = 0;
+	dq = 0;
 	while (++k <= *i)
 		ft_modifquote_(av2, &sq, &dq, &k);
 	if (!sq && !dq)
@@ -70,12 +70,13 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 		ft_addspace(result, av2, i, j);
 }
 
-char	*ft_tokenize(char *av2, t_gc *gc)
+char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 {
 	static char	result[70000];
 	int			i;
 	int			j;
 
+	(void) gc;
 	i = 0;
 	j = 0;
 	ft_deldollar(av2);
@@ -88,5 +89,5 @@ char	*ft_tokenize(char *av2, t_gc *gc)
 		i++;
 	}
 	result[j] = '\0';
-	return (ft_ifexpand(result, 0, 0, gc));
+	return (ft_ifexpand(result, 0, 0, elements));
 }

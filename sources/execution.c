@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/21 14:03:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:30:12 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,14 @@ void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 //     }
 // }
 
+void	write_all_err_mess(char *str1, char *str2, t_element *elements, t_gc *gc)
+{
+	ft_buff_error("minishell: ", elements, gc);
+	ft_buff_error(str1, elements, gc);
+	ft_buff_error(str2, elements, gc);
+	ft_write_error(elements, gc);
+}
+
 void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 {
 	int		j;
@@ -159,10 +167,11 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	//perror("test2");
 	if (!elements->mypaths[j]) //voir le cas ou !elements->mypaths a gerer
 	{
-		ft_buff_error("minishell: ", elements, gc);
-		ft_buff_error(cmd[0], elements, gc);
-		ft_buff_error(": command not found\n", elements, gc);
-		ft_write_error(elements, gc);
+		write_all_err_mess(cmd[0], ": command not found\n", elements, gc);
+		// ft_buff_error("minishell: ", elements, gc);
+		// ft_buff_error(cmd[0], elements, gc);
+		// ft_buff_error(": command not found\n", elements, gc);
+		// ft_write_error(elements, gc);
 		//write(2, "Error : command not found\n", 27);
 		(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
 		//(free_std(), exit(EXIT_FAILURE));
@@ -171,6 +180,7 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	// print_cmd_list(elements->lst);
 	//dprintf(2,"filepath = %s\n", filepath);
 	//check_fds();
+	printf("errno dans child= %d\n", errno);
 	execve(filepath, cmd, elements->env); //mettre ici un gc_cleanup ?
 	//perror("test3");
 }
@@ -185,9 +195,11 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 	//perror("test");
 	while (j++ < i && current != NULL)
 		current = current->next;
-	if (current->cmd[0] == NULL) // pas tout a fait !!! REVOIR CE CAS
+	if (current->cmd[0] == NULL) // pas tout a fait !!! REVOIR CE CAS INUTILE JE CROIS
 	{
-		write(2, "command not found\n", 19); // a changer aussi
+		write_all_err_mess(current->cmd[0], ": command not found\n", elements, gc);
+		//write_all_err_mess(cmd[0], ": command not found\n", elements, gc);
+		//write(2, "command not found\n", 19); // a changer aussi
 		(gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
 	if (current->cmd[0] && current->cmd[0][0]

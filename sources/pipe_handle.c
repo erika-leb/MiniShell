@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/22 13:40:36 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:16:39 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,26 @@ void	close_pipes(t_element *elements)
 	t_cmd *cmd;
 
 	k = 0;
+	//perror("tom");
 	while (k < elements->nb_cmd - 1)
 	{
 		close(elements->pipes[k][1]);
 		close(elements->pipes[k][0]);
 		k++;
 	}
+	//perror("jerry");
 	cmd = elements->lst;
 	while (cmd)
 	{
+		//perror("mimi");
+		//printf("fd-in avant = %d\n", cmd->fd_in);
 		if (cmd->fd_in>0)
 		{
 			close(cmd->fd_in);
 			cmd->fd_in = CLOSED;
 		}
+		//printf("fd-in apres = %d\n", cmd->fd_in);
+		//perror("siku");
 		if (cmd->fd_out>0)
 		{
 			close(cmd->fd_out);
@@ -73,14 +79,17 @@ void	part_close(t_element *elements, int k)
 	}
 }
 
-void	wait_for_children(t_element *elements)
+void	wait_for_children(t_element *elements, t_gc *gc)
 {
 	int	i;
 
 	i = 0;
 	//perror("chelou");
 	if (elements->child_to_wait == 0)
+	{
+		elements->err = ft_itoa(errno, gc);
 		return ;
+	}
 	while (i < elements->child_to_wait)
 	{
 		//perror(" tres chelou");

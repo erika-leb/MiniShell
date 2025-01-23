@@ -6,11 +6,32 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/22 13:48:50 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:06:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_error_out(char *name, t_element *elements, t_gc *gc)
+{
+	if (errno == 2)
+		{
+			//perror("passage par la");
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(name, elements, gc);
+			ft_buff_error(": No such file or directory\n", elements, gc);
+			//write_all_err_mess(redir->name, ": No such file or directory\n", elements, gc); //il ne faut pas l afficher tout de suite
+		}
+		else if (errno == 13)
+		{
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(name, elements, gc);
+			ft_buff_error(": Permission denied\n", elements, gc);
+			//write_all_err_mess(redir->name, ": Permission denied\n", elements, gc);//il ne faut pas l afficher tout de suite
+		}
+		else
+			perror("On a un soucis"); //ne pas oublier de l'enlever apres avoir vu tous les cas possibles
+}
 
 int	ft_open_heredoc(char *del)
 {//Si le delim ne possede pas de quotes alors expand les potentiels var d'env
@@ -39,49 +60,39 @@ int	ft_open_heredoc(char *del)
 	return (fd);
 }
 
-void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
-{
-	(void) elements;
-	(void) gc;
 
-	if (node->fd_out != ERROR_OPEN && node->fd_in != ERROR_OPEN)
-	{
-		if (node->fd_out >= 0)
-			close(node->fd_out);
-		if (redir->token == TRUNC)
-		{
-			// if (ft_strcmp(redir->name, ".here") == 0)
-			// 	write(1, "forbidden name\n", 16); // faire peter l'enfant, faire pareil pour append
-			// else
-			node->fd_out = open(redir->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
-		else
-			node->fd_out = open(redir->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (node->fd_out == ERROR_OPEN)
-		{
-			perror("Error");
-			if (node->fd_in >= 0)
-			{
-				close(node->fd_in);
-				if(access(".here", F_OK) == 0) //voir cas ou on modifie les droits pendant la lecture du heredoc
-					unlink(".here");
-			}
-		}
-	}
-}
 
 void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
 {
+	//perror("rachel");
 	node->fd_in = open(redir->name, O_RDONLY, 0644);
 	if (node->fd_in == ERROR_OPEN)
 	{
-		//perror("Error");
-		ft_buff_error("minishell: ", elements, gc);
-		// if (elements->error)
-		// 	ft_putstr_fd(elements->error, 1);
-		ft_buff_error(redir->name, elements, gc);
-		ft_buff_error(": Permission denied\n", elements, gc); //si pas droit mais si fichier non existant le message est different
-		//perror("test");
+		//perror("titeverif");
+		if (errno == 2)
+		{
+			//perror("passage par la");
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(redir->name, elements, gc);
+			ft_buff_error(": No such file or directory\n", elements, gc);
+			//write_all_err_mess(redir->name, ": No such file or directory\n", elements, gc); //il ne faut pas l afficher tout de suite
+		}
+		else if (errno == 13)
+		{
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(redir->name, elements, gc);
+			ft_buff_error(": Permission denied\n", elements, gc);
+			//write_all_err_mess(redir->name, ": Permission denied\n", elements, gc);//il ne faut pas l afficher tout de suite
+		}
+		else
+			perror("On a un soucis"); //ne pas oublier de l'enlever apres avoir vu tous les cas possibles
+		// ft_buff_error("minishell: ", elements, gc);
+		// // if (elements->error)
+		// // 	ft_putstr_fd(elements->error, 1);
+		// ft_buff_error(redir->name, elements, gc);
+		// ft_buff_error(": Permission denied\n", elements, gc); //si pas droit mais si fichier non existant le message est different
+		// //perror("test");
+		//printf("error juste apres buff = %s\n", elements->error);
 		if (node->fd_out >= 0)
 		{
 			close(node->fd_out);
@@ -118,33 +129,4 @@ void	ft_open_heredoc_error(char *del)
 	//return (fd);
 }
 
-void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
-{
-	if ((node->fd_in == ERROR_OPEN || node->fd_out == ERROR_OPEN) && redir->token == HEREDOC) // il ya eu un redir invalide et c est un heredoc
-		ft_open_heredoc_error(redir->name);
-	else if (node->fd_in != ERROR_OPEN && node->fd_out != ERROR_OPEN) // il n'y a pas eu de redir invalide pour l'instant
-	{
-		if (node->fd_in >= 0) //ft_close pour verifier qu'on a les droits pour fermer et close ensuite?
-		{
-			close(node->fd_in);
-			if(access(".here", F_OK) == 0)
-				unlink(".here");
-		}
-		if (redir->token == HEREDOC)
-			node->fd_in = ft_open_heredoc(redir->name);
-		else
-			ft_handle_no_here_out(node, redir, elements, gc);
-		// {
-		// 	node->fd_in = open(redir->name, O_RDONLY, 0644);
-		// 	if (node->fd_in == ERROR_OPEN)
-		// 	{
-		// 		perror("Error");
-		// 		if (node->fd_out >= 0)
-		// 		{
-		// 			close(node->fd_out);
-		// 			node->fd_out = -3;
-		// 		}
-		// 	}
-		// }
-	}
-}
+

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/22 15:57:53 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 13:26:21 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	hedge_case_1(char **tab, t_element *elements)
 	int	i;
 	int	p_max;
 
+	//perror("lop");
 	ft_init_values(&i, &p_max, elements);
 	while (1)
 	{
@@ -137,12 +138,20 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
 
 	//perror("test");
 	if (tab && tab[0] && ft_strcmp(tab[0], "\n") == 0)
+	{
+		//perror("titi");
 		hedge_case_1(tab, elements);
+	}
 	else
+	{
+		//perror("grosminet");
 		handle_redir(lst, elements, gc);
+	}
 
 	// printf("\n APRES OUVERTURE \n\n");
 	// print_cmd_list(*lst);
+	//perror("normalement les messages ne sont pas encore affiches");
+	//printf("error = %s\n", elements->error);
 	ft_write_error(elements, gc);
 	//printf("cmd = %d\n", elements->lst->cmd);
 	//printf("cmd[0] = %s\n", elements->lst->cmd[0]);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 14:59:08 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:39:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_deldollar(char *input)
 		i++;
 	}
 }
-
+/////////////////// <= ERIKA DOIT MODIFIER SON CODE
 char **ft_fatalerror(char **array, t_gc *gc)
 {
 	// Nouveau tableau avec une taille augmentée de 1
@@ -105,7 +105,7 @@ char **ft_fatalerror(char **array, t_gc *gc)
 	i = 0;
 	new_array = gc_malloc((prev_size + 2) * sizeof(char *), gc);
 	new_array[0] = ft_strdup_("\n", gc);
-	while (i < prev_size)
+	while (i <= prev_size)
 	{
 		new_array[i + 1] = array[i];
 		i++;
@@ -114,22 +114,19 @@ char **ft_fatalerror(char **array, t_gc *gc)
 	return (new_array);
 }
 
+//ERIKA DOIT MODIFIER CE CODE LA AUSSI
 //Rechecker la logique de ce truc.
 void	ft_ft(t_element *elements, t_gc *gc)
 {
 	int		i;
-	int		go;
 	char	**tmp;
 
 	i = -1;
-	go = 0;
-	if (!ft_checkq(elements->line))
-		go = 1;
-	else
+	if (ft_checkq(elements->line))
 		return ;
 	//Doit on transformer les static char 70 000 en malloc ?
-	elements->arr = ft_split(ft_tokenize(elements->line, gc), 0, 0, gc);
-	while (go && elements->arr && elements->arr[++i])
+	elements->arr = ft_split(ft_tokenize(elements->line, gc, elements), 0, 0, gc);
+	while (elements->arr && elements->arr[++i])
 		elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
 	if (elements->arr && ft_unexptoken(elements->arr))
 	{
@@ -137,9 +134,10 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		gc_remove(gc, elements->arr);
 		elements->arr = NULL;
 		elements->arr = tmp;
-		return ;
 	}
+	//////////////////////////////juste pour checker, useless sinon
 	i = -1;
-	while (go && elements->arr && elements->arr[++i])
-		printf("token %d :%s\n", i, elements->arr[i]);//juste pour checker, useless sinon
+	while (elements->arr && elements->arr[++i])
+		printf("token %d :%s\n", i, elements->arr[i]);
+	///////////////////////////////////////////////////////////////
 }

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 17:17:35 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:31:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct	s_element
 	int		**pipes;
 	char	*error;
 	int		child_to_wait;
+	//int		err;
+	char	*err;
 }	t_element;
 
 typedef struct s_built
@@ -168,16 +170,17 @@ t_element	*ft_init_struct(t_gc *gc);
 //void		ft_error_exit(char *s, int	i, int type);
 
 //ft_tokenize.c
-char	*ft_tokenize(char *av2, t_gc *gc);
+char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements);
 
 //ft_ifexpand.c
-char	*ft_ifexpand(char *result, int sq, int dq, t_gc *gc);
+char	*ft_ifexpand(char *result, int sq, int dq, t_element *elements);
 
 //ft_ambig.c
-void	ft_ambig(char *result_k, int *k, t_gc *gc);
+void	ft_ambig(char *result_k, int *k, t_element *elements);
 
 //ft_getenvv.c
-char	*ft_getenvv(char *result, int *k, char *tmp, t_gc *gc);
+char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements);
+char	*ft_itoa(int nb, t_gc *gc);
 
 //str_manager.c
 char	*ft_insert(char *result, int k, char c);
@@ -204,12 +207,13 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 // redir_open_parta.c
 void	ft_fd_open(t_cmd *node, t_element *elements, t_gc *gc, int flag);
 void	handle_redir(t_cmd **lst, t_element *elements, t_gc *gc);
+void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
+void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 
 // redir_open_partb.c
+void	ft_error_out(char *name, t_element *elements, t_gc *gc);
 int		ft_open_heredoc(char *del);
-void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
-void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 void	ft_open_heredoc_error(char *del);
 
 // cmd_arr.c
@@ -227,7 +231,7 @@ void	ft_fill_arrays(t_element *elements, t_gc *gc);
 void	pipe_creation(t_element *elements, t_gc *gc);
 void	close_pipes(t_element *elements);
 void	part_close(t_element *elements, int k);
-void	wait_for_children(t_element *elements);
+void	wait_for_children(t_element *elements, t_gc *gc);
 void	free_std(void);
 
 //pipe_closing.c
@@ -246,11 +250,12 @@ void	close_other_redir(int i, t_element *elements);
 //child_creation.c
 void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc);
 void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc);
-void	no_child_events(t_element *elements, t_gc *gc, t_cmd *current);
+int		no_child_events(t_element *elements, t_gc *gc, t_cmd *current);
 void	hedge_child_cases(t_element *elements, t_gc *gc, t_cmd	*current);
 void	child_creation(t_element *elements, t_gc *gc);
 
 //execution.c
+void	write_all_err_mess(char *str1, char *str2, t_element *elements, t_gc *gc);
 void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc);
 void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc);
 void	exec_command(t_element *elements, t_gc *gc, int i);

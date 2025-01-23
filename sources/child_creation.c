@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/23 15:30:15 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:18:57 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ int	no_child_events(t_element *elements, t_gc *gc, t_cmd *current)
 	}
 	if (elements->nb_cmd == 1 && (ft_strcmp(elements->lst->cmd[0], "exit") == 0
 			|| ft_strcmp(elements->lst->cmd[0], "export") == 0
-			|| ft_strcmp(elements->lst->cmd[0], "unset") == 0))
+			|| ft_strcmp(elements->lst->cmd[0], "unset") == 0
+			|| ft_strcmp(elements->lst->cmd[0], "cd") == 0))
 		built_in_no_child(elements, gc);
 	return (0);
 }

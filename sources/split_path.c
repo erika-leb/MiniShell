@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:57:58 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/29 14:12:47 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:16:53 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,20 @@ static char	**ft_split_path(char *s, char c, t_gc *gc)
 	return (str);
 }
 
-static int	ft_strncmp(char *s1, char *s2, int n)
-{
-	int	i;
+// static int	ft_strncmp(char *s1, char *s2, int n)
+// {
+// 	int	i;
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i] && n)
-	{
-		i++;
-		n--;
-	}
-	if (n == 0)
-		return (0);
-	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
-}
+// 	i = 0;
+// 	while (s1[i] && s2[i] && s1[i] == s2[i] && n)
+// 	{
+// 		i++;
+// 		n--;
+// 	}
+// 	if (n == 0)
+// 		return (0);
+// 	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+// }
 
 void	ft_handle_path(t_element *elements, t_gc *gc)
 {
@@ -134,7 +134,7 @@ void	ft_handle_path(t_element *elements, t_gc *gc)
 	// while(elements->mypaths[i])
 	// {
 	// 	printf("path[%d] = %s\n", i, elements->mypaths[i]);
-	// 	i++;		
+	// 	i++;
 	// }
 }
 

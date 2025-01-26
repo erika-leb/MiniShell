@@ -6,12 +6,14 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 16:40:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:53:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
+
+volatile sig_atomic_t g_signal = 0;
 
  int	main(int ac, char **av, char **env)
  {
@@ -19,46 +21,58 @@
 	t_gc		gc;
 
 	((void)ac, (void)av);
+	//ft_ignore_signal(&gc);
 	gc_init(&gc);
+	//ft_ignore_signal(&gc); //si je fais ctrl c tres rapidement apres avoirlancer le programme j ai des soucis
+	//dprintf(2, "kikouicham\n");
 	//perror("avant init");
 	elements = ft_init_struct(&gc);
- 	ft_signal_handle(&gc);
+ 	//ft_signal_handle(&gc);
  	ft_welcome();
 	ft_cpy_env(elements, env, &gc);
+	//ft_interactive_signal(&gc);
  	while (1)
  	{
 		//perror("henry");
+		ft_interactive_signal(&gc);
 		elements->lst = NULL;
+		//perror("styles");
  		elements->line = readline("minishell> ");
- 		if (elements->line == NULL)
+		//perror("harry");
+ 		if (elements->line == NULL) // c est pour ctrl d je crois
 			(gc_cleanup(&gc), exit(EXIT_SUCCESS));
  		if (elements->line && *(elements->line))
  			add_history(elements->line);
-		//perror("thierry");
-		ft_ft(elements, &gc);
-		//perror("jerry");
-		if (elements->arr)
+		// printf("line = %s vgbgbh\n", elements->line);
+		// perror("thierry");
+		if  (ft_strcmp(elements->line, "") != 0) //ligne de merde pour eviter le segfault dans hegde case 1 si je fais entree; demander correction a adrien
 		{
-			//perror("test2");
-			lexing(elements->arr, &elements->lst, elements, &gc);
-			//perror("kikoulol");
-			ft_fill_arrays(elements, &gc);
-			//perror("bolosskikou");
-			pipe_creation(elements, &gc);
-			//perror("boloss");
-			//check_fds("parent au debut");
-			child_creation(elements, &gc);
-			//perror("bolosskikou");
-			close_pipes(elements);
-			//perror("kikoulol");
-			wait_for_children(elements, &gc);
-			//perror("wtf");
-			//perror("test3");
-			printf("errno = %d\n", errno);
-			if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
-				unlink(".here"); //peut on le supprimer si on a pas les droits ?
-			elements->err = ft_itoa(errno, &gc);
-			//check_fds("parent a la fin");
+			ft_ft(elements, &gc);
+	// printf("earr[0] = %sdfvf\n", elements->arr[0]);
+	// 		p		error("jerry");
+			if (elements->arr)
+			{
+				//perror("test2");
+				lexing(elements->arr, &elements->lst, elements, &gc);
+				//perror("kikoulol");
+				ft_fill_arrays(elements, &gc);
+				//perror("bolosskikou");
+				pipe_creation(elements, &gc);
+				//perror("boloss");
+				//check_fds("parent au debut");
+				child_creation(elements, &gc);
+				//perror("bolosskikou");
+				//close_pipes(elements);
+				//perror("kikoulol");
+				wait_for_children(elements, &gc);
+				//perror("wtf");
+				//perror("test3");
+				//printf("errno = %d\n", errno);
+				if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
+					unlink(".here"); //peut on le supprimer si on a pas les droits ?
+				elements->err = ft_itoa(errno, &gc);
+				//check_fds("parent a la fin");
+			}
 		}
  	}
 	gc_cleanup(&gc); // utile ?

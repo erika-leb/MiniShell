@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 17:25:08 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:35:46 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <limits.h>
+# include <termios.h>
+# include <sys/ioctl.h>
 //# include <asm/signal.h> //pour eviter le rouge sa chez Erika
 # include "gc.h"
 
@@ -63,6 +65,10 @@
 # define	TRUE		1
 # define	FALSE		0
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
 typedef struct s_file
 {
 	char			*name;
@@ -94,7 +100,7 @@ typedef struct	s_element
 	char	*error;
 	int		child_to_wait;
 	//int		err;
-	char	*err;
+	char	*exit_status;
 }	t_element;
 
 typedef struct s_built
@@ -115,6 +121,8 @@ typedef struct s_env
 	char         *key;
 	struct s_env *next;
 }   t_env;
+
+extern volatile sig_atomic_t g_signal;
 
 //parsing.c
 void	ft_deldollar(char *input);
@@ -140,6 +148,7 @@ int		ft_arr_size(char **tab);
 char	*ft_strdup(const char *s1, t_gc *gc);
 char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc *gc);
 void	ft_putstr_fd(char *s, int fd);
+int		ft_atoi(const char *str);
 
 //libft_a.c
 size_t	ft_strlen(const char *str);
@@ -161,7 +170,11 @@ void	ft_buff_error(char *str, t_element *elements, t_gc *gc);
 void	ft_write_error(t_element *elements, t_gc *gc);
 
 //signal.c
-void		ft_signal_handle(t_gc *gc);
+//void	ft_signal_handle(int mode, t_gc *gc);
+void	ft_interactive_signal(t_gc *gc);
+void	ft_heredoc_signal(t_gc *gc);
+void	ft_ignore_signal(t_gc *gc);
+void	ft_exec_signal(t_gc *gc);
 
 //init.c
 void		ft_welcome(void);
@@ -195,7 +208,7 @@ char	*ft_concat(char *result_i, int k, int sq, int dq);
 t_file	*create_redir(char **tab, int i, int last_i, t_gc *gc);
 
 //lexing.c
-void	hedge_case_1(char **tab, t_element *elements);
+void	hedge_case_1(char **tab, t_element *elements, t_gc *gc);
 int		ft_istok_2(char *av2);
 void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc);
 
@@ -212,9 +225,9 @@ void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 
 // redir_open_partb.c
 void	ft_error_out(char *name, t_element *elements, t_gc *gc);
-int		ft_open_heredoc(char *del);
+int	ft_open_heredoc(char *del, int flag, t_element *elements, t_gc *gc);
 void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
-void	ft_open_heredoc_error(char *del);
+//int	ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc);
 
 // cmd_arr.c
 int		nb_arg(char **tab, int i, int last_i);
@@ -267,7 +280,6 @@ int     ft_exparser(char *name_key);
 void    ft_env(char **array, char **cmds, t_gc *gc);
 
 //ft_export.c
-
 void ft_printexport(const t_env *head);
 // void ft_freelexport(t_env *head);
 void ft_adder(t_env **head, char *str, t_gc *gc);
@@ -287,6 +299,12 @@ void	ft_unset(t_element *element, char **argv, t_gc *gc);
 void	ft_pwd(t_element *elements, t_gc *gc);
 void	ft_cd(t_built *built, t_gc *gc);
 
+//get_next_line.c
+char	*get_next_line(int fd, t_gc *gc);
+char	*clean_stash_buffer(char *stash, char *buffer, int *n);
+char	*read_and_stock(int fd, char *line, char *buffer, int *n);
+int		ft_strchr(char *s, char c);
+char	*ft_strjoin(char *s1, char *s2);
 
 // pour test
 void print_cmd_list(t_cmd *cmd_list);

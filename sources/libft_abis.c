@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/21 16:37:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:37:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strdup_(char const *str, t_gc *gc)
 
 	i = -1;
 	dest = gc_malloc(ft_strlen(str) + 1, gc);
-	while (str[++i])
+	while (str && str[++i])
 		dest[i] = str[i];
 	dest[i] = '\0';
 	return (dest);

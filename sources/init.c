@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/23 16:11:26 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:05:04 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_element	*ft_init_struct(t_gc *gc)
 	elements->error = NULL;
 	elements->env = NULL;
 	// elements->err = 0;
-	elements->err = ft_itoa(0, gc);
+	elements->exit_status = ft_itoa(0, gc);
  	return (elements);
 }
 

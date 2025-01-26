@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/23 18:18:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 14:52:30 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 			elements->child_to_wait = elements->child_to_wait - 1; //a verifier si pas de pbm apres
 			perror("fork failed");
 		}
+		ft_ignore_signal(gc);
 		if (elements->pid_arr[i] == 0)
 		{
 			//perror("tt");
@@ -209,7 +210,7 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 			}
 			else
 			{
-				perror("ets2");
+				//perror("ets2");
 				exec_command(elements, gc, i); // faire distinction entre buil in et autre ici + rajouter cas ou une seule commande
 			}
 		}

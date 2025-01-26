@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/23 16:16:39 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:11:09 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,42 @@ void	part_close(t_element *elements, int k)
 	}
 }
 
+void	exit_status(int	status, t_element *elements, t_gc *gc)
+{
+	int	signal;
+
+	if (WIFSIGNALED(status))
+	{
+		elements->exit_status = ft_itoa(WTERMSIG(status) + 128, gc);
+		signal = WTERMSIG(status);
+		if (signal == SIGQUIT)
+			write(2, "Quit (core dumped)\n", 20);
+	}
+	else if (WIFEXITED(status))
+		elements->exit_status = ft_itoa(WEXITSTATUS(status), gc);
+}
+
 void	wait_for_children(t_element *elements, t_gc *gc)
 {
 	int	i;
+	int	status;
 
 	i = 0;
+	status =0;
 	//perror("chelou");
 	if (elements->child_to_wait == 0)
 	{
-		elements->err = ft_itoa(errno, gc);
+		elements->exit_status = ft_itoa(errno, gc);
 		return ;
 	}
 	while (i < elements->child_to_wait)
 	{
 		//perror(" tres chelou");
-		wait(NULL);
+		waitpid(elements->pid_arr[i], &status, 0);
+		//wait(NULL);
 		i++;
 	}
+	exit_status(status, elements, gc);
 	//perror(" tres tres chelou");
 }
 

@@ -15,3 +15,27 @@
 8) minishell dans minishell
 
 Faire tous les tests avec 1 cmd puis plusieurs, fichiers valide ou non
+
+
+<<j <a cd b
+
+cd a (a fichier sans droit) = prbm de valgrind du a adri
+
+cat >out Makefile remettre ets2
+
+<<>>
+
+$$ print PID
+
+./minishell dans minishell puis ctrl + c
+
+cat puis mettre des entrees
+
+test signaux
+- cat | cat
+- sleep 3 | sleep 5 puis ctrl+c
+- cat | << lim puis signaux
+- cat puis entree
+- si ctrl d dasn heredoc la commande est lancee
+- si ctrol c dans heredoc toute la  lignec deo commande n est pas lancee
+- << d puis ctrl c, puis on quitte, problm de fd ouvert

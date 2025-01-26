@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 16:27:22 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:42:55 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,58 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
+}
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+	int	r;
+
+	i = 0;
+	sign = 1;
+	r = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+			i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+			r = r * 10 + str[i] - '0';
+			i++;
+	}
+	return (r * sign);
+}
+
+char	*get_next_line(int fd, t_gc *gc)
+{
+	static char	buffer[BUFFER_SIZE];
+	static int	buff_read;
+	static int	buff_pos;
+	int			i = 0;
+	char		line[70000];
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	while (1)
+	{
+		if (buff_pos >= buff_read)
+		{
+			buff_read = read(fd, buffer, BUFFER_SIZE);
+			if (buff_read <= 0)
+				break;
+			buff_pos = 0;
+		}
+		line[i++] = buffer[buff_pos++];
+		if (line[i - 1] == '\n')
+			break;
+	}
+	line[i] = '\0';
+	if (i == 0)
+		return (NULL);
+	return (ft_strdup(line, gc));
 }

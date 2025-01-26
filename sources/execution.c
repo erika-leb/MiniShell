@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/23 14:30:12 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 14:53:02 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,8 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	// print_cmd_list(elements->lst);
 	//dprintf(2,"filepath = %s\n", filepath);
 	//check_fds();
-	printf("errno dans child= %d\n", errno);
+	//printf("errno dans child= %d\n", errno);
+	//ft_exec_signal(gc);
 	execve(filepath, cmd, elements->env); //mettre ici un gc_cleanup ?
 	//perror("test3");
 }
@@ -202,6 +203,8 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 		//write(2, "command not found\n", 19); // a changer aussi
 		(gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
+	ft_exec_signal(gc);
+	//perror("marty");
 	if (current->cmd[0] && current->cmd[0][0]
 		&& (current->cmd[0][0] == '/'
 		|| current->cmd[0][0] == '.'))

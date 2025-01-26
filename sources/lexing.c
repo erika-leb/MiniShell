@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/23 13:26:21 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:50:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,18 @@ static void	ft_init_values(int *i, int *p_max, t_element *elements)
 	(*p_max) = 0;
 }
 
-void	hedge_case_1(char **tab, t_element *elements)
+void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
 {
 	int	i;
 	int	p_max;
 
 	//perror("lop");
 	ft_init_values(&i, &p_max, elements);
+	//printf("p_max = %d\n", p_max);
+	//printf("p_max[0] = %s tchoupi\n", tab[p_max]);
 	while (1)
 	{
-		if (!ft_strcmp(tab[p_max], "|")
+		if (ft_strcmp(tab[p_max], "|") == 0
 			&& tab[p_max + 1] && !ft_strcmp(tab[p_max + 1], "|"))
 			break ;
 		if (tab[p_max] && ft_istok_(tab[p_max]) && tab[p_max + 1]
@@ -109,7 +111,7 @@ void	hedge_case_1(char **tab, t_element *elements)
 	while (i < p_max - 1)
 	{
 		if (ft_strcmp(tab[i], "<<") == 0)
-			ft_open_heredoc_error(tab[i + 1]);
+			ft_open_heredoc(tab[i + 1], 1, elements, gc);
 		i++;
 	}
 }
@@ -140,7 +142,7 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
 	if (tab && tab[0] && ft_strcmp(tab[0], "\n") == 0)
 	{
 		//perror("titi");
-		hedge_case_1(tab, elements);
+		hedge_case_1(tab, elements, gc);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 16:39:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:03:17 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,8 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		elements->arr = tmp;
 	}
 	//////////////////////////////juste pour checker, useless sinon
-	i = -1;
-	while (elements->arr && elements->arr[++i])
-		printf("token %d :%s\n", i, elements->arr[i]);
+	// i = -1;
+	// while (elements->arr && elements->arr[++i])
+	// 	printf("token %d :%s\n", i, elements->arr[i]);
 	///////////////////////////////////////////////////////////////
 }

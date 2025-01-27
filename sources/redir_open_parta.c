@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/24 18:53:31 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:17:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc) //gestion des entrees ??
 {
 	if ((node->fd_in == ERROR_OPEN || node->fd_out == ERROR_OPEN) && redir->token == HEREDOC) // il ya eu un redir invalide et c est un heredoc
-		ft_open_heredoc(redir->name, 0, elements, gc); // 0 si error 1 sinon
+		ft_open_heredoc(redir->name, elements, gc); // 0 si error 1 sinon
 	else if (node->fd_in != ERROR_OPEN && node->fd_out != ERROR_OPEN) // il n'y a pas eu de redir invalide pour l'instant
 	{
+		node->active = FALSE;
 		if (node->fd_in >= 0) //ft_close pour verifier qu'on a les droits pour fermer et close ensuite?
 		{
 			close(node->fd_in);
@@ -26,7 +27,7 @@ void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc) //
 				unlink(".here");
 		}
 		if (redir->token == HEREDOC)
-			node->fd_in = ft_open_heredoc(redir->name, 1, elements, gc);
+			node->fd_in = ft_open_heredoc_error(redir->name, elements, gc);
 		else
 			ft_handle_no_here_out(node, redir, elements, gc);
 		// {

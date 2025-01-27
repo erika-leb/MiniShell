@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:56:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/22 15:57:58 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:46:27 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
 	// }
 	new->fd_in = -2;
 	new->fd_out = -2;
-	new->code_status = 0;
+	new->active = TRUE;
 	new->next = NULL;
 	if (!*lst)
 	{

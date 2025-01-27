@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/27 16:26:05 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:22:55 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,27 @@ volatile sig_atomic_t g_signal = 0;
 				//perror("test2");
 				lexing(elements->arr, &elements->lst, elements, &gc);
 				//perror("kikoulol");
-				ft_fill_arrays(elements, &gc);
-				//perror("bolosskikou");
-				pipe_creation(elements, &gc);
-				//perror("boloss");
-				//check_fds("parent au debut");
-				child_creation(elements, &gc);
-				//perror("bolosskikou");
-				close_pipes(elements);
-				//perror("kikoulol");
-				wait_for_children(elements, &gc);
-				//perror("wtf");
-				//printf("errno = %d\n", errno);
-				if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
-					unlink(".here"); //peut on le supprimer si on a pas les droits ?
-				//printf("exit_status = %s\n", elements->exit_status);
-				//elements->exit_status = ft_itoa(errno, &gc);
-				//check_fds("parent a la fin");
-				reset_signal_status();
+				if (elements->line_valid == TRUE)
+				{
+					ft_fill_arrays(elements, &gc);
+					//perror("bolosskikou");
+					pipe_creation(elements, &gc);
+					//perror("boloss");
+					//check_fds("parent au debut");
+					child_creation(elements, &gc);
+					//perror("bolosskikou");
+					close_pipes(elements);
+					//perror("kikoulol");
+					wait_for_children(elements, &gc);
+					//perror("wtf");
+					//printf("errno = %d\n", errno);
+					if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
+						unlink(".here"); //peut on le supprimer si on a pas les droits ?
+					//printf("exit_status = %s\n", elements->exit_status);
+					//elements->exit_status = ft_itoa(errno, &gc);
+					//check_fds("parent a la fin");
+					reset_signal_status();
+				}
 			}
 		}
 	}

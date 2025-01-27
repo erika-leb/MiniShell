@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 14:28:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:40:02 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,41 +180,46 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 	ft_handle_signal(1, gc);
 	while (i < elements->nb_cmd) //voir a partir de la
 	{
-		elements->pid_arr[i] = fork();
-		if (elements->pid_arr[i] == -1)
+		if (current->active == TRUE)
 		{
-			elements->child_to_wait = elements->child_to_wait - 1; //a verifier si pas de pbm apres
-			perror("fork failed");
-		}
-		//ft_ignore_signal(gc);
-		if (elements->pid_arr[i] == 0)
-		{
-			//perror("tt");
-			hedge_child_cases(elements, gc, current);
-			// if (!current->cmd[0])
-			// 	(close_pipes(elements), gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
-			// redir = current->redir;
-			// while(redir)
-			// {
-			// 	if (ft_strncmp("$\n", redir->name, 2) == 0)
-			// 		(close_pipes(elements), gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
-			// 	redir = redir->next;
-			// }
-			child_process(i, elements, current, gc);
-			// printf("\n APRES FORK \n\n");
-			// print_cmd_list(elements->lst);
-			//perror("tt2");
-			if (is_built_in(current->cmd[0]) == TRUE)
+			elements->pid_arr[i] = fork();
+			if (elements->pid_arr[i] == -1)
 			{
-				//perror("ets1");
-				ft_built_in(elements, current->cmd, gc);  // a voir
+				elements->child_to_wait = elements->child_to_wait - 1; //a verifier si pas de pbm apres
+				perror("fork failed");
 			}
-			else
+			//ft_ignore_signal(gc);
+			if (elements->pid_arr[i] == 0)
 			{
-				//perror("ets2");
-				exec_command(elements, gc, i); // faire distinction entre buil in et autre ici + rajouter cas ou une seule commande
+				//perror("tt");
+				hedge_child_cases(elements, gc, current);
+				// if (!current->cmd[0])
+				// 	(close_pipes(elements), gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+				// redir = current->redir;
+				// while(redir)
+				// {
+				// 	if (ft_strncmp("$\n", redir->name, 2) == 0)
+				// 		(close_pipes(elements), gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+				// 	redir = redir->next;
+				// }
+				child_process(i, elements, current, gc);
+				// printf("\n APRES FORK \n\n");
+				// print_cmd_list(elements->lst);
+				//perror("tt2");
+				if (is_built_in(current->cmd[0]) == TRUE)
+				{
+					//perror("ets1");
+					ft_built_in(elements, current->cmd, gc);  // a voir
+				}
+				else
+				{
+					//perror("ets2");
+					exec_command(elements, gc, i); // faire distinction entre buil in et autre ici + rajouter cas ou une seule commande
+				}
 			}
 		}
+		else
+			elements->child_to_wait = elements->child_to_wait - 1;
 		ft_handle_signal(0, gc);
 		i++;
 		current = current->next;

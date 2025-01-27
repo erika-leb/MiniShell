@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/26 15:50:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:08:46 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
 	while (i < p_max - 1)
 	{
 		if (ft_strcmp(tab[i], "<<") == 0)
-			ft_open_heredoc(tab[i + 1], 1, elements, gc);
+			ft_open_heredoc_error(tab[i + 1], elements, gc);
 		i++;
 	}
 }

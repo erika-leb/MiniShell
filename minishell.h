@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/27 14:38:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:18:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_cmd
 	int		fd_out;
 	//char	*path; //pas encore ?
 	struct s_cmd *next;
-	int		code_status; // a recevoir dans le pipe du dernier enfant
+	int		active;
 }	t_cmd;
 
 typedef struct	s_element
@@ -99,6 +99,7 @@ typedef struct	s_element
 	int		**pipes;
 	char	*error;
 	int		child_to_wait;
+	int		line_valid;
 	//int		err;
 	char	*exit_status;
 }	t_element;
@@ -234,9 +235,12 @@ void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 
 // redir_open_partb.c
 void	ft_error_out(char *name, t_element *elements, t_gc *gc);
-int	ft_open_heredoc(char *del, int flag, t_element *elements, t_gc *gc);
 void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
 //int	ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc);
+
+//heredoc.c
+int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc);
+int	ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc);
 
 // cmd_arr.c
 int		nb_arg(char **tab, int i, int last_i);
@@ -307,13 +311,6 @@ void	ft_unset(t_element *element, char **argv, t_gc *gc);
 //cd_pwd.c
 void	ft_pwd(t_element *elements, t_gc *gc);
 void	ft_cd(t_built *built, t_gc *gc);
-
-//get_next_line.c
-// char	*get_next_line(int fd, t_gc *gc);
-// char	*clean_stash_buffer(char *stash, char *buffer, int *n);
-// char	*read_and_stock(int fd, char *line, char *buffer, int *n);
-// int		ft_strchr(char *s, char c);
-// char	*ft_strjoin(char *s1, char *s2);
 
 // pour test
 void print_cmd_list(t_cmd *cmd_list);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/26 13:23:34 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:28:10 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	printf_mess_d(char *del, t_element *elements, t_gc *gc)
 	ft_buff_error(" delimited by end-of-file (wanted `", elements, gc);
 	ft_buff_error(del, elements, gc);
 	ft_buff_error("')\n", elements, gc);
+	ft_write_error(elements, gc);
 }
 
 // int	ft_open_heredoc(char *del, int flag, t_element *elements, t_gc *gc)
@@ -197,33 +198,29 @@ int	ft_open_heredoc(char *del, int flag, t_element *elements, t_gc *gc)
 	fd = open(".here", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0) // changer le message d erreur
 		return (perror("Error opening .here"), -1);
-	ft_heredoc_signal(gc);
+	//ft_heredoc_signal(gc);
 	while (1)
 	{
 		lign = readline("> ");
-		if (g_signal == 1) // Si Ctrl+C est détecté, on interrompt le heredoc
+		if (g_signal != 0) // Si Ctrl+C est détecté, on interrompt le heredoc
 		{
-			perror("\b\b\b\b\b\b\b\bpeach");
+			//perror("peach");
 			g_signal = 0; // Réinitialise le signal
-			free(lign); // Libère la mémoire de la ligne lue
 			break ; // Quitte la boucle
 		}
 		if (lign == NULL) // Si EOF (Ctrl+D) est détecté
 		{
 			printf_mess_d(del, elements, gc);
-			free(lign);
 			break ;
 		}
 		if (ft_strcmp(lign, del) == 0) // Si le délimiteur est rencontré
-		{
-			free(lign);
 			break;
-		}
+
 		ft_putstr_fd(lign, fd);
 		ft_putstr_fd("\n", fd);
-		free(lign);
 	}
-	ft_interactive_signal(gc);
+	//ft_interactive_signal(gc);
+	free(lign);
 	close(fd);
 	if (flag == 1)
 		fd = open(".here", O_RDONLY);

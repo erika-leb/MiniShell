@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/26 16:11:09 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:26:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,23 @@ void	exit_status(int	status, t_element *elements, t_gc *gc)
 {
 	int	signal;
 
-	if (WIFSIGNALED(status))
+	//perror("jake");
+	if (WIFSIGNALED(status)) //verification si process terminee a cause d un signal
 	{
+		//perror("peralta");
 		elements->exit_status = ft_itoa(WTERMSIG(status) + 128, gc);
 		signal = WTERMSIG(status);
 		if (signal == SIGQUIT)
 			write(2, "Quit (core dumped)\n", 20);
+		if (signal == SIGINT)
+			write(2, "\n", 1);
 	}
-	else if (WIFEXITED(status))
+	else if (WIFEXITED(status))  //verification si process terminee normalement
+	{
+		//perror("holt");
 		elements->exit_status = ft_itoa(WEXITSTATUS(status), gc);
+		//printf("status = %s\n", elements->exit_status);
+	}
 }
 
 void	wait_for_children(t_element *elements, t_gc *gc)

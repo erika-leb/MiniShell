@@ -45,12 +45,18 @@ size_t	gc_get_malloc_size(void *ptr, t_gc *gc)
 	return (0);
 }
 
-void	*gc_realloc(void *ptr, size_t new_size, t_gc *gc)
+void	*gc_realloc(void *ptr, size_t new_size, t_gc *gc) // a ameliorer
 {
 	void	*new_ptr;
 	size_t	old_size;
-	
+
 	new_ptr = gc_malloc(new_size, gc);
+	if (!new_ptr)
+	{
+		perror("allocation failed");
+		gc_cleanup(gc);
+		exit(EXIT_FAILURE);
+	}
 	if (ptr)
 	{
 		old_size = gc_get_malloc_size(ptr, gc);

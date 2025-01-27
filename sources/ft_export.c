@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 11:32:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 18:45:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	{
 		write(2, "minishell: export: No option(s) allowed\n", 41);
 		gc_remove(gc, head);
-		exit(2);
+		element->exit_status = ft_itoa(2, gc);
 	}
 	i = 0;
 	while (argv[++i])
@@ -109,5 +109,6 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
 	// 	i++;
 	// }
+	element->exit_status = ft_itoa(0, gc);
 	return (adder);//a tej plus tard
 }

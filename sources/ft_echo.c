@@ -104,6 +104,7 @@ void	ft_echo(char **cmd, t_gc *gc)
 		buf[k++] = '\n';
 	f = write(1, buf, k); //a verifier le 1
 	write_error(f, gc);
+	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 }
 
 // int main() {

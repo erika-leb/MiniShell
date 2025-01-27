@@ -39,3 +39,11 @@ test signaux
 - si ctrl d dasn heredoc la commande est lancee
 - si ctrol c dans heredoc toute la  lignec deo commande n est pas lancee
 - << d puis ctrl c, puis on quitte, problm de fd ouvert
+- cd vgrbnyrb invalid read
+- unset puis echo $? donne 2 alors qu'il faudrait que ce soit 0
+- cat | cat puis ctrl + d ne fait rien
+
+
+demain
+- signaux
+- cd vrbynb : mauvais $?, leak et double impression

@@ -6,12 +6,17 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/26 15:53:22 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:26:05 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
+
+int	rl_event_handler(void)
+{
+	return (0);
+}
 
 volatile sig_atomic_t g_signal = 0;
 
@@ -28,21 +33,24 @@ volatile sig_atomic_t g_signal = 0;
 	//perror("avant init");
 	elements = ft_init_struct(&gc);
  	//ft_signal_handle(&gc);
- 	ft_welcome();
+	ft_welcome();
 	ft_cpy_env(elements, env, &gc);
+	reset_signal_status();
+	ft_handle_signal(0, &gc);
 	//ft_interactive_signal(&gc);
- 	while (1)
- 	{
+	rl_event_hook = rl_event_handler;
+	while (1)
+	{
 		//perror("henry");
-		ft_interactive_signal(&gc);
+		//ft_interactive_signal(&gc);
 		elements->lst = NULL;
 		//perror("styles");
- 		elements->line = readline("minishell> ");
+		elements->line = readline("minishell> ");
 		//perror("harry");
- 		if (elements->line == NULL) // c est pour ctrl d je crois
+		if (elements->line == NULL) // c est pour ctrl d je crois
 			(gc_cleanup(&gc), exit(EXIT_SUCCESS));
- 		if (elements->line && *(elements->line))
- 			add_history(elements->line);
+		if (elements->line && *(elements->line))
+			add_history(elements->line);
 		// printf("line = %s vgbgbh\n", elements->line);
 		// perror("thierry");
 		if  (ft_strcmp(elements->line, "") != 0) //ligne de merde pour eviter le segfault dans hegde case 1 si je fais entree; demander correction a adrien
@@ -62,39 +70,22 @@ volatile sig_atomic_t g_signal = 0;
 				//check_fds("parent au debut");
 				child_creation(elements, &gc);
 				//perror("bolosskikou");
-				//close_pipes(elements);
+				close_pipes(elements);
 				//perror("kikoulol");
 				wait_for_children(elements, &gc);
 				//perror("wtf");
-				//perror("test3");
 				//printf("errno = %d\n", errno);
 				if(access(".here", F_OK) == 0) // existe deja donc aura deja ete ferme avant normalement
 					unlink(".here"); //peut on le supprimer si on a pas les droits ?
-				elements->err = ft_itoa(errno, &gc);
+				//printf("exit_status = %s\n", elements->exit_status);
+				//elements->exit_status = ft_itoa(errno, &gc);
 				//check_fds("parent a la fin");
+				reset_signal_status();
 			}
 		}
- 	}
-	gc_cleanup(&gc); // utile ?
-	exit(EXIT_SUCCESS); // utile ?
+	}
+	// gc_cleanup(&gc); // utile ?
+	// exit(EXIT_SUCCESS); // utile ?
 	return (0);
 }
 
-// int	main(int ac, char **av)
-// {
-// 	char	**result;
-// 	int		i;
-// 	(void) ac;
-
-// 	result = ft_split(ft_tokenize(av[1]), av[2][0], 0, 0);
-// 	if (result == NULL)
-// 		return (printf("Erreur : ft_split a renvoyé NULL\n"));
-// 	i = 0;
-// 	while (result[i])
-// 	{
-// 		printf("token %d : %s\n", i, result[i]);
-// 		i++;
-// 	}
-// 	ft_freesplit(result, i);
-// 	return (0);
-// }

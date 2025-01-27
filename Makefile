@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/26 17:43:06 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/01/26 17:52:18 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,8 +57,8 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_unset.c \
 			${SRC_DIR}/cd_pwd.c \
 			# ${SRC_DIR}/get_next_line_bis.c \
-			# ${SRC_DIR}/get_next_line.c \
-			# ${SRC_DIR}/get_next_line_utils.c \
+			${SRC_DIR}/get_next_line.c \
+			${SRC_DIR}/get_next_line_utils.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
@@ -101,8 +101,8 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_unset.o \
 			${OBJ_DIR}/cd_pwd.o \
 			# ${OBJ_DIR}/get_next_line_bis.o \
-			# ${OBJ_DIR}/get_next_line.o \
-			# ${OBJ_DIR}/get_next_line_utils.o \
+			${OBJ_DIR}/get_next_line.o \
+			${OBJ_DIR}/get_next_line_utils.o \
 
 NAME = minishell
 

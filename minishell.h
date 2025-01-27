@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/26 17:35:46 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/27 14:38:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,12 @@ typedef struct	s_var
 	int	k;
 }	t_var;
 
+typedef struct	s_vars
+{
+	int		fd;
+	char	*line;
+}	t_vars;
+
 typedef struct s_env
 {
 	char         *name;
@@ -123,6 +129,8 @@ typedef struct s_env
 }   t_env;
 
 extern volatile sig_atomic_t g_signal;
+
+extern rl_hook_func_t *rl_event_hook;
 
 //parsing.c
 void	ft_deldollar(char *input);
@@ -170,11 +178,12 @@ void	ft_buff_error(char *str, t_element *elements, t_gc *gc);
 void	ft_write_error(t_element *elements, t_gc *gc);
 
 //signal.c
-//void	ft_signal_handle(int mode, t_gc *gc);
+void	ft_handle_signal(int process, t_gc *gc);
 void	ft_interactive_signal(t_gc *gc);
 void	ft_heredoc_signal(t_gc *gc);
 void	ft_ignore_signal(t_gc *gc);
 void	ft_exec_signal(t_gc *gc);
+void	reset_signal_status(void);
 
 //init.c
 void		ft_welcome(void);
@@ -300,11 +309,11 @@ void	ft_pwd(t_element *elements, t_gc *gc);
 void	ft_cd(t_built *built, t_gc *gc);
 
 //get_next_line.c
-char	*get_next_line(int fd, t_gc *gc);
-char	*clean_stash_buffer(char *stash, char *buffer, int *n);
-char	*read_and_stock(int fd, char *line, char *buffer, int *n);
-int		ft_strchr(char *s, char c);
-char	*ft_strjoin(char *s1, char *s2);
+// char	*get_next_line(int fd, t_gc *gc);
+// char	*clean_stash_buffer(char *stash, char *buffer, int *n);
+// char	*read_and_stock(int fd, char *line, char *buffer, int *n);
+// int		ft_strchr(char *s, char c);
+// char	*ft_strjoin(char *s1, char *s2);
 
 // pour test
 void print_cmd_list(t_cmd *cmd_list);

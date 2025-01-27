@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:43:09 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/24 17:59:24 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:10:14 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_pwd(t_element *elements, t_gc *gc)
 	printf("%s\n", buff);
 	//write(1, buff, ft_strlen(buff));
 	free(buff);
+	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 }
 
 void	cd_error(t_built *built, t_gc *gc)
@@ -93,13 +94,15 @@ void	ft_cd(t_built *built, t_gc *gc)
 		return ;
 	//printf("OLDPWD = %s\n\n\n", buff_old);
 	if (chdir(built->cmd[1]) != 0)
-	//{
+	{
 		cd_error(built, gc);
+		built->elements->exit_status = ft_itoa(1, gc);
+		return ;
 	//
 	// 	perror("test");
 	 	//printf("errno = %d\n", errno); //mettre le message d erreur en fonction de errno ici
 	//
-	//}
+	}
 	buff = getcwd(NULL, 0);
 	if (!buff)
 	{
@@ -146,6 +149,7 @@ void	ft_cd(t_built *built, t_gc *gc)
 	free(buff_old);
 	/////////////////////////////////////////////////////////////////
 	remove_old_env(head, built, gc);
+	built->elements->exit_status = ft_itoa(0, gc);
 	// Etape 3 : je transforme head en tableau de chaine de caractere, je nettoie l'ancien env et j'en recree
 	//un nouveau
 	// char	**new_env;

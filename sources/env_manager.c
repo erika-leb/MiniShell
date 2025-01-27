@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 15:25:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 18:13:20 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ void ft_env(char **array, char **cmds, t_gc *gc)
 
 	if (cmds && cmds[1])//cmds && servait juste a le tester dans mon main
 	{//parsing. cmds[0] = env     cmds[1...] = le reste ...
-		printf("env: No option(s) or argument(s) allowed\n");//ft_write
-		exit (127);//ou 125 ?
+		printf("minshell: env: No option(s) or argument(s) allowed\n");//ft_write
+		(gc_cleanup(gc), free_std(), exit(127));//ou 125 ?
 	}
 	i = 0;
 	while (array[i])
@@ -125,4 +125,5 @@ void ft_env(char **array, char **cmds, t_gc *gc)
 			printf("%s\n", array[i]);//ft_write
 		i++;
 	}
+	(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
 }

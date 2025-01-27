@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/22 12:02:05 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/26 18:47:55 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ void ft_unset(t_element *element, char **argv, t_gc *gc)
 	char	**adder;
 
 	if (ft_initunset(&head, element->env, argv, gc))
+	{
+		element->exit_status = ft_itoa(0, gc);
 		return ;
+	}
 	i = 1; // On commence à cmd[1]
 	while (argv[i])
 	{
@@ -91,7 +94,7 @@ void ft_unset(t_element *element, char **argv, t_gc *gc)
 	gc_remove(gc, head);
 	gc_remove(gc, element->env);
 	element->env = adder;
-
+	element->exit_status = ft_itoa(0, gc);
 	// int s_arr;
 	// s_arr = ft_arr_size(element->env);
 	// printf("s = %d\n", s_arr);

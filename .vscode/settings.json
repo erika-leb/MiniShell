@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"gc.h": "c"
+		"gc.h": "c",
+		"limits": "c"
 	}
 }

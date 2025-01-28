@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:43:09 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/26 19:10:14 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:58:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_pwd(t_element *elements, t_gc *gc)
 
 void	cd_error(t_built *built, t_gc *gc)
 {
+	//perror("die");
 	ft_buff_error("minishell: cd: ", built->elements, gc);
 	ft_buff_error(built->cmd[1], built->elements, gc);
 	// if (errno == 13)
@@ -48,6 +49,7 @@ void	cd_error(t_built *built, t_gc *gc)
 	ft_buff_error(strerror(errno), built->elements, gc);
 	ft_buff_error("\n", built->elements, gc);
 	ft_write_error(built->elements, gc);
+	//perror("hard");
 }
 
 static void	remove_old_env(t_env *head, t_built *built, t_gc *gc)
@@ -57,27 +59,53 @@ static void	remove_old_env(t_env *head, t_built *built, t_gc *gc)
 	char	**new_env;
 
 	new_env = ft_ltoa(head, gc);
-	gc_remove(gc, head);
+	// gc_remove(gc, head);
 	gc_remove(gc, built->elements->env);
 	built->elements->env = new_env;
+	gc_remove(gc, head);
 }
 
-static void	change_var_name(t_env *current, char *buff, t_gc *gc)
+// static void	change_var_name(t_env *current, char *buff, t_gc *gc)
+// {
+// 	char	*str;
+// 	int		i;
+
+// 	str = gc_malloc(ft_strlen(buff) + 1, gc);
+// 	i = 0;
+// 	while(buff[i])
+// 	{
+// 		str[i] = buff[i];
+// 		i++;
+// 	}
+// 	str[i] = '\0';
+// 	gc_remove(gc, current->key);
+// 	current->key = buff;
+// }
+
+static void	change_var_name(t_env *current, const char *buff, t_gc *gc)
 {
-	char	*str;
-	int		i;
+	char	*new_value;
+	int		len;
 
-	str = gc_malloc(ft_strlen(buff) + 1, gc);
-	i = 0;
-	while(buff[i])
-	{
-		str[i] = buff[i];
-		i++;
-	}
-	str[i] = '\0';
+	// Calculer la longueur de buff
+	len = ft_strlen(buff);
+
+	// Allouer une nouvelle chaîne de la même taille
+	new_value = gc_malloc(len + 1, gc);
+
+	// Copier le contenu de buff vers new_value en limitant à len caractères
+	ft_strncpy(new_value, buff, len);
+
+	// Ajouter le terminateur nul si strncpy ne le fait pas
+	new_value[len] = '\0';
+
+	// Libérer l'ancienne clé
 	gc_remove(gc, current->key);
-	current->key = buff;
+
+	// Affecter la nouvelle clé
+	current->key = new_value;
 }
+
 
 //hedge case : si je suis dans un Dossier que je supprime, alors en faisant cd .. j'ai un message d'erreur
 //Demander a Paul. Regarder la conversation avec adri sur Discord // en faisant cd .. verifier que le directory existent avec access ?
@@ -89,6 +117,7 @@ void	ft_cd(t_built *built, t_gc *gc)
 	t_env	*head;
 	t_env	*current;
 
+	//perror("hans");
 	buff_old = getcwd(NULL, 0);
 	if (!buff_old)
 		return ;
@@ -97,6 +126,7 @@ void	ft_cd(t_built *built, t_gc *gc)
 	{
 		cd_error(built, gc);
 		built->elements->exit_status = ft_itoa(1, gc);
+		free(buff_old);
 		return ;
 	//
 	// 	perror("test");

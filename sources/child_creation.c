@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 18:40:02 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:28:03 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,10 @@ int	no_child_events(t_element *elements, t_gc *gc, t_cmd *current)
 			|| ft_strcmp(elements->lst->cmd[0], "export") == 0
 			|| ft_strcmp(elements->lst->cmd[0], "unset") == 0
 			|| ft_strcmp(elements->lst->cmd[0], "cd") == 0))
+	{
 		built_in_no_child(elements, gc);
+		return (1);
+	}
 	return (0);
 }
 
@@ -159,7 +162,11 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 	//perror("la");
 	//printf("nb cmd = %d\n", elements->nb_cmd);
 	if (no_child_events(elements, gc, current) == 1)
+	{
+		//perror("gruber");
+		elements->child_to_wait = 0;
 		return ;
+	}
 	// if (elements->nb_cmd == 1 && !elements->lst->cmd[0])
 	// {
 	// 	elements->child_to_wait = 0;

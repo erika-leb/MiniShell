@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:01 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/26 18:09:45 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:21:16 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 	built->elements = elements;
 	if (ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(built, gc);
-	if (ft_strcmp(cmd[0], "echo") == 0)
+	else if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_echo(cmd, gc);
 	else if (ft_strcmp(cmd[0], "export") == 0)
 	 	ft_export(elements, cmd, gc);

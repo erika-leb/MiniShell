@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 18:08:46 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:16:17 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,9 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
 	// print_cmd_list(*lst);
 	//perror("normalement les messages ne sont pas encore affiches");
 	//printf("error = %s\n", elements->error);
+	//perror("john");
 	ft_write_error(elements, gc);
+	//perror("mclane");
 	//printf("cmd = %d\n", elements->lst->cmd);
 	//printf("cmd[0] = %s\n", elements->lst->cmd[0]);
 }

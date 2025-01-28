@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:51:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 15:24:30 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:11:48 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 static void	handle_sigint(int sig)
 {
 	(void) sig;
-	//write(2, "hi\n", 2);
+
 	rl_done = 1;
 	g_signal = sig;
 	//printf("g_signa=%d\n", g_signal);
@@ -35,7 +35,6 @@ static void	handle_sigint(int sig)
 static void	handle_sigint_in_process(int sig)
 {
 	(void) sig;
-	//write(2, "hi\n", 2);
 	write(2, "\n", 1);
 	rl_done = 1;
 	g_signal = sig;

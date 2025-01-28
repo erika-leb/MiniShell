@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/27 18:22:55 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:16:11 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ volatile sig_atomic_t g_signal = 0;
 				//perror("test2");
 				lexing(elements->arr, &elements->lst, elements, &gc);
 				//perror("kikoulol");
+				//printf("line amin= %d\n", elements->line_valid);
 				if (elements->line_valid == TRUE)
 				{
 					ft_fill_arrays(elements, &gc);

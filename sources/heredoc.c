@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 18:17:22 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:07:04 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,20 @@ void	printf_mess_d(char *del, t_element *elements, t_gc *gc)
 {
 	int	nb_l;
 
+	(void) elements;
+	(void) gc;
 	nb_l = count_lines(".here");
-	ft_buff_error("minishell: warning: here-document at line ", elements, gc);
-	ft_buff_error(ft_itoa(nb_l, gc), elements, gc);
-	ft_buff_error(" delimited by end-of-file (wanted `", elements, gc);
-	ft_buff_error(del, elements, gc);
-	ft_buff_error("')\n", elements, gc);
-	ft_write_error(elements, gc);
+	// ft_buff_error("minishell: warning: here-document at line ", elements, gc);
+	// ft_buff_error(ft_itoa(nb_l, gc), elements, gc);
+	// ft_buff_error(" delimited by end-of-file (wanted `", elements, gc);
+	// ft_buff_error(del, elements, gc);
+	// ft_buff_error("')\n", elements, gc);
+	//ft_write_error(elements, gc);
+	write(2, "minishell: warning: here-document at line ", 43);
+	ft_putstr_fd(ft_itoa(nb_l, gc), 2);
+	write(2, " delimited by end-of-file (wanted `", 36);
+	ft_putstr_fd(del, 2);
+	write(2, "')\n", 4);
 }
 
 int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
@@ -87,7 +94,9 @@ int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 		if (g_signal != 0) // Si Ctrl+C est détecté, on interrompt le heredoc
 		{
 			elements->exit_status = ft_itoa(128 + g_signal, gc);
-			elements->nb_cmd--;
+			//elements->nb_cmd--;
+			//elements->line_valid = FALSE;
+			//perror("liloo");
 			g_signal = 0; // Réinitialise le signal
 			free(lign);
 			return (1); // Quitte la boucle
@@ -112,6 +121,7 @@ int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 int	ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc)
 {
 	int		fd;
+	int		r;
 	//char	*lign;
 
 	if (access(".here", F_OK) == 0)
@@ -119,7 +129,15 @@ int	ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc)
 	fd = open(".here", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0) // changer le message d erreur
 		return (perror("Error opening .here"), -1);
-	ft_read_heredoc(del, fd, elements, gc);
+	r = ft_read_heredoc(del, fd, elements, gc);
+	if (r == 1)
+	{
+		//perror("dallas");
+		elements->line_valid = FALSE;
+		close(fd);
+		printf("line = %d\n", elements->line_valid);
+		return (-1);
+	}
 	//ft_heredoc_signal(gc);
 	// while (1)
 	// {
@@ -160,6 +178,7 @@ int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc)
 	int		r;
 	//char	*lign;
 
+	//perror("willis");
 	if (access(".here", F_OK) == 0)
 		unlink(".here");
 	fd = open(".here", O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -167,7 +186,13 @@ int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc)
 		return (perror("Error opening .here"), -1);
 	r = ft_read_heredoc(del, fd, elements, gc);
 	if (r == 1)
+	{
+		//perror("dallas");
 		elements->line_valid = FALSE;
+		close(fd);
+		//printf("line = %d\n", elements->line_valid);
+		return (-1);
+	}
 	//ft_heredoc_signal(gc);
 	// while (1)
 	// {

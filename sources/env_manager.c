@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/26 18:13:20 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:27:25 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,15 @@ void ft_freetab(char **array)
 
 //De facon general il faut bien faire gaffe au comportement de minishell
 //si le user s'amuse a mettre les options n'importe ou dans cmds[i] ?
-int   ft_exparser(char *name_key)
+int   ft_exparser(char *name_key, t_element *elements, t_gc *gc)
 {
 	int i;
 
+	(void) elements;
+	(void) gc;
 	//ft_write de Erika a ajouter
 	if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
-		return (printf("export: FIRST LETTER not a valid identifier\n"));
+		return (printf("export: FIRST LETTER not a valid identifier\n")); //changer le message et le exit status
 	i = 0;//on check a partir du 2eme caractere c'est pourquoi on met i = 0.
 	while (name_key[++i])
 	{
@@ -110,19 +112,26 @@ static char	*ft_strchr(char const *str, int c)
 
 void ft_env(char **array, char **cmds, t_gc *gc)
 {
-	int i;
+	int		i;
+	int		size;
+	char	*res;
 	(void)gc;
 
 	if (cmds && cmds[1])//cmds && servait juste a le tester dans mon main
 	{//parsing. cmds[0] = env     cmds[1...] = le reste ...
-		printf("minshell: env: No option(s) or argument(s) allowed\n");//ft_write
+		write(2,"minshell: env: No option(s) or argument(s) allowed\n", 52);//ft_write
 		(gc_cleanup(gc), free_std(), exit(127));//ou 125 ?
 	}
 	i = 0;
 	while (array[i])
 	{
 		if (ft_strchr(array[i],'='))
-			printf("%s\n", array[i]);//ft_write
+		{
+			res = ft_strjoin_(array[i], "\n", gc);
+			size = ft_strlen(array[i]);
+			write(1, res, size);
+		}
+			//printf("%s\n", array[i]);//ft_write
 		i++;
 	}
 	(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));

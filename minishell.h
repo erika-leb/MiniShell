@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/27 18:18:06 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:44:31 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	ft_buff_error(char *str, t_element *elements, t_gc *gc);
 void	ft_write_error(t_element *elements, t_gc *gc);
 
 //signal.c
-void	ft_handle_signal(int process, t_gc *gc);
+void	ft_handle_signal(int process);
 void	ft_interactive_signal(t_gc *gc);
 void	ft_heredoc_signal(t_gc *gc);
 void	ft_ignore_signal(t_gc *gc);
@@ -289,7 +289,7 @@ void	exec_command(t_element *elements, t_gc *gc, int i);
 //env_manager.c
 char	**ft_ltoa(t_env *head, t_gc *gc);
 void    ft_freetab(char **array);
-int     ft_exparser(char *name_key);
+int		ft_exparser(char *name_key, t_element *elements, t_gc *gc);
 void    ft_env(char **array, char **cmds, t_gc *gc);
 
 //ft_export.c
@@ -309,7 +309,7 @@ void     ft_bbsort(t_env *head);
 void	ft_unset(t_element *element, char **argv, t_gc *gc);
 
 //cd_pwd.c
-void	ft_pwd(t_element *elements, t_gc *gc);
+void	ft_pwd(char **cmd, t_element *elements, t_gc *gc);
 void	ft_cd(t_built *built, t_gc *gc);
 
 // pour test

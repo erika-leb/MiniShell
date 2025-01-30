@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 14:24:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:09:30 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,70 +68,58 @@ static char	*ft_strjoin(char *s1, char *s2, t_gc *gc)
 
 void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 {
-	int	err;
+	int		err;
 
 	err = 0;
 	(void) i;
 	if (access(cmd[0], X_OK) != 0)
 	{
+		err = errno;
 		//write(2, "Error : command not found\n", 27);
 		ft_buff_error("minishell: ", elements, gc);
 		ft_buff_error(cmd[0], elements, gc);
-		ft_buff_error(":  command not found\n", elements, gc);
+		ft_buff_error(": ", elements, gc);
+		ft_buff_error(strerror(err), elements, gc);
+		ft_buff_error("\n", elements, gc);
 		ft_write_error(elements, gc);
 		(free_std(), gc_cleanup(gc), exit(EXIT_FAILURE)); //autre que exit_fialure, il faut le numero en cas de cmd not found
 	}
-	execve(cmd[0], cmd, elements->env);
-	err = errno;
-	if (err == 26)
+	if (execve(cmd[0], cmd, elements->env) == -1)
 	{
+		err = errno;
 		ft_buff_error("minishell: ", elements, gc);
 		ft_buff_error(cmd[0], elements, gc);
-		ft_buff_error(": Text file busy\n", elements, gc);
+		ft_buff_error(": ", elements, gc);
+		ft_buff_error(strerror(err), elements, gc);
+		ft_buff_error("\n", elements, gc);
 		ft_write_error(elements, gc);
-		//write(2, "Error : Text file busy\n", 24);
-		(gc_cleanup(gc), exit(EXIT_FAILURE));
+		gc_cleanup(gc), free_std(), exit(errno); //mettre ici un gc_cleanup ?
 	}
+	// err = errno;
+	// {
+	// 	ft_buff_error("minishell: ", elements, gc);
+	// 	ft_buff_error(cmd[0], elements, gc);
+	// 	ft_buff_error(strerror(err), elements, gc);
+	// 	ft_write_error(elements, gc);
+	// 	//write(2, "Error : Text file busy\n", 24);
+	// 	(gc_cleanup(gc), exit(EXIT_FAILURE));
+	// }
+
+	// if (err == 26)
+	// {
+	// 	ft_buff_error("minishell: ", elements, gc);
+	// 	ft_buff_error(cmd[0], elements, gc);
+	// 	ft_buff_error(": Text file busy\n", elements, gc);
+	// 	ft_write_error(elements, gc);
+	// 	//write(2, "Error : Text file busy\n", 24);
+	// 	(gc_cleanup(gc), exit(EXIT_FAILURE));
+	// }
+	// else
+	// {
+	// 	perror("test"); // message a mettre a jour
+	// 	gc_cleanup(gc), free_std(), exit(errno); //mettre ici un gc_cleanup ?
+	// }
 }
-
-// void check_fds()
-// {
-//     struct stat statbuf;
-
-//     if (fcntl(STDIN_FILENO, F_GETFD) != -1)
-//     {
-//         dprintf(2, "stdin is open\n");
-//         if (fstat(STDIN_FILENO, &statbuf) == 0)
-//         {
-//             dprintf(2, "stdin is associated with inode: %ld\n", statbuf.st_ino);
-//         }
-//         else
-//         {
-//             perror("fstat stdin");
-//         }
-//     }
-//     else
-//     {
-//         dprintf(2, "stdin is closed\n");
-//     }
-
-//     if (fcntl(STDOUT_FILENO, F_GETFD) != -1)
-//     {
-//         dprintf(2, "stdout is open\n");
-//         if (fstat(STDOUT_FILENO, &statbuf) == 0)
-//         {
-//             dprintf(2, "stdout is associated with inode: %ld\n", statbuf.st_ino);
-//         }
-//         else
-//         {
-//             perror("fstat stdout");
-//         }
-//     }
-//     else
-//     {
-//         dprintf(2, "stdout is closed\n");
-//     }
-// }
 
 void	write_all_err_mess(char *str1, char *str2, t_element *elements, t_gc *gc)
 {
@@ -145,12 +133,16 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 {
 	int		j;
 	char	*filepath;
+	int		err;
 
 	j = 0;
 	(void) i;
 	filepath = NULL;
-	// if (!elements->mypaths)
-	// 	free_env(var, arg); // a quoi ca sert ??
+	if (!elements->mypaths)
+	{
+		write_all_err_mess(cmd[0], ": command not found\n", elements, gc);
+		gc_cleanup(gc), free_std(), exit(EXIT_FAILURE);
+	}
 	//perror("test1");
 	while (elements->mypaths[j])
 	{
@@ -167,23 +159,45 @@ void	path_relat(char **cmd, t_element *elements, int i, t_gc *gc)
 	//perror("test2");
 	if (!elements->mypaths[j]) //voir le cas ou !elements->mypaths a gerer
 	{
+		err = errno;
+		//perror("alex");
 		write_all_err_mess(cmd[0], ": command not found\n", elements, gc);
 		// ft_buff_error("minishell: ", elements, gc);
 		// ft_buff_error(cmd[0], elements, gc);
 		// ft_buff_error(": command not found\n", elements, gc);
 		// ft_write_error(elements, gc);
 		//write(2, "Error : command not found\n", 27);
-		(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
+		// ft_buff_error("minishell: ", elements, gc);
+		// ft_buff_error(cmd[0], elements, gc);
+		// ft_buff_error(": ", elements, gc);
+		// ft_buff_error(strerror(err), elements, gc);
+		// ft_buff_error("\n", elements, gc);
+		// ft_write_error(elements, gc);
+		// (gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
 		//(free_std(), exit(EXIT_FAILURE));
+		gc_cleanup(gc), free_std(), exit(127);
 	}
+	//perror("tara");
 	// printf("\n AVANT EXEC \n\n");
 	// print_cmd_list(elements->lst);
 	//dprintf(2,"filepath = %s\n", filepath);
 	//check_fds();
 	//printf("errno dans child= %d\n", errno);
 	//ft_exec_signal(gc);
-	execve(filepath, cmd, elements->env); //mettre ici un gc_cleanup ?
-	//perror("test3");
+	//dprintf(2, "file = %s\n", cmd[0]);
+	//dprintf(2, "file = %s\n", cmd[1]);
+	if (execve(filepath, cmd, elements->env) == -1)
+	{
+		err = errno;
+		//perror("willow");
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(cmd[0], elements, gc);
+		ft_buff_error(": ", elements, gc);
+		ft_buff_error(strerror(err), elements, gc);
+		ft_buff_error("\n", elements, gc);
+		ft_write_error(elements, gc);
+		gc_cleanup(gc), free_std(), exit(errno); //mettre ici un gc_cleanup ?
+	}//perror("test3");
 }
 
 void	exec_command(t_element *elements, t_gc *gc, int i)

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 16:33:44 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:18:12 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements)
     tmp[i] = '\0';
 	//printf("coucou\n");
 	if (!ft_strcmp(tmp, "?"))
-		return (elements->err);//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
+		return (elements->exit_status);//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
 	//pour que chaque enfant puisse modifier sa valeur. Puis y faire appel dans getenvv pour choper la derniere valeur prise
     return (getenv(tmp));
 }

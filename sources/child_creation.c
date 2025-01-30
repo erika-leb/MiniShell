@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/28 12:28:03 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:08:02 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc) //incrementer SHLV ici
 	if (cmd->fd_out >= 0) // possible de mettre les deux conditions a la suite
 	{
 		//cmd->fd_out = STDOUT_FILENO;
-		perror("ici");
+		//perror("ici");
 		if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
 		{
 			perror("Error: dup2 out failed"); //changer ici a la fin
@@ -184,11 +184,14 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 	// }
 	// if (elements->nb_cmd == 1 && (ft_strcmp(elements->lst->cmd[0], "exit") == 0 || ft_strcmp(elements->lst->cmd[0], "export") == 0 || ft_strcmp(elements->lst->cmd[0], "unset") == 0))
 	// 	built_in_no_child(elements, gc);
-	ft_handle_signal(1, gc);
+	//perror("serious");
+	ft_handle_signal(1);
 	while (i < elements->nb_cmd) //voir a partir de la
 	{
+		//perror("ly");
 		if (current->active == TRUE)
 		{
+			//perror("jet");
 			elements->pid_arr[i] = fork();
 			if (elements->pid_arr[i] == -1)
 			{
@@ -227,10 +230,11 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 		}
 		else
 			elements->child_to_wait = elements->child_to_wait - 1;
-		ft_handle_signal(0, gc);
+		// ft_handle_signal(0);
 		i++;
 		current = current->next;
 	}
+	// ft_handle_signal(0);
 }
 
 

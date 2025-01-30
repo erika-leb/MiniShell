@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/26 18:45:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:23:00 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	i = 0;
 	while (argv[++i])
 	{
-		if (!ft_exparser(argv[i]))
+		if (!ft_exparser(argv[i], element, gc))
 			ft_adder(&head, argv[i], gc);
 	}
 	adder = ft_ltoa(head, gc);

@@ -1,0 +1,84 @@
+- espaces //voir les tests de l'excel
+- echo \n hola
+- $> ""''echo hola""'''' que""'' tal""''
+- echo \$HOME (l128)
+- echo $UID
+- echo $9HOME
+- echo $UID$HOME%
+- echo $USER$var\$USER$USER\$USERtest$USER
+- |echo -n hola   segfault ici (toujours meme prbm adri)
+- $?$?
+- ?$HOME
+- $HOMEdskjhfkdshfsd pbm adri
+- "$HOMEdskjhfkdshfsd" (eri ou adri ? car '$HOMEdskjhfkdshfsd' fonctionne bien)
+- $DONTEXIST segfault
+-  $> $LESS$VAR segfault
+- holaCtlr-C = senser arreter mais n arrete pas (erika)
+- hola Ctlr-D (pas sur, ligne 216)
+- sleep 3 | sleep 3 | sleep 3 (faire Ctlr-\ une seconde apres)
+- env = ordre ???
+- mauvais message d erreur de la ligne 238 a 243
+- export HOL@=bonjour
+- export -HOLA=bonjour leak
+- export --HOLA=bonjour
+- export HOLA-=bonjour message
+- message de ligne a 248 a 262
+refaire les test de la ligne 238 a 381
+- /bin/ cd Desktop
+- /bin/cd Desktop = mauvais message
+- cat | << l (le cat ne se lance pas)
+- /    ou     '/'    ou "/"
+- unset HOME puis cd $HOME = comment gerer ce cas ? voir avec adri
+- "$> unset HOME
+$> export HOME
+$> cd"       segfault voir avec adri ce qui se passe si HOME tout seul     l441
+- export HOME ca s ajoute pas dans le env mais dans export si ca a lair d etre ok
+-l 452, 453, 454
+- ./minishell a l'air de mrcher mais pas sur
+- env | " wc" -l = en discuter avec adri
+- "$> env -i ./minishell
+$> env"
+"$> env -i ./minishell
+$> export"
+pas sur
+- exit -666 666 // a gerer ?
+- exit hola 666 (changer l ordre des priorites de messages d erreur)
+- exit -69 -96 mauvais message et code status
+- minishell> ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
+|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
+minishell: ls
+: command not found
+(retour a la ligne mal gere, comparrer avec bash)
+- $> export | echo hola (il faut enlever les printf de export)
+-  syntax error near unexpected token `|' il faut changer error status a ce niveau la (et a tous les messages d erreur du parsing)
+- ; | ls      = nouveau cas de parsing il faut stopper et dire bash: syntax error near unexpected token `;'
+pour ls | ; aussi
+- export HOLA=hey
+echo bonjour > $HOLA
+echo $HOLA"  l645
+- < pwd = mauvais exit code si pw n existe pas
+- cat >>. =message d erreur on a un soucis is a directory
+- cat < ls > ls : mauvais exit code
+- ligne 710 code de sortie
+
+bash-5.1$ << EOF cat
+> THIS
+> IS
+> $HOME
+> EOF
+THIS
+IS
+/home/ele-borg
+bash-5.1$ << 'EOF' cat
+> $HOME
+> EOF
+$HOME
+bash-5.1$ << "EOF" cat
+> $HOME
+> EOF
+$HOME
+expand dans heredoc
+
+- si minshell lance sans env,  jai mis cmd not found, a discuter avec adrien
+
+arret l694 resoudre prbm si env -i ls (lancer commande ? ou non)

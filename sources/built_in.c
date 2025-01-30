@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:01 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/28 12:21:16 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:05:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		ft_cd(built, gc);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
-		ft_pwd(elements, gc);
+		ft_pwd(cmd, elements, gc);
 	// int i;
 	// int s_arr;
 	// s_arr = ft_arr_size(elements->env);

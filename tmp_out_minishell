@@ -1,0 +1,26 @@
+minishell> /bin/echo ""$?""
+0
+token 0 :/bin/echo
+token 1 :0
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> 
+minishell> [Kminishell> 

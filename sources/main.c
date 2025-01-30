@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/28 12:16:11 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:03:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,18 @@ volatile sig_atomic_t g_signal = 0;
 
 	((void)ac, (void)av);
 	//ft_ignore_signal(&gc);
+	ft_handle_signal(2);
 	gc_init(&gc);
+
 	//ft_ignore_signal(&gc); //si je fais ctrl c tres rapidement apres avoirlancer le programme j ai des soucis
 	//dprintf(2, "kikouicham\n");
 	//perror("avant init");
 	elements = ft_init_struct(&gc);
  	//ft_signal_handle(&gc);
-	ft_welcome();
+	//ft_welcome();
 	ft_cpy_env(elements, env, &gc);
 	reset_signal_status();
-	ft_handle_signal(0, &gc);
+	ft_handle_signal(0);
 	//ft_interactive_signal(&gc);
 	rl_event_hook = rl_event_handler;
 	while (1)
@@ -45,6 +47,9 @@ volatile sig_atomic_t g_signal = 0;
 		//ft_interactive_signal(&gc);
 		elements->lst = NULL;
 		//perror("styles");
+		// if (isatty(fileno(stdin)))
+		// 	elements->line = readline(shell->terminal_prompt);
+		//elements->line = readline("minishell> ");
 		elements->line = readline("minishell> ");
 		//perror("harry");
 		if (elements->line == NULL) // c est pour ctrl d je crois
@@ -84,6 +89,7 @@ volatile sig_atomic_t g_signal = 0;
 					//elements->exit_status = ft_itoa(errno, &gc);
 					//check_fds("parent a la fin");
 					reset_signal_status();
+					ft_handle_signal(0);
 				}
 			}
 		}

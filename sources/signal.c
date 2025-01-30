@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:51:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/28 11:11:48 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:23:44 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,25 @@ void	reset_signal_status(void)
 	g_signal = 0;
 }
 
-void	ft_handle_signal(int process, t_gc *gc)
+void	ft_handle_signal(int process)
 {
-	(void) gc;
+	//dprintf(2, "Last mode is [%d]\n", process);
 	if (process == 1)
 	{
 		signal(SIGINT, handle_sigint_in_process);
 		signal(SIGQUIT, handle_sigquit_in_process);
 		signal(SIGTSTP, SIG_IGN);
 	}
-	else
+	else if (process == 0)
 	{
 		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
+	}
+	else if (process == 2) // ignore
+	{
+		//perror("gloria");
+		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGTSTP, SIG_IGN);
 	}

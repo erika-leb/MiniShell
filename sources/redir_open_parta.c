@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/28 11:54:07 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:07:31 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc) //gestion des entrees ??
 {
 	if ((node->fd_in == ERROR_OPEN || node->fd_out == ERROR_OPEN) && redir->token == HEREDOC) // il ya eu un redir invalide et c est un heredoc
-		ft_open_heredoc_error(redir->name, elements, gc); // 0 si error 1 sinon
-	else if (node->fd_in != ERROR_OPEN && node->fd_out != ERROR_OPEN) // il n'y a pas eu de redir invalide pour l'instant
 	{
 		node->active = FALSE;
+		ft_open_heredoc_error(redir->name, elements, gc); // 0 si error 1 sinon
+	}
+	else if (node->fd_in != ERROR_OPEN && node->fd_out != ERROR_OPEN) // il n'y a pas eu de redir invalide pour l'instant
+	{
 		if (node->fd_in >= 0) //ft_close pour verifier qu'on a les droits pour fermer et close ensuite?
 		{
 			close(node->fd_in);

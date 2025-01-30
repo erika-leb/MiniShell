@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:51:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 17:05:12 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:45:36 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ static void	handle_sigint(int sig)
 	(void) sig;
 
 	rl_done = 1;
-	g_signal = sig;
+	rl_on_new_line();           // Prépare une nouvelle ligne
+	rl_replace_line("", 0);     // Efface la ligne en cours
+	rl_redisplay();             // Redessine le prompt
+	//g_signal = sig;
 	// rl_on_new_line();           // Prépare une nouvelle ligne
 	// rl_replace_line("", 0);     // Efface la ligne en cours
 	// rl_redisplay();             // Redessine le prompt

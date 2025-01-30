@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 15:45:29 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:56:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int   ft_exparser(char *name_key, t_element *elements, t_gc *gc)
 
 	(void) elements;/////
 	(void) gc;///////
-	
+
 	//ft_write de Erika a ajouter
 	if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
 		return (ft_merrorexp(name_key, elements, gc)); //changer le message et le exit status
@@ -124,12 +124,13 @@ void ft_env(char **array, char **cmds, t_gc *gc)
 	int		i;
 	int		size;
 	char	*res;
-	(void)gc;
 
 	if (cmds && cmds[1])//cmds && servait juste a le tester dans mon main
 	{//parsing. cmds[0] = env     cmds[1...] = le reste ...
 		write(2,"minshell: env: No option(s) or argument(s) allowed\n", 52);//ft_write
-		(gc_cleanup(gc), free_std(), exit(127));//ou 125 ?
+		if (cmds[1][0] == '-')
+			(gc_cleanup(gc), free_std(), exit(125));
+		(gc_cleanup(gc), free_std(), exit(127));
 	}
 	i = 0;
 	while (array[i])
@@ -137,7 +138,7 @@ void ft_env(char **array, char **cmds, t_gc *gc)
 		if (ft_strchr(array[i],'='))
 		{
 			res = ft_strjoin_(array[i], "\n", gc);
-			size = ft_strlen(array[i]);
+			size = ft_strlen(res);
 			write(1, res, size);
 		}
 			//printf("%s\n", array[i]);//ft_write

@@ -21,6 +21,8 @@ verifier l affichage des differents types d erreur
 
 Recuperer le bon errno pour l'afficher dans ft_getenvv (dans element ?) avec les waitpid (demander a Paul).
 
+Demander a Erika comment expliquer qu'on gere pas le cas env -i ./minishell (explications Mabrouk)
+
 
 - Si Erika recoit un elements->arr avec elements->arr[0] = "\n" alors elle parcourt
 elements->arr pour ouvrir les here doc. Et quand le user les a referme elle ne lance aucune commande.

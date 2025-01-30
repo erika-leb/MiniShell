@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/29 15:44:31 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:35:47 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	reset_signal_status(void);
 
 //init.c
 void		ft_welcome(void);
-void		ft_cpy_env(t_element *elements, char **env, t_gc *gc);
+void		ft_cpy_env(t_element *elements, char **env, t_gc *gc, char **argv);
 t_element	*ft_init_struct(t_gc *gc);
 //void		ft_error_exit(char *s, int	i, int type);
 

@@ -87,6 +87,8 @@ $> ls" pbm mise a jour env car avec uniquement nouvelles var
 - << $"hola"$"b" (le heredoc se ferme normalleement avec holab) l 757
 - << $"$hola"$$"b" message no  desirable
 - << ho$la$"$a"$$"b"
+- test rajouter un path dans env avec faux ls
+- minishell | minishell
 
 - si minshell lance sans env,  jai mis cmd not found, a discuter avec adrien
 

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:43:09 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/29 17:50:47 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:13:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_pwd(char **cmd, t_element *elements, t_gc *gc)
 		ft_buff_error(ft_substr(cmd[1], 0, 2, gc), elements, gc);
 		ft_buff_error(": invalid option\n", elements, gc);
 		ft_write_error(elements, gc);
-		return ;
+		(gc_cleanup(gc), free_std(), exit(2));
 	}
 	//perror("buyer");
 	buff = getcwd(NULL, 0);
@@ -53,6 +53,7 @@ void	ft_pwd(char **cmd, t_element *elements, t_gc *gc)
 		ft_buff_error(" or directory\n", elements, gc);
 		ft_write_error(elements, gc);
 		//write(2, "pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 110);
+		(gc_cleanup(gc), free_std(), exit(1));
 		return ;
 	}
 	//perror("multipass");

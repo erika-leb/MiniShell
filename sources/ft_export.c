@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 17:20:34 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:57:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,6 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	// }
 	if (!flag)
 		element->exit_status = ft_itoa(0, gc);
-	printf("exit status : %s\n", element->exit_status);
+	// printf("exit status : %s\n", element->exit_status);
 	return (adder);//a tej plus tard
 }

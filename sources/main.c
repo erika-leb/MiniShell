@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 17:08:59 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:35:26 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ volatile sig_atomic_t g_signal = 0;
 	t_element	*elements;
 	t_gc		gc;
 
-	((void)ac, (void)av);
+	(void)ac;
 	//ft_ignore_signal(&gc);
 	ft_handle_signal(2);
 	gc_init(&gc);
@@ -36,7 +36,7 @@ volatile sig_atomic_t g_signal = 0;
 	elements = ft_init_struct(&gc);
  	//ft_signal_handle(&gc);
 	//ft_welcome();
-	ft_cpy_env(elements, env, &gc);
+	ft_cpy_env(elements, env, &gc, av);
 	reset_signal_status();
 	ft_handle_signal(0);
 	//ft_interactive_signal(&gc);

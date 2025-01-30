@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 18:16:25 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:57:25 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,47 @@ void	ft_welcome(void)
 	printf("\n");
 }
 
-void	ft_cpy_env(t_element *elements, char **env, t_gc *gc)
+void	ft_cpy_env(t_element *elements, char **env, t_gc *gc, char **argv)
 {
 	int		s_arr;
 	int		i;
 	int		s;
 
-	s_arr = ft_arr_size(env);
+	if (env[0] == NULL)
+		s_arr = 3;
+	else
+		s_arr = ft_arr_size(env);
 	elements->env = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
 	i = 0;
-	while (env[i])
+	// printf("%s\n", argv[0]);
+	if (env[0] == NULL)
 	{
-		s = ft_strlen(env[i]);
-		elements->env[i] = gc_malloc(s + 1, gc);
-		elements->env[i] = env[i];
-		i++;
+		elements->env[0] = ft_strjoin_("PWD=", getcwd(NULL, 0), gc);//getcwd(NULL, 0);
+		elements->env[1] = ft_strdup_("SHLVL=1", gc);
+		elements->env[2] = ft_strjoin_("_=", argv[0], gc);//ft_strdup_(argv[0], gc);
+		elements->env[3] = NULL;
 	}
-	elements->env[i] = NULL;
-	ft_handle_path(elements, gc);
+	else
+	{
+		while (env[i])
+		{
+			s = ft_strlen(env[i]);
+			elements->env[i] = gc_malloc(s + 1, gc);
+			elements->env[i] = env[i];
+			i++;
+		}
+		elements->env[i] = NULL;
+		ft_handle_path(elements, gc);
+	}
 	// i = 0;
 	// while( i <= s_arr)
 	// {
-	// 	printf("env %i = %s\n", i, env[i]);
+	// 	//printf("env %i = %s\n", i, env[i]);
 	// 	printf("myenv %i = %s\n", i, elements->env[i]);
 	// 	i++;
 	// }
 }
+
 
 t_element	*ft_init_struct(t_gc *gc)
 {

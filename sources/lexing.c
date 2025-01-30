@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/28 12:16:17 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:36:52 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,9 @@ void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
 			&& !ft_strcmp(tab[p_max + 1], "|"))
 			break ;
 		if (ft_istok_(tab[p_max]) && !tab[p_max + 1])
-			break;
+			break ;
+		if (ft_strcmp(tab[1], "|") == 0)
+			break ;
 		p_max++;
 	}
 	while (i < p_max - 1)

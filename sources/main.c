@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 12:03:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:08:59 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ volatile sig_atomic_t g_signal = 0;
 		{
 			ft_ft(elements, &gc);
 	// printf("earr[0] = %sdfvf\n", elements->arr[0]);
-	// 		p		error("jerry");
+			// perror("jerry");
 			if (elements->arr)
 			{
-				//perror("test2");
+				// perror("test2");
 				lexing(elements->arr, &elements->lst, elements, &gc);
-				//perror("kikoulol");
+				// perror("kikoulol");
 				//printf("line amin= %d\n", elements->line_valid);
 				if (elements->line_valid == TRUE)
 				{
@@ -93,6 +93,7 @@ volatile sig_atomic_t g_signal = 0;
 				}
 			}
 		}
+		elements->line_valid = TRUE;
 	}
 	// gc_cleanup(&gc); // utile ?
 	// exit(EXIT_SUCCESS); // utile ?

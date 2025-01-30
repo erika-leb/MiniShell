@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:51:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 11:23:44 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:05:12 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,21 @@ static void	handle_sigint(int sig)
 
 	rl_done = 1;
 	g_signal = sig;
+	// rl_on_new_line();           // Prépare une nouvelle ligne
+	// rl_replace_line("", 0);     // Efface la ligne en cours
+	// rl_redisplay();             // Redessine le prompt
+	//printf("g_signa=%d\n", g_signal);
+}
+
+static void	handle_sigint_here(int sig)
+{
+	(void) sig;
+
+	rl_done = 1;
+	g_signal = sig;
+	rl_on_new_line();           // Prépare une nouvelle ligne
+	rl_replace_line("", 0);     // Efface la ligne en cours
+	rl_redisplay();             // Redessine le prompt
 	//printf("g_signa=%d\n", g_signal);
 }
 
@@ -58,8 +73,8 @@ void	ft_handle_signal(int process)
 	//dprintf(2, "Last mode is [%d]\n", process);
 	if (process == 1)
 	{
-		signal(SIGINT, handle_sigint_in_process);
-		signal(SIGQUIT, handle_sigquit_in_process);
+		signal(SIGINT, handle_sigint_in_process); // ctrl + c
+		signal(SIGQUIT, handle_sigquit_in_process); // ctrl +
 		signal(SIGTSTP, SIG_IGN);
 	}
 	else if (process == 0)
@@ -72,6 +87,12 @@ void	ft_handle_signal(int process)
 	{
 		//perror("gloria");
 		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
+	}
+	else if (process == 3) // heredoc
+	{
+		signal(SIGINT, handle_sigint_here);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGTSTP, SIG_IGN);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/29 15:33:10 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:05:01 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ char **ft_fatalerror(char **array, t_gc *gc)
 	size_t	i;
 	size_t	prev_size;
 
+	if (!array[0])
+		return (NULL);//On renvoie pas de \n si le user a envoye qqchose qui result en une chaine vide (var d'env inexistante, que des espaces)
 	i = -1;
 	prev_size = 0;
 	while (array[++i])
@@ -115,7 +117,6 @@ char **ft_fatalerror(char **array, t_gc *gc)
 }
 
 //ERIKA DOIT MODIFIER CE CODE LA AUSSI
-//Rechecker la logique de ce truc.
 void	ft_ft(t_element *elements, t_gc *gc)
 {
 	int		i;
@@ -123,7 +124,10 @@ void	ft_ft(t_element *elements, t_gc *gc)
 
 	i = -1;
 	if (ft_checkq(elements->line))
-		return ;
+	{
+		elements->exit_status = ft_itoa(1, gc);/////////////////////////////////////////////// ADRI
+		return ;	
+	}
 	//Doit on transformer les static char 70 000 en malloc ?
 	elements->arr = ft_split(ft_tokenize(elements->line, gc, elements), 0, 0, gc);
 	while (elements->arr && elements->arr[++i])
@@ -134,6 +138,7 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		gc_remove(gc, elements->arr);
 		elements->arr = NULL;
 		elements->arr = tmp;
+		elements->exit_status = ft_itoa(2, gc);/////////////////////////////////////////////// ADRI
 	}
 	// //////////////////////////////juste pour checker, useless sinon
 	// i = -1;

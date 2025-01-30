@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/29 19:27:25 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:45:29 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,26 @@ void ft_freetab(char **array)
 
 }
 
+static int	ft_merrorexp(char *name_key, t_element *elements, t_gc *gc)
+{
+	ft_buff_error("minishell: export: `", elements, gc);
+	ft_buff_error(name_key, elements, gc);
+	ft_buff_error("': not a valid identifier\n", elements, gc);
+	ft_write_error(elements, gc);
+	return (1);
+}
 //De facon general il faut bien faire gaffe au comportement de minishell
 //si le user s'amuse a mettre les options n'importe ou dans cmds[i] ?
 int   ft_exparser(char *name_key, t_element *elements, t_gc *gc)
 {
 	int i;
 
-	(void) elements;
-	(void) gc;
+	(void) elements;/////
+	(void) gc;///////
+	
 	//ft_write de Erika a ajouter
 	if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
-		return (printf("export: FIRST LETTER not a valid identifier\n")); //changer le message et le exit status
+		return (ft_merrorexp(name_key, elements, gc)); //changer le message et le exit status
 	i = 0;//on check a partir du 2eme caractere c'est pourquoi on met i = 0.
 	while (name_key[++i])
 	{
@@ -87,7 +96,7 @@ int   ft_exparser(char *name_key, t_element *elements, t_gc *gc)
 		if (name_key[i] == '=')
 			break;
 		if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
-			return(printf("export: `name=key': not a valid identifier\n"));
+			return(ft_merrorexp(name_key, elements, gc));
 	}
 	return (0);
 }
@@ -134,5 +143,5 @@ void ft_env(char **array, char **cmds, t_gc *gc)
 			//printf("%s\n", array[i]);//ft_write
 		i++;
 	}
-	(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
+	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 }

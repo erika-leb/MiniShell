@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:01 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/28 18:05:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:10:14 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,15 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
 	// 	i++;
 	// }
-	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));//ATTENTION si jamais un built-in est utilise dans le dernier enfant et aue ce built-in fonctionne pas
+	//alors il faut pas EXIT_SUCCESS
 }
 
 void	built_in_no_child(t_element *elements, t_gc *gc)
 {
+	//ICI un coup on utilise built et un coup on utilise element donc on recupere pas le bon message d'erreur.
 	t_built	*built;
-		//perror("passasge ici");
+	// perror("passasge ici");
 	built = gc_malloc(sizeof(t_built), gc);
 	built->cmd = elements->lst->cmd;
 	built->elements = elements;

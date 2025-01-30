@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/28 12:07:04 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:54:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc)
 	fd = open(".here", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0) // changer le message d erreur
 		return (perror("Error opening .here"), -1);
+	ft_handle_signal(3);
 	r = ft_read_heredoc(del, fd, elements, gc);
 	if (r == 1)
 	{
@@ -167,7 +168,7 @@ int	ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc)
 	// 	free(lign);
 	// }
 	//ft_interactive_signal(gc);
-
+	ft_handle_signal(0);
 	close(fd);
 	return (fd);
 }
@@ -184,6 +185,7 @@ int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc)
 	fd = open(".here", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0) // changer le message d erreur
 		return (perror("Error opening .here"), -1);
+	ft_handle_signal(3);
 	r = ft_read_heredoc(del, fd, elements, gc);
 	if (r == 1)
 	{
@@ -222,7 +224,7 @@ int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc)
 	// 	free(lign);
 	// }
 	//ft_interactive_signal(gc);
-
+	ft_handle_signal(0);
 	close(fd);
 	fd = open(".here", O_RDONLY);
 	return (fd);

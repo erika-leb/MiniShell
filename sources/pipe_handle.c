@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 11:06:51 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:09:11 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,21 +109,23 @@ void	wait_for_children(t_element *elements, t_gc *gc)
 
 	i = 0;
 	status =0;
-	//perror("chelou");
+	// perror("chelou");
 	if (elements->child_to_wait == 0)
 	{
-		elements->exit_status = ft_itoa(errno, gc);
+		//On l'a enleve le 30/01/2025 car on se rappelait pas a quoi ca servait et que pour les built in
+		//ca nous empechait d'avoir le bon code d'erreur
+		//elements->exit_status = ft_itoa(errno, gc);
 		return ;
 	}
 	while (i < elements->child_to_wait)
 	{
-		//perror(" tres chelou");
+		// perror(" tres chelou");
 		waitpid(elements->pid_arr[i], &status, 0);
 		//wait(NULL);
 		i++;
 	}
 	exit_status(status, elements, gc);
-	//perror(" tres tres chelou");
+	// perror(" tres tres chelou");
 }
 
 void	free_std(void)

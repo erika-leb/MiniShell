@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_creation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 12:08:02 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:09:24 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void	child_creation(t_element *elements, t_gc *gc) //prevoir la cas ou cmd[0]=NU
 	{
 		//perror("gruber");
 		elements->child_to_wait = 0;
+		// printf("no child events : %s\n", elements->exit_status);
 		return ;
 	}
 	// if (elements->nb_cmd == 1 && !elements->lst->cmd[0])

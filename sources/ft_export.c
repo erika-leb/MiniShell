@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/28 17:23:00 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:50:05 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	t_env *head;
 	char  **adder;
 	int   i;
+	int	  flag;
 
 	head = NULL;
 	i = -1;
@@ -82,12 +83,20 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 		write(2, "minishell: export: No option(s) allowed\n", 41);
 		gc_remove(gc, head);
 		element->exit_status = ft_itoa(2, gc);
+		return (NULL);
 	}
 	i = 0;
+	flag = 0;
 	while (argv[++i])
 	{
 		if (!ft_exparser(argv[i], element, gc))
 			ft_adder(&head, argv[i], gc);
+		else
+		{
+			// perror("test");
+			element->exit_status = ft_itoa(1, gc);
+			flag = 1;
+		}
 	}
 	adder = ft_ltoa(head, gc);
 	gc_remove(gc, head);
@@ -109,6 +118,8 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
 	// 	i++;
 	// }
-	element->exit_status = ft_itoa(0, gc);
+	if (!flag)
+		element->exit_status = ft_itoa(0, gc);
+	printf("exit status : %s\n", element->exit_status);
 	return (adder);//a tej plus tard
 }

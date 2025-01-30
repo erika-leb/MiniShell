@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 15:50:05 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:20:34 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	}
 	i = 0;
 	flag = 0;
+	//flag = ft_filler(argv, element, gc, head);//reprend le while en dessous
 	while (argv[++i])
 	{
 		if (!ft_exparser(argv[i], element, gc))

@@ -1,21 +1,12 @@
-- espaces //voir les tests de l'excel
+
 - echo \n hola
-- $> ""''echo hola""'''' que""'' tal""''
 - echo \$HOME (l128)
 - echo $UID
 - echo $9HOME
 - echo $UID$HOME%
 - echo $USER$var\$USER$USER\$USERtest$USER
-- |echo -n hola   segfault ici (toujours meme prbm adri) ok
-- $?$?
 - ?$HOME
-- $HOMEdskjhfkdshfsd pbm adri
-- "$HOMEdskjhfkdshfsd" (eri ou adri ? car '$HOMEdskjhfkdshfsd' fonctionne bien)
-- $DONTEXIST segfault
--  $> $LESS$VAR segfault
-- holaCtlr-C = senser arreter mais n arrete pas (erika)
-- hola Ctlr-D (pas sur, ligne 216)
-- sleep 3 | sleep 3 | sleep 3 (faire Ctlr-\ une seconde apres)
+- "$HOMEdskjhfkdshfsd"
 - env = ordre ???
 - mauvais message d erreur de la ligne 238 a 243
 - export HOL@=bonjour
@@ -84,7 +75,7 @@ $> >$HOLA
 $> ls" pbm mise a jour env car avec uniquement nouvelles var
 - retester les ligne 727 a 734
 - rajouter l expand dans le heredoc puis tester ligne 744 a 748
-- << $"hola"$"b" (le heredoc se ferme normalleement avec holab) l 757
+- << $"hola"$"b" (le heredoc se ferme normalleement avec holab) l 757 : adri a la solution, il supprime juste le 1er dollar (a tord)
 - << $"$hola"$$"b" message no  desirable
 - << ho$la$"$a"$$"b"
 - test rajouter un path dans env avec faux ls
@@ -93,3 +84,20 @@ $> ls" pbm mise a jour env car avec uniquement nouvelles var
 - si minshell lance sans env,  jai mis cmd not found, a discuter avec adrien
 
 arret l694 resoudre prbm si env -i ls (lancer commande ? ou non)
+
+
+
+
+
+
+
+corriges
+- $> ""''echo hola""'''' que""'' tal""'' ok
+- $?$? ok
+- |echo -n hola   segfault ici (toujours meme prbm adri) ok
+- $HOMEdskjhfkdshfsd ok
+- $DONTEXIST ok
+-  $> $LESS$VAR ok
+- holaCtlr-C ok
+- hola Ctlr-D (pas sur, ligne 216) ok
+- sleep 3 | sleep 3 | sleep 3 (faire Ctlr-\ une seconde apres) ok

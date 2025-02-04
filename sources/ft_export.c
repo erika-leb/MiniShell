@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 17:57:51 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:35:05 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,14 @@ void ft_adder(t_env **head, char *str, t_gc *gc)
 
 //a chaque fois que je fais cd je peux directement fair appel a ft_export
 //pour modifier OLPWD et PWD
-char **ft_export(t_element *element, char **argv, t_gc *gc)
+char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1, exit, sinon exit_status a changer
 {
 	// Gerer le cas ou env est NULL : env -i ./minishell (voir bloc note)
 	t_env *head;
 	char  **adder;
 	int   i;
 	int	  flag;
+	int	code;
 
 	head = NULL;
 	i = -1;
@@ -82,8 +83,15 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	{
 		write(2, "minishell: export: No option(s) allowed\n", 41);
 		gc_remove(gc, head);
-		element->exit_status = ft_itoa(2, gc);
-		return (NULL);
+		// element->exit_status = ft_itoa(2, gc);
+		// return (NULL);
+		if (ch == 0)
+		{
+			element->exit_status = ft_itoa(2, gc);
+			return (NULL);//
+		}
+		else
+			(gc_cleanup(gc), free_std(), exit(2));
 	}
 	i = 0;
 	flag = 0;
@@ -96,6 +104,7 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 		{
 			// perror("test");
 			element->exit_status = ft_itoa(1, gc);
+			code = 1;
 			flag = 1;
 		}
 	}
@@ -120,7 +129,17 @@ char **ft_export(t_element *element, char **argv, t_gc *gc)
 	// 	i++;
 	// }
 	if (!flag)
+	{
 		element->exit_status = ft_itoa(0, gc);
+		code = 0;
+	}
 	// printf("exit status : %s\n", element->exit_status);
-	return (adder);//a tej plus tard
+
+
+	if (ch == 0)
+		return (adder);//
+	else
+		(gc_cleanup(gc), free_std(), exit(code));
+
+	//return (adder);//a tej plus tard
 }

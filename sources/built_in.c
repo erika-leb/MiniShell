@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:01 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 16:10:14 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:50:34 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int		is_built_in(char *cmd)
 		return (FALSE);
 }
 
-//Creer une super structure compose de elements etcmd d'un cote, et gc que adri
-//recevra en argument.
 void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 {
 	t_built	*built;
@@ -75,13 +73,13 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 	else if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_echo(cmd, gc);
 	else if (ft_strcmp(cmd[0], "export") == 0)
-	 	ft_export(elements, cmd, gc);
+	 	ft_export(elements, cmd, gc, 1);
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		ft_env(elements->env, cmd, gc);
 	else if (ft_strcmp(cmd[0], "unset") == 0)
-		ft_unset(elements, cmd, gc);
+		ft_unset(elements, cmd, gc, 1);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
-		ft_cd(built, gc);
+		ft_cd(built, gc, 1);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		ft_pwd(cmd, elements, gc);
 	// int i;
@@ -103,16 +101,15 @@ void	built_in_no_child(t_element *elements, t_gc *gc)
 {
 	//ICI un coup on utilise built et un coup on utilise element donc on recupere pas le bon message d'erreur.
 	t_built	*built;
-	// perror("passasge ici");
 	built = gc_malloc(sizeof(t_built), gc);
 	built->cmd = elements->lst->cmd;
 	built->elements = elements;
 	if (ft_strcmp(built->cmd[0], "exit") == 0)
 		ft_exit(built, gc);
 	else if (ft_strcmp(built->cmd[0], "export") == 0)
-		ft_export(elements, built->cmd, gc);
+		ft_export(elements, built->cmd, gc, 0);
 	else if (ft_strcmp(built->cmd[0], "unset") == 0)
-		ft_unset(elements, built->cmd, gc);
+		ft_unset(elements, built->cmd, gc, 0);
 	else if (ft_strcmp(built->cmd[0], "cd") == 0)
-		ft_cd(built, gc);
+		ft_cd(built, gc, 0);
 }

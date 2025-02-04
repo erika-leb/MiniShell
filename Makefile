@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/01/27 17:37:15 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/04 18:17:21 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/str_manager.c \
 			${SRC_DIR}/ft_concat.c \
 			${SRC_DIR}/create_chain.c \
-			${SRC_DIR}/redir_open_parta.c \
-			${SRC_DIR}/redir_open_partb.c \
+			${SRC_DIR}/redir_open.c \
 			${SRC_DIR}/cmd_arr.c \
 			${SRC_DIR}/split_path.c \
 			${SRC_DIR}/pipe_closing.c \
@@ -55,8 +54,12 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_export.c \
 			${SRC_DIR}/ft_export_utils.c \
 			${SRC_DIR}/ft_unset.c \
-			${SRC_DIR}/cd_pwd.c \
+			${SRC_DIR}/cd_parta.c \
+			${SRC_DIR}/cd_partb.c \
+			${SRC_DIR}/cd_partc.c \
+			${SRC_DIR}/pwd.c \
 			${SRC_DIR}/heredoc.c \
+			${SRC_DIR}/count_lines.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
@@ -79,8 +82,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/str_manager.o \
 			${OBJ_DIR}/ft_concat.o \
 			${OBJ_DIR}/create_chain.o \
-			${OBJ_DIR}/redir_open_parta.o \
-			${OBJ_DIR}/redir_open_partb.o \
+			${OBJ_DIR}/redir_open.o \
 			${OBJ_DIR}/cmd_arr.o \
 			${OBJ_DIR}/split_path.o \
 			${OBJ_DIR}/pipe_closing.o \
@@ -97,8 +99,12 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_export.o \
 			${OBJ_DIR}/ft_export_utils.o \
 			${OBJ_DIR}/ft_unset.o \
-			${OBJ_DIR}/cd_pwd.o \
+			${OBJ_DIR}/cd_parta.o \
+			${OBJ_DIR}/cd_partb.o \
+			${OBJ_DIR}/cd_partc.o \
+			${OBJ_DIR}/pwd.o \
 			${OBJ_DIR}/heredoc.o \
+			${OBJ_DIR}/count_lines.o \
 
 NAME = minishell
 

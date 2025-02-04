@@ -6,12 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:57:58 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/24 19:16:53 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:58:13 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static int	number_words(char *s, char c)
 {
@@ -39,11 +38,6 @@ static int	write_word_path(char **str, char *s, t_var *var, t_gc *gc)
 
 	i = 0;
 	str[var->j] = gc_malloc(sizeof(char) * ((var->k) + 2), gc);
-	// if (str[var->j] == 0)
-	// {
-	// 	ft_free(str, var->j);
-	// 	return (1);
-	// }
 	while (i < var->k)
 	{
 		str[var->j][i] = s[i];
@@ -61,11 +55,9 @@ static char	**ft_split_path(char *s, char c, t_gc *gc)
 	t_var	*var;
 
 	var = gc_malloc(sizeof(t_var), gc);
-	var->j = number_words(s, c); //nb
-	var->k = 0; //t
+	var->j = number_words(s, c);
+	var->k = 0;
 	str = gc_malloc(sizeof(char *) * ((var->j) + 1), gc);
-	// if (str == 0)
-	// 	return (NULL);
 	(var->j) = 0;
 	s1 = (char *) s;
 	while (*s1)
@@ -85,21 +77,6 @@ static char	**ft_split_path(char *s, char c, t_gc *gc)
 	return (str);
 }
 
-// static int	ft_strncmp(char *s1, char *s2, int n)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s1[i] && s2[i] && s1[i] == s2[i] && n)
-// 	{
-// 		i++;
-// 		n--;
-// 	}
-// 	if (n == 0)
-// 		return (0);
-// 	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
-// }
-
 void	ft_handle_path(t_element *elements, t_gc *gc)
 {
 	char	*path_env;
@@ -114,20 +91,11 @@ void	ft_handle_path(t_element *elements, t_gc *gc)
 		{
 			s = ft_strlen(elements->env[i]);
 			path_env = ft_substr(elements->env[i], 5, s - 5, gc);
-			// if (path_env == NULL)
-			// 	exit_error(var, arg, ac, "error substr");
 		}
 		i++;
 	}
 	if (path_env != NULL)
-	{
 		elements->mypaths = ft_split_path(path_env, ':', gc);
-		//elements->mypaths = ft_split_path(path_env, ':');
-		// if (elements->mypaths == NULL)
-		// 	(free(path_env), exit_error(var, arg, ac, "error split path"));
-		//free(path_env); // sera free avec le gc normalement
-	}
-
 	//pour afficher les paths
 	// i = 0;
 	// printf("path_env = %s\n", path_env);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/26 18:47:55 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:27:02 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void ft_freeun(t_env **current, t_env **previous, t_env **head, t_gc *gc)
 	gc_remove(gc, temp);
 }
 
-void ft_unset(t_element *element, char **argv, t_gc *gc)
+void ft_unset(t_element *element, char **argv, t_gc *gc, int ch)
 {
 	t_env   *head;
 	t_env   *current;
@@ -65,8 +65,13 @@ void ft_unset(t_element *element, char **argv, t_gc *gc)
 
 	if (ft_initunset(&head, element->env, argv, gc))
 	{
-		element->exit_status = ft_itoa(0, gc);
-		return ;
+		if (ch == 0)
+		{
+			element->exit_status = ft_itoa(0, gc);
+			return ;//
+		}
+		else
+			(gc_cleanup(gc), free_std(), exit(0));
 	}
 	i = 1; // On commence à cmd[1]
 	while (argv[i])
@@ -94,7 +99,13 @@ void ft_unset(t_element *element, char **argv, t_gc *gc)
 	gc_remove(gc, head);
 	gc_remove(gc, element->env);
 	element->env = adder;
-	element->exit_status = ft_itoa(0, gc);
+	if (ch == 0)
+	{
+		element->exit_status = ft_itoa(0, gc);
+		return ;//
+	}
+	else
+		(gc_cleanup(gc), free_std(), exit(0));
 	// int s_arr;
 	// s_arr = ft_arr_size(element->env);
 	// printf("s = %d\n", s_arr);

@@ -6,83 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 16:54:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:03:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	count_newlines(const char *buffer, int bytes_read)
-{
-	int	i;
-	int	lines;
-
-	i = 0;
-	lines = 0;
-	while (i < bytes_read)
-	{
-		if (buffer[i] == '\n')
-			lines++;
-		i++;
-	}
-	return (lines);
-}
-
-int	read_file(int fd)
-{
-	char	buffer[1024];
-	int		bytes_read;
-	int		lines;
-
-	lines = 0;
-	while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0)
-	{
-		lines += count_newlines(buffer, bytes_read);
-	}
-	if (bytes_read == -1)
-	{
-		perror("Erreur lors de la lecture du fichier");
-		return (-1);
-	}
-	return (lines);
-}
-
-
-int	count_lines(const char *filename)
-{
-	int		fd;
-	int		lines;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Erreur lors de l'ouverture du fichier");
-		return (-1);
-	}
-	lines = read_file(fd);
-	close(fd);
-	return (lines);
-}
-
-void	printf_mess_d(char *del, t_element *elements, t_gc *gc)
-{
-	int	nb_l;
-
-	(void) elements;
-	(void) gc;
-	nb_l = count_lines(".here");
-	// ft_buff_error("minishell: warning: here-document at line ", elements, gc);
-	// ft_buff_error(ft_itoa(nb_l, gc), elements, gc);
-	// ft_buff_error(" delimited by end-of-file (wanted `", elements, gc);
-	// ft_buff_error(del, elements, gc);
-	// ft_buff_error("')\n", elements, gc);
-	//ft_write_error(elements, gc);
-	write(2, "minishell: warning: here-document at line ", 43);
-	ft_putstr_fd(ft_itoa(nb_l, gc), 2);
-	write(2, " delimited by end-of-file (wanted `", 36);
-	ft_putstr_fd(del, 2);
-	write(2, "')\n", 4);
-}
 
 int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 {
@@ -228,4 +156,78 @@ int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc)
 	close(fd);
 	fd = open(".here", O_RDONLY);
 	return (fd);
+}
+void	ft_error_out(char *name, t_element *elements, t_gc *gc)
+{
+	if (errno == 2)
+		{
+			//perror("passage par la");
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(name, elements, gc);
+			ft_buff_error(": No such file or directory\n", elements, gc);
+			//write_all_err_mess(redir->name, ": No such file or directory\n", elements, gc); //il ne faut pas l afficher tout de suite
+		}
+		else if (errno == 13)
+		{
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(name, elements, gc);
+			ft_buff_error(": Permission denied\n", elements, gc);
+			//write_all_err_mess(redir->name, ": Permission denied\n", elements, gc);//il ne faut pas l afficher tout de suite
+		}
+		else
+		{
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(name, elements, gc);
+			ft_buff_error(": ", elements, gc);
+			ft_buff_error(strerror(errno), elements, gc);
+			ft_buff_error("\n", elements, gc);
+			//perror("on a un soucis");
+			//ft_write_error(elements, gc);
+		}
+}
+void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
+{
+	//perror("rachel");
+	node->fd_in = open(redir->name, O_RDONLY, 0644);
+	if (node->fd_in == ERROR_OPEN)
+	{
+		//perror("titeverif");
+		if (errno == 2)
+		{
+			//perror("passage par la");
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(redir->name, elements, gc);
+			ft_buff_error(": No such file or directory\n", elements, gc);
+			//write_all_err_mess(redir->name, ": No such file or directory\n", elements, gc); //il ne faut pas l afficher tout de suite
+		}
+		else if (errno == 13)
+		{
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(redir->name, elements, gc);
+			ft_buff_error(": Permission denied\n", elements, gc);
+			//write_all_err_mess(redir->name, ": Permission denied\n", elements, gc);//il ne faut pas l afficher tout de suite
+		}
+		else
+		{
+			ft_buff_error("minishell: ", elements, gc);
+			ft_buff_error(redir->name, elements, gc);
+			ft_buff_error(": ", elements, gc);
+			ft_buff_error(strerror(errno), elements, gc);
+			ft_buff_error("\n", elements, gc);
+			//perror("on a un soucis");
+			//ft_write_error(elements, gc);
+		}
+		// ft_buff_error("minishell: ", elements, gc);
+		// // if (elements->error)
+		// // 	ft_putstr_fd(elements->error, 1);
+		// ft_buff_error(redir->name, elements, gc);
+		// ft_buff_error(": Permission denied\n", elements, gc); //si pas droit mais si fichier non existant le message est different
+		// //perror("test");
+		//printf("error juste apres buff = %s\n", elements->error);
+		if (node->fd_out >= 0)
+		{
+			close(node->fd_out);
+			node->fd_out = -3;
+		}
+	}
 }

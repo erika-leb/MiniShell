@@ -5,6 +5,7 @@ valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --lea
 
 valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
+ps aux | grep defunct
 
 shlvl voir adrien
 

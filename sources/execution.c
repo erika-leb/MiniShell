@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 12:09:30 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:40:16 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,17 @@ static char	*ft_strjoin(char *s1, char *s2, t_gc *gc)
 // 	}
 // }
 
+int is_directory(char *path)
+{
+	struct stat sb;
+
+	if (stat(path, &sb) == 0) // Récupère les infos du fichier
+	{
+		return S_ISDIR(sb.st_mode); // Vérifie si c'est un dossier
+	}
+	return 0; // Erreur ou ce n'est pas un dossier
+}
+
 void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 {
 	int		err;
@@ -75,6 +86,7 @@ void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 	if (access(cmd[0], X_OK) != 0)
 	{
 		err = errno;
+		//perror("guillaume est cool aussi");
 		//write(2, "Error : command not found\n", 27);
 		ft_buff_error("minishell: ", elements, gc);
 		ft_buff_error(cmd[0], elements, gc);
@@ -82,10 +94,21 @@ void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 		ft_buff_error(strerror(err), elements, gc);
 		ft_buff_error("\n", elements, gc);
 		ft_write_error(elements, gc);
-		(free_std(), gc_cleanup(gc), exit(EXIT_FAILURE)); //autre que exit_fialure, il faut le numero en cas de cmd not found
+		(free_std(), gc_cleanup(gc), exit(127)); //autre que exit_fialure, il faut le numero en cas de cmd not found
+	}
+	if (is_directory(cmd[0]) != 0)
+	{
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(cmd[0], elements, gc);
+		ft_buff_error(": Is a directory\n", elements, gc);
+		// ft_buff_error(strerror(err), elements, gc);
+		// ft_buff_error("\n", elements, gc);
+		ft_write_error(elements, gc);
+		(free_std(), gc_cleanup(gc), exit(126));
 	}
 	if (execve(cmd[0], cmd, elements->env) == -1)
 	{
+		//perror("mais guillermo guiz plus");
 		err = errno;
 		ft_buff_error("minishell: ", elements, gc);
 		ft_buff_error(cmd[0], elements, gc);
@@ -93,32 +116,8 @@ void	path_abs(char **cmd, t_element *elements, int i, t_gc *gc)
 		ft_buff_error(strerror(err), elements, gc);
 		ft_buff_error("\n", elements, gc);
 		ft_write_error(elements, gc);
-		gc_cleanup(gc), free_std(), exit(errno); //mettre ici un gc_cleanup ?
+		gc_cleanup(gc), free_std(), exit(errno);
 	}
-	// err = errno;
-	// {
-	// 	ft_buff_error("minishell: ", elements, gc);
-	// 	ft_buff_error(cmd[0], elements, gc);
-	// 	ft_buff_error(strerror(err), elements, gc);
-	// 	ft_write_error(elements, gc);
-	// 	//write(2, "Error : Text file busy\n", 24);
-	// 	(gc_cleanup(gc), exit(EXIT_FAILURE));
-	// }
-
-	// if (err == 26)
-	// {
-	// 	ft_buff_error("minishell: ", elements, gc);
-	// 	ft_buff_error(cmd[0], elements, gc);
-	// 	ft_buff_error(": Text file busy\n", elements, gc);
-	// 	ft_write_error(elements, gc);
-	// 	//write(2, "Error : Text file busy\n", 24);
-	// 	(gc_cleanup(gc), exit(EXIT_FAILURE));
-	// }
-	// else
-	// {
-	// 	perror("test"); // message a mettre a jour
-	// 	gc_cleanup(gc), free_std(), exit(errno); //mettre ici un gc_cleanup ?
-	// }
 }
 
 void	write_all_err_mess(char *str1, char *str2, t_element *elements, t_gc *gc)
@@ -221,8 +220,11 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 	//perror("marty");
 	if (current->cmd[0] && current->cmd[0][0]
 		&& (current->cmd[0][0] == '/'
-		|| current->cmd[0][0] == '.'))
-		path_abs(current->cmd, elements, i, gc);
+		|| current->cmd[0][0] == '.' || current->cmd[0][0] == '?'))
+		{
+			//perror("aymeric lompret is the best");
+			path_abs(current->cmd, elements, i, gc);
+		}
 	else
 	{
 		//perror("test");

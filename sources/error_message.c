@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:21:11 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/23 17:04:15 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:20:01 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,5 +145,22 @@ void	ft_write_error(t_element *elements, t_gc *gc)
 	size = ft_strlen(elements->error);
 	write(2, elements->error, size);
 	gc_remove(gc, elements->error);
+	elements->error = NULL;
+}
+
+void	ft_write_mess(t_element *elements, t_gc *gc)
+{
+	int size;
+
+	perror("caliente");
+	if (!elements->env)
+		return ;
+	perror("perro");
+	size = ft_strlen(elements->error);
+	perror("gato");
+	write(1, elements->error, size);
+	perror("michi");
+	gc_remove(gc, elements->error);
+	perror("golden");
 	elements->error = NULL;
 }

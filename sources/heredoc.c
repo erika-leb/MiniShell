@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/04 17:03:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:35:07 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,30 +160,31 @@ int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc)
 void	ft_error_out(char *name, t_element *elements, t_gc *gc)
 {
 	if (errno == 2)
-		{
-			//perror("passage par la");
-			ft_buff_error("minishell: ", elements, gc);
-			ft_buff_error(name, elements, gc);
-			ft_buff_error(": No such file or directory\n", elements, gc);
-			//write_all_err_mess(redir->name, ": No such file or directory\n", elements, gc); //il ne faut pas l afficher tout de suite
-		}
-		else if (errno == 13)
-		{
-			ft_buff_error("minishell: ", elements, gc);
-			ft_buff_error(name, elements, gc);
-			ft_buff_error(": Permission denied\n", elements, gc);
-			//write_all_err_mess(redir->name, ": Permission denied\n", elements, gc);//il ne faut pas l afficher tout de suite
-		}
-		else
-		{
-			ft_buff_error("minishell: ", elements, gc);
-			ft_buff_error(name, elements, gc);
-			ft_buff_error(": ", elements, gc);
-			ft_buff_error(strerror(errno), elements, gc);
-			ft_buff_error("\n", elements, gc);
-			//perror("on a un soucis");
-			//ft_write_error(elements, gc);
-		}
+	{
+		//perror("passage par la");
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(name, elements, gc);
+		ft_buff_error(": No such file or directory\n", elements, gc);
+		//write_all_err_mess(redir->name, ": No such file or directory\n", elements, gc); //il ne faut pas l afficher tout de suite
+	}
+	else if (errno == 13)
+	{
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(name, elements, gc);
+		ft_buff_error(": Permission denied\n", elements, gc);
+		//write_all_err_mess(redir->name, ": Permission denied\n", elements, gc);//il ne faut pas l afficher tout de suite
+	}
+	else
+	{
+		ft_buff_error("minishell: ", elements, gc);
+		ft_buff_error(name, elements, gc);
+		ft_buff_error(": ", elements, gc);
+		ft_buff_error(strerror(errno), elements, gc);
+		ft_buff_error("\n", elements, gc);
+		//perror("on a un soucis");
+		//ft_write_error(elements, gc);
+	}
+	elements->exit_status = ft_itoa(1, gc);
 }
 void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
 {
@@ -229,5 +230,6 @@ void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc
 			close(node->fd_out);
 			node->fd_out = -3;
 		}
+		elements->exit_status = ft_itoa(1, gc);
 	}
 }

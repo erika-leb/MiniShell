@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 17:05:01 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:41:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_ft(t_element *elements, t_gc *gc)
 	if (ft_checkq(elements->line))
 	{
 		elements->exit_status = ft_itoa(1, gc);/////////////////////////////////////////////// ADRI
-		return ;	
+		return ;
 	}
 	//Doit on transformer les static char 70 000 en malloc ?
 	elements->arr = ft_split(ft_tokenize(elements->line, gc, elements), 0, 0, gc);

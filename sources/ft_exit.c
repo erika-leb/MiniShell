@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:19:30 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/20 15:19:34 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 11:49:45 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_error_many(t_built *built, t_gc *gc)
 {
 	ft_buff_error("minishell: exit: too many arguments\n", built->elements, gc);
 	ft_write_error(built->elements, gc);
-	(gc_cleanup(gc), free_std(), exit(2));
+	(gc_cleanup(gc), free_std(), exit(1));
 }
 
 int	ft_exit(t_built *built, t_gc *gc)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_open_parta.c                                 :+:      :+:    :+:   */
+/*   redir_open.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 12:07:31 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:54:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	charge_ambig(t_element *elements, char *name, t_gc *gc) // corriger ici dem
 	ft_buff_error("minishell: ", elements, gc);
 	ft_buff_error(name_bis, elements, gc);
 	ft_buff_error(" ambiguous redirect\n", elements, gc);
+	elements->exit_status = ft_itoa(1, gc); //verifier cela
 }
 
 void	handle_redir(t_cmd **lst, t_element *elements, t_gc *gc)

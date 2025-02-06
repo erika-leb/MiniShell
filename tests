@@ -5,52 +5,41 @@
 - echo $9HOME
 - echo $UID$HOME%
 - echo $USER$var\$USER$USER\$USERtest$USER
-- ?$HOME
 - "$HOMEdskjhfkdshfsd"
 - env = ordre ???
-- mauvais message d erreur de la ligne 238 a 243
-- export HOL@=bonjour
-- export -HOLA=bonjour leak
-- export --HOLA=bonjour
-- export HOLA-=bonjour message
-- message de ligne a 248 a 262
-refaire les test de la ligne 238 a 381
-- /bin/ cd Desktop
-- /bin/cd Desktop = mauvais message
-- cat | << l (le cat ne se lance pas)
-- /    ou     '/'    ou "/"
-- unset HOME puis cd $HOME = comment gerer ce cas ? voir avec adri
-- "$> unset HOME
-$> export HOME
-$> cd"       segfault voir avec adri ce qui se passe si HOME tout seul     l441
-- export HOME ca s ajoute pas dans le env mais dans export si ca a lair d etre ok
--l 452, 453, 454
-- ./minishell a l'air de mrcher mais pas sur
-- env | " wc" -l = en discuter avec adri
+- export $? difference de message
+- export HO!LA=bonjour drole de message, est ce qu on doit s en occuper ?
+- export HOLA=bon!jour pareilm drole de message
+- "$> export HOLA=bonjour=casse-toi
+$> echo $HOLA"
+la deuxieme n affiche rien = l'env n est pas le bon, correction necessaire et importante et apres refaire test
+refaire de 288 a 330
+- $> export HOLA=at
+$> c$HOLA Makefile       cela doit afficher le makefile mais cela ne le fait pas
+- unset HOME puis cd $HOME = a voir si on laisse comme ca car HOME a lair detre stocke ailleurs
+- export HOME ca s ajoute pas dans le env mais dans export si ca a lair d etre ok, pas dans env dans aucun cas non ?
+-echo $PWD ne montre pas le chemin actualise l 452, 453, 454  //lie au problm echo var de export car export comporte pwd actuel voir avec adri
+- ./minishell a l'air de mrcher mais pas sur (ctrl c pas ouf a revoir)
 - "$> env -i ./minishell
-$> env"
+$> env" petit doute sur _= env si on lance env -i bash --posix
 "$> env -i ./minishell
-$> export"
-pas sur
-- exit -666 666 // a gerer ?
+$> export" = pas les memes infos que env !!
+- il faut ecrire exit en sortant avec exit non ? avant le message d erreur s il existe !!
 - exit hola 666 (changer l ordre des priorites de messages d erreur)
 - exit -69 -96 mauvais message et code status
 - minishell> ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
 |ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
 minishell: ls
 : command not found
-(retour a la ligne mal gere, comparrer avec bash)
-- $> export | echo hola (il faut enlever les printf de export)
--  syntax error near unexpected token `|' il faut changer error status a ce niveau la (et a tous les messages d erreur du parsing)
-- ; | ls      = nouveau cas de parsing il faut stopper et dire bash: syntax error near unexpected token `;'
+(retour a la ligne mal gere, comparrer avec bash, voir avec adri)
+- $> export | echo hola (il faut enlever les printf de export dans ft_printf)
+- ; | ls      = nouveau cas de parsing il faut stopper et dire bash: syntax error near unexpected token `;' a discuter avec adri
 pour ls | ; aussi
 - export HOLA=hey
 echo bonjour > $HOLA
-echo $HOLA"  l645
-- < pwd = mauvais exit code si pw n existe pas
-- cat >>. =message d erreur on a un soucis is a directory
-- cat < ls > ls : mauvais exit code
-- ligne 710 code de sortie
+
+
+
 
 bash-5.1$ << EOF cat
 > THIS
@@ -69,7 +58,7 @@ bash-5.1$ << "EOF" cat
 > EOF
 $HOME
 expand dans heredoc
-- >bonjour >hello < prout (prout n existe pas et mais code exit)
+
 - 728 a refaire avec correction "$> export HOLA=""bonjour hello""
 $> >$HOLA
 $> ls" pbm mise a jour env car avec uniquement nouvelles var
@@ -79,11 +68,14 @@ $> ls" pbm mise a jour env car avec uniquement nouvelles var
 - << $"$hola"$$"b" message no  desirable
 - << ho$la$"$a"$$"b"
 - test rajouter un path dans env avec faux ls
-- minishell | minishell
+
 
 - si minshell lance sans env,  jai mis cmd not found, a discuter avec adrien
 
 arret l694 resoudre prbm si env -i ls (lancer commande ? ou non)
+
+verifier s il n y a pas de process zombie ( watch "ps aux | grep defunct"
+)
 
 
 
@@ -101,3 +93,20 @@ corriges
 - holaCtlr-C ok
 - hola Ctlr-D (pas sur, ligne 216) ok
 - sleep 3 | sleep 3 | sleep 3 (faire Ctlr-\ une seconde apres) ok
+- minishell | minishell ok
+- < pwd = mauvais exit code si pw n existe pas   ok
+- cat >>. =message d erreur on a un soucis is a directory  ok
+- cat < ls > ls : mauvais exit code ok
+- ligne 710 code de sortie ok
+- - >bonjour >hello < prout (prout n existe pas et mais code exit) ok
+- $> cd"       segfault voir avec adri ce qui se passe si HOME tout seul     l441 ok
+- cat | << l (le cat ne se lance pas) ok
+- echo $HOLA"  l645 ok
+- ?$HOME ok
+- /bin/ cd Desktop ok
+- /    ou     '/'    ou "/" ok
+- "$> unset HOME
+$> export HOME ok
+- env | " wc" -l non tout va vien en fait
+- exit -666 666 // a gerer ? ok
+- syntax error near unexpected token `|' il faut changer error status a ce niveau la ok

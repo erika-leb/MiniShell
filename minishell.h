@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/04 18:46:28 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:08:00 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ void		create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
 void		ft_buff_error(char *str, t_element *elements, t_gc *gc);
 void		ft_write_error(t_element *elements, t_gc *gc);
+void		ft_write_mess(t_element *elements, t_gc *gc);
 
 //execution.c
 void		write_all_err_mess(char *str1, char *str2, t_element *elements, t_gc *gc);
@@ -209,7 +210,7 @@ void		ft_echo(char **cmd, t_gc *gc);
 int			ft_exit(t_built *built, t_gc *gc);
 
 //ft_export.c
-void		ft_printexport(const t_env *head);
+void		ft_printexport(const t_env *head, t_element *elements, t_gc *gc);
 void		ft_adder(t_env **head, char *str, t_gc *gc);
 char		**ft_export(t_element *element, char **argv, t_gc *gc, int ch);
 

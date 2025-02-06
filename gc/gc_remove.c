@@ -19,6 +19,7 @@ void	gc_remove(t_gc *gc, void *ptr)
 	t_gc_node	*current;
 	t_gc_node	*prev;
 
+	//perror("bogota");
 	current = gc->head;
 	prev = NULL;
 	while (current)

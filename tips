@@ -1,18 +1,12 @@
 flags pour valgrind
 
-valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
+valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --child-silent-after-fork=yes ./minishell
 
 
 valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
-a faire
-TEST EXEC ET REDIR
-BUILT IN RESTANT
-SIGNAUX
-ECHO $?
 
 mettre a la norme
-built in
 signaux fonction expres signaux dans heredoc, gerer signaux hors mode interactif ex cat ; code erreur a gerer voir cat puis ctrl c puis $? donne 130 github openbsd
 pwd a faire avec getcpwd
 tester minishell dans minishell

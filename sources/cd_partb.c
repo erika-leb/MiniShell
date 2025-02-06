@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:16:17 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/04 18:18:36 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:02:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@ int	ft_home_set(t_built *built, t_gc *gc, int ch, char	*buff_old)
 		free(buff_old);
 		if (ch == 0)
 		{
-			built->elements->exit_status = ft_itoa(errno, gc);
+			built->elements->exit_status = ft_itoa(1, gc);
 			return (1);
 		}
 		else
-			(gc_cleanup(gc), free_std(), exit(errno));
+			(gc_cleanup(gc), free_std(), exit(1));
 	}
 	free(buff_old);
 	if (ch == 0)
 	{
 		built->elements->exit_status = ft_itoa(0, gc);
-		return (1);//
+		return (1);
 	}
 	else
 	(gc_cleanup(gc), free_std(), exit(0));
@@ -120,11 +120,11 @@ int	ft_change_direction(t_built *built, t_gc *gc, int ch, char	*buff_old)
 		free(buff_old);
 		if (ch == 0)
 		{
-			built->elements->exit_status = ft_itoa(errno, gc);
+			built->elements->exit_status = ft_itoa(1, gc);
 			return (1);
 		}
 		else
-			(gc_cleanup(gc), free_std(), exit(errno));
+			(gc_cleanup(gc), free_std(), exit(1));
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/04 14:35:05 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:16:07 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,39 @@
 #include "../gc/gc.h"
 
 //static
-void ft_printexport(const t_env *head)
+void ft_printexport(const t_env *head, t_element *elements, t_gc *gc)
 {
     const t_env *current = head;
+	perror("medellin");
     //Tout mettre dans un buffer, comme pour l'erreur de ft_exit
-    while (current) {
+    while (current)
+	{
+		perror("pegate");
         if (current->key)
-            printf("export %s=\"%s\"\n", current->name, current->key);
+		{
+			perror("en la casa");
+			ft_buff_error("export ", elements, gc);
+			ft_buff_error(current->name, elements, gc);
+			ft_buff_error("=\"", elements, gc);
+			ft_buff_error(current->key, elements, gc);
+			ft_buff_error("\"\n", elements, gc);
+			perror("jeanne");
+			ft_write_mess(elements, gc);
+			perror("marie");
+		}
+            //printf("export %s=\"%s\"\n", current->name, current->key);
         else
-            printf("export %s\n", current->name);
-        current = current->next;
+		{
+			ft_buff_error("export ", elements, gc);
+			ft_buff_error(current->name, elements, gc);
+			ft_buff_error("\n", elements, gc);
+			ft_write_mess(elements, gc);
+		}
+            //printf("export %s\n", current->name); //enlever le printf
+        perror("salvaje");
+		current = current->next;
     }
+	perror("bellaco");
 }
 //static
 // static void ft_freelexport(t_env *head)
@@ -75,10 +97,31 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 
 	head = NULL;
 	i = -1;
+	perror("freaky");
 	while (element->env[++i])
 		ft_adder(&head, element->env[i], gc);
+	perror("no hace falta");
 	if (!argv[1])
-		return (ft_bbsort(head), ft_printexport(head), gc_remove(gc, head), NULL);
+	{
+		perror("bailamos");
+		(ft_bbsort(head), ft_printexport(head, element, gc));
+		perror("bebecita");
+		gc_remove(gc, head);
+		perror("bebezota");
+		dprintf(2, "ch =%d\n", ch);
+		if (ch == 0)
+		{
+			perror("nasty");
+			element->exit_status = ft_itoa(0, gc);
+			return (NULL);//
+		}
+		else
+		{
+			perror("kinky");
+			(gc_cleanup(gc), free_std(), exit(0));
+		}
+	}
+	perror("toma");
 	if (argv[1][0] == '-')
 	{
 		write(2, "minishell: export: No option(s) allowed\n", 41);
@@ -87,12 +130,17 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 		// return (NULL);
 		if (ch == 0)
 		{
+			//perror("nasty");
 			element->exit_status = ft_itoa(2, gc);
 			return (NULL);//
 		}
 		else
+		{
+			//perror("kinky");
 			(gc_cleanup(gc), free_std(), exit(2));
+		}
 	}
+	//perror("makinon");
 	i = 0;
 	flag = 0;
 	//flag = ft_filler(argv, element, gc, head);//reprend le while en dessous
@@ -108,6 +156,7 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 			flag = 1;
 		}
 	}
+	//perror("city");
 	adder = ft_ltoa(head, gc);
 	gc_remove(gc, head);
 	//Retirer la variable _ dans la structure env de minishell
@@ -128,6 +177,7 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
 	// 	i++;
 	// }
+	//perror("prender");
 	if (!flag)
 	{
 		element->exit_status = ft_itoa(0, gc);
@@ -137,9 +187,15 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 
 
 	if (ch == 0)
+	{
+		//perror("reggeaton");
 		return (adder);//
+	}
 	else
+	{
+		//perror("dembow");
 		(gc_cleanup(gc), free_std(), exit(code));
+	}
 
 	//return (adder);//a tej plus tard
 }

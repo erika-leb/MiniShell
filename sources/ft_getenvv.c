@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getenvv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/28 14:18:12 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:52:51 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,29 @@ char	*ft_itoa(int nb, t_gc *gc)
 	return (str);
 }
 
-char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements)
+//adri42
+static char	*ft_searchenv(char *tmp, t_element *elements, t_gc *gc)
+{
+	int		i;
+	size_t		len;
+	char	*to_search;
+	char	*value;
+
+	i = 0;
+	//Si tmp ="HOME" alors to_search ="HOME="
+	to_search = ft_strjoin(tmp, "=", gc);
+	len = ft_strlen(to_search);
+	while (elements->env[i] && ft_strncmp(to_search, elements->env[i], len))
+		i++;
+	if (!elements->env[i])
+		return (NULL);//Si la var d'env n'existe pas on renvoie NULL comme getenv
+	//Sinon on recupere la valeur de la var d'env, a savoir tout ce qui se situe apres le 1er =
+	value = ft_cut(elements->env[i], '=', 1, gc);
+	return (value);
+}
+
+//adri42
+char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements, t_gc *gc)
 {
 	int i;
 
@@ -87,5 +109,6 @@ char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements)
 	if (!ft_strcmp(tmp, "?"))
 		return (elements->exit_status);//il faudrait enregistrer le errno au debut du prg (dans une structure avec d'autres trucs utiles)
 	//pour que chaque enfant puisse modifier sa valeur. Puis y faire appel dans getenvv pour choper la derniere valeur prise
-    return (getenv(tmp));
+    // return (getenv(tmp));
+	return (ft_searchenv(tmp, elements, gc));
 }

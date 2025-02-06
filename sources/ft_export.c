@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/06 13:16:07 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:28:49 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@
 void ft_printexport(const t_env *head, t_element *elements, t_gc *gc)
 {
     const t_env *current = head;
-	perror("medellin");
+	//perror("medellin");
     //Tout mettre dans un buffer, comme pour l'erreur de ft_exit
     while (current)
 	{
-		perror("pegate");
+		//perror("pegate");
         if (current->key)
 		{
-			perror("en la casa");
+			//perror("en la casa");
 			ft_buff_error("export ", elements, gc);
 			ft_buff_error(current->name, elements, gc);
 			ft_buff_error("=\"", elements, gc);
 			ft_buff_error(current->key, elements, gc);
 			ft_buff_error("\"\n", elements, gc);
-			perror("jeanne");
+			//perror("jeanne");
 			ft_write_mess(elements, gc);
-			perror("marie");
+			//perror("marie");
 		}
             //printf("export %s=\"%s\"\n", current->name, current->key);
         else
@@ -43,10 +43,10 @@ void ft_printexport(const t_env *head, t_element *elements, t_gc *gc)
 			ft_write_mess(elements, gc);
 		}
             //printf("export %s\n", current->name); //enlever le printf
-        perror("salvaje");
+        //perror("salvaje");
 		current = current->next;
     }
-	perror("bellaco");
+	//perror("bellaco");
 }
 //static
 // static void ft_freelexport(t_env *head)
@@ -97,31 +97,31 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 
 	head = NULL;
 	i = -1;
-	perror("freaky");
+	//perror("freaky");
 	while (element->env[++i])
 		ft_adder(&head, element->env[i], gc);
-	perror("no hace falta");
+	//perror("no hace falta");
 	if (!argv[1])
 	{
-		perror("bailamos");
+		//perror("bailamos");
 		(ft_bbsort(head), ft_printexport(head, element, gc));
-		perror("bebecita");
+		//perror("bebecita");
 		gc_remove(gc, head);
-		perror("bebezota");
-		dprintf(2, "ch =%d\n", ch);
+		//perror("bebezota");
+		//dprintf(2, "ch =%d\n", ch);
 		if (ch == 0)
 		{
-			perror("nasty");
+			//perror("nasty");
 			element->exit_status = ft_itoa(0, gc);
 			return (NULL);//
 		}
 		else
 		{
-			perror("kinky");
+			//perror("kinky");
 			(gc_cleanup(gc), free_std(), exit(0));
 		}
 	}
-	perror("toma");
+	//perror("toma");
 	if (argv[1][0] == '-')
 	{
 		write(2, "minishell: export: No option(s) allowed\n", 41);

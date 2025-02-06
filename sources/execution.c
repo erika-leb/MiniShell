@@ -6,14 +6,14 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/05 18:40:16 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:42:16 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
 
-static char	*ft_strjoin(char *s1, char *s2, t_gc *gc)
+char	*ft_strjoin(char *s1, char *s2, t_gc *gc)
 {
 	char	*str;
 	int		i;

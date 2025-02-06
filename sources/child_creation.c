@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/04 15:06:41 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:29:02 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 		//perror("roken");
 		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
-	close_other_redir(i, elements);
 	if (i == 0 && elements->nb_cmd == 1)
 	{
 		//perror("cyan");
@@ -50,7 +49,10 @@ void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 		//perror("on est ici");
 	}
 	else
+	{
+		//perror("PR");
 		all_cases(i, elements, cmd, gc);
+	}
 	if (cmd->fd_in >= 0)
 	{
 		close(cmd->fd_in);
@@ -61,6 +63,7 @@ void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 		close(cmd->fd_out);
 		cmd->fd_out = CLOSED;
 	}
+	close_other_redir(i, elements); //pbm ?
 }
 
 int	no_child_events(t_element *elements, t_gc *gc, t_cmd *current)
@@ -144,6 +147,14 @@ void	child_creation(t_element *elements, t_gc *gc)
 					ft_built_in(elements, current->cmd, gc);
 				else
 					exec_command(elements, gc, i);
+				if (g_signal == 13)
+				{
+					g_signal = 0;
+					gc_cleanup(gc);
+					free_std();
+					//perror("liloo");
+					exit(128 + 13); // Quitte la boucle
+				}
 			}
 		}
 		else

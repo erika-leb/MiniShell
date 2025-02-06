@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 16:23:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:31:34 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,13 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 	if (!sq && !dq)
 		ft_addspace(result, av2, i, j);
 }
-
+//adri42
 char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 {
 	static char	result[70000];
 	int			i;
 	int			j;
 
-	(void) gc;
 	i = 0;
 	j = 0;
 	ft_deldollar(av2);
@@ -89,5 +88,5 @@ char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 		i++;
 	}
 	result[j] = '\0';
-	return (ft_ifexpand(result, 0, 0, elements));
+	return (ft_ifexpand(result, 0, 0, elements, gc));
 }

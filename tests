@@ -39,7 +39,8 @@ pour ls | ; aussi
 echo bonjour > $HOLA
 
 
-
+echo
+hola
 
 bash-5.1$ << EOF cat
 > THIS

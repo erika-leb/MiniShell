@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/06 13:08:00 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:42:49 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ void		ft_write_error(t_element *elements, t_gc *gc);
 void		ft_write_mess(t_element *elements, t_gc *gc);
 
 //execution.c
+char		*ft_strjoin(char *s1, char *s2, t_gc *gc);
 void		write_all_err_mess(char *str1, char *str2, t_element *elements, t_gc *gc);
 void		path_abs(char **cmd, t_element *elements, int i, t_gc *gc);
 void		path_relat(char **cmd, t_element *elements, int i, t_gc *gc);

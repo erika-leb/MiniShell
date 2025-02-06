@@ -47,6 +47,11 @@ pour la correction :
 ls | hola fait un sigpipe c est normal ; env | hola non car built in donc on a pas programme pour que ca fasse ca
 Si creation fichier .here : interdiciton dajouter fichiers dans code source. .here est reserve a notre shell, interdiction
 d'utiliser ce mot (comme shell peut le faire pour if elif ...)
+- minishell> ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
+|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
+= bash traite cette commande comme deux lignes disctinctes mais avant de les traiter il verifie que chacune des lignes
+est correctement ecrite hors la deuxieme ligne commence par un pipe d ou le message d erreur alors que nous lorsaue l'tuilisateur
+fait un copie colle \n est integre dans la commande. par ailleurs le sujet specifie que tout ce qui n est pas demande n est pas a etre traite
 
 
 

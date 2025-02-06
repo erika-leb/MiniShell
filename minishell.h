@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/06 15:42:49 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:46:02 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,11 +223,11 @@ void		ft_swapnodes(t_env *node1, t_env *node2);
 void		ft_bbsort(t_env *head);
 
 //ft_getenvv.c
-char		*ft_getenvv(char *result, int *k, char *tmp, t_element *elements);
+char		*ft_getenvv(char *result, int *k, char *tmp, t_element *elements, t_gc *gc);
 char		*ft_itoa(int nb, t_gc *gc);
 
 //ft_ifexpand.c
-char		*ft_ifexpand(char *result, int sq, int dq, t_element *elements);
+char		*ft_ifexpand(char *result, int sq, int dq, t_element *elements, t_gc *gc);
 
 //ft_split.c
 char		**ft_split(char const *str, int sq, int dq, t_gc *gc);
@@ -242,6 +242,9 @@ char		*ft_tokenize(char *av2, t_gc *gc, t_element *elements);
 
 //ft_unset.c
 void		ft_unset(t_element *element, char **argv, t_gc *gc, int ch);
+
+//here_exp.c
+char	*ft_hereifexpand(char *result, t_element *elements, t_gc *gc);
 
 //heredoc.c
 int			ft_open_heredoc(char *del, t_element *elements, t_gc *gc);

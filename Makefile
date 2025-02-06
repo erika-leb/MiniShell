@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/04 18:17:21 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/06 17:38:30 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/pwd.c \
 			${SRC_DIR}/heredoc.c \
 			${SRC_DIR}/count_lines.c \
+			${SRC_DIR}/here_exp.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
@@ -105,6 +106,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/pwd.o \
 			${OBJ_DIR}/heredoc.o \
 			${OBJ_DIR}/count_lines.o \
+			${OBJ_DIR}/here_exp.o \
 
 NAME = minishell
 

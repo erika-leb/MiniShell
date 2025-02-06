@@ -6,11 +6,22 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/05 14:35:07 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:49:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static char	*here_exp(char *lign, t_element *elements, t_gc *gc)
+{
+	char	buffer[70000];
+
+	ft_strncpy(buffer, lign, ft_strlen(lign));
+	buffer[ft_strlen(lign)] = '\0';
+
+	return (ft_hereifexpand(buffer, elements, gc));
+
+}
 
 int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 {
@@ -39,7 +50,8 @@ int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 			free(lign);
 			break;
 		}
-		(ft_putstr_fd(lign, fd), ft_putstr_fd("\n", fd), free(lign));
+		// (ft_putstr_fd(lign, fd), ft_putstr_fd("\n", fd), free(lign));
+		(ft_putstr_fd(here_exp(lign, elements, gc), fd), ft_putstr_fd("\n", fd), free(lign));
 		// ft_putstr_fd("\n", fd);
 		// free(lign);
 	}

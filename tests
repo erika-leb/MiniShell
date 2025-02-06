@@ -27,20 +27,15 @@ $> export" = pas les memes infos que env !!
 - il faut ecrire exit en sortant avec exit non ? avant le message d erreur s il existe !!
 - exit hola 666 (changer l ordre des priorites de messages d erreur)
 - exit -69 -96 mauvais message et code status
-- minishell> ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
-|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
-minishell: ls
-: command not found
-(retour a la ligne mal gere, comparrer avec bash, voir avec adri)
 - $> export | echo hola (il faut enlever les printf de export dans ft_printf)
 - ; | ls      = nouveau cas de parsing il faut stopper et dire bash: syntax error near unexpected token `;' a discuter avec adri
-pour ls | ; aussi
+pour ls | ; aussi OK car d'apres le sujet ; n'est pas etre gere parmi les token, donc c a la discretion des devs
 - export HOLA=hey
 echo bonjour > $HOLA
 
 
-echo
-hola
+echo hola
+echo hola
 
 bash-5.1$ << EOF cat
 > THIS

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ifexpand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/06 15:34:37 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:12:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ char	*ft_ifexpand(char *result, int sq, int dq, t_element *elements, t_gc *gc)
 			//Je ne peux pas utiliser ft_ambig car il ne s'applique pas si je suis en double quote et mine de rien je peux avoir des cas ou
 			//le user fais export a="  "haha" 'ca va bien' " auquel cas j'a interet a aussi gerer le cas ou je suis dans des doubles quotes.
 			if (!sq && !dq)
-				ft_ambig(result + k, &k, elements);
+				ft_ambig(result + k, &k, elements, gc);
 		}
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres

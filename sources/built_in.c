@@ -6,14 +6,13 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:01 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/04 18:50:34 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:34:01 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
-void	close_other_redir(int i, t_element *elements) // fonction inutile ?
+void	close_other_redir(int i, t_element *elements)
 {
 	t_cmd	*cmd;
 	int		k;
@@ -36,11 +35,11 @@ void	close_other_redir(int i, t_element *elements) // fonction inutile ?
 			}
 		}
 		k++;
-		cmd=cmd->next;
+		cmd = cmd->next;
 	}
 }
 
-int		is_built_in(char *cmd)
+int	is_built_in(char *cmd)
 {
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (TRUE);
@@ -64,16 +63,15 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 {
 	t_built	*built;
 
-	//perror("lola");
 	built = gc_malloc(sizeof(t_built), gc);
 	built->cmd = cmd;
 	built->elements = elements;
 	if (ft_strcmp(cmd[0], "exit") == 0)
-		ft_exit(built, gc);
+		ft_exit(built, gc, 1);
 	else if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_echo(cmd, gc);
 	else if (ft_strcmp(cmd[0], "export") == 0)
-	 	ft_export(elements, cmd, gc, 1);
+		ft_export(elements, cmd, gc, 1);
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		ft_env(elements->env, cmd, gc);
 	else if (ft_strcmp(cmd[0], "unset") == 0)
@@ -82,30 +80,18 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 		ft_cd(built, gc, 1);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		ft_pwd(cmd, elements, gc);
-	// int i;
-	// int s_arr;
-	// s_arr = ft_arr_size(elements->env);
-	// printf("s = %d\n", s_arr);
-	// i = 0;
-	// while( i <= s_arr)
-	// {
-	// 	printf("element2->env %i = %s\n", i, elements->env[i]);
-	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
-	// 	i++;
-	// }
-	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));//ATTENTION si jamais un built-in est utilise dans le dernier enfant et aue ce built-in fonctionne pas
-	//alors il faut pas EXIT_SUCCESS
+	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
 }
 
 void	built_in_no_child(t_element *elements, t_gc *gc)
 {
-	//ICI un coup on utilise built et un coup on utilise element donc on recupere pas le bon message d'erreur.
 	t_built	*built;
+
 	built = gc_malloc(sizeof(t_built), gc);
 	built->cmd = elements->lst->cmd;
 	built->elements = elements;
 	if (ft_strcmp(built->cmd[0], "exit") == 0)
-		ft_exit(built, gc);
+		ft_exit(built, gc, 0);
 	else if (ft_strcmp(built->cmd[0], "export") == 0)
 		ft_export(elements, built->cmd, gc, 0);
 	else if (ft_strcmp(built->cmd[0], "unset") == 0)

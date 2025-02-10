@@ -1,18 +1,18 @@
-/*	************************************************************************** */
-/*		                                                                    */
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gc.h                                               :+:      :+:    :+:   */
+/*   gc_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 17:31:45 by aisidore          #+#    #+#             */
-/*   Updated: 2024/11/21 13:46:29 by ele-borg         ###   ########.fr       */
+/*   Created: 2025/02/10 16:27:25 by ele-borg          #+#    #+#             */
+/*   Updated: 2025/02/10 16:27:36 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gc.h"
 
-/* Fonction utile (gc_realloc) pour modifier un malloc identifié a partir de son pointeur */
+/* Fonction utile pour modifier un malloc identifié a partir de son pointeur */
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
@@ -45,7 +45,7 @@ size_t	gc_get_malloc_size(void *ptr, t_gc *gc)
 	return (0);
 }
 
-void	*gc_realloc(void *ptr, size_t new_size, t_gc *gc) // a ameliorer
+void	*gc_realloc(void *ptr, size_t new_size, t_gc *gc)
 {
 	void	*new_ptr;
 	size_t	old_size;

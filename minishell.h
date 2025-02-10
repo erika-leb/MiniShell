@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/06 17:46:02 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:12:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,11 @@ int			cd_home(t_built *built, t_gc *gc);
 //child_creation.c
 void		uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc);
 void		child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc);
+void		child_creation(t_element *elements, t_gc *gc);
+
+//child_hedge_cases.c
 int			no_child_events(t_element *elements, t_gc *gc, t_cmd *current);
 void		hedge_child_cases(t_element *elements, t_gc *gc, t_cmd	*current);
-void		child_creation(t_element *elements, t_gc *gc);
 
 // cmd_arr.c
 int			nb_arg(char **tab, int i, int last_i);
@@ -199,7 +201,7 @@ void		ft_env(char **array, char **cmds, t_gc *gc);
 void		ft_fill_arrays(t_element *elements, t_gc *gc);
 
 //ft_ambig.c
-void		ft_ambig(char *result_k, int *k, t_element *elements);
+void		ft_ambig(char *result_k, int *k, t_element *elements, t_gc *gc);
 
 //ft_concat.c
 char		*ft_concat(char *result_i, int k, int sq, int dq);
@@ -208,7 +210,7 @@ char		*ft_concat(char *result_i, int k, int sq, int dq);
 void		ft_echo(char **cmd, t_gc *gc);
 
 //ft_exit.c
-int			ft_exit(t_built *built, t_gc *gc);
+int			ft_exit(t_built *built, t_gc *gc, int ch);
 
 //ft_export.c
 void		ft_printexport(const t_env *head, t_element *elements, t_gc *gc);

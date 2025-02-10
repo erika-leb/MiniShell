@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 16:31:44 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:12:12 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ft_initambig(char *result_k, char *name, int *m)
 	*m = 0;
 }
 
-void	ft_ambig(char *result_k, int *k, t_element *elements)
+void	ft_ambig(char *result_k, int *k, t_element *elements, t_gc *gc)
 {
 	//on cherche getenv et on regarde si ambiguous redirect.
 	//si pas d'ambiguous on laisse ifexpand faire son travail.
@@ -74,7 +74,7 @@ void	ft_ambig(char *result_k, int *k, t_element *elements)
 		//que ce qui vient apres c'est un alnum et on lance ft_getenvv
 		if (name[m] == '$' && (*(name + m + 1) == '_'
 			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
-			envv = ft_getenvv(name + 1, &m, tmp, elements);//ft_getenvv ne va pas incrementer m
+			envv = ft_getenvv(name + 1, &m, tmp, elements, gc);//ft_getenvv ne va pas incrementer m
 		while (name[m] != '$' && (*(name + m) == '_'
 				|| ft_isalnum(*(name + m)) || *(name + m) == '?'))
 			m++;

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:43:09 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/04 18:18:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:37:08 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_change_pwd(t_built *built, t_gc *gc, char *buff_old, char *buff)
 	i = -1;
 	head = NULL;
 	while (built->elements->env[++i])
-			ft_adder(&head, built->elements->env[i], gc);
+		ft_adder(&head, built->elements->env[i], gc);
 	current = head;
 	while (current)
 	{
@@ -95,4 +95,3 @@ void	ft_cd(t_built *built, t_gc *gc, int ch) //ch si 0 no child si 1 on est dans
 	ft_change_pwd(built, gc, buff_old, buff);
 	ft_exit_with_success(built, gc, ch);
 }
-

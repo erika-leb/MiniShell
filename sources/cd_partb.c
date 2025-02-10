@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:16:17 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/05 19:02:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:38:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_no_buff_old(t_built *built, t_gc *gc, int ch)
 	ft_buff_error("directories: No such file", built->elements, gc);
 	ft_buff_error(" or directory\n", built->elements, gc);
 	ft_write_error(built->elements, gc);
-	//write(2, "pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 110);
 	if (ch == 0)
 	{
 		built->elements->exit_status = ft_itoa(2, gc);
@@ -68,7 +67,7 @@ int	ft_home_set(t_built *built, t_gc *gc, int ch, char	*buff_old)
 		return (1);
 	}
 	else
-	(gc_cleanup(gc), free_std(), exit(0));
+		(gc_cleanup(gc), free_std(), exit(0));
 	return (0);
 }
 

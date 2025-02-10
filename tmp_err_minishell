@@ -1,7 +1,0 @@
-Commande n°0:
-  Command arguments:
-    cmd[0]: /bin/echo
-    cmd[1]: 0
-  No redirections.
-  fd_in: -2
-  fd_out: -2

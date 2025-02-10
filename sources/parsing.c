@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/06 14:56:38 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:21:58 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		elements->exit_status = ft_itoa(2, gc);/////////////////////////////////////////////// ADRI
 	}
 	// //////////////////////////////juste pour checker, useless sinon
-	i = -1;
-	while (elements->arr && elements->arr[++i])
-		printf("token %d :%s\n", i, elements->arr[i]);
+	// i = -1;
+	// while (elements->arr && elements->arr[++i])
+	// 	printf("token %d :%s\n", i, elements->arr[i]);
 	///////////////////////////////////////////////////////////////
 }

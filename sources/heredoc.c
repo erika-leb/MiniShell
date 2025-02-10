@@ -6,22 +6,44 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/06 17:49:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 12:01:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// static char	*here_exp(char *lign, t_element *elements, t_gc *gc)
+// {
+// 	char	*buffer;
+
+// 	buffer = gc_malloc(ft_strlen(lign) + 1, gc); //voir correction leak avec adri ici, si expand la taille n est pas bonne
+// 	ft_strncpy(buffer, lign, ft_strlen(lign));
+// 	buffer[ft_strlen(lign)] = '\0';
+// 	//printf("buff = %s\n", buffer);
+// 	return (ft_hereifexpand(buffer, elements, gc));
+
+// }
+
 static char	*here_exp(char *lign, t_element *elements, t_gc *gc)
 {
-	char	buffer[70000];
+	static char	buffer[70000];
 
-	ft_strncpy(buffer, lign, ft_strlen(lign));
-	buffer[ft_strlen(lign)] = '\0';
+	if (!lign)
+		return (NULL);
 
+	// S'assurer que lign ne dépasse pas la taille de buffer
+	size_t len = ft_strlen(lign);
+	if (len >= sizeof(buffer))
+		len = sizeof(buffer) - 1; // Éviter un dépassement
+
+	// Copier lign dans buffer en toute sécurité
+	ft_strncpy(buffer, lign, len);
+	buffer[len] = '\0';
+
+	// Appeler ft_hereifexpand avec buffer
 	return (ft_hereifexpand(buffer, elements, gc));
-
 }
+
 
 int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 {
@@ -52,6 +74,9 @@ int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 		}
 		// (ft_putstr_fd(lign, fd), ft_putstr_fd("\n", fd), free(lign));
 		(ft_putstr_fd(here_exp(lign, elements, gc), fd), ft_putstr_fd("\n", fd), free(lign));
+		// ft_putstr_fd(here_exp(lign, elements, gc), fd);
+		// ft_putstr_fd("\n", fd);
+		// free(lign);
 		// ft_putstr_fd("\n", fd);
 		// free(lign);
 	}

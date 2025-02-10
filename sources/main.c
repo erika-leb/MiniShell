@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/05 14:03:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:13:07 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ char *get_input(t_gc *gc)
 
 	if (isatty(STDIN_FILENO))
 	{
+		fflush(stdout);
 		input = readline("minishell> ");
+		//fflush(stdout);
 		if (input && *input)
 			add_history(input);
 	}
@@ -111,4 +113,3 @@ void	ft_launch_cmd(t_element *elements, t_gc *gc)
 	}
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/26 17:52:10 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:48:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,18 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
+	//perror("on entre");
 	i = 0;
 	if (s == NULL)
 		return ;
 	while (s[i])
 	{
+		//printf("s[%d] = %c\n", i, s[i]);
 		write(fd, &s[i], 1);
 		i++;
+
 	}
+	//perror("on sort");
 }
 
 int	ft_atoi(const char *str)
@@ -132,3 +136,4 @@ int	ft_atoi(const char *str)
 // 		return (NULL);
 // 	return (ft_strdup(line, gc));
 // }
+

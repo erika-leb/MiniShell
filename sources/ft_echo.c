@@ -77,6 +77,7 @@ void	ft_echo(char **cmd, t_gc *gc)
 	int	f;
 	char buf[70000];
 
+	//perror("tumba la casa");
 	//ft_init_var(&i, &k, &n, &f);
 	i = 1;
 	k = 0;
@@ -98,13 +99,28 @@ void	ft_echo(char **cmd, t_gc *gc)
 		if (f == 1)
 			buf[k++] = ' ';
 		ft_fill_buf(&i, &k, cmd, buf);
+		//dprintf(2, "cdm[%d] = %s\n", i, cmd[i]);
 		f = 1;
 	}
+	//dprintf(2, "puis cdm[%d] = %s\n", i, cmd[i]);
 	if (n == 0)
 		buf[k++] = '\n';
+	//perror("hagale");
+	//dprintf(2, "k = %d, buf = %s\n", k, buf);
 	f = write(1, buf, k); //a verifier le 1
+	//dprintf(2, "f = %d\n", f);
+	if (f == -1)
+	{
+		perror("prmb ecriture"); // changer ici plus tard
+	}
+	//perror("mamacita");
 	write_error(f, gc);
-	(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+	//perror("ppacito");
+	//(gc_cleanup(gc), free_std(), exit(EXIT_SUCCESS));
+	gc_cleanup(gc);
+	free_std();
+	//perror("messing with dimensions");
+	exit(EXIT_SUCCESS);
 }
 
 // int main() {

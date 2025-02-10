@@ -5,15 +5,25 @@
 - echo $9HOME
 - echo $UID$HOME%
 - echo $USER$var\$USER$USER\$USERtest$USER
-- "$HOMEdskjhfkdshfsd"
+- "$HOMEdskjhfkdshfsd" voir avec adri token vide
 - env = ordre ???
-- export $? difference de message
 - export HO!LA=bonjour drole de message, est ce qu on doit s en occuper ?
 - export HOLA=bon!jour pareilm drole de message
 - "$> export HOLA=bonjour=casse-toi
 $> echo $HOLA"
 la deuxieme n affiche rien = l'env n est pas le bon, correction necessaire et importante et apres refaire test
-refaire de 288 a 330
+- "$> export HOLA='""'
+$> echo "" $HOLA "" | cat -e"
+- "$> export HOLA=""cat Makefile | grep NAME""
+$> echo $HOLA"   = cas chiant, il faudrait expand dans mon code ou laisser des guillemets ??
+- "$> unset PATH
+$> ls" ls fonctionne alors qu il ne devrait pas
+- dans env il y a OLDPWD alors que dans env de bash il n y a pas
+- $> unset -HOLA il faudrait un message d erreur
+- $> unset HOL!A  message d erreur specifique pas a traiter je pense
+- "$> unset PATH
+$> echo $PATH" path unset est ce grave demander a mabrouk
+
 - $> export HOLA=at
 $> c$HOLA Makefile       cela doit afficher le makefile mais cela ne le fait pas
 - unset HOME puis cd $HOME = a voir si on laisse comme ca car HOME a lair detre stocke ailleurs
@@ -33,33 +43,14 @@ pour ls | ; aussi OK car d'apres le sujet ; n'est pas etre gere parmi les token,
 - export HOLA=hey
 echo bonjour > $HOLA
 
+- export HOLA="bonjour hello"
+>$HOLA (ne marche pas bien hello et bonjour sont separes)
+>"$HOLA" (ne marche pas non plus) l727 728 730 731 732
+rm bonjour\ hello (ne mrche pas si le ficher a bien ete cree par bash --posix)
 
-echo hola
-echo hola
+- cat << "hola"     =seul cas ou il ne faut pas expand a l interieur du heredoc, a modifier avec adri
+- cat << ho"la" pareil
 
-bash-5.1$ << EOF cat
-> THIS
-> IS
-> $HOME
-> EOF
-THIS
-IS
-/home/ele-borg
-bash-5.1$ << 'EOF' cat
-> $HOME
-> EOF
-$HOME
-bash-5.1$ << "EOF" cat
-> $HOME
-> EOF
-$HOME
-expand dans heredoc
-
-- 728 a refaire avec correction "$> export HOLA=""bonjour hello""
-$> >$HOLA
-$> ls" pbm mise a jour env car avec uniquement nouvelles var
-- retester les ligne 727 a 734
-- rajouter l expand dans le heredoc puis tester ligne 744 a 748
 - << $"hola"$"b" (le heredoc se ferme normalleement avec holab) l 757 : adri a la solution, il supprime juste le 1er dollar (a tord)
 - << $"$hola"$$"b" message no  desirable
 - << ho$la$"$a"$$"b"
@@ -68,7 +59,7 @@ $> ls" pbm mise a jour env car avec uniquement nouvelles var
 
 - si minshell lance sans env,  jai mis cmd not found, a discuter avec adrien
 
-arret l694 resoudre prbm si env -i ls (lancer commande ? ou non)
+resoudre prbm si env -i ls (lancer commande ? ou non)
 
 verifier s il n y a pas de process zombie ( watch "ps aux | grep defunct"
 )
@@ -106,3 +97,21 @@ $> export HOME ok
 - env | " wc" -l non tout va vien en fait
 - exit -666 666 // a gerer ? ok
 - syntax error near unexpected token `|' il faut changer error status a ce niveau la ok
+- export $? ok
+- bash-5.1$ << EOF cat
+> THIS
+> IS
+> $HOME
+> EOF
+THIS
+IS
+/home/ele-borg   ok
+- bash-5.1$ << 'EOF' cat
+> $HOME
+> EOF
+$HOME   ok
+bash-5.1$ << "EOF" cat
+> $HOME
+> EOF
+$HOME
+expand dans heredoc   ok

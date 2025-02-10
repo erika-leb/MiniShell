@@ -31,6 +31,7 @@ char *ft_insert(char *result, int k, char c)
 	return (result);
 }
 
+
 //Supprime un caractere au niveau de tmp_k, reduit la taille de la chaine de -1.
 //Le vrai indice (k) n'est pas modifie et reste au niveau du caractere supprime
 char *ft_erase(char *result, int tmp_k)

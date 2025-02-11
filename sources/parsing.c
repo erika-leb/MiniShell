@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/10 16:21:58 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:29:46 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,12 @@ void	ft_ft(t_element *elements, t_gc *gc)
 	//Doit on transformer les static char 70 000 en malloc ?
 	elements->arr = ft_split(ft_tokenize(elements->line, gc, elements), 0, 0, gc);
 	while (elements->arr && elements->arr[++i])
-		elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
+	{
+		if (ft_strcmp(elements->arr[i], "<<") == 0)
+			i++;
+		else
+			elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);
+	}
 	if (elements->arr && ft_unexptoken(elements->arr))
 	{
 		tmp = ft_fatalerror(elements->arr, gc);
@@ -141,8 +146,8 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		elements->exit_status = ft_itoa(2, gc);/////////////////////////////////////////////// ADRI
 	}
 	// //////////////////////////////juste pour checker, useless sinon
-	// i = -1;
-	// while (elements->arr && elements->arr[++i])
-	// 	printf("token %d :%s\n", i, elements->arr[i]);
+	i = -1;
+	while (elements->arr && elements->arr[++i])
+		printf("token %d :%s\n", i, elements->arr[i]);
 	///////////////////////////////////////////////////////////////
 }

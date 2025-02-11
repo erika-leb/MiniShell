@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/10 12:01:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:37:32 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,33 @@
 
 // }
 
-static char	*here_exp(char *lign, t_element *elements, t_gc *gc)
+// static int	ft_isquote(char *del)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (del[i])
+// 	{
+// 		if (del[i] == '\'' || del[i] == '\"')
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+static char	*here_exp(char *lign, t_element *elements, t_gc *gc, int flag)
 {
 	static char	buffer[70000];
+	size_t len;
 
 	if (!lign)
 		return (NULL);
-
+	if (flag)
+		return (lign);
 	// S'assurer que lign ne dépasse pas la taille de buffer
-	size_t len = ft_strlen(lign);
+	len = ft_strlen(lign);
 	if (len >= sizeof(buffer))
 		len = sizeof(buffer) - 1; // Éviter un dépassement
-
 	// Copier lign dans buffer en toute sécurité
 	ft_strncpy(buffer, lign, len);
 	buffer[len] = '\0';
@@ -48,7 +63,13 @@ static char	*here_exp(char *lign, t_element *elements, t_gc *gc)
 int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 {
 	char	*lign;
+	char	*dell;
+	int		flag;
 
+	flag = 0;
+	dell = ft_concat(ft_strdup(del, gc), -1, 0, 0);
+	if (ft_strcmp(dell, del))
+		flag = 1;
 	while (1)
 	{
 		lign = readline("> ");
@@ -64,16 +85,16 @@ int	ft_read_heredoc(char *del, int fd, t_element *elements, t_gc *gc)
 		}
 		if (lign == NULL) // Si EOF (Ctrl+D) est détecté
 		{
-			(printf_mess_d(del, elements, gc), free(lign));
+			(printf_mess_d(dell, elements, gc), free(lign));
 			break ;
 		}
-		if (ft_strcmp(lign, del) == 0) // Si le délimiteur est rencontré
+		if (ft_strcmp(lign, dell) == 0) // Si le délimiteur est rencontré
 		{
 			free(lign);
 			break;
 		}
 		// (ft_putstr_fd(lign, fd), ft_putstr_fd("\n", fd), free(lign));
-		(ft_putstr_fd(here_exp(lign, elements, gc), fd), ft_putstr_fd("\n", fd), free(lign));
+		(ft_putstr_fd(here_exp(lign, elements, gc, flag), fd), ft_putstr_fd("\n", fd), free(lign));
 		// ft_putstr_fd(here_exp(lign, elements, gc), fd);
 		// ft_putstr_fd("\n", fd);
 		// free(lign);

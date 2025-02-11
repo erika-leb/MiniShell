@@ -48,8 +48,8 @@ echo bonjour > $HOLA
 >"$HOLA" (ne marche pas non plus) l727 728 730 731 732
 rm bonjour\ hello (ne mrche pas si le ficher a bien ete cree par bash --posix)
 
-- cat << "hola"     =seul cas ou il ne faut pas expand a l interieur du heredoc, a modifier avec adri
-- cat << ho"la" pareil
+
+
 
 - << $"hola"$"b" (le heredoc se ferme normalleement avec holab) l 757 : adri a la solution, il supprime juste le 1er dollar (a tord)
 - << $"$hola"$$"b" message no  desirable
@@ -115,3 +115,9 @@ bash-5.1$ << "EOF" cat
 > EOF
 $HOME
 expand dans heredoc   ok
+- cat << "hola"     =seul cas ou il ne faut pas expand a l interieur du heredoc, a modifier avec adri
+- cat << ho"la" pareil
+-  << hola
+> '$HOME'
+> hola
+'/home/ele-borg' ok

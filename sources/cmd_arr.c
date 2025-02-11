@@ -6,16 +6,15 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 16:58:19 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:50:50 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static t_var	*ft_init_var(int last_i, t_gc *gc)
 {
-	t_var *var;
+	t_var	*var;
 
 	var = gc_malloc(sizeof(t_var), gc);
 	var->j = last_i + 1;
@@ -23,7 +22,7 @@ static t_var	*ft_init_var(int last_i, t_gc *gc)
 	return (var);
 }
 
-static void ft_put_words(char **arr, char **tab, t_var *var, t_gc *gc)
+static void	ft_put_words(char **arr, char **tab, t_var *var, t_gc *gc)
 {
 	int	s;
 
@@ -44,7 +43,6 @@ int	nb_arg(char **tab, int i, int last_i)
 	int	arr_s;
 
 	arr_s = ft_arr_size(tab);
-
 	j = last_i + 1;
 	if (i == arr_s - 1)
 		i++;
@@ -90,9 +88,7 @@ void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
 			ft_put_words(arr, tab, var, gc);
 			(var->k)++;
 		}
-		//printf("arr[%d] = %s\n", var->k, tab[var->j]);
 		(var->j)++;
 	}
 	arr[var->k] = NULL;
 }
-

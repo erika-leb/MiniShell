@@ -6,12 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:56:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/27 16:46:27 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:05:32 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "../gc/gc.h"
 
 bool	ft_is_redir(char *s)
 {
@@ -36,40 +35,25 @@ bool	ft_is_str(char *s)
 	return (false);
 }
 
-void	create_chain(char **tab, int i, int last_i, t_cmd **lst, t_gc *gc)
+void	create_chain(t_arg *arg, int i, int last_i, t_gc *gc)
 {
 	t_cmd	*new;
 	t_cmd	*current;
 
 	new = gc_malloc(sizeof(t_cmd), gc);
-	//perror("test");
-	// if (new == NULL)
-	// {
-	// 	perror("malloc failed"); // clean tout et exit ici ou return pour exit apres
-	// 	exit(-1);
-	// }
 	new->cmd = NULL;
-	new->redir = create_redir(tab, i, last_i, gc);
-		//perror("test2");
-	new->cmd = cmd_arr(tab, i, last_i, gc);
-	//new->here = NO_HERE;
-		//perror("test3");
-	// int	j = 0;
-	// while(new->cmd[j])
-	// {
-	// 	printf("ici tab[%d] = %s\n", j, new->cmd[j]);
-	// 	j++;
-	// }
+	new->redir = create_redir(arg->tab, i, last_i, gc);
+	new->cmd = cmd_arr(arg->tab, i, last_i, gc);
 	new->fd_in = -2;
 	new->fd_out = -2;
 	new->active = TRUE;
 	new->next = NULL;
-	if (!*lst)
+	if (!*(arg->lst))
 	{
-		*lst = new;
+		*(arg->lst) = new;
 		return ;
 	}
-	current = *lst;
+	current = *(arg->lst);
 	while (current -> next != NULL)
 		current = current -> next;
 	current -> next = new;

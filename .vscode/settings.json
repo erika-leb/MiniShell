@@ -3,5 +3,8 @@
 		"minishell.h": "c",
 		"gc.h": "c",
 		"limits": "c"
-	}
+	},
+	"editor.defaultFormatter": "keyhr.42-c-format",
+	"editor.formatOnPaste": false,
+	"editor.formatOnSave": true
 }

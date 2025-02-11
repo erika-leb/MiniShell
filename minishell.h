@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/11 17:50:26 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:56:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,7 @@ void							printf_mess_d(char *del, t_element *elements,
 // create_chain.c
 bool							ft_is_redir(char *s);
 bool							ft_is_str(char *s);
-void							create_chain(t_arg *arg, int i, int last_i,
-									t_gc *gc);
+void	create_chain(t_arg *arg, int i, int last_i, t_element *elements, t_gc *gc);
 
 // error.c
 size_t							ft_strlcat(char *dst, const char *src,
@@ -287,6 +286,7 @@ void							ft_unset(t_element *element, char **argv,
 // here_exp.c
 char							*ft_hereifexpand(char *result,
 									t_element *elements, t_gc *gc);
+char	*ft_hedgifexp(char *result, t_element *elements, t_gc *gc);
 
 // heredoc.c
 int								ft_open_heredoc(char *del, t_element *elements,
@@ -382,8 +382,7 @@ void							ft_modifquote_(char const *str, int *sq,
 									int *dq, int *i);
 
 // redir_chain.c
-t_file							*create_redir(char **tab, int i, int last_i,
-									t_gc *gc);
+t_file	*create_redir(char **tab, int i, int last_i, t_element *elements, t_gc *gc);
 
 // redir_open.c
 void							ft_fd_open(t_cmd *node, t_element *elements,

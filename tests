@@ -23,9 +23,6 @@ $> ls" ls fonctionne alors qu il ne devrait pas
 - $> unset HOL!A  message d erreur specifique pas a traiter je pense
 - "$> unset PATH
 $> echo $PATH" path unset est ce grave demander a mabrouk
-
-- $> export HOLA=at
-$> c$HOLA Makefile       cela doit afficher le makefile mais cela ne le fait pas
 - unset HOME puis cd $HOME = a voir si on laisse comme ca car HOME a lair detre stocke ailleurs
 - export HOME ca s ajoute pas dans le env mais dans export si ca a lair d etre ok, pas dans env dans aucun cas non ?
 -echo $PWD ne montre pas le chemin actualise l 452, 453, 454  //lie au problm echo var de export car export comporte pwd actuel voir avec adri
@@ -34,22 +31,15 @@ $> c$HOLA Makefile       cela doit afficher le makefile mais cela ne le fait pas
 $> env" petit doute sur _= env si on lance env -i bash --posix
 "$> env -i ./minishell
 $> export" = pas les memes infos que env !!
-- il faut ecrire exit en sortant avec exit non ? avant le message d erreur s il existe !!
-- exit hola 666 (changer l ordre des priorites de messages d erreur)
-- exit -69 -96 mauvais message et code status
 - $> export | echo hola (il faut enlever les printf de export dans ft_printf)
 - ; | ls      = nouveau cas de parsing il faut stopper et dire bash: syntax error near unexpected token `;' a discuter avec adri
 pour ls | ; aussi OK car d'apres le sujet ; n'est pas etre gere parmi les token, donc c a la discretion des devs
 - export HOLA=hey
 echo bonjour > $HOLA
-
 - export HOLA="bonjour hello"
 >$HOLA (ne marche pas bien hello et bonjour sont separes)
 >"$HOLA" (ne marche pas non plus) l727 728 730 731 732
 rm bonjour\ hello (ne mrche pas si le ficher a bien ete cree par bash --posix)
-
-
-
 
 - << $"hola"$"b" (le heredoc se ferme normalleement avec holab) l 757 : adri a la solution, il supprime juste le 1er dollar (a tord)
 - << $"$hola"$$"b" message no  desirable
@@ -124,3 +114,7 @@ expand dans heredoc   ok
 > '$HOME'
 > hola
 '/home/ele-borg' ok
+- exit hola 666 (changer l ordre des priorites de messages d erreur)   ok
+- exit -69 -96 mauvais message et code status    ok
+- $> export HOLA=at
+$> c$HOLA Makefile     ok

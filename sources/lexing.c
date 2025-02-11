@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/10 19:59:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:30:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,12 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
 	{
 		if (ft_strcmp(tab[i], "|") == 0)
 		{
-			create_chain(arg, i, last_i, gc);
+			create_chain(arg, i, last_i, elements, gc);
 			last_i = i;
 		}
 		i++;
 	}
-	create_chain(arg, i - 1, last_i, gc);
+	create_chain(arg, i - 1, last_i, elements, gc);
 	// printf("\n AVANT OUVERTURE \n\n");
 	// print_cmd_list(*lst);
 	if (tab && tab[0] && ft_strcmp(tab[0], "\n") == 0)

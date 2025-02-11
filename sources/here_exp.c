@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/10 12:03:16 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 20:06:00 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,22 @@ char	*ft_hereifexpand(char *result, t_element *elements, t_gc *gc)
 
 	k = 0;
 	while (result[k])
+	{
+		if (result[k] == '$' && (result[k + 1] == '_'
+			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
+			ft_expand(ft_erase(result, k), &k, elements, gc);//k n'est pas incremente, j'envoie qu'une copie.
+		k++;
+	}
+	result[k] = '\0';
+	return (result);
+}
+
+char	*ft_hedgifexp(char *result, t_element *elements, t_gc *gc)
+{
+	int	k;
+
+	k = 0;
+	while (result[k] && result[k] != '\t')
 	{
 		if (result[k] == '$' && (result[k + 1] == '_'
 			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))

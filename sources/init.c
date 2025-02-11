@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/01/30 18:57:25 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:50:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc, char **argv)
 	int		s;
 
 	if (env[0] == NULL)
-		s_arr = 3;
+		s_arr = 4;
 	else
 		s_arr = ft_arr_size(env);
 	elements->env = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
@@ -37,10 +37,11 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc, char **argv)
 	// printf("%s\n", argv[0]);
 	if (env[0] == NULL)
 	{
-		elements->env[0] = ft_strjoin_("PWD=", getcwd(NULL, 0), gc);//getcwd(NULL, 0);
-		elements->env[1] = ft_strdup_("SHLVL=1", gc);
-		elements->env[2] = ft_strjoin_("_=", argv[0], gc);//ft_strdup_(argv[0], gc);
-		elements->env[3] = NULL;
+		elements->env[0] = ft_strdup_("OLDPWD", gc);
+		elements->env[1] = ft_strjoin_("PWD=", getcwd(NULL, 0), gc);//getcwd(NULL, 0);
+		elements->env[2] = ft_strdup_("SHLVL=1", gc);
+		elements->env[3] = ft_strjoin_("_=", argv[0], gc);//ft_strdup_(argv[0], gc);
+		elements->env[4] = NULL;
 	}
 	else
 	{

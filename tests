@@ -56,6 +56,8 @@ rm bonjour\ hello (ne mrche pas si le ficher a bien ete cree par bash --posix)
 - << ho$la$"$a"$$"b"
 - test rajouter un path dans env avec faux ls
 
+- bash-5.1$ env -i ./minishell
+minishell> bash-5.1$
 
 - si minshell lance sans env,  jai mis cmd not found, a discuter avec adrien
 
@@ -63,6 +65,7 @@ resoudre prbm si env -i ls (lancer commande ? ou non)
 
 verifier s il n y a pas de process zombie ( watch "ps aux | grep defunct"
 )
+
 
 
 

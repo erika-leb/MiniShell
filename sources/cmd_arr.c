@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_arr.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/10 19:50:50 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:03:42 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,33 +62,61 @@ char	**cmd_arr(char **tab, int i, int last_i, t_gc *gc)
 {
 	int		s_arr;
 	char	**arr;
+	t_var	*var;
 
-	(void) gc;
+	(void) gc; ///ici on ajoute le cas \n command
+	var = gc_malloc(sizeof(var), gc);
+	var->j = i;
+	var->k = last_i;
 	s_arr = nb_arg(tab, i, last_i);
 	arr = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
-	ft_fill_arr(arr, tab, i, last_i, gc);
+	//ft_fill_arr(arr, tab, i, last_i, gc);
+	ft_fill_arr(arr, tab, var, gc);
 	return (arr);
 }
 
-void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
+void	ft_fill_arr(char **arr, char **tab, t_var *var, t_gc *gc)
 {
 	int		s;
-	t_var	*var;
+	t_var	*var_bis;
 
 	s = ft_arr_size(tab);
-	var = ft_init_var(last_i, gc);
-	if (i == s - 1)
-		i++;
-	while ((var->j) < i)
+	var_bis = ft_init_var(var->k, gc);
+	if (var->j == s - 1)
+		var->j++;
+	while ((var_bis->j) < var->j)
 	{
-		if (ft_is_redir(tab[var->j]) == true)
-			(var->j)++;
+		if (ft_is_redir(tab[var_bis->j]) == true)
+			(var_bis->j)++;
 		else
 		{
-			ft_put_words(arr, tab, var, gc);
-			(var->k)++;
+			ft_put_words(arr, tab, var_bis, gc);
+			(var_bis->k)++;
 		}
-		(var->j)++;
+		(var_bis->j)++;
 	}
-	arr[var->k] = NULL;
+	arr[var_bis->k] = NULL;
 }
+
+// void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_gc *gc)
+// {
+// 	int		s;
+// 	t_var	*var;
+
+// 	s = ft_arr_size(tab);
+// 	var = ft_init_var(last_i, gc);
+// 	if (i == s - 1)
+// 		i++;
+// 	while ((var->j) < i)
+// 	{
+// 		if (ft_is_redir(tab[var->j]) == true)
+// 			(var->j)++;
+// 		else
+// 		{
+// 			ft_put_words(arr, tab, var, gc);
+// 			(var->k)++;
+// 		}
+// 		(var->j)++;
+// 	}
+// 	arr[var->k] = NULL;
+// }

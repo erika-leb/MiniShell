@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/10 20:06:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:50:26 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,7 @@ void							hedge_child_cases(t_element *elements, t_gc *gc,
 int								nb_arg(char **tab, int i, int last_i);
 char							**cmd_arr(char **tab, int i, int last_i,
 									t_gc *gc);
-void							ft_fill_arr(char **arr, char **tab, int i,
-									int last_i, t_gc *gc);
+void	ft_fill_arr(char **arr, char **tab, t_var *var, t_gc *gc);
 
 // count_lines.c
 void							printf_mess_d(char *del, t_element *elements,
@@ -213,13 +212,8 @@ void							ft_write_error(t_element *elements, t_gc *gc);
 void							ft_write_mess(t_element *elements, t_gc *gc);
 
 // execution.c
-char							*ft_strjoin(char *s1, char *s2, t_gc *gc);
-void							write_all_err_mess(char *str1, char *str2,
-									t_element *elements, t_gc *gc);
-void							path_abs(char **cmd, t_element *elements, int i,
-									t_gc *gc);
-void							path_relat(char **cmd, t_element *elements,
-									int i, t_gc *gc);
+void	path_abs(char **cmd, t_element *elements, t_gc *gc);
+void	path_relat(char **cmd, t_element *elements, t_gc *gc);
 void							exec_command(t_element *elements, t_gc *gc,
 									int i);
 
@@ -336,6 +330,11 @@ char							*ft_substr(char const *s, unsigned int start,
 									size_t len, t_gc *gc);
 void							ft_putstr_fd(char *s, int fd);
 int								ft_atoi(const char *str);
+
+// libft_ebis.c
+char		*ft_strjoin(char *s1, char *s2, t_gc *gc);
+void		write_all_err_mess(char *s1, char *s2, t_element *elements, t_gc *gc);
+int is_directory(char *path);
 
 // parsing.c
 void							ft_deldollar(char *input);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/10 19:13:07 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:42:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ char *get_input(t_gc *gc)
 
 	if (isatty(STDIN_FILENO))
 	{
-		fflush(stdout);
 		input = readline("minishell> ");
-		//fflush(stdout);
 		if (input && *input)
 			add_history(input);
 	}
@@ -95,7 +93,11 @@ void	ft_launch_cmd(t_element *elements, t_gc *gc)
 		elements->line = get_input(&gc);
 		//perror("harry");
 		if (elements->line == NULL) // ctrl d
-			(gc_cleanup(&gc), exit(EXIT_SUCCESS));
+        {
+            if (env[0] == NULL)
+                write(1, "\n", 1);
+            (gc_cleanup(&gc), exit(EXIT_SUCCESS));
+        }
 		// perror("thierry");
 		ft_ft(elements, &gc);
 		// printf("earr[0] = %sdfvf\n", elements->arr[0]);

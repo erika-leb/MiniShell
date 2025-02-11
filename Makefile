@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
+#    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/10 16:51:27 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/11 17:14:57 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${GC_DIR}/gc_realloc.c \
 			${GC_DIR}/gc_remove.c \
 			${SRC_DIR}/libft_e.c \
+			${SRC_DIR}/libft_ebis.c \
 			${SRC_DIR}/libft_a.c \
 			${SRC_DIR}/libft_abis.c \
 			${SRC_DIR}/ft_split.c \
@@ -70,6 +71,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/gc_realloc.o \
 			${OBJ_DIR}/gc_remove.o \
 			${OBJ_DIR}/libft_e.o \
+			${OBJ_DIR}/libft_ebis.o \
 			${OBJ_DIR}/libft_a.o \
 			${OBJ_DIR}/libft_abis.o \
 			${OBJ_DIR}/ft_split.o \

@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 13:05:42 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:12:53 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ void							exec_command(t_element *elements, t_gc *gc,
 
 // env_manager.c
 char							**ft_ltoa(t_env *head, t_gc *gc);
-void							ft_freetab(char **array);
 int								ft_exparser(char *name_key, t_element *elements,
 									t_gc *gc);
 void							ft_env(char **array, char **cmds, t_gc *gc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/30 17:56:38 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:12:44 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,6 @@ char **ft_ltoa(t_env *head, t_gc *gc)
 	while (i < count)
 		current = ft_filltoa(array, current, i++, gc);
 	return (array);
-}
-//Je l'utilise plus je crois
-void ft_freetab(char **array)
-{
-	int j;
-
-	j = -1;
-	while (array[++j])
-		free(array[j]);
-	free(array);
-
 }
 
 static int	ft_merrorexp(char *name_key, t_element *elements, t_gc *gc)

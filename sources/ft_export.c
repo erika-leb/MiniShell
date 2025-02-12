@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/06 15:28:49 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:16:07 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,21 +126,14 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 	{
 		write(2, "minishell: export: No option(s) allowed\n", 41);
 		gc_remove(gc, head);
-		// element->exit_status = ft_itoa(2, gc);
-		// return (NULL);
 		if (ch == 0)
 		{
-			//perror("nasty");
 			element->exit_status = ft_itoa(2, gc);
-			return (NULL);//
+			return (NULL);
 		}
 		else
-		{
-			//perror("kinky");
 			(gc_cleanup(gc), free_std(), exit(2));
-		}
 	}
-	//perror("makinon");
 	i = 0;
 	flag = 0;
 	//flag = ft_filler(argv, element, gc, head);//reprend le while en dessous
@@ -150,52 +143,22 @@ char **ft_export(t_element *element, char **argv, t_gc *gc, int ch) //si ch == 1
 			ft_adder(&head, argv[i], gc);
 		else
 		{
-			// perror("test");
 			element->exit_status = ft_itoa(1, gc);
 			code = 1;
 			flag = 1;
 		}
 	}
-	//perror("city");
 	adder = ft_ltoa(head, gc);
 	gc_remove(gc, head);
-	//Retirer la variable _ dans la structure env de minishell
-	//(ca n'apparait pas dans bash --posix) ??
-	//Sur ?? Car ca apparait dans bash --posix
-
-	//Pas sur que ca remplace correctement env
-	//(checker en modifiant &env)
-
 	gc_remove(gc, element->env);
 	element->env = adder;
-	// s_arr = ft_arr_size(element->env);
-	// printf("s = %d\n", s_arr);
-	// i = 0;
-	// while( i <= s_arr)
-	// {
-	// 	printf("element->env %i = %s\n", i, element->env[i]);
-	// 	//printf("myenv %i = %s\n", i, elements->env[i]);
-	// 	i++;
-	// }
-	//perror("prender");
 	if (!flag)
 	{
 		element->exit_status = ft_itoa(0, gc);
 		code = 0;
 	}
-	// printf("exit status : %s\n", element->exit_status);
-
-
 	if (ch == 0)
-	{
-		//perror("reggeaton");
-		return (adder);//
-	}
+		return (adder);
 	else
-	{
-		//perror("dembow");
 		(gc_cleanup(gc), free_std(), exit(code));
-	}
-
-	//return (adder);//a tej plus tard
 }

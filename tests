@@ -5,53 +5,26 @@
 - echo $9HOME
 - echo $UID$HOME%
 - echo $USER$var\$USER$USER\$USERtest$USER
-- "$HOMEdskjhfkdshfsd" voir avec adri token vide
-- env = ordre ???
-- export HO!LA=bonjour drole de message, est ce qu on doit s en occuper ?
-- export HOLA=bon!jour pareilm drole de message
-- "$> export HOLA=bonjour=casse-toi
-$> echo $HOLA"
-la deuxieme n affiche rien = l'env n est pas le bon, correction necessaire et importante et apres refaire test
-- "$> export HOLA='""'
-$> echo "" $HOLA "" | cat -e"
-- "$> export HOLA=""cat Makefile | grep NAME""
-$> echo $HOLA"   = cas chiant, il faudrait expand dans mon code ou laisser des guillemets ??
-- "$> unset PATH
+- "$HOMEdskjhfkdshfsd" voir avec adri token vide (pour erika)
+- env = ordre ??? : demander aux gens. Quand je rouvre un terminal j'ai meme pas le meme ordre sur bash --posix
+
+- "$> unset PATH : demander a Mabrouk askip ls fonctionne meme sans PATH parfois
 $> ls" ls fonctionne alors qu il ne devrait pas
-- dans env il y a OLDPWD alors que dans env de bash il n y a pas
-- $> unset -HOLA il faudrait un message d erreur
-- $> unset HOL!A  message d erreur specifique pas a traiter je pense
-- "$> unset PATH
-$> echo $PATH" path unset est ce grave demander a mabrouk
-- unset HOME puis cd $HOME = a voir si on laisse comme ca car HOME a lair detre stocke ailleurs
-- export HOME ca s ajoute pas dans le env mais dans export si ca a lair d etre ok, pas dans env dans aucun cas non ?
--echo $PWD ne montre pas le chemin actualise l 452, 453, 454  //lie au problm echo var de export car export comporte pwd actuel voir avec adri
+
+- si je fais env -i ./minishell alors export comporte une variable en trop (adri) : un peu useless
+
+- l453 mauvais message d erreur  a retester plus tard (erika)
 - ./minishell a l'air de mrcher mais pas sur (ctrl c pas ouf a revoir)
-- "$> env -i ./minishell
-$> env" petit doute sur _= env si on lance env -i bash --posix
-"$> env -i ./minishell
-$> export" = pas les memes infos que env !!
-- $> export | echo hola (il faut enlever les printf de export dans ft_printf)
-- ; | ls      = nouveau cas de parsing il faut stopper et dire bash: syntax error near unexpected token `;' a discuter avec adri
-pour ls | ; aussi OK car d'apres le sujet ; n'est pas etre gere parmi les token, donc c a la discretion des devs
-- export HOLA=hey
-echo bonjour > $HOLA
-- export HOLA="bonjour hello"
->$HOLA (ne marche pas bien hello et bonjour sont separes)
->"$HOLA" (ne marche pas non plus) l727 728 730 731 732
-rm bonjour\ hello (ne mrche pas si le ficher a bien ete cree par bash --posix)
+
+
 
 - << $"hola"$"b" (le heredoc se ferme normalleement avec holab) l 757 : adri a la solution, il supprime juste le 1er dollar (a tord)
 - << $"$hola"$$"b" message no  desirable
 - << ho$la$"$a"$$"b"
 - test rajouter un path dans env avec faux ls
 
-- bash-5.1$ env -i ./minishell
-minishell> bash-5.1$
-
 - si minshell lance sans env,  jai mis cmd not found, a discuter avec adrien
 
-resoudre prbm si env -i ls (lancer commande ? ou non)
 
 verifier s il n y a pas de process zombie ( watch "ps aux | grep defunct"
 )
@@ -118,3 +91,25 @@ expand dans heredoc   ok
 - exit -69 -96 mauvais message et code status    ok
 - $> export HOLA=at
 $> c$HOLA Makefile     ok
+- "$> export HOLA=bonjour=casse-toi
+$> echo $HOLA"
+la deuxieme n affiche rien = l'env n est pas le bon, correction necessaire et importante et apres refaire test ok
+- "$> export HOLA='""'
+$> echo "" $HOLA "" | cat -e" ok
+- "$> export HOLA=""cat Makefile | grep NAME""
+$> echo $HOLA"   = cas chiant, il faudrait expand dans mon code ou laisser des guillemets ?? ok
+- $> unset -HOLA il faudrait un message d erreur
+- $> unset HOL!A  message d erreur specifique pas a traiter je pense (pas a gerer c un caractere special)
+- "$> unset PATH
+$> echo $PATH" path unset est ce grave demander a mabrouk
+- unset HOME puis cd $HOME = a voir si on laisse comme ca car HOME a lair detre stocke ailleurs ok
+- export HOME ca s ajoute pas dans le env mais dans export si ca a lair d etre ok, pas dans env dans aucun cas non ? ok
+- "$> env -i ./minishell
+$> env" petit doute sur _= env si on lance env -i bash --posix  ok a justifier a loral
+- $> export | echo hola (il faut enlever les printf de export dans ft_printf) ok
+- export HOLA=hey
+echo bonjour > $HOLA
+- export HOLA="bonjour hello"
+>$HOLA (ne marche pas bien hello et bonjour sont separes)
+>"$HOLA" (ne marche pas non plus) l727 728 730 731 732 ok
+rm bonjour\ hello (ne mrche pas si le ficher a bien ete cree par bash --posix) ok

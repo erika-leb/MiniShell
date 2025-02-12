@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 16:53:57 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:27:53 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ static int		ft_countinside(char *tab_j, t_element *elements, t_gc *gc)
 {
 	char	*res;
 	char	**restab;
-	int		i;
+	// int		i;
 	
 	res = ft_filter(tab_j, elements, gc);
 	restab = ft_splitboloss(res, ' ', gc);
-	printf("lol : %s\n", res);
-	i = 0;
-	while (restab[i])
-	{
-		printf("tab [%d] = %s\n", i, restab[i]);
-		i++;
-	}
-	printf("nb d'elements = %d\n", ft_arr_size(restab));
+	// printf("lol : %s\n", res);
+	// i = 0;
+	// while (restab[i])
+	// {
+	// 	printf("tab [%d] = %s\n", i, restab[i]);
+	// 	i++;
+	// }
+	// printf("nb d'elements = %d\n", ft_arr_size(restab));
 	if (ft_arr_size(restab) == 0 || ft_arr_size(restab) == 1)
 		return (0);
 	return (ft_arr_size(restab) - 1);
@@ -85,7 +85,7 @@ static void	ft_put_words(char **arr, char **tab, t_var *var, t_element *elements
 		arr[var->k] = ft_substr(tab[var->j], 1, s - 1, gc);
 	else
 	{
-		perror("ici");
+		// perror("ici");
 		arr[var->k] = gc_malloc(s + 1, gc);
 		arr[var->k] = tab[var->j];
 	}
@@ -148,7 +148,7 @@ char	**cmd_arr(char **tab, int i, int last_i, t_element *elements, t_gc *gc)
 {
 	int		s_arr;
 	char	**arr;
-	int		k;
+	// int		k;
 	// t_var	*var;
 
 	//(void) gc; ///ici on ajoute le cas \n command
@@ -159,12 +159,12 @@ char	**cmd_arr(char **tab, int i, int last_i, t_element *elements, t_gc *gc)
 	arr = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
 	ft_fill_arr(arr, tab, i, last_i, elements, gc);
 
-	k = 0;
-	while (arr[k])
-	{
-		printf("arr[%d] = %s\n", k, arr[k]);
-		k++;
-	}
+	// k = 0;
+	// while (arr[k])
+	// {
+	// 	printf("arr[%d] = %s\n", k, arr[k]);
+	// 	k++;
+	// }
 	//ft_fill_arr(arr, tab, var, gc);
 	return (arr);
 }

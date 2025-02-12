@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/04 14:27:02 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:49:54 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ static int     ft_initunset(t_env **ptr_head, char **env, char **argv, t_gc *gc)
 
 	if (!argv[1])
 		return (1);
+	if (argv[1][0] == '-')
+	{
+		write(2, "minishell: unset: No option(s) allowed\n", 41);
+		return (1);
+	}
 	*ptr_head = NULL;
 	i = -1;
 	while (env[++i])

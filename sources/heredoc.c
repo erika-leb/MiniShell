@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/12 12:07:35 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:38:31 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ void	ft_handle_no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc
 		}
 		else if (errno == 13)
 		{
+			//perror("holi");
 			ft_buff_error("minishell: ", elements, gc);
 			ft_buff_error(redir->name, elements, gc);
 			ft_buff_error(": Permission denied\n", elements, gc);

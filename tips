@@ -67,3 +67,5 @@ ls | hola fait un sigpipe c est normal ; env | hola non car built in donc on a p
 Si creation fichier .here : interdiciton dajouter fichiers dans code source. .here est reserve a notre shell, interdiction
 d'utiliser ce mot (comme shell peut le faire pour if elif ...)
 
+- export HO!LA=bonjour drole de message : ! est un token special (comme | ou <)
+- - ; | ls      arg d adri

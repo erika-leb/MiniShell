@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 12:58:33 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:19:25 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
 	int		i;
 
 	i = 1;
-	if (*result_k == '\"')
-		i++;
+	// if (*result_k == '\"')
+	// 	i++;//useless I guess
 	if (*result_k != '$')
 		return ;
 	//Ici on est forcement sur un dollar. On expand ce qui vient apres le dollar et on l'analyse
 	envv = ft_getenvv(result_k, &i, tmp, elements, gc);
 	i = 0;
 	// printf("tmp = %s taille = %zu\n", tmp, ft_strlen(tmp));
-	while (envv[i])
+	while (envv && envv[i])
 	{
 		if (envv[i] == ' ' || envv[i] == '\'' || envv[i] == '\"')
 		{
@@ -153,7 +153,8 @@ char	*ft_ifexpand(char *result, int sq, int dq, t_element *elements, t_gc *gc)
 			if (!sq && !dq)
 				ft_ambig(result + k, &k, elements, gc);
 		}
-		ft_spacequotes(result + k, elements, gc);//hedge : si je fais $zzz$HOME$zzz alors j'ai un espace qui se glisse (a la place de \t)
+		if (!sq && !dq)
+			ft_spacequotes(result + k, elements, gc);//hedge : si je fais $zzz$HOME$zzz alors j'ai un espace qui se glisse (a la place de \t)
 		//S'assurer qu'Erika n'a pas mis $ comme token, comme ca si je lui envoie $ c'est qu'elle doit le traiter comme sa valeur litterale.
 		//ft_erase ecrase '$' en copiant/collant tous les elements a indice - 1, pour lancer ft_expand sur ce qui vient apres
 		if (result[k] == '$' && !sq && (result[k + 1] == '_'

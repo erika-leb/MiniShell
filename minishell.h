@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 13:12:53 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:51:55 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,11 +194,10 @@ void							hedge_child_cases(t_element *elements, t_gc *gc,
 									t_cmd *current);
 
 // cmd_arr.c
-int								nb_arg(char **tab, int i, int last_i);
+int								nb_arg(char **tab, int i, int last_i, t_element *elements, t_gc *gc);
 char							**cmd_arr(char **tab, int i, int last_i,
-									t_gc *gc);
-void	ft_fill_arr(char **arr, char **tab, t_var *var, t_gc *gc);
-
+									t_element *elements, t_gc *gc);
+void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_element *elements, t_gc *gc);
 // count_lines.c
 void							printf_mess_d(char *del, t_element *elements,
 									t_gc *gc);
@@ -285,6 +284,9 @@ size_t							ft_count(const char *str, const char sep);
 char							*ft_eachword(const char *str, int fidx, int end,
 									t_gc *gc);
 void							*ft_freesplit(char **tab, size_t n);
+
+// ft_splitboloss.c
+char	**ft_splitboloss(char const *str, char sep, t_gc *gc);
 
 // ft_tokenize.c
 char							*ft_tokenize(char *av2, t_gc *gc,
@@ -393,7 +395,9 @@ void							ft_modifquote_(char const *str, int *sq,
 									int *dq, int *i);
 
 // redir_chain.c
+int		ft_bst(char *name);
 t_file	*create_redir(char **tab, int i, int last_i, t_element *elements, t_gc *gc);
+char		*ft_filter(char *name, t_element *elements, t_gc *gc);
 
 // redir_open.c
 void							ft_fd_open(t_cmd *node, t_element *elements,

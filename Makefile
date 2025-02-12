@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/12 12:23:57 by aisidore         ###   ########.fr        #
+#    Updated: 2025/02/12 15:47:29 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/redir_open.c \
 			${SRC_DIR}/cmd_arr.c \
 			${SRC_DIR}/split_path.c \
+			${SRC_DIR}/ft_splitboloss.c \
 			${SRC_DIR}/pipe_closing.c \
 			${SRC_DIR}/built_in.c \
 			${SRC_DIR}/child_creation.c \
@@ -64,7 +65,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/count_lines.c \
 			${SRC_DIR}/here_exp.c \
 			${SRC_DIR}/child_hedge_cases.c \
-
+	
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
 			${OBJ_DIR}/gc_cleanup.o \
@@ -90,6 +91,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/redir_open.o \
 			${OBJ_DIR}/cmd_arr.o \
 			${OBJ_DIR}/split_path.o \
+			${OBJ_DIR}/ft_splitboloss.o \
 			${OBJ_DIR}/pipe_closing.o \
 			${OBJ_DIR}/built_in.o \
 			${OBJ_DIR}/child_creation.o \

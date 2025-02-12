@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redir_chain.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 16:11:46 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/11 20:18:45 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:51:28 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int		ft_bst(char *name)
+int		ft_bst(char *name)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ static int		ft_bst(char *name)
 	return (0);
 }
 
-static char		*ft_filter(char *name, t_element *elements, t_gc *gc)
+char		*ft_filter(char *name, t_element *elements, t_gc *gc)
 {
 	static char	res[20000];
 	int		i;

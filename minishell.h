@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/11 19:56:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:05:42 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,12 @@ typedef struct s_built
 	t_element	*elements;
 	char		**cmd;
 }	t_built;
+
+typedef struct s_tok
+{
+	t_element	*elements;
+	char		*result;//doit on indiquer sa taille 70 000 ?
+}	t_tok;
 
 typedef struct s_var
 {
@@ -239,6 +245,12 @@ void							ft_echo(char **cmd, t_gc *gc);
 
 // ft_exit.c
 int								ft_exit(t_built *built, t_gc *gc, int ch);
+int								ft_isdigitexit(char *num);
+
+//ft_exiterror.c
+void							ft_exitfail(t_built *built, t_gc *gc);
+int								ft_error_many(t_built *built, t_gc *gc, int ch);
+int								ft_checkexit(t_built *built, t_gc *gc, int ch);
 
 // ft_export.c
 void							ft_printexport(const t_env *head,

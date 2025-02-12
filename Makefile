@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/11 17:14:57 by aisidore         ###   ########.fr        #
+#    Updated: 2025/02/12 12:23:57 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/error_message.c \
 			${SRC_DIR}/signal.c \
 			${SRC_DIR}/ft_exit.c \
+			${SRC_DIR}/ft_exiterror.c \
 			${SRC_DIR}/ft_echo.c \
 			${SRC_DIR}/env_manager.c \
 			${SRC_DIR}/ft_export.c \
@@ -98,6 +99,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/error_message.o \
 			${OBJ_DIR}/signal.o \
 			${OBJ_DIR}/ft_exit.o \
+			${OBJ_DIR}/ft_exiterror.o \
 			${OBJ_DIR}/ft_echo.o \
 			${OBJ_DIR}/env_manager.o \
 			${OBJ_DIR}/ft_export.o \

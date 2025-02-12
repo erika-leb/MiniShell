@@ -3,40 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/11 14:37:32 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:07:35 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// static char	*here_exp(char *lign, t_element *elements, t_gc *gc)
-// {
-// 	char	*buffer;
-
-// 	buffer = gc_malloc(ft_strlen(lign) + 1, gc); //voir correction leak avec adri ici, si expand la taille n est pas bonne
-// 	ft_strncpy(buffer, lign, ft_strlen(lign));
-// 	buffer[ft_strlen(lign)] = '\0';
-// 	//printf("buff = %s\n", buffer);
-// 	return (ft_hereifexpand(buffer, elements, gc));
-
-// }
-
-// static int	ft_isquote(char *del)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (del[i])
-// 	{
-// 		if (del[i] == '\'' || del[i] == '\"')
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 static char	*here_exp(char *lign, t_element *elements, t_gc *gc, int flag)
 {

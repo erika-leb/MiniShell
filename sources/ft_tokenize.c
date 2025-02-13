@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 15:37:24 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:30:58 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 	static char	result[70000];
 	int			i;
 	int			j;
-	// t_tok		*dt;
+	t_sqdq		*q;
 
-	// dt = NULL;
-	// dt->elements = elements;
-	// dt->result = result;
+	q = gc_malloc(sizeof(t_sqdq), gc);
+	q->sq = 0;
+	q->dq = 0;
 	i = 0;
 	j = 0;
 	ft_deldollar(av2);
@@ -92,5 +92,5 @@ char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 		i++;
 	}
 	result[j] = '\0';
-	return (ft_ifexpand(result, 0, 0, elements, gc));
+	return (ft_ifexpand(result, q, elements, gc));
 }

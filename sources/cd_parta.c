@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:43:09 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/10 16:37:08 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:01:02 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_exit_with_success(t_built *built, t_gc *gc, int ch)
 		(gc_cleanup(gc), free_std(), exit(0));
 }
 
-void	ft_cd(t_built *built, t_gc *gc, int ch) //ch si 0 no child si 1 on est dans un enfant
+void	ft_cd(t_built *built, t_gc *gc, int ch)
 {
 	char	*buff_old;
 	char	*buff;

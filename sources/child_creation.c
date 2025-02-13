@@ -6,14 +6,13 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/10 19:46:22 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:08:52 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc)
-// incrementer SHLV ici si cmd[0]=..../minishell cmp grace a 	if (access(cmd[0],X_OK) != 0)
 {
 	if (cmd->fd_in == ERROR_OPEN || cmd->fd_in == ERROR_OPEN)
 		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
@@ -21,15 +20,15 @@ void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc)
 	{
 		if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
 		{
-			perror("dup2 failed"); // changer ici a la fin
+			perror("dup2 failed");
 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 		}
 	}
-	if (cmd->fd_out >= 0) // possible de mettre les deux conditions a la suite
+	if (cmd->fd_out >= 0)
 	{
 		if (dup2(cmd->fd_out, STDOUT_FILENO) == ERROR_OPEN)
 		{
-			perror("dup2 failed"); // changer ici a la fin
+			perror("dup2 failed");
 			(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 		}
 	}
@@ -37,21 +36,14 @@ void	uniq_case(t_element *elements, t_cmd *cmd, t_gc *gc)
 
 void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 {
-	// printf("i = %d\n", i);
 	if (cmd->fd_out == ERROR_OPEN || cmd->fd_in == ERROR_OPEN)
 	{
-		// perror("roken");
 		(close_pipes(elements), gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
 	if (i == 0 && elements->nb_cmd == 1)
-	{
-		// perror("cyan");
 		uniq_case(elements, cmd, gc);
-		// perror("on est ici");
-	}
 	else
 	{
-		// perror("PR");
 		all_cases(i, elements, cmd, gc);
 	}
 	if (cmd->fd_in >= 0)
@@ -90,7 +82,6 @@ void	ft_handle_child(t_element *elements, t_gc *gc, int i, t_cmd *current)
 			g_signal = 0;
 			gc_cleanup(gc);
 			free_std();
-			// perror("liloo");
 			exit(128 + 13);
 		}
 	}

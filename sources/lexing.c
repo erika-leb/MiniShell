@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/11 19:30:43 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:22:57 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,44 +117,46 @@ void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
 	}
 }
 
-void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
+static t_arg	*ft_init_arg(t_gc *gc, char **tab, t_cmd **lst)
 {
-	int		i;
-	int		last_i;
 	t_arg	*arg;
 
-	i = 0;
-	last_i = -1;
+	arg = NULL;
 	arg = gc_malloc(sizeof(t_arg), gc);
 	arg->tab = tab;
 	arg->lst = lst;
-	while (tab[i])
+	arg->last_i = -1;
+	arg->i = 0;
+	arg->j = 0;
+	arg->k = 0;
+	return (arg);
+}
+
+void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
+{
+	// int		i;
+	// int		last_i;
+	t_arg	*arg;
+
+	//i = 0;
+	//last_i = -1;
+	arg = ft_init_arg(gc, tab, lst);
+	while (tab[arg->i])
 	{
-		if (ft_strcmp(tab[i], "|") == 0)
+		if (ft_strcmp(tab[arg->i], "|") == 0)
 		{
-			create_chain(arg, i, last_i, elements, gc);
-			last_i = i;
+			create_chain(arg, elements, gc);
+			arg->last_i = arg->i;
 		}
-		i++;
+		(arg->i)++;
 	}
-	create_chain(arg, i - 1, last_i, elements, gc);
-	// printf("\n AVANT OUVERTURE \n\n");
-	// print_cmd_list(*lst);
+	(arg->i)--;
+	create_chain(arg, elements, gc);
 	if (tab && tab[0] && ft_strcmp(tab[0], "\n") == 0)
-	{
-		// perror("titi");
 		hedge_case_1(tab, elements, gc);
-	}
 	else
-	{
-		// perror("grosminet");
 		handle_redir(lst, elements, gc);
-	}
-	// printf("\n APRES OUVERTURE \n\n");
-	// print_cmd_list(*lst);
-	// perror("john");
 	ft_write_error(elements, gc);
-	// perror("mclane");
 }
 
 // il faudra parcourir la liste de redirections,

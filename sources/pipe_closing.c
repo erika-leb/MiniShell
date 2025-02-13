@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:58:06 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/06 15:30:17 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:31:19 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	first_cmd_with_valid_infile(t_element *elements, t_cmd *cmd, t_gc *gc)
 {
-	perror("lemoncito");
+	//perror("lemoncito");
 	if (dup2(cmd->fd_in, STDIN_FILENO) == ERROR_OPEN)
 	{
 		perror("Error: dup2 in failed"); //changer ici a la fin

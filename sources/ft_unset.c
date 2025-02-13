@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 18:49:54 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:08:20 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,6 @@ void ft_unset(t_element *element, char **argv, t_gc *gc, int ch)
 		}
 		i++;
 	}
-	//a la fin on modifie env et on free l'ancienne version !!!!!!!
-	//ft_unset peut retourner un char **array comme ca dans ft_builtin on fera juste env = ft_unset
-	// ft_printexport(head);
-
-
 	adder = ft_ltoa(head, gc);
 	gc_remove(gc, head);
 	gc_remove(gc, element->env);

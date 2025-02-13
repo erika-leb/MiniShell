@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 15:03:11 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:35:25 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,6 @@ typedef struct s_built
 	char		**cmd;
 }	t_built;
 
-typedef struct s_tok
-{
-	t_element	*elements;
-	char		*result;//doit on indiquer sa taille 70 000 ?
-}	t_tok;
-
 typedef struct s_var
 {
 	int							j;
@@ -132,11 +126,31 @@ typedef struct s_env
 	struct s_env				*next;
 }								t_env;
 
+//////////////////////ADRI
+typedef struct s_sqdq
+{
+	int		sq;
+	int		dq;
+}	t_sqdq;
+
+typedef struct s_exp
+{
+	char 		**argv;
+	int 		ch;
+	int			flag;
+	int			code;
+}	t_exp;
+/////////////////////
+
 typedef struct s_arg
 {
 	char						**tab;
 	t_cmd						**lst;
-}								t_arg;
+	int							i;
+	int							last_i;
+	int							j;
+	int							k;
+}								t_arg;  //ERIKA MODIF
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -194,10 +208,9 @@ void							hedge_child_cases(t_element *elements, t_gc *gc,
 									t_cmd *current);
 
 // cmd_arr.c
-int								nb_arg(char **tab, int i, int last_i, t_element *elements, t_gc *gc);
-char							**cmd_arr(char **tab, int i, int last_i,
-									t_element *elements, t_gc *gc);
-void	ft_fill_arr(char **arr, char **tab, int i, int last_i, t_element *elements, t_gc *gc);
+int	nb_arg(t_arg *arg, t_element *elements, t_gc *gc);
+char	**cmd_arr(t_arg *arg, t_element *elements, t_gc *gc);
+void	ft_fill_arr(char **arr, t_arg *arg, t_element *elements, t_gc *gc);
 // count_lines.c
 void							printf_mess_d(char *del, t_element *elements,
 									t_gc *gc);
@@ -205,7 +218,7 @@ void							printf_mess_d(char *del, t_element *elements,
 // create_chain.c
 bool							ft_is_redir(char *s);
 bool							ft_is_str(char *s);
-void	create_chain(t_arg *arg, int i, int last_i, t_element *elements, t_gc *gc);
+void	create_chain(t_arg *arg, t_element *elements, t_gc *gc); //MODIF ERI
 
 // error.c
 size_t							ft_strlcat(char *dst, const char *src,
@@ -252,10 +265,16 @@ void							ft_exitfail(t_built *built, t_gc *gc);
 int								ft_error_many(t_built *built, t_gc *gc, int ch);
 int								ft_checkexit(t_built *built, t_gc *gc, int ch);
 
-// ft_export.c
+// ft_export_tools.c
+char							*ft_cut(const char *src, char delim, int is_end,
+									t_gc *gc);
 void							ft_printexport(const t_env *head,
 									t_element *elements, t_gc *gc);
 void							ft_adder(t_env **head, char *str, t_gc *gc);
+int								ft_dr(t_exp *xx, t_env *head, t_element *element, t_gc *gc);
+int								ft_opp(t_exp *xx, t_env *head, t_element *element, t_gc *gc);
+
+// ft_export.c
 char							**ft_export(t_element *element, char **argv,
 									t_gc *gc, int ch);
 
@@ -263,8 +282,6 @@ char							**ft_export(t_element *element, char **argv,
 t_env							*ft_envnode(char *name, char *key, t_gc *gc);
 t_env							*ft_addenvnode(t_env *head, char *name,
 									char *key, t_gc *gc);
-char							*ft_cut(const char *src, char delim, int is_end,
-									t_gc *gc);
 void							ft_swapnodes(t_env *node1, t_env *node2);
 void							ft_bbsort(t_env *head);
 
@@ -274,7 +291,7 @@ char							*ft_getenvv(char *result, int *k, char *tmp,
 char							*ft_itoa(int nb, t_gc *gc);
 
 // ft_ifexpand.c
-char							*ft_ifexpand(char *result, int sq, int dq,
+char							*ft_ifexpand(char *result, t_sqdq *q,
 									t_element *elements, t_gc *gc);
 
 // ft_split.c
@@ -398,7 +415,7 @@ void							ft_modifquote_(char const *str, int *sq,
 
 // redir_chain.c
 int		ft_bst(char *name);
-t_file	*create_redir(char **tab, int i, int last_i, t_element *elements, t_gc *gc);
+t_file	*create_redir(t_arg *arg, t_element *elements, t_gc *gc);
 char		*ft_filter(char *name, t_element *elements, t_gc *gc);
 
 // redir_open.c

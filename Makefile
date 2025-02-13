@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/13 15:03:38 by aisidore         ###   ########.fr        #
+#    Updated: 2025/02/13 18:01:16 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/env_manager_utils.c \
 			${SRC_DIR}/ft_export.c \
 			${SRC_DIR}/ft_export_utils.c \
+			${SRC_DIR}/ft_export_tools.c \
 			${SRC_DIR}/ft_unset.c \
 			${SRC_DIR}/cd_parta.c \
 			${SRC_DIR}/cd_partb.c \
@@ -108,6 +109,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/env_manager_utils.o \
 			${OBJ_DIR}/ft_export.o \
 			${OBJ_DIR}/ft_export_utils.o \
+			${OBJ_DIR}/ft_export_tools.o \
 			${OBJ_DIR}/ft_unset.o \
 			${OBJ_DIR}/cd_parta.o \
 			${OBJ_DIR}/cd_partb.o \

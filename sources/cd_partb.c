@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:16:17 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/10 16:38:56 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:02:32 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	ft_invalid_option(t_built *built, t_gc *gc, int ch)
 
 int	ft_no_buff_old(t_built *built, t_gc *gc, int ch)
 {
-	ft_buff_error("cd: error retrieving current directory", built->elements, gc);
-	ft_buff_error(": getcwd: cannot access parent ", built->elements, gc);
-	ft_buff_error("directories: No such file", built->elements, gc);
+	ft_buff_error("cd: error retrieving current ", built->elements, gc);
+	ft_buff_error("directory: getcwd: cannot access ", built->elements, gc);
+	ft_buff_error("parent directories: No such file", built->elements, gc);
 	ft_buff_error(" or directory\n", built->elements, gc);
 	ft_write_error(built->elements, gc);
 	if (ch == 0)
@@ -47,7 +47,7 @@ int	ft_no_buff_old(t_built *built, t_gc *gc, int ch)
 
 int	ft_home_set(t_built *built, t_gc *gc, int ch, char	*buff_old)
 {
-	if (cd_home(built, gc) == 1) // ca s est mal passe
+	if (cd_home(built, gc) == 1)
 	{
 		cd_error(built, gc);
 		built->elements->exit_status = ft_itoa(1, gc);
@@ -73,7 +73,7 @@ int	ft_home_set(t_built *built, t_gc *gc, int ch, char	*buff_old)
 
 int	ft_home_not_set(t_built *built, t_gc *gc, int ch, char	*buff_old)
 {
-	if (is_home_set(built->elements->env, gc) == FALSE) //pas de HOME
+	if (is_home_set(built->elements->env, gc) == FALSE)
 	{
 		write(2, "minishell: cd : HOME not set\n", 30);
 		free(buff_old);
@@ -85,7 +85,7 @@ int	ft_home_not_set(t_built *built, t_gc *gc, int ch, char	*buff_old)
 		else
 			(gc_cleanup(gc), free_std(), exit(1));
 	}
-	else if (is_home_set(built->elements->env, gc) == 3)// HOME = ""
+	else if (is_home_set(built->elements->env, gc) == 3)
 	{
 		free(buff_old);
 		if (ch == 0)

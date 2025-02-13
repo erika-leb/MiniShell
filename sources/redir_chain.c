@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_chain.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 16:11:46 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/12 16:51:28 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:13:10 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,26 +95,53 @@ static void	ft_lstadd_back(t_file **lst, t_file *new)
 	current -> next = new;
 }
 
-t_file	*create_redir(char **tab, int i, int last_i, t_element *elements, t_gc *gc)
+t_file	*create_redir(t_arg *arg, t_element *elements, t_gc *gc) // ici bon normage ?
 {
 	t_file	*redir;
 	t_file	*new;
 	int		token;
+	int		l;
+	int		m;
 
-	i++;
+	l = (arg->i) + 1;
+	m = arg->last_i;
 	redir = NULL;
-	while (last_i < i && tab[i - 1] != NULL)
+	while (m < l && (arg->tab)[l - 1] != NULL)
 	{
-		if (last_i > 0 && ft_is_redir(tab[last_i - 1]) == true)
+		if (m > 0 && ft_is_redir((arg->tab)[m - 1]) == true)
 		{
-			token = ft_classification(tab, last_i);
-			new = ft_lstnew_file(tab[last_i], token, elements, gc);
+			token = ft_classification(arg->tab, m);
+			new = ft_lstnew_file((arg->tab)[m], token, elements, gc);
 			if (!redir)
 				redir = new;
 			else
 				ft_lstadd_back(&redir, new);
 		}
-		last_i++;
+		m++;
 	}
 	return (redir);
 }
+
+// t_file	*create_redir(char **tab, int i, int last_i, t_element *elements, t_gc *gc)
+// {
+// 	t_file	*redir;
+// 	t_file	*new;
+// 	int		token;
+
+// 	i++;
+// 	redir = NULL;
+// 	while (last_i < i && tab[i - 1] != NULL)
+// 	{
+// 		if (last_i > 0 && ft_is_redir(tab[last_i - 1]) == true)
+// 		{
+// 			token = ft_classification(tab, last_i);
+// 			new = ft_lstnew_file(tab[last_i], token, elements, gc);
+// 			if (!redir)
+// 				redir = new;
+// 			else
+// 				ft_lstadd_back(&redir, new);
+// 		}
+// 		last_i++;
+// 	}
+// 	return (redir);
+// }

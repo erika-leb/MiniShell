@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_chain.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:56:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/12 14:58:14 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:28:05 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,26 @@ bool	ft_is_str(char *s)
 	return (false);
 }
 
-void	create_chain(t_arg *arg, int i, int last_i, t_element *elements, t_gc *gc)
+char	**cmd_arr(t_arg *arg, t_element *elements, t_gc *gc)
+{
+	int		s_arr;
+	char	**arr;
+
+	s_arr = nb_arg(arg, elements, gc);
+	arr = gc_malloc(sizeof(char *) * (s_arr + 1), gc);
+	ft_fill_arr(arr, arg, elements, gc);
+	return (arr);
+}
+
+void	create_chain(t_arg *arg, t_element *elements, t_gc *gc)
 {
 	t_cmd	*new;
 	t_cmd	*current;
 
 	new = gc_malloc(sizeof(t_cmd), gc);
 	new->cmd = NULL;
-	new->redir = create_redir(arg->tab, i, last_i, elements, gc);
-	new->cmd = cmd_arr(arg->tab, i, last_i, elements, gc);
+	new->redir = create_redir(arg, elements, gc);
+	new->cmd = cmd_arr(arg, elements, gc);
 	new->fd_in = -2;
 	new->fd_out = -2;
 	new->active = TRUE;

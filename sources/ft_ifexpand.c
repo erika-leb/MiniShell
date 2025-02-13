@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 19:16:09 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:03:49 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ static void	ft_expandnext(char *result, int *k, char *tmp, char *envv)
 	}
 }
 
-// static void	ft_initev(t_forenvv *ev, char *result, int k)
+// static void	ft_initev(t_forenvv *ev, char *result, t_element *elements, t_gc *gc)
 // {
-// 	ev->result = result;
-// 	ev->k = k;
+// 	ev->result = ft_strdup_(result, gc);
+// 	// (void) gc;
+// 	// ev->result = result;
+// 	ev->elements = elements;
 // }
 
 // static void	ft_expand(char *result, int *k, t_element *elements, t_gc *gc)
@@ -43,9 +45,9 @@ static void	ft_expandnext(char *result, int *k, char *tmp, char *envv)
 // 	t_forenvv *ev;
 
 // 	ev = gc_malloc(sizeof(t_forenvv), gc);
-// 	ft_initev(ev, result, *k);
+// 	ft_initev(ev, result, elements, gc);
 // 	i = 0;
-//     envv = ft_getenvv(ev, tmp, elements, gc);
+//     envv = ft_getenvv(ev, tmp, k, gc);
 //     if (!envv)
 // 		return (ft_erase_substr(result, k, tmp));
 // 	while (tmp[i] && envv[i])

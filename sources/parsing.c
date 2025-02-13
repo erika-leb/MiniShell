@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 15:27:51 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:56:07 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,7 @@ static int ft_checkq(char *input)
 		ptr++;
 	}
 	if (sq || dq)
-		return(printf("minishell: unclosed quotes\n"));//write mais useless
-	return (0);
-}
-
-int	ft_istok_(char *av2)
-{
-	if (!ft_strcmp(av2, "|") || !ft_strcmp(av2, "<") || !ft_strcmp(av2, ">")
-		|| !ft_strcmp(av2, "<<") || !ft_strcmp(av2, ">>"))
-		return (1);
+		return(printf("minishell: unclosed quotes\n"));
 	return (0);
 }
 
@@ -51,7 +43,7 @@ static int	ft_unexptoken(char **result)
 	int	i;
 
 	if (!(*result))
-		return (1);//Sinon ecrire juste $a (qui ne correspond a rien) provoquait un segfault a cause de ft_strcmp
+		return (1);
 	if (!ft_strcmp(result[0], "|"))
 		return(printf("%s", UN_PIPE));
 	i = 0;
@@ -63,7 +55,7 @@ static int	ft_unexptoken(char **result)
 		if (ft_istok_(result[i]) && ft_strcmp(result[i], "|")
 			&& result[i + 1] && ft_istok_(result[i + 1]))
 		{
-			printf("coucouuuuuuuuuuuuu\n");
+			// printf("coucouuuuuuuuuuuuu\n");
 			printf("minishell: syntax error near unexpected token `");
 			return(printf("%s'\n", result[i + 1]));
 		}
@@ -74,38 +66,14 @@ static int	ft_unexptoken(char **result)
 	return (0);
 }
 
-void	ft_deldollar(char *input)
+static char **ft_fatalerror(char **array, t_gc *gc)
 {
-	int	sq;
-	int	dq;
-	int	i;
-
-	sq = 0;
-	dq = 0;
-	i = 0;
-	while (input[i])
-	{
-		ft_modifquote_(input, &sq, &dq, &i);
-		if (!sq && !dq && input[i] == '$'
-			&& (input[i + 1] == '\'' || input[i + 1] == '\"'))
-			{
-				//printf("avant : %s\n", input);
-				ft_erase(input, i);
-				//printf("apres : %s\n", input);
-			}
-		i++;
-	}
-}
-/////////////////// <= ERIKA DOIT MODIFIER SON CODE
-char **ft_fatalerror(char **array, t_gc *gc)
-{
-	// Nouveau tableau avec une taille augmentée de 1
 	char	**new_array;
 	size_t	i;
 	size_t	prev_size;
 
 	if (!array[0])
-		return (NULL);//On renvoie pas de \n si le user a envoye qqchose qui result en une chaine vide (var d'env inexistante, que des espaces)
+		return (NULL);
 	i = -1;
 	prev_size = 0;
 	while (array[++i])
@@ -121,23 +89,24 @@ char **ft_fatalerror(char **array, t_gc *gc)
 	new_array[i] = NULL;
 	return (new_array);
 }
+static int	ft_mexitstatus(t_element *elements, t_gc *gc)
+{
+    elements->exit_status = ft_itoa(1, gc);
+    gc_remove(gc, elements->arr);
+    elements->arr = NULL;
+	return (1);
+}
 
-//ERIKA DOIT MODIFIER CE CODE LA AUSSI
 void	ft_ft(t_element *elements, t_gc *gc)
 {
 	int		i;
 	char	**tmp;
 
 	i = -1;
-	if (ft_checkq(elements->line))
-	{
-		elements->exit_status = ft_itoa(1, gc);
-		gc_remove(gc, elements->arr);
-		elements->arr = NULL;
+	if (ft_checkq(elements->line) && ft_mexitstatus(elements, gc))
 		return ;
-	}
-	//Doit on transformer les static char 70 000 en malloc ?
-	elements->arr = ft_split(ft_tokenize(elements->line, gc, elements), 0, 0, gc);
+	elements->arr = ft_split(ft_tokenize(elements->line,
+				gc, elements), 0, 0, gc);
 	while (elements->arr && elements->arr[++i])
 	{
 		if (ft_strcmp(elements->arr[i], "<<") == 0)

@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/13 18:01:16 by aisidore         ###   ########.fr        #
+#    Updated: 2025/02/13 20:57:20 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ GC_DIR = gc
 
 SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/parsing.c \
+			${SRC_DIR}/parsing_utils.c \
 			${GC_DIR}/gc_cleanup.c \
 			${GC_DIR}/gc_malloc.c \
 			${GC_DIR}/gc_realloc.c \
@@ -59,6 +60,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_export_utils.c \
 			${SRC_DIR}/ft_export_tools.c \
 			${SRC_DIR}/ft_unset.c \
+			${SRC_DIR}/ft_unset_utils.c \
 			${SRC_DIR}/cd_parta.c \
 			${SRC_DIR}/cd_partb.c \
 			${SRC_DIR}/cd_partc.c \
@@ -70,6 +72,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 	
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
+			$(OBJ_DIR)/parsing_utils.o \
 			${OBJ_DIR}/gc_cleanup.o \
 			${OBJ_DIR}/gc_malloc.o \
 			${OBJ_DIR}/gc_realloc.o \
@@ -111,6 +114,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_export_utils.o \
 			${OBJ_DIR}/ft_export_tools.o \
 			${OBJ_DIR}/ft_unset.o \
+			${OBJ_DIR}/ft_unset_utils.o \
 			${OBJ_DIR}/cd_parta.o \
 			${OBJ_DIR}/cd_partb.o \
 			${OBJ_DIR}/cd_partc.o \

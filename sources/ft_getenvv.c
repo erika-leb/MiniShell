@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 19:17:13 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:03:07 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,26 +126,27 @@ void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
 	}
 }
 
-// char	*ft_getenvv(t_forenvv *ev, char *tmp, t_element *elements, t_gc *gc)
+// char	*ft_getenvv(t_forenvv *ev, char *tmp, int *k, t_gc *gc)
 // {
 // 	int i;
 
 //     i = 0;
-//  	while (ev->result[ev->k + i] && (ev->result[ev->k + i] == '_'
-// 			|| ft_isalnum(ev->result[ev->k + i])))
+// 	printf("result = %s\nelements = %s\n", ev->result, ev->elements->exit_status);
+//  	while (ev->result[*k + i] && (ev->result[*k + i] == '_'
+// 			|| ft_isalnum(ev->result[*k + i])))
 //  	{
-//  		tmp[i] = ev->result[ev->k + i];
+//  		tmp[i] = ev->result[*k + i];
 //  		i++;
 //  	}
-// 	if (i == 0 && ev->result[ev->k] == '?')
+// 	if (i == 0 && ev->result[*k] == '?')
 // 	{
 // 		tmp[i] = '?';
 // 		i++;
 // 	}
 //     tmp[i] = '\0';
 // 	if (!ft_strcmp(tmp, "?"))
-// 		return (elements->exit_status);
-// 	return (ft_searchenv(tmp, elements, gc));
+// 		return (ev->elements->exit_status);
+// 	return (ft_searchenv(tmp, ev->elements, gc));
 // }
 
 // void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
@@ -159,9 +160,9 @@ void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
 // 	if (*result_k != '$')
 // 		return ;
 // 	ev = gc_malloc(sizeof(t_forenvv), gc);
-// 	ev->result = result_k;
-// 	ev->k = i;
-// 	envv = ft_getenvv(ev, tmp, elements, gc);
+// 	ev->result = ft_strdup_(result_k, gc);
+// 	ev->elements = elements;
+// 	envv = ft_getenvv(ev, tmp, &i, gc);
 // 	i = 0;
 // 	while (envv && envv[i])
 // 	{

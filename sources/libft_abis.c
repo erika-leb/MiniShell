@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_abis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/26 17:37:56 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:41:28 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ char	*ft_strjoin_(char *str1, char *str2, t_gc *gc)
 	while (++j < len_str2)
 		str[i + j] = str2[j];
 	str[i + j] = '\0';
-	//str1 estfree car heap. Dans nouvelle version il se peut que str2 soit aussi de la heap
 	gc_remove(gc, str1);
-	// gc_remove(gc, str2);
 	return (str);
 }

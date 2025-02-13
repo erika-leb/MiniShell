@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   libft_a.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:20:01 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:41:17 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
-
-//ft_calloc useless vu qu'on fait un gc_cleaner ?
-//Est-ce que gc_cleaner malloc a 0 comme calloc ?
 
 int	ft_isalnum(int c)
 {

@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 19:17:30 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:56:46 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ typedef struct s_env
 }								t_env;
 
 //////////////////////ADRI
+//UNUSED
 typedef struct s_forenvv
 {
-	char	*result;
-	int		k;
+	t_element	*elements;
+	char		*result;
 }	t_forenvv;
+//
 
 typedef struct s_sqdq
 {
@@ -293,6 +295,7 @@ void							ft_bbsort(t_env *head);
 
 // ft_getenvv.c
 char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements, t_gc *gc);
+// char	*ft_getenvv(t_forenvv *ev, char *tmp, int *k, t_gc *gc);
 char							*ft_itoa(int nb, t_gc *gc);
 void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc);
 
@@ -319,6 +322,9 @@ char							*ft_tokenize(char *av2, t_gc *gc,
 // ft_unset.c
 void							ft_unset(t_element *element, char **argv,
 									t_gc *gc, int ch);
+//ft_unset_utils.c
+int		ft_initunset(t_env **ptr_head, char **env, char **argv, t_gc *gc);
+void	ft_freeun(t_env **current, t_env **previous, t_env **head, t_gc *gc);
 
 // here_exp.c
 char							*ft_hereifexpand(char *result,
@@ -373,9 +379,11 @@ char		*ft_strjoin(char *s1, char *s2, t_gc *gc);
 void		write_all_err_mess(char *s1, char *s2, t_element *elements, t_gc *gc);
 int is_directory(char *path);
 
-// parsing.c
+// parsing_utils.c
 void							ft_deldollar(char *input);
 int								ft_istok_(char *av2);
+
+// parsing.c
 void							ft_ft(t_element *elements, t_gc *gc);
 
 // pipe_closing.c

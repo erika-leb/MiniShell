@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 18:37:08 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:27:51 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static int ft_checkq(char *input)
 	ptr = input;
 	while (*ptr)
 	{
-		if (!sq && !dq && *ptr == '$' && *(ptr + 1) == '$')
-			return(printf("%s", UN_DOLLAR));//write mais useless
+		//Mis en commentaire car si je fais une erreur (ex cattttt) puis j'ecirs $$ alors ca affiche l'ancienne erreur
+		// if (!sq && !dq && *ptr == '$' && *(ptr + 1) == '$')
+		// 	return(printf("%s", UN_DOLLAR));//write mais useless
 		if (*ptr == '\'' && !dq)
 			sq = !sq;
 		else if (*ptr == '\"' && !sq)
@@ -62,6 +63,7 @@ static int	ft_unexptoken(char **result)
 		if (ft_istok_(result[i]) && ft_strcmp(result[i], "|")
 			&& result[i + 1] && ft_istok_(result[i + 1]))
 		{
+			printf("coucouuuuuuuuuuuuu\n");
 			printf("minishell: syntax error near unexpected token `");
 			return(printf("%s'\n", result[i + 1]));
 		}
@@ -86,7 +88,11 @@ void	ft_deldollar(char *input)
 		ft_modifquote_(input, &sq, &dq, &i);
 		if (!sq && !dq && input[i] == '$'
 			&& (input[i + 1] == '\'' || input[i + 1] == '\"'))
-			ft_erase(input, i);
+			{
+				//printf("avant : %s\n", input);
+				ft_erase(input, i);
+				//printf("apres : %s\n", input);
+			}
 		i++;
 	}
 }
@@ -125,7 +131,9 @@ void	ft_ft(t_element *elements, t_gc *gc)
 	i = -1;
 	if (ft_checkq(elements->line))
 	{
-		elements->exit_status = ft_itoa(1, gc);/////////////////////////////////////////////// ADRI
+		elements->exit_status = ft_itoa(1, gc);
+		gc_remove(gc, elements->arr);
+		elements->arr = NULL;
 		return ;
 	}
 	//Doit on transformer les static char 70 000 en malloc ?
@@ -143,7 +151,7 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		gc_remove(gc, elements->arr);
 		elements->arr = NULL;
 		elements->arr = tmp;
-		elements->exit_status = ft_itoa(2, gc);/////////////////////////////////////////////// ADRI
+		elements->exit_status = ft_itoa(2, gc);
 	}
 	// //////////////////////////////juste pour checker, useless sinon
 	i = -1;
@@ -151,3 +159,6 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		printf("token %d :%s\n", i, elements->arr[i]);
 	///////////////////////////////////////////////////////////////
 }
+
+//<< "HOLA" "hola"$$"b" : l'erreur s'affiche avant le heredoc (a tord). Il faudrait que je remplisse le buffer d'erreur
+//$"a" $'b' : ne traite que le 1er

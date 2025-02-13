@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/11 17:50:11 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:12:14 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	ft_no_path(char **cmd, t_element *elements, t_gc *gc)
 
 void	ft_cmd_not_fnd(char **cmd, int j, t_element *elements, t_gc *gc)
 {
-	if (!elements->mypaths[j])
+	if (!elements->mypaths[j] || cmd[0][0] == '\0')
 	{
 		write_all_err_mess(cmd[0], ": command not found\n", elements, gc);
 		gc_cleanup(gc), free_std(), exit(127);

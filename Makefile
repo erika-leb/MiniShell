@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/12 15:47:29 by aisidore         ###   ########.fr        #
+#    Updated: 2025/02/13 15:03:38 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_exiterror.c \
 			${SRC_DIR}/ft_echo.c \
 			${SRC_DIR}/env_manager.c \
+			${SRC_DIR}/env_manager_utils.c \
 			${SRC_DIR}/ft_export.c \
 			${SRC_DIR}/ft_export_utils.c \
 			${SRC_DIR}/ft_unset.c \
@@ -104,6 +105,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_exiterror.o \
 			${OBJ_DIR}/ft_echo.o \
 			${OBJ_DIR}/env_manager.o \
+			${OBJ_DIR}/env_manager_utils.o \
 			${OBJ_DIR}/ft_export.o \
 			${OBJ_DIR}/ft_export_utils.o \
 			${OBJ_DIR}/ft_unset.o \

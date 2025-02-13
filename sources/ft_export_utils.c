@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/23 15:22:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:28:43 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
 
-//Si dans l'argument d'export y'a pas de = alors key == NULL quand je cree la variable
 t_env *ft_envnode(char *name, char *key, t_gc *gc)
 {
 	t_env *new_node;
 
-	// new_node = (t_env *)malloc(sizeof(t_env));
 	new_node = gc_malloc(sizeof(t_env), gc);
 	new_node->name = ft_strdup_(name, gc);
 	if (key)
@@ -31,6 +29,18 @@ t_env *ft_envnode(char *name, char *key, t_gc *gc)
 	new_node->next = NULL;
 	return (new_node);
 }
+//A FINIR
+// void	ft_addkey(int catt, t_env *current, char *key, t_gc *gc)
+// {
+// 	if (catt)
+// 		current->key = ft_strjoin_(current->key, key, gc);
+// 	else
+// 	{
+// 		gc_remove(gc, current->key);
+// 		current->key = ft_strdup_(key, gc);
+// 	}
+	
+// }
 
 t_env *ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc)
 {

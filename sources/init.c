@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/11 14:50:06 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:47:05 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void gc_print(t_gc *gc)
 	if (elements->line != NULL)
 		free(elements->line); // mettre a NULL ??
 	if (elements->arr != NULL)
-		ft_freesplit(elements->arr, ft_arr_size(elements->arr)); // mettre a NULL ?
+		ft_freesplit(elements->arr, ft_arr_size(elements->arr)); // mettre a NULL ? //freesplit n'existe plus
 	if (type == PERROR)
 		perror(s);
 	else if (ft_strcmp(s, "") != 0)

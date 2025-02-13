@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:20:48 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:47:30 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,4 @@ char	*ft_eachword(const char *str, int fidx, int end, t_gc *gc)
 	}
 	word[i] = '\0';
 	return (word);
-}
-//Verifier la pertinence avec l'arrivee de gc_cleaner
-void	*ft_freesplit(char **tab, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-		free(tab[i++]);
-	free(tab);
-	return (NULL);
 }

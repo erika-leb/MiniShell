@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 18:30:58 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:48:06 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 	if (!sq && !dq)
 		ft_addspace(result, av2, i, j);
 }
-//adri42
+
 char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 {
 	static char	result[70000];

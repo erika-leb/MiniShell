@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 18:35:25 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:17:30 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,12 @@ typedef struct s_env
 }								t_env;
 
 //////////////////////ADRI
+typedef struct s_forenvv
+{
+	char	*result;
+	int		k;
+}	t_forenvv;
+
 typedef struct s_sqdq
 {
 	int		sq;
@@ -286,9 +292,9 @@ void							ft_swapnodes(t_env *node1, t_env *node2);
 void							ft_bbsort(t_env *head);
 
 // ft_getenvv.c
-char							*ft_getenvv(char *result, int *k, char *tmp,
-									t_element *elements, t_gc *gc);
+char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements, t_gc *gc);
 char							*ft_itoa(int nb, t_gc *gc);
+void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc);
 
 // ft_ifexpand.c
 char							*ft_ifexpand(char *result, t_sqdq *q,
@@ -302,7 +308,6 @@ char							**ft_split(char const *str, int sq, int dq,
 size_t							ft_count(const char *str, const char sep);
 char							*ft_eachword(const char *str, int fidx, int end,
 									t_gc *gc);
-void							*ft_freesplit(char **tab, size_t n);
 
 // ft_splitboloss.c
 char	**ft_splitboloss(char const *str, char sep, t_gc *gc);

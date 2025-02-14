@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:16:02 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/05 18:55:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:02:44 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	cd_error(t_built *built, t_gc *gc)
 {
-	//perror("et marina dans tout ca")
 	ft_buff_error("minishell: cd: ", built->elements, gc);
 	ft_buff_error(built->cmd[1], built->elements, gc);
 	ft_buff_error(": ", built->elements, gc);

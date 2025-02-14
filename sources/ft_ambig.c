@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ambig.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 15:13:34 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:21:04 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_ambig(char *result_k, int *k, t_element *elements, t_gc *gc)
 	while (name[m])
 	{
 		if (name[m] == '$' && (*(name + m + 1) == '_'
-			|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
+				|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
 			envv = ft_getenvv(name + 1, &m, tmp, elements, gc);
 		while (name[m] != '$' && (*(name + m) == '_'
 				|| ft_isalnum(*(name + m)) || *(name + m) == '?'))

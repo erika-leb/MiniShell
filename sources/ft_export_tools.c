@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:57:18 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 18:02:08 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:50:20 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
-char *ft_cut(const char *src, char delim, int is_end, t_gc *gc)
+char	*ft_cut(const char *src, char delim, int is_end, t_gc *gc)
 {
-	char *result;
-	size_t i;
+	char	*result;
+	size_t	i;
 
 	i = 0;
 	while (src[i] && src[i] != delim)
@@ -36,12 +35,13 @@ char *ft_cut(const char *src, char delim, int is_end, t_gc *gc)
 	}
 }
 
-void ft_printexport(const t_env *head, t_element *elements, t_gc *gc)
+void	ft_printexport(const t_env *head, t_element *elements, t_gc *gc)
 {
-    const t_env *current = head;
-    while (current)
+	const t_env	*current = head;
+
+	while (current)
 	{
-        if (current->key)
+		if (current->key)
 		{
 			ft_buff_error("export ", elements, gc);
 			ft_buff_error(current->name, elements, gc);
@@ -50,7 +50,7 @@ void ft_printexport(const t_env *head, t_element *elements, t_gc *gc)
 			ft_buff_error("\"\n", elements, gc);
 			ft_write_mess(elements, gc);
 		}
-        else
+		else
 		{
 			ft_buff_error("export ", elements, gc);
 			ft_buff_error(current->name, elements, gc);
@@ -58,12 +58,12 @@ void ft_printexport(const t_env *head, t_element *elements, t_gc *gc)
 			ft_write_mess(elements, gc);
 		}
 		current = current->next;
-    }
+	}
 }
 
-void ft_adder(t_env **head, char *str, t_gc *gc)
+void	ft_adder(t_env **head, char *str, t_gc *gc)
 {
-	char  **adder;
+	char	**adder;
 
 	adder = gc_calloc(2 + 1, sizeof(char *), gc);
 	adder[0] = ft_cut(str, '=', 0, gc);

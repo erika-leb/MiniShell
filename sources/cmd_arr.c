@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 18:29:03 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:38:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,15 @@ int	nb_arg(t_arg *arg, t_element *elements, t_gc *gc)
 void	ft_fill_arr(char **arr, t_arg *arg, t_element *elements, t_gc *gc)
 {
 	int		s;
+	int		m;
 
 	s = ft_arr_size(arg->tab);
 	arg->j = arg->last_i + 1;
+	m = arg->i;
 	arg->k = 0;
 	if (arg->i == s - 1)
-		arg->i = arg->i + 1;
-	while ((arg->j) < arg->i)
+		m = m + 1;
+	while ((arg->j) < m)
 	{
 		if (ft_is_redir((arg->tab)[arg->j]) == true)
 			(arg->j)++;
@@ -124,3 +126,23 @@ void	ft_fill_arr(char **arr, t_arg *arg, t_element *elements, t_gc *gc)
 	}
 	arr[arg->k] = NULL;
 }
+
+// void	ft_fill_arr(char **arr, t_arg *arg, t_element *elements, t_gc *gc)
+// {
+// 	int		s;
+
+// 	s = ft_arr_size(arg->tab);
+// 	arg->j = arg->last_i + 1;
+// 	arg->k = 0;
+// 	if (arg->i == s - 1)
+// 		arg->i = arg->i + 1;
+// 	while ((arg->j) < arg->i)
+// 	{
+// 		if (ft_is_redir((arg->tab)[arg->j]) == true)
+// 			(arg->j)++;
+// 		else
+// 			ft_put_words(arr, arg, elements, gc);
+// 		(arg->j)++;
+// 	}
+// 	arr[arg->k] = NULL;
+// }

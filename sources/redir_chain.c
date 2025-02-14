@@ -6,29 +6,16 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 16:11:46 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/13 18:13:10 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:24:50 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		ft_bst(char *name)
-{
-	int	i;
-
-	i = -1;
-	while (name[++i])
-	{
-		if (name[i] == '\t')
-			return (1);
-	}
-	return (0);
-}
-
-char		*ft_filter(char *name, t_element *elements, t_gc *gc)
+char	*ft_filter(char *name, t_element *elements, t_gc *gc)
 {
 	static char	res[20000];
-	int		i;
+	int			i;
 
 	if (!ft_bst(name))
 		return (name);
@@ -52,13 +39,13 @@ char		*ft_filter(char *name, t_element *elements, t_gc *gc)
 	return (res);
 }
 
-static t_file	*ft_lstnew_file(char *name, char token, t_element *elements, t_gc *gc)
+static t_file	*ft_lstnew_file(char *name, char tok, t_element *elt, t_gc *gc)
 {
 	t_file	*new;
 
 	new = gc_malloc(sizeof(t_cmd), gc);
-	new -> name = ft_filter(name, elements, gc);
-	new -> token = token;
+	new -> name = ft_filter(name, elt, gc);
+	new -> token = tok;
 	new -> next = NULL;
 	return (new);
 }
@@ -95,7 +82,7 @@ static void	ft_lstadd_back(t_file **lst, t_file *new)
 	current -> next = new;
 }
 
-t_file	*create_redir(t_arg *arg, t_element *elements, t_gc *gc) // ici bon normage ?
+t_file	*create_redir(t_arg *arg, t_element *elements, t_gc *gc)
 {
 	t_file	*redir;
 	t_file	*new;
@@ -121,27 +108,3 @@ t_file	*create_redir(t_arg *arg, t_element *elements, t_gc *gc) // ici bon norma
 	}
 	return (redir);
 }
-
-// t_file	*create_redir(char **tab, int i, int last_i, t_element *elements, t_gc *gc)
-// {
-// 	t_file	*redir;
-// 	t_file	*new;
-// 	int		token;
-
-// 	i++;
-// 	redir = NULL;
-// 	while (last_i < i && tab[i - 1] != NULL)
-// 	{
-// 		if (last_i > 0 && ft_is_redir(tab[last_i - 1]) == true)
-// 		{
-// 			token = ft_classification(tab, last_i);
-// 			new = ft_lstnew_file(tab[last_i], token, elements, gc);
-// 			if (!redir)
-// 				redir = new;
-// 			else
-// 				ft_lstadd_back(&redir, new);
-// 		}
-// 		last_i++;
-// 	}
-// 	return (redir);
-// }

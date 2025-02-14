@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/13 15:12:14 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:41:16 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	path_abs(char **cmd, t_element *elements, t_gc *gc)
 	}
 	if (is_directory(cmd[0]) != 0)
 	{
-		write_all_err_mess(cmd[0], ": Is a directory\n", elements, gc);
+		write_all_err(cmd[0], ": Is a directory\n", elements, gc);
 		(free_std(), gc_cleanup(gc), exit(126));
 	}
 	if (execve(cmd[0], cmd, elements->env) == -1)
@@ -37,7 +37,7 @@ void	path_abs(char **cmd, t_element *elements, t_gc *gc)
 		ft_buff_error(strerror(errno), elements, gc);
 		ft_buff_error("\n", elements, gc);
 		ft_write_error(elements, gc);
-		gc_cleanup(gc), free_std(), exit(errno);
+		(gc_cleanup(gc), free_std(), exit(errno));
 	}
 }
 
@@ -45,8 +45,8 @@ static void	ft_no_path(char **cmd, t_element *elements, t_gc *gc)
 {
 	if (!elements->mypaths)
 	{
-		write_all_err_mess(cmd[0], ": command not found\n", elements, gc);
-		gc_cleanup(gc), free_std(), exit(EXIT_FAILURE);
+		write_all_err(cmd[0], ": command not found\n", elements, gc);
+		(gc_cleanup(gc), free_std(), exit(EXIT_FAILURE));
 	}
 }
 
@@ -54,8 +54,8 @@ void	ft_cmd_not_fnd(char **cmd, int j, t_element *elements, t_gc *gc)
 {
 	if (!elements->mypaths[j] || cmd[0][0] == '\0')
 	{
-		write_all_err_mess(cmd[0], ": command not found\n", elements, gc);
-		gc_cleanup(gc), free_std(), exit(127);
+		write_all_err(cmd[0], ": command not found\n", elements, gc);
+		(gc_cleanup(gc), free_std(), exit(127));
 	}
 }
 
@@ -66,6 +66,7 @@ void	path_relat(char **cmd, t_element *elements, t_gc *gc)
 
 	j = -1;
 	filepath = NULL;
+	//perror("left");
 	ft_no_path(cmd, elements, gc);
 	while (elements->mypaths[++j])
 	{
@@ -84,7 +85,7 @@ void	path_relat(char **cmd, t_element *elements, t_gc *gc)
 		ft_buff_error(strerror(errno), elements, gc);
 		ft_buff_error("\n", elements, gc);
 		ft_write_error(elements, gc);
-		gc_cleanup(gc), free_std(), exit(errno);
+		(gc_cleanup(gc), free_std(), exit(errno));
 	}
 }
 
@@ -99,13 +100,13 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 		current = current->next;
 	if (current->cmd[0] == NULL)
 	{
-		write_all_err_mess(current->cmd[0], ": command not found\n", elements, gc);
+		write_all_err(current->cmd[0], ": command not found\n", elements, gc);
 		(gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
 	if (current->cmd[0] && current->cmd[0][0]
 		&& (current->cmd[0][0] == '/'
 		|| current->cmd[0][0] == '.' || current->cmd[0][0] == '?'))
-			path_abs(current->cmd, elements, gc);
+		path_abs(current->cmd, elements, gc);
 	else
 		path_relat(current->cmd, elements, gc);
 	(gc_cleanup(gc), exit(EXIT_FAILURE));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:00:44 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 18:19:02 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:06:50 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static int	ft_merrorexp(char *name_key, t_element *elements, t_gc *gc)
 	return (1);
 }
 
-int   ft_exparser(char *name_key, t_element *elements, t_gc *gc)
+int	ft_exparser(char *name_key, t_element *elements, t_gc *gc)
 {
-	int i;
+	int	i;
 
 	if (!ft_isalpha(name_key[0]) && name_key[0] != '_')
 		return (ft_merrorexp(name_key, elements, gc));
@@ -32,11 +32,11 @@ int   ft_exparser(char *name_key, t_element *elements, t_gc *gc)
 	while (name_key[++i])
 	{
 		if (name_key[i] == '+' && name_key[i + 1] == '=')
-			break;
+			break ;
 		if (name_key[i] == '=')
-			break;
+			break ;
 		if (!ft_isalnum(name_key[i]) && name_key[i] != '_')
-			return(ft_merrorexp(name_key, elements, gc));
+			return (ft_merrorexp(name_key, elements, gc));
 	}
 	return (0);
 }

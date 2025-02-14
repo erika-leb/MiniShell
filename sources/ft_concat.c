@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_concat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 15:15:05 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:21:49 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*ft_concat(char *result_i, int k, int sq, int dq)
 	int	is_concat;
 
 	while (result_i[++k] && !(result_i[k] == '\'' || result_i[k] == '\"'))
-	if (!result_i[k + 1])
-		return (result_i);
+		if (!result_i[k + 1])
+			return (result_i);
 	ft_initconcat(&to_erase, k, &is_concat);
 	ft_modifquote_(result_i, &sq, &dq, &k);
 	while (result_i[++k])
@@ -47,8 +47,8 @@ char	*ft_concat(char *result_i, int k, int sq, int dq)
 			k--;
 			while (result_i[++k] && !(result_i[k] == '\''
 					|| result_i[k] == '\"'))
-			if (!result_i[k])
-				return (result_i);
+				if (!result_i[k])
+					return (result_i);
 			to_erase = k;
 		}
 	}

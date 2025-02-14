@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft_a.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:41:17 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:47:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 int	ft_isalnum(int c)
 {

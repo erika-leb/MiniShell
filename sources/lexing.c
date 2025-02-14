@@ -6,17 +6,13 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/13 16:22:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:43:53 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../gc/gc.h"
 #include "minishell.h"
 
-// void print_redir(t_file **redir);
-
-// Fonction pour afficher le contenu d'une structure t_file
-void	print_redir(t_file *redir)
+void	print_redir(t_file *redir) // a enlever avant de push
 {
 	t_file	*current;
 
@@ -35,8 +31,7 @@ void	print_redir(t_file *redir)
 	}
 }
 
-// Fonction pour afficher le contenu d'une structure t_cmd
-void	print_cmd_list(t_cmd *cmd_list)
+void	print_cmd_list(t_cmd *cmd_list)  // a enlever avant de push
 {
 	t_cmd	*current;
 	int		cmd_index;
@@ -88,10 +83,7 @@ void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
 	int	i;
 	int	p_max;
 
-	// perror("lop");
 	ft_init_values(&i, &p_max, elements);
-	// printf("p_max = %d\n", p_max);
-	// printf("p_max[0] = %s tchoupi\n", tab[p_max]);
 	while (1)
 	{
 		if (ft_strcmp(tab[p_max], "|") == 0 && tab[p_max + 1]
@@ -100,12 +92,9 @@ void	hedge_case_1(char **tab, t_element *elements, t_gc *gc)
 		if (tab[p_max] && ft_istok_(tab[p_max]) && tab[p_max + 1]
 			&& ft_istok_(tab[p_max + 1]))
 			break ;
-		if (tab[p_max] && ft_istok_(tab[p_max]) && tab[p_max + 1]
-			&& !ft_strcmp(tab[p_max + 1], "|"))
-			break ;
-		if (ft_istok_(tab[p_max]) && !tab[p_max + 1])
-			break ;
-		if (ft_strcmp(tab[1], "|") == 0)
+		if ((tab[p_max] && ft_istok_(tab[p_max]) && tab[p_max + 1]
+				&& !ft_strcmp(tab[p_max + 1], "|")) || (ft_istok_(tab[p_max])
+				&& !tab[p_max + 1]) || !ft_strcmp(tab[1], "|"))
 			break ;
 		p_max++;
 	}
@@ -134,12 +123,8 @@ static t_arg	*ft_init_arg(t_gc *gc, char **tab, t_cmd **lst)
 
 void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
 {
-	// int		i;
-	// int		last_i;
 	t_arg	*arg;
 
-	//i = 0;
-	//last_i = -1;
 	arg = ft_init_arg(gc, tab, lst);
 	while (tab[arg->i])
 	{

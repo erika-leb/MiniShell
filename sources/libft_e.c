@@ -6,12 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:43 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/10 11:48:06 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:47:43 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 int	ft_arr_size(char **tab)
 {
@@ -69,18 +68,14 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
-	//perror("on entre");
 	i = 0;
 	if (s == NULL)
 		return ;
 	while (s[i])
 	{
-		//printf("s[%d] = %c\n", i, s[i]);
 		write(fd, &s[i], 1);
 		i++;
-
 	}
-	//perror("on sort");
 }
 
 int	ft_atoi(const char *str)
@@ -107,33 +102,3 @@ int	ft_atoi(const char *str)
 	}
 	return (r * sign);
 }
-
-// char	*get_next_line(int fd, t_gc *gc)
-// {
-// 	static char	buffer[BUFFER_SIZE];
-// 	static int	buff_read;
-// 	static int	buff_pos;
-// 	int			i = 0;
-// 	char		line[70000];
-
-// 	if (fd < 0 || BUFFER_SIZE <= 0)
-// 		return (NULL);
-// 	while (1)
-// 	{
-// 		if (buff_pos >= buff_read)
-// 		{
-// 			buff_read = read(fd, buffer, BUFFER_SIZE);
-// 			if (buff_read <= 0)
-// 				break;
-// 			buff_pos = 0;
-// 		}
-// 		line[i++] = buffer[buff_pos++];
-// 		if (line[i - 1] == '\n')
-// 			break;
-// 	}
-// 	line[i] = '\0';
-// 	if (i == 0)
-// 		return (NULL);
-// 	return (ft_strdup(line, gc));
-// }
-

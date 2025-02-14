@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:35:11 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:35:47 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:06:52 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
-int     ft_initunset(t_env **ptr_head, char **env, char **argv, t_gc *gc)
+int	ft_initunset(t_env **ptr_head, char **env, char **argv, t_gc *gc)
 {
-	int i;
+	int	i;
 
 	if (!argv[1])
 		return (1);
@@ -31,9 +30,9 @@ int     ft_initunset(t_env **ptr_head, char **env, char **argv, t_gc *gc)
 	return (0);
 }
 
-void ft_freeun(t_env **current, t_env **previous, t_env **head, t_gc *gc)
+void	ft_freeun(t_env **current, t_env **previous, t_env **head, t_gc *gc)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = *current;
 	if (*previous)

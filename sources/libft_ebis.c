@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_ebis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:13:53 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 14:33:57 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:23:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strjoin(char *s1, char *s2, t_gc *gc)
 	return (str);
 }
 
-void	write_all_err_mess(char *s1, char *s2, t_element *elements, t_gc *gc)
+void	write_all_err(char *s1, char *s2, t_element *elements, t_gc *gc)
 {
 	ft_buff_error("minishell: ", elements, gc);
 	ft_buff_error(s1, elements, gc);
@@ -46,13 +46,43 @@ void	write_all_err_mess(char *s1, char *s2, t_element *elements, t_gc *gc)
 	ft_write_error(elements, gc);
 }
 
-int is_directory(char *path)
+int	is_directory(char *path)
 {
-	struct stat sb;
+	struct stat	sb;
 
-	if (stat(path, &sb) == 0) // Récupère les infos du fichier
+	if (stat(path, &sb) == 0)
 	{
-		return S_ISDIR(sb.st_mode); // Vérifie si c'est un dossier
+		return (S_ISDIR(sb.st_mode));
 	}
-	return 0; // Erreur ou ce n'est pas un dossier
+	return (0);
+}
+
+void	exit_status(int status, t_element *elements, t_gc *gc)
+{
+	int	signal;
+
+	if (WIFSIGNALED(status))
+	{
+		elements->exit_status = ft_itoa(WTERMSIG(status) + 128, gc);
+		signal = WTERMSIG(status);
+		if (signal == SIGQUIT)
+			write(2, "Quit (core dumped)\n", 20);
+		if (signal == SIGINT)
+			write(2, "\n", 1);
+	}
+	else if (WIFEXITED(status))
+		elements->exit_status = ft_itoa(WEXITSTATUS(status), gc);
+}
+
+int		ft_bst(char *name)
+{
+	int	i;
+
+	i = -1;
+	while (name[++i])
+	{
+		if (name[i] == '\t')
+			return (1);
+	}
+	return (0);
 }

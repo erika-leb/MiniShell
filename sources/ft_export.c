@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 17:57:50 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:56:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static char	**ft_filladder(t_exp *xx, t_env *head, t_element *element, t_gc *gc)
 {
@@ -46,17 +45,17 @@ static void	ft_initexport(t_exp **xx, t_env **head, int *i, t_gc *gc)
 static void	ft_attribute(t_exp **xx, char **argv, int ch)
 {
 	(*xx)->argv = argv;
-    (*xx)->ch = ch;
+	(*xx)->ch = ch;
 	(*xx)->flag = 0;
 	(*xx)->code = 0;
 }
 
-char **ft_export(t_element *element, char **argv, t_gc *gc, int ch)
+char	**ft_export(t_element *element, char **argv, t_gc *gc, int ch)
 {
-	t_env *head;
-	char  **adder;
-	int   i;
-	t_exp *xx;
+	t_env	*head;
+	char	**adder;
+	int		i;
+	t_exp	*xx;
 
 	ft_initexport(&xx, &head, &i, gc);
 	ft_attribute(&xx, argv, ch);

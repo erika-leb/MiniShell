@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 16:05:17 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:52:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../gc/gc.h"
 
-t_env *ft_envnode(char *name, char *key, t_gc *gc)
+t_env	*ft_envnode(char *name, char *key, t_gc *gc)
 {
-	t_env *new_node;
+	t_env	*new_node;
 
 	new_node = gc_malloc(sizeof(t_env), gc);
 	new_node->name = ft_strdup_(name, gc);
@@ -41,13 +41,13 @@ static void	ft_addkey(int catt, t_env *current, char *key, t_gc *gc)
 			gc_remove(gc, current->key);
 			current->key = ft_strdup_(key, gc);
 		}
-	}	
+	}
 }
 
-t_env *ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc)
+t_env	*ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc)
 {
-	t_env *current;
-	int   catt;
+	t_env	*current;
+	int		catt;
 
 	catt = 0;
 	if (name[ft_strlen(name) - 1] == '+')
@@ -66,32 +66,34 @@ t_env *ft_addenvnode(t_env *head, char *name, char *key, t_gc *gc)
 			return (head);
 		}
 		if (!current->next)
-			break;
+			break ;
 		current = current->next;
 	}
 	current->next = ft_envnode(name, key, gc);
 	return (head);
 }
 
-void ft_swapnodes(t_env *node1, t_env *node2)
+void	ft_swapnodes(t_env *node1, t_env *node2)
 {
-	char *temp_name = node1->name;
-	char *temp_key = node1->key;
+	char	*temp_name;
+	char	*temp_key;
 
+	temp_name = node1->name;
+	temp_key = node1->key;
 	node1->name = node2->name;
 	node1->key = node2->key;
 	node2->name = temp_name;
 	node2->key = temp_key;
 }
 
-void ft_bbsort(t_env *head)
+void	ft_bbsort(t_env *head)
 {
-	int swapped;
-	t_env *ptr1;
-	t_env *lptr;
+	int		swapped;
+	t_env	*ptr1;
+	t_env	*lptr;
 
 	if (head == NULL)
-		return;
+		return ;
 	swapped = 1;
 	lptr = NULL;
 	while (swapped)

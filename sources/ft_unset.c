@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:35:38 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:08:57 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static int	ft_stopunset(t_element *element, t_gc *gc, int ch)
 {
@@ -24,7 +23,6 @@ static int	ft_stopunset(t_element *element, t_gc *gc, int ch)
 		(gc_cleanup(gc), free_std(), exit(0));
 }
 
-
 static int	ft_newenvv(t_env *head, t_element *element, t_gc *gc, int ch)
 {
 	char	**adder;
@@ -36,27 +34,26 @@ static int	ft_newenvv(t_env *head, t_element *element, t_gc *gc, int ch)
 	if (ft_stopunset(element, gc, ch))
 		return (1);
 	return (0);
-	
 }
 
-void	ft_initwhile(t_env   *head, t_env   **current, t_env   **previous)
+void	ft_initwhile(t_env *head, t_env **current, t_env **previous)
 {
 	*current = head;
 	*previous = NULL;
 }
 
-void	ft_gotonext(t_env   **current, t_env   **previous)
+void	ft_gotonext(t_env **current, t_env **previous)
 {
 	*previous = *current;
 	*current = (*current)->next;
 }
 
-void ft_unset(t_element *element, char **argv, t_gc *gc, int ch)
+void	ft_unset(t_element *element, char **argv, t_gc *gc, int ch)
 {
-	t_env   *head;
-	t_env   *current;
-	t_env   *previous;
-	int     i;
+	t_env	*head;
+	t_env	*current;
+	t_env	*previous;
+	int		i;
 
 	if (ft_initunset(&head, element->env, argv, gc))
 	{

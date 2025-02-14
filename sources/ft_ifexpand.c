@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ifexpand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:03:49 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:04:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static void	ft_expandnext(char *result, int *k, char *tmp, char *envv)
 {
@@ -71,19 +70,19 @@ static void	ft_expand(char *result, int *k, t_element *elements, t_gc *gc)
 	char	tmp[20000];
 	char	*envv;
 	int		i;
-	size_t		len;
+	size_t	len;
 
 	i = 0;
 	len = 0;
-    envv = ft_getenvv(result, k, tmp, elements, gc);
-    if (!envv)
+	envv = ft_getenvv(result, k, tmp, elements, gc);
+	if (!envv)
 		return (ft_erase_substr(result, k, tmp));
 	while (tmp[i] && envv[i])
- 	{
+	{
 		result[*k] = envv[i];
 		(*k)++;
 		i++;
- 	}
+	}
 	while (envv[i])
 	{
 		ft_insert(result, (*k), envv[i]);
@@ -93,12 +92,6 @@ static void	ft_expand(char *result, int *k, t_element *elements, t_gc *gc)
 	ft_expandnext(result, k, tmp, envv);
 	(*k)--;
 }
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
 
 static void	ft_delim(char *result, int *k, int sq, int dq)
 {
@@ -148,8 +141,8 @@ char	*ft_ifexpand(char *result, t_sqdq *q, t_element *elements, t_gc *gc)
 		if (!q->sq && !q->dq && !ft_strncmp(result + k, "<< ", 3))
 			ft_delim(result, &k, 0, 0);
 		if (!q->sq && !q->dq && (!ft_strncmp(result + k, ">> ", 3)
-			|| !ft_strncmp(result + k, "> ", 2)
-			|| !ft_strncmp(result + k, "< ", 2)))
+				|| !ft_strncmp(result + k, "> ", 2)
+				|| !ft_strncmp(result + k, "< ", 2)))
 		{
 			ft_incrk(result, &k, q);
 			if (!q->sq && !q->dq)
@@ -158,7 +151,7 @@ char	*ft_ifexpand(char *result, t_sqdq *q, t_element *elements, t_gc *gc)
 		if (!q->sq && !q->dq)
 			ft_spacequotes(result + k, elements, gc);
 		if (result[k] == '$' && !q->sq && (result[k + 1] == '_'
-			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
+				|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
 			ft_expand(ft_erase(result, k), &k, elements, gc);
 		k++;
 	}

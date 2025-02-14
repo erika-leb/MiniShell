@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splitboloss.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:39:05 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 15:46:06 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:05:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static size_t	ft_count_(const char *str, const char sep)
 {

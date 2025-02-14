@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft_abis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:41:28 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:46:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 int	ft_isalpha(int c)
 {
@@ -25,7 +24,7 @@ int	ft_isalpha(int c)
 char	*ft_strdup_(char const *str, t_gc *gc)
 {
 	char	*dest;
-	int	i;
+	int		i;
 
 	i = -1;
 	dest = gc_malloc(ft_strlen(str) + 1, gc);
@@ -35,22 +34,22 @@ char	*ft_strdup_(char const *str, t_gc *gc)
 	return (dest);
 }
 
-char *ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	size_t i;
+	size_t	i;
 
 	i = -1;
 	while (src[++i] && i < n)
 		dest[i] = src[i];
 	while (i++ < n)
 		dest[i] = '\0';
-	return dest;
+	return (dest);
 }
 
-char *ft_strcat(char *dst, const char *src)
+char	*ft_strcat(char *dst, const char *src)
 {
-	size_t dstlen;
-	size_t i;
+	size_t	dstlen;
+	size_t	i;
 
 	dstlen = ft_strlen(dst);
 	i = 0;

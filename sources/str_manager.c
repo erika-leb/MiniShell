@@ -1,23 +1,21 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   str_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:06:31 by ele-borg         ###   ########.fr       */
+/*   Created: 2025/02/14 16:40:33 by ele-borg          #+#    #+#             */
+/*   Updated: 2025/02/14 16:40:38 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
-char *ft_insert(char *result, int k, char c)
+char	*ft_insert(char *result, int k, char c)
 {
-	int len;
-	int i;
+	int	len;
+	int	i;
 
 	len = ft_strlen(result);
 	i = len;
@@ -30,7 +28,7 @@ char *ft_insert(char *result, int k, char c)
 	return (result);
 }
 
-char *ft_erase(char *result, int tmp_k)
+char	*ft_erase(char *result, int tmp_k)
 {
 	while (result[tmp_k])
 	{
@@ -40,12 +38,12 @@ char *ft_erase(char *result, int tmp_k)
 	return (result);
 }
 
-void ft_erase_substr(char *result, int *k, char *tmp)
+void	ft_erase_substr(char *result, int *k, char *tmp)
 {
-    int i;
+	int	i;
 
-    i = 0;
-	while(tmp[i++])
+	i = 0;
+	while (tmp[i++])
 		ft_erase(result, *k);
 	(*k)--;
 	return ;

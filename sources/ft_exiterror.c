@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exiterror.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:22:24 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/12 12:25:06 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:54:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 void	ft_exitfail(t_built *built, t_gc *gc)
 {

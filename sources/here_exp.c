@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_exp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:40:52 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:24:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static void	ft_expandnexth(char *result, int *k, char *tmp, char *envv)
 {
@@ -31,22 +30,21 @@ static void	ft_expandnexth(char *result, int *k, char *tmp, char *envv)
 
 static void	ft_expandh(char *result, int *k, t_element *elements, t_gc *gc)
 {
-	char	tmp[20000];
 	char	*envv;
 	int		i;
-	size_t		len;
-
+	size_t	len;
+	char	tmp[20000]; //ici changer = mettre protection
 	i = 0;
 	len = 0;
-    envv = ft_getenvv(result, k, tmp, elements, gc);
-    if (!envv)
+	envv = ft_getenvv(result, k, tmp, elements, gc);
+	if (!envv)
 		return (ft_erase_substr(result, k, tmp));
 	while (tmp[i] && envv[i])
- 	{
+	{
 		result[*k] = envv[i];
 		(*k)++;
 		i++;
- 	}
+	}
 	while (envv[i])
 	{
 		ft_insert(result, (*k), envv[i]);
@@ -65,7 +63,7 @@ char	*ft_hereifexpand(char *result, t_element *elements, t_gc *gc)
 	while (result[k])
 	{
 		if (result[k] == '$' && (result[k + 1] == '_'
-			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
+				|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
 			ft_expandh(ft_erase(result, k), &k, elements, gc);
 		k++;
 	}
@@ -81,7 +79,7 @@ char	*ft_hedgifexp(char *result, t_element *elements, t_gc *gc)
 	while (result[k] && result[k] != '\t')
 	{
 		if (result[k] == '$' && (result[k + 1] == '_'
-			|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
+				|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
 			ft_expandh(ft_erase(result, k), &k, elements, gc);
 		k++;
 	}

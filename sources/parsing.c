@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:56:07 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:04:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
-static int ft_checkq(char *input)
+static int	ft_checkq(char *input)
 {
 	int		sq;
 	int		dq;
@@ -34,7 +33,7 @@ static int ft_checkq(char *input)
 		ptr++;
 	}
 	if (sq || dq)
-		return(printf("minishell: unclosed quotes\n"));
+		return (printf("minishell: unclosed quotes\n"));
 	return (0);
 }
 
@@ -45,28 +44,27 @@ static int	ft_unexptoken(char **result)
 	if (!(*result))
 		return (1);
 	if (!ft_strcmp(result[0], "|"))
-		return(printf("%s", UN_PIPE));
+		return (printf("%s", UN_PIPE));
 	i = 0;
 	while (result[i])
 	{
 		if (!ft_strcmp(result[i], "|")
 			&& result[i + 1] && !ft_strcmp(result[i + 1], "|"))
-			return(printf("%s", UN_PIPE));
+			return (printf("%s", UN_PIPE));
 		if (ft_istok_(result[i]) && ft_strcmp(result[i], "|")
 			&& result[i + 1] && ft_istok_(result[i + 1]))
 		{
-			// printf("coucouuuuuuuuuuuuu\n");
 			printf("minishell: syntax error near unexpected token `");
-			return(printf("%s'\n", result[i + 1]));
+			return (printf("%s'\n", result[i + 1]));
 		}
 		if (ft_istok_(result[i]) && !result[i + 1])
-			return(printf("%s", UN_NLINE));
+			return (printf("%s", UN_NLINE));
 		i++;
 	}
 	return (0);
 }
 
-static char **ft_fatalerror(char **array, t_gc *gc)
+static char	**ft_fatalerror(char **array, t_gc *gc)
 {
 	char	**new_array;
 	size_t	i;
@@ -89,11 +87,12 @@ static char **ft_fatalerror(char **array, t_gc *gc)
 	new_array[i] = NULL;
 	return (new_array);
 }
+
 static int	ft_mexitstatus(t_element *elements, t_gc *gc)
 {
-    elements->exit_status = ft_itoa(1, gc);
-    gc_remove(gc, elements->arr);
-    elements->arr = NULL;
+	elements->exit_status = ft_itoa(1, gc);
+	gc_remove(gc, elements->arr);
+	elements->arr = NULL;
 	return (1);
 }
 

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getenvv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:03:07 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:59:17 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static size_t	ft_countt(int nb)
 {
@@ -67,7 +66,7 @@ char	*ft_itoa(int nb, t_gc *gc)
 static char	*ft_searchenv(char *tmp, t_element *elements, t_gc *gc)
 {
 	int		i;
-	size_t		len;
+	size_t	len;
 	char	*to_search;
 	char	*value;
 
@@ -82,22 +81,22 @@ static char	*ft_searchenv(char *tmp, t_element *elements, t_gc *gc)
 	return (value);
 }
 
-char	*ft_getenvv(char *result, int *k, char *tmp, t_element *elements, t_gc *gc)
+char	*ft_getenvv(char *res, int *k, char *tmp, t_element *elements, t_gc *gc)
 {
-	int i;
+	int	i;
 
-    i = 0;
- 	while (result[*k + i] && (result[*k + i] == '_' || ft_isalnum(result[*k + i])))
- 	{
- 		tmp[i] = result[*k + i];
- 		i++;
- 	}
-	if (i == 0 && result[*k] == '?')
+	i = 0;
+	while (res[*k + i] && (res[*k + i] == '_' || ft_isalnum(res[*k + i])))
+	{
+		tmp[i] = res[*k + i];
+		i++;
+	}
+	if (i == 0 && res[*k] == '?')
 	{
 		tmp[i] = '?';
 		i++;
 	}
-    tmp[i] = '\0';
+	tmp[i] = '\0';
 	if (!ft_strcmp(tmp, "?"))
 		return (elements->exit_status);
 	return (ft_searchenv(tmp, elements, gc));

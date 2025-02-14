@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:57:58 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/04 14:58:13 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:39:30 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,4 @@ void	ft_handle_path(t_element *elements, t_gc *gc)
 	}
 	if (path_env != NULL)
 		elements->mypaths = ft_split_path(path_env, ':', gc);
-	//pour afficher les paths
-	// i = 0;
-	// printf("path_env = %s\n", path_env);
-	// while(elements->mypaths[i])
-	// {
-	// 	printf("path[%d] = %s\n", i, elements->mypaths[i]);
-	// 	i++;
-	// }
 }
-
-
-

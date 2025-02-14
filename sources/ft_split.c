@@ -6,12 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/01/20 18:20:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:05:18 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static void	ft_init(size_t *i, size_t *j, int *fidx)
 {

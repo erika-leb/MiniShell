@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/13 20:56:46 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:54:26 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,95 +70,96 @@
 
 typedef struct s_file
 {
-	char						*name;
-	int							token;
-	struct s_file				*next;
-}								t_file;
+	char			*name;
+	int				token;
+	struct s_file	*next;
+}	t_file;
 
 typedef struct s_cmd
 {
-	char						**cmd;
-	t_file						*redir;
-	int							fd_in;
-	int							fd_out;
-	struct s_cmd				*next;
-	int							active;
-}								t_cmd;
+	char			**cmd;
+	t_file			*redir;
+	int				fd_in;
+	int				fd_out;
+	struct s_cmd	*next;
+	int				active;
+}	t_cmd;
 
 typedef struct s_element
 {
-	char						*line;
-	char						**arr;
-	char						**env;
-	char						**mypaths;
-	t_cmd						*lst;
-	int							nb_cmd;
-	int							*pid_arr;
-	int							**pipes;
-	char						*error;
-	int							child_to_wait;
-	int							line_valid;
-	char						*exit_status;
-}								t_element;
+	char			*line;
+	char			**arr;
+	char			**env;
+	char			**mypaths;
+	t_cmd			*lst;
+	int				nb_cmd;
+	int				*pid_arr;
+	int				**pipes;
+	char			*error;
+	int				child_to_wait;
+	int				line_valid;
+	char			*exit_status;
+}	t_element;
 
 typedef struct s_built
 {
-	t_element	*elements;
-	char		**cmd;
+	t_element		*elements;
+	char			**cmd;
+	int				neg;
 }	t_built;
 
 typedef struct s_var
 {
-	int							j;
-	int							k;
-}								t_var;
+	int				j;
+	int				k;
+} t_var;
 
 typedef struct s_vars
 {
-	int							fd;
-	char						*line;
-}								t_vars;
+	int				fd;
+	char			*line;
+}	t_vars;
 
 typedef struct s_env
 {
-	char						*name;
-	char						*key;
-	struct s_env				*next;
-}								t_env;
+	char			*name;
+	char			*key;
+	struct s_env	*next;
+}	t_env;
 
 //////////////////////ADRI
 //UNUSED
 typedef struct s_forenvv
 {
-	t_element	*elements;
-	char		*result;
+	t_element		*elements;
+	char			*result;
 }	t_forenvv;
 //
 
 typedef struct s_sqdq
 {
-	int		sq;
-	int		dq;
+	int				sq;
+	int				dq;
 }	t_sqdq;
 
 typedef struct s_exp
 {
-	char 		**argv;
-	int 		ch;
-	int			flag;
-	int			code;
+	char 			**argv;
+	int 			ch;
+	int				flag;
+	int				code;
 }	t_exp;
 /////////////////////
 
 typedef struct s_arg
 {
-	char						**tab;
-	t_cmd						**lst;
-	int							i;
-	int							last_i;
-	int							j;
-	int							k;
-}								t_arg;  //ERIKA MODIF
+	char			**tab;
+	t_cmd			**lst;
+	int				i;
+	int				last_i;
+	int				j;
+	int				k;
+}	t_arg;
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -219,14 +220,14 @@ void							hedge_child_cases(t_element *elements, t_gc *gc,
 int	nb_arg(t_arg *arg, t_element *elements, t_gc *gc);
 char	**cmd_arr(t_arg *arg, t_element *elements, t_gc *gc);
 void	ft_fill_arr(char **arr, t_arg *arg, t_element *elements, t_gc *gc);
+
 // count_lines.c
-void							printf_mess_d(char *del, t_element *elements,
-									t_gc *gc);
+void		printf_mess_d(char *del, t_element *elements, t_gc *gc);
 
 // create_chain.c
-bool							ft_is_redir(char *s);
-bool							ft_is_str(char *s);
-void	create_chain(t_arg *arg, t_element *elements, t_gc *gc); //MODIF ERI
+bool		ft_is_redir(char *s);
+bool		ft_is_str(char *s);
+void		create_chain(t_arg *arg, t_element *elements, t_gc *gc);
 
 // error.c
 size_t							ft_strlcat(char *dst, const char *src,
@@ -331,11 +332,15 @@ char							*ft_hereifexpand(char *result,
 									t_element *elements, t_gc *gc);
 char	*ft_hedgifexp(char *result, t_element *elements, t_gc *gc);
 
+
+// here_utils.c
+void	no_here_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc);
+int		ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc);
+
 // heredoc.c
 int								ft_open_heredoc(char *del, t_element *elements,
 									t_gc *gc);
-int								ft_open_heredoc_error(char *del,
-									t_element *elements, t_gc *gc);
+
 
 // init.c
 void							ft_welcome(void);
@@ -376,8 +381,10 @@ int								ft_atoi(const char *str);
 
 // libft_ebis.c
 char		*ft_strjoin(char *s1, char *s2, t_gc *gc);
-void		write_all_err_mess(char *s1, char *s2, t_element *elements, t_gc *gc);
+void	write_all_err(char *s1, char *s2, t_element *elements, t_gc *gc);
 int is_directory(char *path);
+void	exit_status(int status, t_element *elements, t_gc *gc);
+int		ft_bst(char *name);
 
 // parsing_utils.c
 void							ft_deldollar(char *input);
@@ -391,9 +398,9 @@ void							first_cmd_with_valid_infile(t_element *elements,
 									t_cmd *cmd, t_gc *gc);
 void							last_cmd_with_valid_outfile(t_element *elements,
 									t_cmd *cmd, t_gc *gc);
-void							dup_and_close_read_pipe(int k,
+void							dup_close_read_pipe(int k,
 									t_element *elements, t_cmd *cmd, t_gc *gc);
-void							dup_and_close_write_pipe(int k,
+void							dup_close_write_pipe(int k,
 									t_element *elements, t_cmd *cmd, t_gc *gc);
 void							all_cases(int i, t_element *elements,
 									t_cmd *cmd, t_gc *gc);
@@ -411,9 +418,12 @@ void							ft_pwd(char **cmd, t_element *elements,
 									t_gc *gc);
 int								is_invalid_option(char *str);
 
+// signal_bis.c
+void	reset_signal_status(void);
+void	handle_sigpipe(int sig);
+
 // signal.c
-void							ft_handle_signal(int process);
-void							reset_signal_status(void);
+void	ft_handle_signal(int process);
 
 // split_paths.c
 void							ft_handle_path(t_element *elements, t_gc *gc);

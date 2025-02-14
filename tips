@@ -6,6 +6,12 @@ valgrind --suppressions=readline.supp --trace-children=yes --track-fds=yes --lea
 valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
 
+A FAIRE :
+- norme
+- test ( dont ulimit et zombies)
+- verifier les fonctions utilisees
+
+
 mettre a la norme
 signaux fonction expres signaux dans heredoc, gerer signaux hors mode interactif ex cat ; code erreur a gerer voir cat puis ctrl c puis $? donne 130 github openbsd
 pwd a faire avec getcpwd

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
+#    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/13 20:57:20 by aisidore         ###   ########.fr        #
+#    Updated: 2025/02/14 16:37:52 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/pipe_handle.c \
 			${SRC_DIR}/error_message.c \
 			${SRC_DIR}/signal.c \
+			${SRC_DIR}/signal_bis.c \
 			${SRC_DIR}/ft_exit.c \
 			${SRC_DIR}/ft_exiterror.c \
 			${SRC_DIR}/ft_echo.c \
@@ -66,10 +67,11 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/cd_partc.c \
 			${SRC_DIR}/pwd.c \
 			${SRC_DIR}/heredoc.c \
+			${SRC_DIR}/here_utils.c \
 			${SRC_DIR}/count_lines.c \
 			${SRC_DIR}/here_exp.c \
 			${SRC_DIR}/child_hedge_cases.c \
-	
+
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
 			$(OBJ_DIR)/parsing_utils.o \
@@ -105,6 +107,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/pipe_handle.o \
 			${OBJ_DIR}/error_message.o \
 			${OBJ_DIR}/signal.o \
+			${OBJ_DIR}/signal_bis.o \
 			${OBJ_DIR}/ft_exit.o \
 			${OBJ_DIR}/ft_exiterror.o \
 			${OBJ_DIR}/ft_echo.o \
@@ -120,6 +123,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/cd_partc.o \
 			${OBJ_DIR}/pwd.o \
 			${OBJ_DIR}/heredoc.o \
+			${OBJ_DIR}/here_utils.o \
 			${OBJ_DIR}/count_lines.o \
 			${OBJ_DIR}/here_exp.o \
 			${OBJ_DIR}/child_hedge_cases.o \

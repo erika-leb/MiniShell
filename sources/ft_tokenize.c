@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 16:58:23 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:30:39 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,5 @@ char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 		i++;
 	}
 	result[j] = '\0';
-	//Je remplace ici le $ par \v et , et ensuite j'enrobe ifexpand
-	// par une fonction qui parcourt result et remplace les \v par $
 	return (ft_ifexpand(result, q, elements, gc));
 }

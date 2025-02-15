@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 15:36:53 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:38:07 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,14 @@ void	ft_ft(t_element *elements, t_gc *gc)
 		gc_remove(gc, elements->arr);
 		elements->arr = NULL;
 		elements->arr = tmp;
-		elements->exit_status = ft_itoa(2, gc);
+		if (elements->arr)
+			elements->exit_status = ft_itoa(2, gc);
 	}
-	// //////////////////////////////juste pour checker, useless sinon
-	i = -1;
-	while (elements->arr && elements->arr[++i])
-		printf("token %d :%s\n", i, elements->arr[i]);
-	///////////////////////////////////////////////////////////////
 }
-
+	// //////////////////////////////juste pour checker, useless sinon
+	// i = -1;
+	// while (elements->arr && elements->arr[++i])
+	// 	printf("token %d :%s\n", i, elements->arr[i]);
+	///////////////////////////////////////////////////////////////
 //<< "HOLA" "hola"$$"b" : l'erreur s'affiche avant le heredoc (a tord). Il faudrait que je remplisse le buffer d'erreur
 //$"a" $'b' : ne traite que le 1er

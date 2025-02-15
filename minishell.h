@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 18:58:28 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:45:20 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,6 +272,7 @@ void		ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc);
 
 // ft_ifexpand_utils.c
 void		ft_initev(t_forenvv *ev, char *res, t_element *elements, t_gc *gc);
+int			nobs(char c);
 
 // ft_ifexpand.c
 char		*ft_ifexpand(char *res, t_sqdq *q, t_element *elements, t_gc *gc);

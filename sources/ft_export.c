@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 12:56:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:14:00 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	**ft_export(t_element *element, char **argv, t_gc *gc, int ch)
 {
 	t_env	*head;
 	char	**adder;
+	int		end;
 	int		i;
 	t_exp	*xx;
 
@@ -74,6 +75,6 @@ char	**ft_export(t_element *element, char **argv, t_gc *gc, int ch)
 	adder = ft_filladder(xx, head, element, gc);
 	if (xx->ch == 0)
 		return (adder);
-	else
-		(gc_cleanup(gc), free_std(), exit(xx->code));
+	end = xx->code;
+	(gc_cleanup(gc), free_std(), exit(end));
 }

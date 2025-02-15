@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 14:46:18 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:15:30 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,32 @@ t_element	*ft_init_struct(t_gc *gc)
 	elements->exit_status = ft_itoa(0, gc);
 	elements->line_valid = TRUE;
 	return (elements);
+}
+
+char	*get_input(t_gc *gc)
+{
+	char	*input;
+	char	buffer[1024];
+	ssize_t	bytes_read;
+	int		len;
+
+	if (isatty(STDIN_FILENO))
+	{
+		input = readline("minishell> ");
+		if (input && *input)
+			add_history(input);
+	}
+	else
+	{
+		bytes_read = read(STDIN_FILENO, buffer, 1023);
+		if (bytes_read <= 0)
+			return (NULL);
+		buffer[bytes_read] = '\0';
+		len = 0;
+		while (buffer[len] && buffer[len] != '\n')
+			len++;
+		buffer[len] = '\0';
+		input = ft_strdup(buffer, gc);
+	}
+	return (input);
 }

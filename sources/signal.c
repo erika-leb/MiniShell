@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:51:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 16:37:27 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:01:49 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	handle_sigint(int sig)
 {
 	(void) sig;
 	rl_done = 1;
+	g_signal = sig;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

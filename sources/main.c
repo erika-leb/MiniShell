@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 15:54:03 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:21:36 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,6 @@ volatile sig_atomic_t	g_signal = 0;
 int	rl_event_handler(void)
 {
 	return (0);
-}
-
-char	*get_input(t_gc *gc)
-{
-	char	*input;
-	char	buffer[1024];
-	ssize_t	bytes_read;
-	int		len;
-
-	if (isatty(STDIN_FILENO))
-	{
-		input = readline("minishell> ");
-		if (input && *input)
-			add_history(input);
-	}
-	else
-	{
-		bytes_read = read(STDIN_FILENO, buffer, 1023);
-		if (bytes_read <= 0)
-			return (NULL);
-		buffer[bytes_read] = '\0';
-		len = 0;
-		while (buffer[len] && buffer[len] != '\n')
-			len++;
-		buffer[len] = '\0';
-		input = ft_strdup(buffer, gc);
-	}
-	return (input);
 }
 
 void	ft_init(t_element *elements, char **env, t_gc *gc, char **av)
@@ -58,21 +30,36 @@ void	ft_init(t_element *elements, char **env, t_gc *gc, char **av)
 
 void	ft_launch_cmd(t_element *elements, t_gc *gc)
 {
-	ft_fill_arrays(elements, gc);
-	//perror("bolosskikou");
-	pipe_creation(elements, gc);
-	//perror("boloss");
-	//check_fds("parent au debut");
-	child_creation(elements, gc);
-	//perror("bolosskikou");
-	close_pipes(elements);
-	//perror("kikoulol");
-	wait_for_children(elements, gc);
-	//perror("wtf");
-	if (access(".here", F_OK) == 0)
-		unlink(".here");
-	reset_signal_status();
-	ft_handle_signal(0);
+	lexing(elements->arr, &elements->lst, elements, gc);
+	// perror("kikoulol");
+	if (elements->line_valid == TRUE)
+	{
+		ft_fill_arrays(elements, gc);
+		//perror("bolosskikou");
+		pipe_creation(elements, gc);
+		//perror("boloss");
+		//check_fds("parent au debut");
+		child_creation(elements, gc);
+		//perror("bolosskikou");
+		close_pipes(elements);
+		//perror("kikoulol");
+		wait_for_children(elements, gc);
+		//perror("wtf");
+		if (access(".here", F_OK) == 0)
+			unlink(".here");
+		reset_signal_status();
+		ft_handle_signal(0);
+	}
+}
+
+void	end_of_handle(t_element *elements, t_gc *gc)
+{
+		if (g_signal != 0)
+	{
+		elements->exit_status = ft_itoa(128 + g_signal, gc);
+		g_signal = 0;
+	}
+	elements->line_valid = TRUE;
 }
 
 int	main(int ac, char **av, char **env)
@@ -100,14 +87,21 @@ int	main(int ac, char **av, char **env)
 		ft_ft(elements, &gc);
 		//perror("jerry");
 		if (elements->arr)
-		{
-			//perror("test2");
-			lexing(elements->arr, &elements->lst, elements, &gc);
-				// perror("kikoulol");
-			if (elements->line_valid == TRUE)
-				ft_launch_cmd(elements, &gc);
-		}
-		elements->line_valid = TRUE;
+			ft_launch_cmd(elements, &gc);
+		// {
+		// 	//perror("test2");
+		// 	lexing(elements->arr, &elements->lst, elements, &gc);
+		// 		// perror("kikoulol");
+		// 	if (elements->line_valid == TRUE)
+		// 		ft_launch_cmd(elements, &gc);
+		// }
+		end_of_handle(elements, &gc);
+		// if (g_signal != 0)
+		// {
+		// 	elements->exit_status = ft_itoa(128 + g_signal, &gc);
+		// 	g_signal = 0;
+		// }
+		// elements->line_valid = TRUE;
 	}
 	return (0);
 }

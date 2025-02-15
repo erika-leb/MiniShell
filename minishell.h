@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 16:45:20 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:15:45 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ int			ft_open_heredoc_error(char *del, t_element *elements, t_gc *gc);
 int			ft_open_heredoc(char *del, t_element *elements, t_gc *gc);
 
 // init.c
+char		*get_input(t_gc *gc);
 void		ft_welcome(void);
 void		ft_cpy_env(t_element *elements, char **env, t_gc *gc, char **argv);
 t_element	*ft_init_struct(t_gc *gc);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:35:11 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 13:06:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:54:27 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ int	ft_initunset(t_env **ptr_head, char **env, char **argv, t_gc *gc)
 	return (0);
 }
 
-void	ft_freeun(t_env **current, t_env **previous, t_env **head, t_gc *gc)
+void	ft_freeun(t_env **current, t_env **prev, t_env **head, t_gc *gc)
 {
 	t_env	*temp;
 
 	temp = *current;
-	if (*previous)
-		(*previous)->next = (*current)->next;
+	if (*prev)
+		(*prev)->next = (*current)->next;
 	else
 		*head = (*current)->next;
 	*current = (*current)->next;

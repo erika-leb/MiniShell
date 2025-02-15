@@ -2,7 +2,8 @@
 	"files.associations": {
 		"minishell.h": "c",
 		"gc.h": "c",
-		"limits": "c"
+		"limits": "c",
+		"typeinfo": "c"
 	},
 	"editor.defaultFormatter": "keyhr.42-c-format",
 	"editor.formatOnPaste": false,

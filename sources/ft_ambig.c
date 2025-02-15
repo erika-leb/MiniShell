@@ -6,12 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 11:21:04 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:20:56 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../gc/gc.h"
 
 static int	ft_moredoll(char *str, int i, int sq, int dq)
 {
@@ -41,38 +40,52 @@ static void	ft_ibslash(char *result_k, char *name, int *k)
 	}
 }
 
-static void	ft_initambig(char *result_k, char *name, int *m)
+static int	ft_initambig(char *result_k, char *name, int *m)
 {
+	if (*result_k != '$')
+		return (1);
 	*m = -1;
 	while (result_k[++(*m)] && result_k[*m] != ' ')
 		name[*m] = result_k[*m];
 	name[*m] = '\0';
-	*m = 0;
+	*m = -1;
+	return (0);
+}
+
+static t_forenvv	*ft_alloc_ev(char *name, t_element *elements, t_gc *gc)
+{
+	t_forenvv	*ev;
+
+	ev = gc_malloc(sizeof(t_forenvv), gc);
+	ft_initev(ev, name + 1, elements, gc);
+	return (ev);
 }
 
 void	ft_ambig(char *result_k, int *k, t_element *elements, t_gc *gc)
 {
-	char	*envv;
-	char	tmp[20000];
-	char	name[20000];
-	int		m;
+	char		*envv;
+	char		tmp[20000];
+	char		nm[20000];
+	int			m;
+	t_forenvv	*ev;
 
-	if (*result_k != '$')
-		return ;
 	envv = NULL;
-	ft_initambig(result_k, name, &m);
-	while (name[m])
+	if (ft_initambig(result_k, nm, &m) == 1)
+		return ;
+	while (nm[++m])
 	{
-		if (name[m] == '$' && (*(name + m + 1) == '_'
-				|| ft_isalnum(*(name + m + 1)) || *(name + m + 1) == '?'))
-			envv = ft_getenvv(name + 1, &m, tmp, elements, gc);
-		while (name[m] != '$' && (*(name + m) == '_'
-				|| ft_isalnum(*(name + m)) || *(name + m) == '?'))
+		if (nm[m] == '$' && (*(nm + m + 1) == '_' || ft_isalnum(*(nm + m + 1))
+				|| *(nm + m + 1) == '?'))
+		{
+			ev = ft_alloc_ev(nm, elements, gc);
+			envv = ft_getenvv(ev, tmp, &m, gc);
+		}
+		while (nm[m] != '$' && (*(nm + m) == '_' || ft_isalnum(*(nm + m))
+				|| *(nm + m) == '?'))
 			m++;
-		if (envv || !ft_moredoll(name + m, 0, 0, 0))
+		if (envv || !ft_moredoll(nm + m, 0, 0, 0))
 			break ;
-		m++;
 	}
-	if (!envv && !name[m])
-		ft_ibslash(result_k, name, k);
+	if (!envv && !nm[m])
+		ft_ibslash(result_k, nm, k);
 }

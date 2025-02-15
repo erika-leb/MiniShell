@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 12:59:17 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 17:42:32 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,37 +81,42 @@ static char	*ft_searchenv(char *tmp, t_element *elements, t_gc *gc)
 	return (value);
 }
 
-char	*ft_getenvv(char *res, int *k, char *tmp, t_element *elements, t_gc *gc)
+char	*ft_getenvv(t_forenvv *ev, char *tmp, int *k, t_gc *gc)
 {
 	int	i;
 
 	i = 0;
-	while (res[*k + i] && (res[*k + i] == '_' || ft_isalnum(res[*k + i])))
+	while (ev->result[*k + i] && (ev->result[*k + i] == '_'
+			|| ft_isalnum(ev->result[*k + i])))
 	{
-		tmp[i] = res[*k + i];
+		tmp[i] = ev->result[*k + i];
 		i++;
 	}
-	if (i == 0 && res[*k] == '?')
+	if (i == 0 && ev->result[*k] == '?')
 	{
 		tmp[i] = '?';
 		i++;
 	}
 	tmp[i] = '\0';
 	if (!ft_strcmp(tmp, "?"))
-		return (elements->exit_status);
-	return (ft_searchenv(tmp, elements, gc));
+		return (ev->elements->exit_status);
+	return (ft_searchenv(tmp, ev->elements, gc));
 }
 
 void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
 {
-	char	tmp[20000];
-	char	*envv;
-	int		i;
+	char		tmp[20000];
+	char		*envv;
+	int			i;
+	t_forenvv	*ev;
 
 	i = 1;
 	if (*result_k != '$')
 		return ;
-	envv = ft_getenvv(result_k, &i, tmp, elements, gc);
+	ev = gc_malloc(sizeof(t_forenvv), gc);
+	ev->result = ft_strdup_(result_k, gc);
+	ev->elements = elements;
+	envv = ft_getenvv(ev, tmp, &i, gc);
 	i = 0;
 	while (envv && envv[i])
 	{
@@ -124,53 +129,3 @@ void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
 		i++;
 	}
 }
-
-// char	*ft_getenvv(t_forenvv *ev, char *tmp, int *k, t_gc *gc)
-// {
-// 	int i;
-
-//     i = 0;
-// 	printf("result = %s\nelements = %s\n", ev->result, ev->elements->exit_status);
-//  	while (ev->result[*k + i] && (ev->result[*k + i] == '_'
-// 			|| ft_isalnum(ev->result[*k + i])))
-//  	{
-//  		tmp[i] = ev->result[*k + i];
-//  		i++;
-//  	}
-// 	if (i == 0 && ev->result[*k] == '?')
-// 	{
-// 		tmp[i] = '?';
-// 		i++;
-// 	}
-//     tmp[i] = '\0';
-// 	if (!ft_strcmp(tmp, "?"))
-// 		return (ev->elements->exit_status);
-// 	return (ft_searchenv(tmp, ev->elements, gc));
-// }
-
-// void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
-// {
-// 	char	tmp[20000];
-// 	char	*envv;
-// 	int		i;
-// 	t_forenvv *ev;
-
-// 	i = 1;
-// 	if (*result_k != '$')
-// 		return ;
-// 	ev = gc_malloc(sizeof(t_forenvv), gc);
-// 	ev->result = ft_strdup_(result_k, gc);
-// 	ev->elements = elements;
-// 	envv = ft_getenvv(ev, tmp, &i, gc);
-// 	i = 0;
-// 	while (envv && envv[i])
-// 	{
-// 		if (envv[i] == ' ' || envv[i] == '\'' || envv[i] == '\"')
-// 		{
-// 			ft_insert(result_k, 1, '\t');
-// 			ft_insert(result_k, ft_strlen(tmp) + 2, '\t');
-// 			return ;
-// 		}
-// 		i++;
-// 	}
-// }

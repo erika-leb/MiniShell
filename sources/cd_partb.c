@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:16:17 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/13 16:02:32 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:45:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_home_not_set(t_built *built, t_gc *gc, int ch, char	*buff_old)
 	return (0);
 }
 
-int	ft_change_direction(t_built *built, t_gc *gc, int ch, char	*buff_old)
+int	ft_change_dir(t_built *built, t_gc *gc, int ch, char	*buff_old)
 {
 	if (access(built->cmd[1], F_OK) == 0 && built->cmd[2])
 	{

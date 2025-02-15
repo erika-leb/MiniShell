@@ -7,7 +7,7 @@ valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-l
 
 ps aux | grep defunct
 
-shlvl voir adrien
+
 
 
 2 cas a gerer entre partie adri et partie erika : - si j'ai une redir comme < $a avec a="boloss 'ca va'" (var contenant espace et?ou quotes) alors je dois expand quand je cree la redir. Adri m'enverra $/n/ta

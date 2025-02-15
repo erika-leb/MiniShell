@@ -6,19 +6,19 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 16:30:28 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:58:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
+void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc)
 {
 	if ((node->fd_in == ERROR_OPEN || node->fd_out == ERROR_OPEN)
 		&& redir->token == HEREDOC) //entrees
 	{
 		node->active = FALSE;
-		ft_open_heredoc_error(redir->name, elements, gc);
+		ft_open_heredoc_error(redir->name, elm, gc);
 	}
 	else if (node->fd_in != ERROR_OPEN && node->fd_out != ERROR_OPEN)
 	{
@@ -30,15 +30,15 @@ void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc)
 				unlink(".here");
 		}
 		if (redir->token == HEREDOC)
-			node->fd_in = ft_open_heredoc(redir->name, elements, gc);
+			node->fd_in = ft_open_heredoc(redir->name, elm, gc);
 		else
-			no_here_out(node, redir, elements, gc);
+			no_here_out(node, redir, elm, gc);
 	}
 }
 
-void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc) //gestion des sorties ??
+void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc) //gestion des sorties ??
 {
-	(void) elements;
+	(void) elm;
 	(void) gc;
 	if (node->fd_out != ERROR_OPEN && node->fd_in != ERROR_OPEN)
 	{
@@ -53,7 +53,7 @@ void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elements, t_gc *gc) //g
 			node->fd_out = open(redir->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (node->fd_out == ERROR_OPEN)
 		{
-			ft_error_out(redir->name, elements, gc);
+			ft_error_out(redir->name, elm, gc);
 			if (node->fd_in >= 0)
 			{
 				close(node->fd_in);

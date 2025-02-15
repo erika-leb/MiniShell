@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:43:09 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/13 16:01:02 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:45:40 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_change_pwd(t_built *built, t_gc *gc, char *buff_old, char *buff)
 	remove_old_env(head, built, gc);
 }
 
-int	chek_home_and_change_dir(t_built *built, t_gc *gc, int ch, char *buff_old)
+int	check_home_cd(t_built *built, t_gc *gc, int ch, char *buff_old)
 {
 	if (!built->cmd[1])
 	{
@@ -51,7 +51,7 @@ int	chek_home_and_change_dir(t_built *built, t_gc *gc, int ch, char *buff_old)
 				return (1);
 		}
 	}
-	if (ft_change_direction(built, gc, ch, buff_old) == 1)
+	if (ft_change_dir(built, gc, ch, buff_old) == 1)
 		return (1);
 	return (0);
 }
@@ -83,7 +83,7 @@ void	ft_cd(t_built *built, t_gc *gc, int ch)
 		if (ft_no_buff_old(built, gc, ch) == 1)
 			return ;
 	}
-	if (chek_home_and_change_dir(built, gc, ch, buff_old) == 1)
+	if (check_home_cd(built, gc, ch, buff_old) == 1)
 		return ;
 	buff = getcwd(NULL, 0);
 	if (!buff)

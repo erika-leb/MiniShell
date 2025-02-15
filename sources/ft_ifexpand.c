@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 13:04:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:49:20 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,53 +28,17 @@ static void	ft_expandnext(char *result, int *k, char *tmp, char *envv)
 	}
 }
 
-// static void	ft_initev(t_forenvv *ev, char *result, t_element *elements, t_gc *gc)
-// {
-// 	ev->result = ft_strdup_(result, gc);
-// 	// (void) gc;
-// 	// ev->result = result;
-// 	ev->elements = elements;
-// }
-
-// static void	ft_expand(char *result, int *k, t_element *elements, t_gc *gc)
-// {
-// 	char	tmp[20000];
-// 	char	*envv;
-// 	int		i;
-// 	t_forenvv *ev;
-
-// 	ev = gc_malloc(sizeof(t_forenvv), gc);
-// 	ft_initev(ev, result, elements, gc);
-// 	i = 0;
-//     envv = ft_getenvv(ev, tmp, k, gc);
-//     if (!envv)
-// 		return (ft_erase_substr(result, k, tmp));
-// 	while (tmp[i] && envv[i])
-//  	{
-// 		result[*k] = envv[i];
-// 		(*k)++;
-// 		i++;
-//  	}
-// 	while (envv[i])
-// 	{
-// 		ft_insert(result, (*k), envv[i]);
-// 		(*k)++;
-// 		i++;
-// 	}
-// 	ft_expandnext(result, k, tmp, envv);
-// 	(*k)--;
-// }
-
 static void	ft_expand(char *result, int *k, t_element *elements, t_gc *gc)
 {
-	char	tmp[20000];
-	char	*envv;
-	int		i;
-	size_t	len;
+	char		tmp[20000];
+	char		*envv;
+	int			i;
+	t_forenvv	*ev;
 
+	ev = gc_malloc(sizeof(t_forenvv), gc);
+	ft_initev(ev, result, elements, gc);
 	i = 0;
-	len = 0;
-	envv = ft_getenvv(result, k, tmp, elements, gc);
+	envv = ft_getenvv(ev, tmp, k, gc);
 	if (!envv)
 		return (ft_erase_substr(result, k, tmp));
 	while (tmp[i] && envv[i])
@@ -130,31 +94,31 @@ static void	ft_incrk(char *result, int *k, t_sqdq *q)
 	ft_modifquote_(result, &q->sq, &q->dq, k);
 }
 
-char	*ft_ifexpand(char *result, t_sqdq *q, t_element *elements, t_gc *gc)
+char	*ft_ifexpand(char *res, t_sqdq *q, t_element *elements, t_gc *gc)
 {
 	int	k;
 
 	k = 0;
-	while (result[k])
+	while (res[k])
 	{
-		ft_modifquote_(result, &q->sq, &q->dq, &k);
-		if (!q->sq && !q->dq && !ft_strncmp(result + k, "<< ", 3))
-			ft_delim(result, &k, 0, 0);
-		if (!q->sq && !q->dq && (!ft_strncmp(result + k, ">> ", 3)
-				|| !ft_strncmp(result + k, "> ", 2)
-				|| !ft_strncmp(result + k, "< ", 2)))
+		ft_modifquote_(res, &q->sq, &q->dq, &k);
+		if (!q->sq && !q->dq && !ft_strncmp(res + k, "<< ", 3))
+			ft_delim(res, &k, 0, 0);
+		if (!q->sq && !q->dq && (!ft_strncmp(res + k, ">> ", 3)
+				|| !ft_strncmp(res + k, "> ", 2)
+				|| !ft_strncmp(res + k, "< ", 2)))
 		{
-			ft_incrk(result, &k, q);
+			ft_incrk(res, &k, q);
 			if (!q->sq && !q->dq)
-				ft_ambig(result + k, &k, elements, gc);
+				ft_ambig(res + k, &k, elements, gc);
 		}
 		if (!q->sq && !q->dq)
-			ft_spacequotes(result + k, elements, gc);
-		if (result[k] == '$' && !q->sq && (result[k + 1] == '_'
-				|| ft_isalnum(result[k + 1]) || result[k + 1] == '?'))
-			ft_expand(ft_erase(result, k), &k, elements, gc);
+			ft_spacequotes(res + k, elements, gc);
+		if (res[k] == '$' && !q->sq && (res[k + 1] == '_'
+				|| ft_isalnum(res[k + 1]) || res[k + 1] == '?'))
+			ft_expand(ft_erase(res, k), &k, elements, gc);
 		k++;
 	}
-	result[k] = '\0';
-	return (result);
+	res[k] = '\0';
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 14:24:06 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:07:51 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,16 @@ static void	ft_expandnexth(char *result, int *k, char *tmp, char *envv)
 
 static void	ft_expandh(char *result, int *k, t_element *elements, t_gc *gc)
 {
-	char	*envv;
-	int		i;
-	size_t	len;
-	char	tmp[20000]; //ici changer = mettre protection
+	char		*envv;
+	int			i;
+	size_t		len;
+	t_forenvv	*ev;
+	char		tmp[20000]; //ici changer = mettre protection
+	ev = gc_malloc(sizeof(t_forenvv), gc);
+	ft_initev(ev, result, elements, gc);
 	i = 0;
 	len = 0;
-	envv = ft_getenvv(result, k, tmp, elements, gc);
+	envv = ft_getenvv(ev, tmp, k, gc);
 	if (!envv)
 		return (ft_erase_substr(result, k, tmp));
 	while (tmp[i] && envv[i])
@@ -46,11 +49,7 @@ static void	ft_expandh(char *result, int *k, t_element *elements, t_gc *gc)
 		i++;
 	}
 	while (envv[i])
-	{
-		ft_insert(result, (*k), envv[i]);
-		(*k)++;
-		i++;
-	}
+		ft_insert(result, ((*k)++), envv[i++]);
 	ft_expandnexth(result, k, tmp, envv);
 	(*k)--;
 }

@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/14 16:37:52 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/14 18:25:06 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC_FILES = ${SRC_DIR}/main.c \
 			${SRC_DIR}/ft_tokenize.c \
 			${SRC_DIR}/redir_chain.c \
 			${SRC_DIR}/ft_ifexpand.c \
+			${SRC_DIR}/ft_ifexpand_utils.c \
 			${SRC_DIR}/ft_ambig.c \
 			${SRC_DIR}/ft_getenvv.c \
 			${SRC_DIR}/str_manager.c \
@@ -90,6 +91,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			${OBJ_DIR}/ft_tokenize.o \
 			${OBJ_DIR}/redir_chain.o \
 			${OBJ_DIR}/ft_ifexpand.o \
+			${OBJ_DIR}/ft_ifexpand_utils.o \
 			${OBJ_DIR}/ft_ambig.o \
 			${OBJ_DIR}/ft_getenvv.o \
 			${OBJ_DIR}/str_manager.o \

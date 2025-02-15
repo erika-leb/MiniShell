@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 16:04:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/15 15:36:53 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_ft(t_element *elements, t_gc *gc)
 				gc, elements), 0, 0, gc);
 	while (elements->arr && elements->arr[++i])
 	{
-		if (ft_strcmp(elements->arr[i], "<<") == 0)
+		if (ft_strcmp(elements->arr[i], "<<") == 0 && elements->arr[i + 1])
 			i++;
 		else
 			elements->arr[i] = ft_concat(elements->arr[i], -1, 0, 0);

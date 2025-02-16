@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 15:15:24 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 20:10:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	path_relat(char **cmd, t_element *elements, t_gc *gc)
 
 	j = -1;
 	filepath = NULL;
-	// perror("left");
 	ft_no_path(cmd, elements, gc);
 	while (elements->mypaths[++j])
 	{
@@ -107,9 +106,6 @@ void	path_relat(char **cmd, t_element *elements, t_gc *gc)
 			break ;
 	}
 	ft_cmd_not_fnd(cmd, j, elements, gc);
-	// perror("mouli");
-	// system("ls -l /proc/self/fd");
-	//debug_fds();
 	if (execve(filepath, cmd, elements->env) == -1)
 	{
 		ft_buff_error("minishell: ", elements, gc);

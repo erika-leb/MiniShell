@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/16 16:11:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:34:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int ac, char **av, char **env)
 	ft_init(elements, env, &gc, av);
 	while (1)
 	{
+		ft_handle_signal(0);
 		elements->lst = NULL;
 		elements->line = get_input(&gc);
 		// perror("harry");

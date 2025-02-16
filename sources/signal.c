@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:51:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 17:43:21 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 19:48:04 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,50 @@ void	ft_handle_signal(int process)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	signal(SIGTSTP, SIG_IGN);
+	//signal(SIGPIPE, handle_sigpipe); // a garder ?
+	signal(SIGPIPE, SIG_IGN); // a garder ?
 }
+
+// void setup_sigpipe()
+// {
+//     struct sigaction sa;
+//     sa.sa_handler = handle_sigpipe;
+//     sa.sa_flags = SA_RESTART; // Optionnel : empêche certaines interruptions
+//     sigemptyset(&sa.sa_mask);
+
+//     if (sigaction(SIGPIPE, &sa, NULL) == -1)
+//     {
+//         perror("sigaction(SIGPIPE) failed");
+//         exit(EXIT_FAILURE);
+//     }
+// }
+
+// void ft_handle_signal(int process)
+// {
+//     if (process == 1)
+//     {
+//         signal(SIGINT, handle_sigint_in_process);
+//         signal(SIGQUIT, handle_sigquit_in_process);
+//     }
+//     else if (process == 0)
+//     {
+//         signal(SIGINT, handle_sigint);
+//         signal(SIGQUIT, SIG_IGN);
+//     }
+//     else if (process == 2)
+//     {
+//         signal(SIGINT, SIG_IGN);
+//         signal(SIGQUIT, SIG_IGN);
+//     }
+//     else if (process == 3)
+//     {
+//         signal(SIGINT, handle_sigint_here);
+//         signal(SIGQUIT, SIG_IGN);
+//     }
+
+//     signal(SIGTSTP, SIG_IGN);
+
+//     // Utilisation de sigaction pour SIGPIPE
+//     setup_sigpipe();
+// }
+

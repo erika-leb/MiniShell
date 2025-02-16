@@ -1,0 +1,26 @@
+total 240
+drwxr-xr-x  9 ele-borg 2024_paris    322 Feb 15 16:44 .
+drwxr-xr-x 12 ele-borg 2024_paris    193 Feb 14 15:21 ..
+-rw-r--r--  1 ele-borg 2024_paris     21 Feb 15 16:40 a
+-rw-r--r--  1 ele-borg 2024_paris      0 Feb 15 16:40 b
+-rw-r--r--  1 ele-borg 2024_paris     26 Feb 15 16:21 bonjour
+-rw-r--r--  1 ele-borg 2024_paris      6 Feb 15 16:40 c
+-rw-r--r--  1 ele-borg 2024_paris      0 Feb 15 16:43 d
+drwxr-xr-x  2 ele-borg 2024_paris     21 Feb 15 16:44 dir
+-rw-r--r--  1 ele-borg 2024_paris     21 Feb 15 16:43 e
+drwxr-xr-x  2 ele-borg 2024_paris    132 Feb 14 11:00 gc
+drwxr-xr-x  8 ele-borg 2024_paris    203 Feb 15 16:14 .git
+-rw-r--r--  1 ele-borg 2024_paris      0 Feb 15 16:40 hey
+-rw-r--r--  1 ele-borg 2024_paris   4722 Feb 14 18:25 Makefile
+-rwxr-xr-x  1 ele-borg 2024_paris 173408 Feb 15 16:38 minishell
+-rw-r--r--  1 ele-borg 2024_paris  11593 Feb 14 18:58 minishell.h
+drwxr-xr-x  2 ele-borg 2024_paris      6 Feb 14 11:00 minishell_tester
+drwxr-xr-x  2 ele-borg 2024_paris   4096 Feb 15 16:38 objets
+-rw-r--r--  1 ele-borg 2024_paris    200 Feb 14 11:00 readline.supp
+drwxr-xr-x  2 ele-borg 2024_paris   4096 Feb 14 18:23 sources
+-rw-r--r--  1 ele-borg 2024_paris   1187 Feb 14 11:00 test pipe
+-rwxr-xr-x  1 ele-borg 2024_paris   3967 Feb 14 11:00 tests
+-rw-r--r--  1 ele-borg 2024_paris   3265 Feb 14 17:14 tips
+-rw-r--r--  1 ele-borg 2024_paris   2771 Feb 14 17:10 tips adri
+-rw-r--r--  1 ele-borg 2024_paris   2396 Feb 14 11:00 TODO
+drwxr-xr-x  2 ele-borg 2024_paris     27 Feb 14 11:00 .vscode

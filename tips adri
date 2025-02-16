@@ -7,10 +7,12 @@ valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-l
 
 ps aux | grep defunct
 
-test = ls|ls puis ctrl+c
+test = ls|ls puis ctrl+c     ok
 cat a | <b cat                                 cat -e bonjour | exit
 ifconfig | grep hola
 ifconfig | grep ":"
+
+pas sur que je puisse resoudre ces probleme puisque c est pas moi qui ouvre les cmd
 
 
 

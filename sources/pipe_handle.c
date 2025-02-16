@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:29:23 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 16:21:13 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 19:01:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,12 @@ void	wait_for_children(t_element *elements, t_gc *gc)
 
 	i = 0;
 	status = 0;
+	//dprintf(2, "child to wait = %d\n", elements->child_to_wait);
 	if (elements->child_to_wait == 0)
 		return ;
 	while (i < elements->child_to_wait)
 	{
+		//dprintf(2, "waiting for %d\n", elements->pid_arr[i]);
 		waitpid(elements->pid_arr[i], &status, 0);
 		i++;
 	}

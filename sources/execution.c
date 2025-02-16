@@ -6,17 +6,23 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/15 17:49:55 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 15:15:24 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	debug_fds(void)
+{
+	printf("file descriptors:\n");
+	system("ls -l /proc/self/fd");
+}
+
 void	path_abs(char **cmd, t_element *elements, t_gc *gc)
 {
 	if (access(cmd[0], X_OK) != 0)
 	{
-		//perror("salut");
+		// perror("salut");
 		ft_buff_error("minishell: ", elements, gc);
 		ft_buff_error(cmd[0], elements, gc);
 		ft_buff_error(": ", elements, gc);
@@ -32,7 +38,7 @@ void	path_abs(char **cmd, t_element *elements, t_gc *gc)
 	}
 	if (execve(cmd[0], cmd, elements->env) == -1)
 	{
-		//perror("c est cool");
+		// perror("c est cool");
 		ft_buff_error("minishell: ", elements, gc);
 		ft_buff_error(cmd[0], elements, gc);
 		ft_buff_error(": ", elements, gc);
@@ -90,7 +96,7 @@ void	path_relat(char **cmd, t_element *elements, t_gc *gc)
 
 	j = -1;
 	filepath = NULL;
-	//perror("left");
+	// perror("left");
 	ft_no_path(cmd, elements, gc);
 	while (elements->mypaths[++j])
 	{
@@ -101,7 +107,9 @@ void	path_relat(char **cmd, t_element *elements, t_gc *gc)
 			break ;
 	}
 	ft_cmd_not_fnd(cmd, j, elements, gc);
-	//perror("mouli");
+	// perror("mouli");
+	// system("ls -l /proc/self/fd");
+	//debug_fds();
 	if (execve(filepath, cmd, elements->env) == -1)
 	{
 		ft_buff_error("minishell: ", elements, gc);
@@ -120,7 +128,7 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 	int		j;
 
 	j = 0;
-	//perror("nette");
+	// perror("nette");
 	current = elements->lst;
 	while (j++ < i && current != NULL)
 		current = current->next;
@@ -129,9 +137,8 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 		write_all_err(current->cmd[0], ": command not found\n", elements, gc);
 		(gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
-	if (current->cmd[0] && current->cmd[0][0]
-		&& (current->cmd[0][0] == '/'
-		|| current->cmd[0][0] == '.' || current->cmd[0][0] == '?'))
+	if (current->cmd[0] && current->cmd[0][0] && (current->cmd[0][0] == '/'
+			|| current->cmd[0][0] == '.' || current->cmd[0][0] == '?'))
 		path_abs(current->cmd, elements, gc);
 	else
 		path_relat(current->cmd, elements, gc);

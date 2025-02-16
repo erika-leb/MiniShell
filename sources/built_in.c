@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:03:01 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 11:50:24 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:18:40 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_built_in(t_element *elements, char **cmd, t_gc *gc)
 	built->cmd = cmd;
 	built->elements = elements;
 	built->neg = 0;
+	built->ch = 1;
 	if (ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(built, gc, 1);
 	else if (ft_strcmp(cmd[0], "echo") == 0)
@@ -92,6 +93,7 @@ void	built_in_no_child(t_element *elements, t_gc *gc)
 	built->cmd = elements->lst->cmd;
 	built->elements = elements;
 	built->neg = 0;
+	built->ch = 0;
 	if (ft_strcmp(built->cmd[0], "exit") == 0)
 		ft_exit(built, gc, 0);
 	else if (ft_strcmp(built->cmd[0], "export") == 0)

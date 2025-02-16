@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:19:30 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 11:54:14 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:19:05 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	ft_fillexit(t_built *built, int *i, long *res, t_gc *gc)
 		curr_digit = built->cmd[1][*i] - '0';
 		if ((built->neg == 1 && *res > (LONG_MAX - curr_digit) / 10)
 			|| (built->neg == -1 && *res > (LONG_MIN + curr_digit) / -10))
-			ft_exitfail(built, gc);
+			ft_exitfail(built->ch, built, gc);
 		*res = (*res) * 10 + curr_digit;
 		(*i)++;
 	}
@@ -71,12 +71,13 @@ int	ft_exit(t_built *built, t_gc *gc, int ch)
 	else if (built->cmd[1][i] == '+')
 		i++;
 	if (!(built->cmd[1][i] >= '0' && built->cmd[1][i] <= '9'))
-		ft_exitfail(built, gc);
+		ft_exitfail(ch, built, gc);
 	ft_fillexit(built, &i, &res, gc);
 	if (built->cmd[1][i])
-		ft_exitfail(built, gc);
+		ft_exitfail(ch, built, gc);
 	if (built->neg == -1)
 		res = -res;
-	write(1, "exit\n", 6);
+	if (ch == 0)
+		write(1, "exit\n", 6);
 	(gc_cleanup(gc), free_std(), exit((unsigned int)res % 256));
 }

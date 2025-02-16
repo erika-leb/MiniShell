@@ -7,6 +7,10 @@ valgrind --suppressions=readline.supp --track-fds=yes --leak-check=full --show-l
 
 ps aux | grep defunct
 
+test = ls|ls puis ctrl+c
+cat a | <b cat                                 cat -e bonjour | exit
+ifconfig | grep hola
+ifconfig | grep ":"
 
 
 

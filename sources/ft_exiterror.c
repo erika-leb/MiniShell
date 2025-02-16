@@ -6,18 +6,19 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:22:24 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 11:54:22 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:16:04 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_exitfail(t_built *built, t_gc *gc)
+void	ft_exitfail(int ch, t_built *built, t_gc *gc)
 {
 	char	*code;
 
 	code = built->cmd[1];
-	write(1, "exit\n", 6);
+	if (ch == 0)
+		write(1, "exit\n", 6);
 	ft_buff_error("minishell: exit: ", built->elements, gc);
 	ft_buff_error(code, built->elements, gc);
 	ft_buff_error(": numeric argument required\n", built->elements, gc);
@@ -27,7 +28,8 @@ void	ft_exitfail(t_built *built, t_gc *gc)
 
 int	ft_error_many(t_built *built, t_gc *gc, int ch)
 {
-	write(1, "exit\n", 6);
+	if (ch == 0)
+		write(1, "exit\n", 6);
 	ft_buff_error("minishell: exit: too many arguments\n", built->elements, gc);
 	ft_write_error(built->elements, gc);
 	if (ch == 0)
@@ -45,7 +47,7 @@ int	ft_checkexit(t_built *built, t_gc *gc, int ch)
 	if (!built->cmd[1])
 		(gc_cleanup(gc), free_std(), exit(0));
 	if (!ft_isdigitexit(built->cmd[1]))
-		ft_exitfail(built, gc);
+		ft_exitfail(ch, built, gc);
 	if (built->cmd[2])
 	{
 		if (ft_error_many(built, gc, ch) == 1)

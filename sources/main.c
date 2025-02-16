@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 18:21:36 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:11:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,26 @@ void	ft_launch_cmd(t_element *elements, t_gc *gc)
 	if (elements->line_valid == TRUE)
 	{
 		ft_fill_arrays(elements, gc);
-		//perror("bolosskikou");
+		// perror("bolosskikou");
 		pipe_creation(elements, gc);
-		//perror("boloss");
-		//check_fds("parent au debut");
+		// perror("boloss");
+		// check_fds("parent au debut");
 		child_creation(elements, gc);
-		//perror("bolosskikou");
+		// perror("bolosskikou");
 		close_pipes(elements);
-		//perror("kikoulol");
+		// perror("kikoulol");
 		wait_for_children(elements, gc);
-		//perror("wtf");
+		// perror("wtf");
 		if (access(".here", F_OK) == 0)
 			unlink(".here");
 		reset_signal_status();
-		ft_handle_signal(0);
+		//(0);
 	}
 }
 
 void	end_of_handle(t_element *elements, t_gc *gc)
 {
-		if (g_signal != 0)
+	if (g_signal != 0)
 	{
 		elements->exit_status = ft_itoa(128 + g_signal, gc);
 		g_signal = 0;
@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **env)
 	t_gc		gc;
 
 	(void)ac;
-	ft_handle_signal(2);
+	// ft_handle_signal(2);
 	gc_init(&gc);
 	elements = ft_init_struct(&gc);
 	ft_init(elements, env, &gc, av);
@@ -76,7 +76,7 @@ int	main(int ac, char **av, char **env)
 	{
 		elements->lst = NULL;
 		elements->line = get_input(&gc);
-		//perror("harry");
+		// perror("harry");
 		if (elements->line == NULL)
 		{
 			if (env[0] == NULL)
@@ -85,7 +85,7 @@ int	main(int ac, char **av, char **env)
 		}
 		// perror("thierry");
 		ft_ft(elements, &gc);
-		//perror("jerry");
+		// perror("jerry");
 		if (elements->arr)
 			ft_launch_cmd(elements, &gc);
 		// {

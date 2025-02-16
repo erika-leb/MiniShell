@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 18:15:45 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:17:44 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_built
 	t_element		*elements;
 	char			**cmd;
 	int				neg;
+	int				ch;
 }	t_built;
 
 typedef struct s_var
@@ -245,7 +246,7 @@ int			ft_exit(t_built *built, t_gc *gc, int ch);
 int			ft_isdigitexit(char *num);
 
 //ft_exiterror.c
-void		ft_exitfail(t_built *built, t_gc *gc);
+void		ft_exitfail(int ch, t_built *built, t_gc *gc);
 int			ft_error_many(t_built *built, t_gc *gc, int ch);
 int			ft_checkexit(t_built *built, t_gc *gc, int ch);
 
@@ -402,5 +403,6 @@ void		ft_error_out(char *name, t_element *elements, t_gc *gc);
 
 // pour test
 void		print_cmd_list(t_cmd *cmd_list);
+void setup_signal_handler();
 
 #endif

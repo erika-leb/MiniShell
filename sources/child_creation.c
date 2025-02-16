@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/13 18:08:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 17:15:10 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	child_process(int i, t_element *elements, t_cmd *cmd, t_gc *gc)
 
 void	ft_handle_child(t_element *elements, t_gc *gc, int i, t_cmd *current)
 {
+	// int j;
+
 	elements->pid_arr[i] = fork();
 	if (elements->pid_arr[i] == -1)
 	{
@@ -69,6 +71,7 @@ void	ft_handle_child(t_element *elements, t_gc *gc, int i, t_cmd *current)
 	}
 	if (elements->pid_arr[i] == 0)
 	{
+		//dprintf(2, "creation process id = %d\n", getpid());
 		hedge_child_cases(elements, gc, current);
 		child_process(i, elements, current, gc);
 		// printf("\n APRES FORK \n\n");
@@ -77,13 +80,20 @@ void	ft_handle_child(t_element *elements, t_gc *gc, int i, t_cmd *current)
 			ft_built_in(elements, current->cmd, gc);
 		else
 			exec_command(elements, gc, i);
-		if (g_signal == 13)
-		{
-			g_signal = 0;
-			gc_cleanup(gc);
-			free_std();
-			exit(128 + 13);
-		}
+		// if (g_signal == 13)
+		// {
+		// 	perror("ici");
+		// 	g_signal = 0;
+		// 	gc_cleanup(gc);
+		// 	free_std();
+		// 	// j = 3;
+		// 	// while (j < 253)
+		// 	// {
+		// 	// 	close(j);
+		// 	// 	j++;
+		// 	// }
+		// 	exit(128 + 13);
+		// }
 	}
 }
 

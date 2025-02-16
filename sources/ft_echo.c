@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:19:30 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 11:43:10 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:31:17 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_echo(char **cmd, t_gc *gc)
 	int		k;
 	int		n;
 	int		f;
-	char	buf[70000]; //changer ici
+	char	buf[SIZE_MAX];
 	i = 1;
 	k = 0;
 	n = 0;

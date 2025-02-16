@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 18:20:56 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:31:54 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static t_forenvv	*ft_alloc_ev(char *name, t_element *elements, t_gc *gc)
 void	ft_ambig(char *result_k, int *k, t_element *elements, t_gc *gc)
 {
 	char		*envv;
-	char		tmp[20000];
-	char		nm[20000];
+	char		tmp[SIZE_MID];
+	char		nm[SIZE_MID];
 	int			m;
 	t_forenvv	*ev;
 

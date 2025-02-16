@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/16 18:17:44 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:30:57 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@
 
 # define TRUE 1
 # define FALSE 0
+
+# define SIZE_MAX 70000
+# define SIZE_MID 20000
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10

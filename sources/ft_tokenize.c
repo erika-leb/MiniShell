@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 17:30:39 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:31:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	ft_dotok(char *result, char *av2, int *i, int *j)
 
 char	*ft_tokenize(char *av2, t_gc *gc, t_element *elements)
 {
-	static char	result[70000];
+	static char	result[SIZE_MAX];
 	int			i;
 	int			j;
 	t_sqdq		*q;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ifexpand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 16:48:00 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:32:08 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	ft_expandnext(char *result, int *k, char *tmp, char *envv)
 
 static void	ft_expand(char *result, int *k, t_element *elements, t_gc *gc)
 {
-	char		tmp[20000];
+	char		tmp[SIZE_MID];
 	char		*envv;
 	int			i;
 	t_forenvv	*ev;

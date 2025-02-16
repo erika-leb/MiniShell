@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 18:58:51 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:25:09 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc)
 	}
 }
 
-void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc) //gestion des sorties ??
+void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc)
 {
 	(void) elm;
 	(void) gc;
@@ -92,7 +92,7 @@ void	ft_fd_open(t_cmd *node, t_element *elements, t_gc *gc, int flag)
 	}
 }
 
-void	charge_ambig(t_element *elements, char *name, t_gc *gc) // corriger ici demain avec ls | ls < $a | cat
+void	charge_ambig(t_element *elements, char *name, t_gc *gc)
 {
 	char	*tmp2;
 	char	*name_bis;

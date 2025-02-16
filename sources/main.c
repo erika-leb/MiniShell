@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/16 18:34:22 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:27:23 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	rl_event_handler(void)
 
 void	ft_init(t_element *elements, char **env, t_gc *gc, char **av)
 {
-	ft_welcome();
+	//ft_welcome();
 	ft_cpy_env(elements, env, gc, av);
 	reset_signal_status();
 	ft_handle_signal(0);

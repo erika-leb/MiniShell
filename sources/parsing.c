@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/15 16:38:07 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:26:27 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ static int	ft_checkq(char *input)
 	ptr = input;
 	while (*ptr)
 	{
-		//Mis en commentaire car si je fais une erreur (ex cattttt) puis j'ecirs $$ alors ca affiche l'ancienne erreur
-		// if (!sq && !dq && *ptr == '$' && *(ptr + 1) == '$')
-		// 	return(printf("%s", UN_DOLLAR));//write mais useless
 		if (*ptr == '\'' && !dq)
 			sq = !sq;
 		else if (*ptr == '\"' && !sq)
@@ -123,10 +120,3 @@ void	ft_ft(t_element *elements, t_gc *gc)
 			elements->exit_status = ft_itoa(2, gc);
 	}
 }
-	// //////////////////////////////juste pour checker, useless sinon
-	// i = -1;
-	// while (elements->arr && elements->arr[++i])
-	// 	printf("token %d :%s\n", i, elements->arr[i]);
-	///////////////////////////////////////////////////////////////
-//<< "HOLA" "hola"$$"b" : l'erreur s'affiche avant le heredoc (a tord). Il faudrait que je remplisse le buffer d'erreur
-//$"a" $'b' : ne traite que le 1er

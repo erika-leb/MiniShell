@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 16:11:46 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 16:24:50 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:32:14 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_filter(char *name, t_element *elements, t_gc *gc)
 {
-	static char	res[20000];
+	static char	res[SIZE_MID];
 	int			i;
 
 	if (!ft_bst(name))

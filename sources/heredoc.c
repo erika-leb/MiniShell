@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 16:09:50 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:31:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*here_exp(char *lign, t_element *elements, t_gc *gc, int flag)
 {
-	static char	buffer[70000];
+	static char	buffer[SIZE_MAX];
 	size_t		len;
 
 	if (!lign)
@@ -107,7 +107,7 @@ int	ft_open_heredoc(char *del, t_element *elements, t_gc *gc)
 	if (access(".here", F_OK) == 0)
 		unlink(".here");
 	fd = open(".here", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0) // changer le message d erreur
+	if (fd < 0)
 		return (perror("Error opening .here"), -1);
 	ft_handle_signal(3);
 	r = ft_read_heredoc(del, fd, elements, gc);

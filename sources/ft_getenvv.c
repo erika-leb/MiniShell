@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 17:42:32 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:32:22 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	*ft_getenvv(t_forenvv *ev, char *tmp, int *k, t_gc *gc)
 
 void	ft_spacequotes(char	*result_k, t_element *elements, t_gc *gc)
 {
-	char		tmp[20000];
+	char		tmp[SIZE_MID];
 	char		*envv;
 	int			i;
 	t_forenvv	*ev;

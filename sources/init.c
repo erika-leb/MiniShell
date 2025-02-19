@@ -6,20 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 17:03:56 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 21:27:09 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:22:58 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// void	ft_welcome(void)
-// {
-// 	printf("\n");
-// 	printf(CCYAN "******************************\n" CRESET);
-// 	printf(CMAGENTA "*  " CYELLOW "Minishell" CMAGENTA "  *\n" CRESET);
-// 	printf(CCYAN "******************************\n" CRESET);
-// 	printf("\n");
-// }
 
 static void	ft_copy_all( char **env, t_element *elements, t_gc *gc)
 {
@@ -59,7 +50,6 @@ void	ft_cpy_env(t_element *elements, char **env, t_gc *gc, char **argv)
 	else
 	{
 		ft_copy_all(env, elements, gc);
-		ft_handle_path(elements, gc);
 	}
 }
 

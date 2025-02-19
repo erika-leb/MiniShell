@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:13:53 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/14 16:23:06 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:41:53 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	exit_status(int status, t_element *elements, t_gc *gc)
 		elements->exit_status = ft_itoa(WEXITSTATUS(status), gc);
 }
 
-int		ft_bst(char *name)
+int	ft_bst(char *name)
 {
 	int	i;
 

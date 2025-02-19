@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:33:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/16 21:29:34 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:43:08 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,3 @@ void	ft_fill_arr(char **arr, t_arg *arg, t_element *elements, t_gc *gc)
 	}
 	arr[arg->k] = NULL;
 }
-

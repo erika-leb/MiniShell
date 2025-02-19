@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:14:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 21:29:12 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:21:46 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	exec_command(t_element *elements, t_gc *gc, int i)
 
 	j = 0;
 	current = elements->lst;
+	ft_handle_path(elements, gc);
 	while (j++ < i && current != NULL)
 		current = current->next;
 	if (current->cmd[0] == NULL)

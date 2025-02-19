@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:29:10 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/16 21:30:57 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:39:59 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@
 # define TRUE 1
 # define FALSE 0
 
-# define SIZE_MAX 70000
+# define SIZE_MX 70000
 # define SIZE_MID 20000
 
 # ifndef BUFFER_SIZE
@@ -163,8 +163,6 @@ typedef struct s_arg
 }	t_arg;
 
 extern volatile sig_atomic_t	g_signal;
-
-//extern rl_hook_func_t			*rl_event_hook;
 
 // built_in.c
 int			is_built_in(char *cmd);
@@ -379,6 +377,7 @@ int			is_invalid_option(char *str);
 // signal_bis.c
 void		reset_signal_status(void);
 void		handle_sigpipe(int sig);
+void		ft_checkmalloc(int ac);
 
 // signal.c
 void		ft_handle_signal(int process);
@@ -400,12 +399,8 @@ char		*ft_filter(char *name, t_element *elements, t_gc *gc);
 // redir_open.c
 void		ft_fd_open(t_cmd *node, t_element *elements, t_gc *gc, int flag);
 void		handle_redir(t_cmd **lst, t_element *elements, t_gc *gc);
-void		ft_handle_in(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc);
 void		ft_handle_out(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc);
 void		ft_error_out(char *name, t_element *elements, t_gc *gc);
-
-// pour test
-void		print_cmd_list(t_cmd *cmd_list);
-void setup_signal_handler();
+void		ft_handle_in(t_cmd *node, t_file *rdr, t_element *elm, t_gc *gc);
 
 #endif

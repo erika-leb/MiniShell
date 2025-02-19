@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:14:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 21:25:09 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:45:27 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc)
 {
 	if ((node->fd_in == ERROR_OPEN || node->fd_out == ERROR_OPEN)
-		&& redir->token == HEREDOC) //entrees
+		&& redir->token == HEREDOC)
 	{
 		node->active = FALSE;
 		ft_open_heredoc_error(redir->name, elm, gc);
@@ -36,7 +36,7 @@ void	ft_handle_out(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc)
 	}
 }
 
-void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc)
+void	ft_handle_in(t_cmd *node, t_file *rdr, t_element *elm, t_gc *gc)
 {
 	(void) elm;
 	(void) gc;
@@ -47,13 +47,13 @@ void	ft_handle_in(t_cmd *node, t_file *redir, t_element *elm, t_gc *gc)
 			close(node->fd_out);
 			node->fd_out = CLOSED;
 		}
-		if (redir->token == TRUNC)
-			node->fd_out = open(redir->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (rdr->token == TRUNC)
+			node->fd_out = open(rdr->name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else
-			node->fd_out = open(redir->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			node->fd_out = open(rdr->name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (node->fd_out == ERROR_OPEN)
 		{
-			ft_error_out(redir->name, elm, gc);
+			ft_error_out(rdr->name, elm, gc);
 			if (node->fd_in >= 0)
 			{
 				close(node->fd_in);

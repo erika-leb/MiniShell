@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:58:06 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 21:26:18 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:43:24 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	first_cmd_with_valid_infile(t_element *elm, t_cmd *cmd, t_gc *gc)
 		perror("dup2 failed");
 		(close_pipes(elm), gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
-	if (cmd->fd_in > 2) // Évite de fermer stdin (0), stdout (1), stderr (2) a garder ?
+	if (cmd->fd_in > 2)
 	{
 		close(cmd->fd_in);
 		cmd->fd_in = CLOSED;
@@ -33,7 +33,7 @@ void	last_cmd_with_valid_outfile(t_element *elm, t_cmd *cmd, t_gc *gc)
 		perror("dup2 failed");
 		(close_pipes(elm), gc_cleanup(gc), exit(EXIT_FAILURE));
 	}
-	if (cmd->fd_out > 2) // Évite de fermer stdin (0), stdout (1), stderr (2) a gar
+	if (cmd->fd_out > 2)
 	{
 		close(cmd->fd_out);
 		cmd->fd_out = CLOSED;

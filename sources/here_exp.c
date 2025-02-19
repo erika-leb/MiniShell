@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:28:51 by aisidore          #+#    #+#             */
-/*   Updated: 2025/02/16 21:32:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:38:10 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	ft_expandh(char *result, int *k, t_element *elements, t_gc *gc)
 	size_t		len;
 	t_forenvv	*ev;
 	char		tmp[SIZE_MID];
+
 	ev = gc_malloc(sizeof(t_forenvv), gc);
 	ft_initev(ev, result, elements, gc);
 	i = 0;

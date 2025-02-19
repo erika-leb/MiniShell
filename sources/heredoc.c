@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:36:34 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 21:31:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/17 11:25:06 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*here_exp(char *lign, t_element *elements, t_gc *gc, int flag)
 {
-	static char	buffer[SIZE_MAX];
+	static char	buffer[SIZE_MX];
 	size_t		len;
 
 	if (!lign)

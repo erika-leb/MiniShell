@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:51:40 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 21:24:30 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:09:59 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	handle_sigint_here(int sig)
 static void	handle_sigint_in_process(int sig)
 {
 	(void) sig;
-	write(2, "\n", 1);
 	rl_done = 1;
 	g_signal = sig;
 }
@@ -71,7 +70,5 @@ void	ft_handle_signal(int process)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	signal(SIGTSTP, SIG_IGN);
-	signal(SIGPIPE, handle_sigpipe); // a garder ?
-	//signal(SIGPIPE, SIG_IGN); // a garder ?
+	signal(SIGPIPE, handle_sigpipe);
 }
-

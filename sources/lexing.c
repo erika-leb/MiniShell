@@ -6,62 +6,11 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:53:57 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/14 15:43:53 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:43:37 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_redir(t_file *redir) // a enlever avant de push
-{
-	t_file	*current;
-
-	current = redir;
-	if (!current)
-	{
-		dprintf(2, "  No redirections.\n");
-		return ;
-	}
-	dprintf(2, "  Redirections:\n");
-	while (current)
-	{
-		dprintf(2, "    - Name: %s, Token: %d\n", current->name,
-			current->token);
-		current = current->next;
-	}
-}
-
-void	print_cmd_list(t_cmd *cmd_list)  // a enlever avant de push
-{
-	t_cmd	*current;
-	int		cmd_index;
-
-	current = cmd_list;
-	cmd_index = 0;
-	while (current)
-	{
-		dprintf(2, "Commande n°%d:\n", cmd_index);
-		// Afficher la commande (cmd)
-		if (current->cmd)
-		{
-			dprintf(2, "  Command arguments:\n");
-			for (int i = 0; current->cmd[i]; i++)
-				dprintf(2, "    cmd[%d]: %s\n", i, current->cmd[i]);
-		}
-		else
-		{
-			dprintf(2, "  No command arguments.\n");
-		}
-		// Afficher les redirections
-		print_redir(current->redir);
-		// Afficher fd_in et fd_out
-		dprintf(2, "  fd_in: %d\n", current->fd_in);
-		dprintf(2, "  fd_out: %d\n", current->fd_out);
-		// Passer au suivant
-		current = current->next;
-		cmd_index++;
-	}
-}
 
 int	ft_istok_2(char *av2)
 {
@@ -143,11 +92,3 @@ void	lexing(char **tab, t_cmd **lst, t_element *elements, t_gc *gc)
 		handle_redir(lst, elements, gc);
 	ft_write_error(elements, gc);
 }
-
-// il faudra parcourir la liste de redirections,
-//	note si au moins une est ko mais aller jusqu'au bout pour traiter les heredoc
-// c'est toujours la derniere redicrection aui est pris en compte
-// lorsau'on parcours la liste pour voir si tous les docs sont ouvrables,
-//	on arrete d'ouvrir a partir de la premiere erreur
-// rajouter erreur si le tableau d'Adrien termine ou commence par | ou < > >> << ou si on a | apres < << > >> 'parse error,
-// comprendre ce qu'il se passe quand on a une commande sans commande => commande ignoree (a quel point) on passe a la commade suivant ou on renvoie le prompt si pas d'autres commandes

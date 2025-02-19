@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:06:24 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/16 21:29:54 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:42:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void	ft_handle_child(t_element *elements, t_gc *gc, int i, t_cmd *current)
 	{
 		hedge_child_cases(elements, gc, current);
 		child_process(i, elements, current, gc);
-		// printf("\n APRES FORK \n\n");
-		// print_cmd_list(elements->lst);
 		if (is_built_in(current->cmd[0]) == TRUE)
 			ft_built_in(elements, current->cmd, gc);
 		else
@@ -96,8 +94,6 @@ void	child_creation(t_element *elements, t_gc *gc)
 	i = 0;
 	current = elements->lst;
 	elements->child_to_wait = elements->nb_cmd;
-	// printf("\n AVANT FORK \n\n");
-	// print_cmd_list(elements->lst);
 	if (no_child_events(elements, gc, current) == 1)
 	{
 		elements->child_to_wait = 0;
